@@ -7,8 +7,8 @@
     <ProjectGuid>{D20EAE72-C053-4C2C-877F-53F3F53FD1F8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AR_SEM</RootNamespace>
-    <AssemblyName>AR_SEM</AssemblyName>
+    <RootNamespace>AR_ApartmentExport</RootNamespace>
+    <AssemblyName>AR_ApartmentExport</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AcadLib">
-      <HintPath>..\..\..\..\AcadLib\AcadLib\bin\Release\AcadLib.dll</HintPath>
+      <HintPath>..\..\..\AcadLib\AcadLib\bin\Release\AcadLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcCoreMgd, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -75,15 +75,16 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="AutoCAD_PIK_Manager">
-      <HintPath>..\..\..\..\AutoCAD_PIK_Manager\AutoCAD_PIK_Manager\bin\Release\AutoCAD_PIK_Manager.dll</HintPath>
+      <HintPath>..\..\..\AutoCAD_PIK_Manager\AutoCAD_PIK_Manager\bin\Release\AutoCAD_PIK_Manager.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="EPPlus">
-      <HintPath>..\..\..\..\Package\Excel\EPPlus.dll</HintPath>
+      <HintPath>..\..\..\Package\Excel\EPPlus.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -94,6 +95,8 @@
   <ItemGroup>
     <Compile Include="Commands.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Model\ExportBlocks\BlockToExport.cs" />
+    <Compile Include="Model\Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

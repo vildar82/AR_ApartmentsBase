@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AR_SEM
+namespace AR_ExportApartments
 {
    public static class Logger
    {
