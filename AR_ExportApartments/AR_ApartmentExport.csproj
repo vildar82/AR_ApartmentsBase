@@ -85,6 +85,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -96,12 +97,36 @@
     <Compile Include="Commands.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Model\ExportBlocks\BlockToExport.cs" />
+    <Compile Include="Model\ExportBlocks\ExcelLog.cs" />
+    <Compile Include="Model\ExportBlocks\FormBlocksExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Model\ExportBlocks\FormBlocksExport.Designer.cs">
+      <DependentUpon>FormBlocksExport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="AutoCADNetLoad.scr" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Model\ExportBlocks\FormBlocksExport.resx">
+      <DependentUpon>FormBlocksExport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
