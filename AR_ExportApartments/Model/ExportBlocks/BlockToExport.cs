@@ -50,7 +50,7 @@ namespace AR_ExportApartments.Model.ExportBlocks
             catch (Exception ex)
             {
                Logger.Log.Error(ex, "BlockToExport - blRef.GeometricExtents");
-               Inspector.AddError($"Не определены границы блока {Name} с точкой вставки {blRef.Position}");
+               Inspector.AddError($"Не определены границы блока '{Name}' с точкой вставки {blRef.Position}");
             }
          }
       }
@@ -69,7 +69,7 @@ namespace AR_ExportApartments.Model.ExportBlocks
             }
             catch (Exception ex)
             {
-               Inspector.AddError($"Ошибка при экспорте блока {blToExport.Name} - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
+               Inspector.AddError($"Ошибка при экспорте блока '{blToExport.Name}' - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
             }            
          }
          return count;
@@ -91,14 +91,17 @@ namespace AR_ExportApartments.Model.ExportBlocks
             IdMapping map = new IdMapping();
             db.WblockCloneObjects(ids, idMS, map, DuplicateRecordCloning.Replace, false);
 
-            // перенос блока в ноль
-            using (var blRef = map[IdBlRef].Value.Open(OpenMode.ForWrite, false, true) as BlockReference)
+            // перенос блока в ноль            
+            var idBlRefMap = map[IdBlRef].Value;
+            if (!idBlRefMap.IsNull)
             {
-               blRef.Position = Point3d.Origin;
-            }
-            db.SaveAs(File, DwgVersion.Current);
-
-            Inspector.AddError($"Экспортирован блок {Name} в файл {File}", IdBlRef, icon: System.Drawing.SystemIcons.Information);
+               using (var blRef = idBlRefMap.Open(OpenMode.ForWrite, false, true) as BlockReference)
+               {
+                  blRef.Position = Point3d.Origin;
+               }
+               db.SaveAs(File, DwgVersion.Current);
+            }            
+            //Inspector.AddError($"Экспортирован блок {Name} в файл {File}", IdBlRef, icon: System.Drawing.SystemIcons.Information);
          }
       }
 
