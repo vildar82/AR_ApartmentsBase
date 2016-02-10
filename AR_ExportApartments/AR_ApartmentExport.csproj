@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -96,12 +97,12 @@
   <ItemGroup>
     <Compile Include="Commands.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Model\ExportBlocks\BlockToExport.cs" />
-    <Compile Include="Model\ExportBlocks\ExcelLog.cs" />
-    <Compile Include="Model\ExportBlocks\FormBlocksExport.cs">
+    <Compile Include="Model\ExportApartment\BlockApartment.cs" />
+    <Compile Include="Model\ExportApartment\ExcelLog.cs" />
+    <Compile Include="Model\ExportApartment\FormBlocksExport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Model\ExportBlocks\FormBlocksExport.Designer.cs">
+    <Compile Include="Model\ExportApartment\FormBlocksExport.Designer.cs">
       <DependentUpon>FormBlocksExport.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Options.cs" />
@@ -117,7 +118,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Model\ExportBlocks\FormBlocksExport.resx">
+    <EmbeddedResource Include="Model\ExportApartment\FormBlocksExport.resx">
       <DependentUpon>FormBlocksExport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

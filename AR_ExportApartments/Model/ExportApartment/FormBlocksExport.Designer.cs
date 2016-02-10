@@ -34,6 +34,7 @@
          this.buttonOk = new System.Windows.Forms.Button();
          this.buttonShow = new System.Windows.Forms.Button();
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+         this.labelCount = new System.Windows.Forms.Label();
          this.SuspendLayout();
          // 
          // listBoxBlocksToExport
@@ -88,7 +89,17 @@
          this.buttonShow.TabIndex = 2;
          this.toolTip1.SetToolTip(this.buttonShow, "Показать выбранный блок на чертеже");
          this.buttonShow.UseVisualStyleBackColor = true;
-         this.buttonShow.Click += new System.EventHandler(this.button1_Click);
+         this.buttonShow.Click += new System.EventHandler(this.buttonShow_Click);
+         // 
+         // labelCount
+         // 
+         this.labelCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+         this.labelCount.AutoSize = true;
+         this.labelCount.Location = new System.Drawing.Point(18, 325);
+         this.labelCount.Name = "labelCount";
+         this.labelCount.Size = new System.Drawing.Size(16, 13);
+         this.labelCount.TabIndex = 3;
+         this.labelCount.Text = "-1";
          // 
          // FormBlocksExport
          // 
@@ -97,13 +108,15 @@
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.CancelButton = this.buttonCancel;
          this.ClientSize = new System.Drawing.Size(397, 393);
+         this.Controls.Add(this.labelCount);
          this.Controls.Add(this.buttonShow);
          this.Controls.Add(this.buttonOk);
          this.Controls.Add(this.buttonCancel);
          this.Controls.Add(this.listBoxBlocksToExport);
          this.Name = "FormBlocksExport";
-         this.Text = "FormBlocksExport";
+         this.Text = "Блоки квартир для экспорта";
          this.ResumeLayout(false);
+         this.PerformLayout();
 
       }
 
@@ -114,5 +127,6 @@
       private System.Windows.Forms.Button buttonOk;
       private System.Windows.Forms.Button buttonShow;
       private System.Windows.Forms.ToolTip toolTip1;
+      private System.Windows.Forms.Label labelCount;
    }
 }

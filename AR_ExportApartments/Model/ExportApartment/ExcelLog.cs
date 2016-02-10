@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AR_ExportApartments;
-using AR_ExportApartments.Model.ExportBlocks;
+using AR_ExportApartments.Model.ExportApartment;
 using OfficeOpenXml;
 
 namespace AR_ApartmentExport.Model.ExportBlocks
@@ -19,7 +19,7 @@ namespace AR_ApartmentExport.Model.ExportBlocks
          this.logFile = fileLog;
       }
 
-      public void AddtoLog(List<BlockToExport> bllocksToExport)
+      public void AddtoLog(List<BlockApartment> bllocksToExport)
       {
          if (!File.Exists(logFile))
          {

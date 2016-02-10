@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using AcadLib.Errors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Runtime;
 
-namespace AR_ExportApartments.Model.ExportBlocks
+namespace AR_ExportApartments.Model.ExportApartment
 {
-   public class BlockToExport
+   public class BlockApartment
    {
       /// <summary>
       /// Имя бллка
@@ -32,30 +34,23 @@ namespace AR_ExportApartments.Model.ExportBlocks
       /// Если id не блока, то Exception
       /// </summary>
       /// <param name="idBlRef"></param>
-      public BlockToExport(ObjectId idBlRef)
-      {
-         using (var blRef = idBlRef.Open( OpenMode.ForRead, false, true) as BlockReference)
+      public BlockApartment(BlockReference blRef, string blName)
+      {         
+         Name = blName;
+         IdBlRef = blRef.Id;
+         File = Path.Combine(Path.GetDirectoryName(IdBlRef.Database.Filename), Name + ".dwg");
+         try
          {
-            if (blRef == null)
-            {
-               throw new Autodesk.AutoCAD.Runtime.Exception(Autodesk.AutoCAD.Runtime.ErrorStatus.InvalidObjectId, "Это не блок.");
-            }       
-            Name = blRef.GetEffectiveName();
-            IdBlRef = blRef.Id;
-            File = Path.Combine(Path.GetDirectoryName(IdBlRef.Database.Filename), Name + ".dwg");
-            try
-            {
-               Extents = blRef.GeometricExtents;
-            }
-            catch (Exception ex)
-            {
-               Logger.Log.Error(ex, "BlockToExport - blRef.GeometricExtents");
-               Inspector.AddError($"Не определены границы блока '{Name}' с точкой вставки {blRef.Position}");
-            }
+            Extents = blRef.GeometricExtents;
+         }
+         catch (System.Exception ex)
+         {
+            Logger.Log.Error(ex, "BlockToExport - blRef.GeometricExtents");
+            Inspector.AddError($"Не определены границы блока '{Name}' с точкой вставки {blRef.Position}");
          }
       }
 
-      public static int ExportToFiles(List<BlockToExport> blocksToExport)
+      public static int ExportToFiles(List<BlockApartment> blocksToExport)
       {
          int count = 0;
          DateTime now = DateTime.Now;
@@ -67,7 +62,7 @@ namespace AR_ExportApartments.Model.ExportBlocks
                blToExport.ExportDate = now;
                count++;
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                Inspector.AddError($"Ошибка при экспорте блока '{blToExport.Name}' - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
             }            
@@ -105,22 +100,38 @@ namespace AR_ExportApartments.Model.ExportBlocks
          }
       }
 
-      public static List<BlockToExport> GetBlocksToExport(List<ObjectId> idsBlRef)
+      public static List<BlockApartment> GetBlockApartments(Database db)
       {
-         List<BlockToExport> blocksToExport = new List<BlockToExport>();
-         foreach (var idBlRef in idsBlRef)
+         List<BlockApartment> blocksToExport = new List<BlockApartment>();
+         using (var t = db.TransactionManager.StartOpenCloseTransaction())
          {
-            try
+            var ms = t.GetObject(SymbolUtilityServices.GetBlockModelSpaceId(db),OpenMode.ForRead) as BlockTableRecord;
+            foreach (ObjectId idEnt in ms)
             {
-               var blExport = new BlockToExport(idBlRef);
-               blocksToExport.Add(blExport);
+               var blRef = t.GetObject(idEnt,OpenMode.ForRead, false, true) as BlockReference;
+
+               if (blRef != null)
+               {
+                  string blName = blRef.GetEffectiveName();
+                  if (IsNameBlockApartment(blName))
+                  {
+                     var blExport = new BlockApartment(blRef, blName);
+                     blocksToExport.Add(blExport);
+                  }
+                  else
+                  {
+                     Inspector.AddError($"Отфильтрован блок '{blName}'", blRef, icon: System.Drawing.SystemIcons.Information);
+                  }
+               }
             }
-            catch (System.Exception ex)
-            {
-               Inspector.AddError($"{ex.Message}");
-            }
+            t.Commit();
          }
          return blocksToExport;
+      }
+
+      public static bool IsNameBlockApartment(string blName)
+      {
+         return Regex.IsMatch(blName, Options.Instance.BlockApartmentNameMatch, RegexOptions.IgnoreCase);
       }
    }
 }

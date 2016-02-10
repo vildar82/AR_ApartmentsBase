@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AR_ExportApartments.Model.ExportBlocks;
+using AR_ExportApartments.Model.ExportApartment;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using System.IO;
@@ -19,19 +19,21 @@ namespace AR_ApartmentExport.Model.ExportBlocks
       private BindingSource _binding;
       private Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
 
-      public FormBlocksExport(List<BlockToExport> blocksToExport)
+      public FormBlocksExport(List<BlockApartment> blocksToExport)
       {
          InitializeComponent();
 
          _binding = new BindingSource();
+         _binding.ListChanged += labelCountUpdate;
          _binding.DataSource = blocksToExport;
-         listBoxBlocksToExport.DataSource = _binding;
+
          listBoxBlocksToExport.DisplayMember = "Name";         
+         listBoxBlocksToExport.DataSource = _binding;         
       }
 
-      private void button1_Click(object sender, EventArgs e)
+      private void buttonShow_Click(object sender, EventArgs e)
       {
-         BlockToExport blockToExp =listBoxBlocksToExport.SelectedItem as BlockToExport;
+         BlockApartment blockToExp =listBoxBlocksToExport.SelectedItem as BlockApartment;
          if (blockToExp != null && blockToExp.Extents.Diagonal()>0)
          {  
             ed.Zoom(blockToExp.Extents);
@@ -40,7 +42,7 @@ namespace AR_ApartmentExport.Model.ExportBlocks
 
       private void listBoxBlocksToExport_MouseDoubleClick(object sender, MouseEventArgs e)
       {
-         button1_Click(null, null);
+         buttonShow_Click(null, null);
       }
 
       private void listBoxBlocksToExport_DrawItem(object sender, DrawItemEventArgs e)
@@ -51,7 +53,7 @@ namespace AR_ApartmentExport.Model.ExportBlocks
             e.DrawBackground();
             e.DrawFocusRectangle();
 
-            BlockToExport blToExport = list.Items[e.Index] as BlockToExport;
+            BlockApartment blToExport = list.Items[e.Index] as BlockApartment;
             if (blToExport != null)
             {
                Brush brush;
@@ -71,6 +73,11 @@ namespace AR_ApartmentExport.Model.ExportBlocks
       private void listBoxBlocksToExport_MeasureItem(object sender, MeasureItemEventArgs e)
       {
          e.ItemHeight = listBoxBlocksToExport.Font.Height;
+      }
+
+      private void labelCountUpdate(object sender, EventArgs e)
+      {
+         labelCount.Text = _binding.Count.ToString();
       }
    }
 }
