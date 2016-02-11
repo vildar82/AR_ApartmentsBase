@@ -1,4 +1,4 @@
-﻿namespace AR_ApartmentExport.Model.ExportBlocks
+﻿namespace AR_ApartmentBase.Model.Export
 {
    partial class FormBlocksExport
    {
@@ -81,7 +81,7 @@
          // buttonShow
          // 
          this.buttonShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-         this.buttonShow.BackgroundImage = global::AR_ApartmentExport.Properties.Resources.Show;
+         this.buttonShow.BackgroundImage = global::AR_ApartmentBase.Properties.Resources.Show;
          this.buttonShow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
          this.buttonShow.Location = new System.Drawing.Point(12, 353);
          this.buttonShow.Name = "buttonShow";

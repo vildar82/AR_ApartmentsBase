@@ -7,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AR_ExportApartments.Model.ExportApartment;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using System.IO;
+using AR_ApartmentBase.Model.Revit;
 
-namespace AR_ApartmentExport.Model.ExportBlocks
+namespace AR_ApartmentBase.Model.Export
 {
    public partial class FormBlocksExport : Form
    {
       private BindingSource _binding;
       private Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
 
-      public FormBlocksExport(List<BlockApartment> blocksToExport)
+      public FormBlocksExport(List<Apartment> blocksToExport)
       {
          InitializeComponent();
 
@@ -33,7 +33,7 @@ namespace AR_ApartmentExport.Model.ExportBlocks
 
       private void buttonShow_Click(object sender, EventArgs e)
       {
-         BlockApartment blockToExp =listBoxBlocksToExport.SelectedItem as BlockApartment;
+         Apartment blockToExp =listBoxBlocksToExport.SelectedItem as Apartment;
          if (blockToExp != null && blockToExp.Extents.Diagonal()>0)
          {  
             ed.Zoom(blockToExp.Extents);
@@ -53,7 +53,7 @@ namespace AR_ApartmentExport.Model.ExportBlocks
             e.DrawBackground();
             e.DrawFocusRectangle();
 
-            BlockApartment blToExport = list.Items[e.Index] as BlockApartment;
+            Apartment blToExport = list.Items[e.Index] as Apartment;
             if (blToExport != null)
             {
                Brush brush;
@@ -65,7 +65,7 @@ namespace AR_ApartmentExport.Model.ExportBlocks
                {
                   brush = Brushes.Black;
                }                                            
-               e.Graphics.DrawString(blToExport.Name, e.Font, brush, e.Bounds.X, e.Bounds.Y);
+               e.Graphics.DrawString(blToExport.BlockName, e.Font, brush, e.Bounds.X, e.Bounds.Y);
             }
          }
       }

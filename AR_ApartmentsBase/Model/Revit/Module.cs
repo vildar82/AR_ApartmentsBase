@@ -1,0 +1,93 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
+using AcadLib.Errors;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
+
+namespace AR_ApartmentBase.Model.Revit
+{
+   [Serializable]
+   public class Module : IRevitBlock
+   {
+      private Module() { }
+
+      [XmlIgnore]
+      public Apartment Apartment { get;  set; }
+
+      public string BlockName { get;  set; }     
+
+      [XmlIgnore]
+      public Point3d Position { get;  set; }
+
+      public string LocationPoint { get { return Position.ToString(); } set { } }
+
+      public double Rotation { get;  set; }
+
+      public List<Element> Elements { get;  set; }
+
+      [XmlIgnore]
+      public ObjectId IdBlRefModule { get;  set; }
+      [XmlIgnore]
+      public ObjectId IdBtrModule { get;  set; }
+      [XmlIgnore]
+      public Matrix3d BlockTransform { get;  set; }
+
+      public List<Parameter> Parameters { get;  set; }
+
+      public Module(BlockReference blRefModule, Apartment apartment, string blName)
+      {
+         BlockName = blName;
+         Apartment = apartment;
+         BlockTransform = blRefModule.BlockTransform;
+         IdBlRefModule = blRefModule.Id;
+         IdBtrModule = blRefModule.BlockTableRecord;
+         Position = blRefModule.Position;
+         Rotation = blRefModule.Rotation;
+
+         Parameters = Parameter.GetParameters(blRefModule);
+
+         Elements = Element.GetElements(this);
+      }
+
+      /// <summary>
+      /// Поиск модулей в квартире
+      /// </summary>      
+      public static List<Module> GetModules(Apartment apartment)
+      {
+         List<Module> modules = new List<Module>();
+         using (var btrApartment = apartment.IdBtr.Open( OpenMode.ForRead) as BlockTableRecord)
+         {
+            foreach (var idEnt in btrApartment)
+            {
+               using (var blRefModule = idEnt.Open( OpenMode.ForRead, false, true)as BlockReference)
+               {
+                  if (blRefModule == null) continue;
+                  string blName = blRefModule.GetEffectiveName();
+                  if (IsBlockNameModule(blName))
+                  {
+                     Module module = new Module(blRefModule, apartment, blName);
+                     modules.Add(module);
+                  }
+                  else
+                  {
+                     Inspector.AddError($"Отфильтрован блок модуля '{blName}' в блоке квартиры {apartment.BlockName}, имя не соответствует " +
+                        $"'{Options.Instance.BlockModuleNameMatch}",
+                        icon: System.Drawing.SystemIcons.Information);
+                  }
+               }
+            }
+         }
+         return modules;
+      }
+
+      public static bool IsBlockNameModule(string blName)
+      {
+         return Regex.IsMatch(blName, Options.Instance.BlockModuleNameMatch, RegexOptions.IgnoreCase);
+      }
+   }
+}

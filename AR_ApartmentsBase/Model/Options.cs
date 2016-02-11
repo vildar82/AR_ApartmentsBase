@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
 using AcadLib.Files;
 using Autodesk.AutoCAD.ApplicationServices;
 
-namespace AR_ExportApartments
+namespace AR_ApartmentBase
 {
    [Serializable]
    public class Options
@@ -29,8 +30,25 @@ namespace AR_ExportApartments
       private Options() {}
 
       public string LogFileName { get; set; }= "AR_ExportApartment_Log.xlsx";
+
+      /// <summary>
+      /// Имя блока начинается с RV_FL или RV_MD
+      /// </summary>
       public string BlockApartmentNameMatch { get; set; } = "^(RV_FL|RV_MD)";
+
+      /// <summary>
+      /// Имя блока начинается с "RV_EL" и в имени блока есть слово "модуль".
+      /// </summary>
+      public string BlockModuleNameMatch { get; set; } = "^(RV_EL).*модуль";
+
+      /// <summary>
+      /// Имя блока начинается с "RV_EL" и в имени блока есть слово "модуль".
+      /// </summary>
+      public string BlockElementNameMatch { get; set; } = "^RV_EL_BS";      
+
       public string LayersOffMatch { get; set; } = "штриховк";
+
+      public List<string> IgnoreParamNames { get; set; } = new List<string> { "origin" };
 
       public static Options Load()
       {

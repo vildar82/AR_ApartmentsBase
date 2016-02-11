@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcadLib.Errors;
-using AR_ApartmentExport.Model.ExportBlocks;
-using AR_ExportApartments.Model.ExportApartment;
+using AR_ApartmentBase.Model.Export;
+using AR_ApartmentBase.Model.Revit;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 
-[assembly: CommandClass(typeof(AR_ExportApartments.Commands))]
+[assembly: CommandClass(typeof(AR_ApartmentBase.Commands))]
 
-namespace AR_ExportApartments
+namespace AR_ApartmentBase
 {
    public class Commands
    {
@@ -33,20 +33,23 @@ namespace AR_ExportApartments
             Editor ed = doc.Editor;
 
             // Считывание выбранных блоков
-            var blocksApartment = BlockApartment.GetBlockApartments(db);
-            if (blocksApartment.Count == 0)
+            var apartments = Apartment.GetApartments(db);
+            if (apartments.Count == 0)
             {
                throw new System.Exception($"Блоки квартир не найдены. Имя блока квартиры должно соответствовать условию Match = '{Options.Instance.BlockApartmentNameMatch}'");
             }
 
-            ed.WriteMessage($"\nВ Модели найдено {blocksApartment.Count} блоков квартир. ");
+            ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир. ");
 
             // Форма предпросмотра экспорта блоков
-            FormBlocksExport formExport = new FormBlocksExport(blocksApartment);
+            FormBlocksExport formExport = new FormBlocksExport(apartments);
             if (Application.ShowModalDialog(formExport) == System.Windows.Forms.DialogResult.OK)
             {
                // Экспорт блоков в файлы
-               var count = BlockApartment.ExportToFiles(blocksApartment);
+               var count = Apartment.ExportToFiles(apartments);
+
+               string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");
+               Apartment.ExportToXML(fileXml, apartments);
 
                ed.WriteMessage($"\nЭкспортированно {count} блоков.");
 
@@ -55,7 +58,7 @@ namespace AR_ExportApartments
                ExcelLog excelLog = new ExcelLog(logFile);
                try
                {
-                  excelLog.AddtoLog(blocksApartment);
+                  excelLog.AddtoLog(apartments);
                }
                catch (System.Exception ex)
                {

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("AR_ApartmentExport")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("AR_ApartmentBase")]
+[assembly: AssemblyDescription("База квартир. Экспорт в Revit.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AR_ApartmentExport")]
+[assembly: AssemblyProduct("AR_ApartmentBase")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

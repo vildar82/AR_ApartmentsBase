@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AR_ExportApartments;
-using AR_ExportApartments.Model.ExportApartment;
+using AR_ApartmentBase;
+using AR_ApartmentBase.Model.Revit;
 using OfficeOpenXml;
 
-namespace AR_ApartmentExport.Model.ExportBlocks
+namespace AR_ApartmentBase.Model.Export
 {
    public class ExcelLog
    {
@@ -19,7 +19,7 @@ namespace AR_ApartmentExport.Model.ExportBlocks
          this.logFile = fileLog;
       }
 
-      public void AddtoLog(List<BlockApartment> bllocksToExport)
+      public void AddtoLog(List<Apartment> bllocksToExport)
       {
          if (!File.Exists(logFile))
          {
@@ -39,7 +39,7 @@ namespace AR_ApartmentExport.Model.ExportBlocks
                if (blToExport.ExportDate > DateTime.MinValue)
                {
                   worksheet.Cells[row, 1].Value = blToExport.ExportDate;//"Дата"
-                  worksheet.Cells[row, 2].Value = blToExport.Name;//"Блок"
+                  worksheet.Cells[row, 2].Value = blToExport.BlockName;//"Блок"
                   worksheet.Cells[row, 3].Value = blToExport.File;//"файл"
                   worksheet.Cells[row, 4].Value = Environment.UserName;//"Пользователь"               
                   row++;
