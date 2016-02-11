@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -29,6 +30,8 @@ namespace AR_ExportApartments.Model.ExportApartment
       /// </summary>
       public string File { get; private set; }
 
+      private static List<ObjectId> _layersOff;
+
       /// <summary>
       /// Создание блока для экспорта из id
       /// Если id не блока, то Exception
@@ -54,6 +57,10 @@ namespace AR_ExportApartments.Model.ExportApartment
       {
          int count = 0;
          DateTime now = DateTime.Now;
+         
+         // Выключение слоев штриховки
+         LayersOff();
+
          foreach (var blToExport in blocksToExport)
          {
             try
@@ -65,9 +72,57 @@ namespace AR_ExportApartments.Model.ExportApartment
             catch (System.Exception ex)
             {
                Inspector.AddError($"Ошибка при экспорте блока '{blToExport.Name}' - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
-            }            
+            }                  
          }
+
+         // Восстановление слоев
+         LayersOn();
+
          return count;
+      }
+
+      private static void LayersOn()
+      {
+         if (_layersOff !=null && _layersOff.Count>0)
+         {
+            foreach (var idLayer in _layersOff)
+            {
+               using (var lay = idLayer.Open( OpenMode.ForWrite) as LayerTableRecord)
+               {
+                  if (lay.IsFrozen)
+                  {
+                     lay.IsFrozen = false;
+                  }
+               }
+            }
+         }
+      }
+
+      /// <summary>
+      /// Включение выключение слоев штриховки
+      /// </summary>
+      private static void LayersOff()
+      {
+         _layersOff = new List<ObjectId>();
+         Database db = HostApplicationServices.WorkingDatabase;
+         using (var lt = db.LayerTableId.Open( OpenMode.ForRead)as LayerTable)
+         {
+            foreach (var idLayer in lt)
+            {
+               using (var layer = idLayer.Open( OpenMode.ForRead) as LayerTableRecord)
+               {
+                  if (Regex.IsMatch(layer.Name,  Options.Instance.LayersOffMatch, RegexOptions.IgnoreCase))
+                  {
+                     if (!layer.IsFrozen)
+                     {
+                        layer.UpgradeOpen();
+                        layer.IsFrozen = true;
+                        _layersOff.Add(idLayer);
+                     }
+                  }
+               }
+            }
+         }
       }
 
       /// <summary>
@@ -83,19 +138,20 @@ namespace AR_ExportApartments.Model.ExportApartment
             var ids = new ObjectIdCollection(new[] { IdBlRef });
             var idMS = SymbolUtilityServices.GetBlockModelSpaceId(db);
 
-            IdMapping map = new IdMapping();
-            db.WblockCloneObjects(ids, idMS, map, DuplicateRecordCloning.Replace, false);
-
-            // перенос блока в ноль            
-            var idBlRefMap = map[IdBlRef].Value;
-            if (!idBlRefMap.IsNull)
+            using (IdMapping map = new IdMapping())
             {
-               using (var blRef = idBlRefMap.Open(OpenMode.ForWrite, false, true) as BlockReference)
+               db.WblockCloneObjects(ids, idMS, map, DuplicateRecordCloning.Replace, false);
+               // перенос блока в ноль            
+               var idBlRefMap = map[IdBlRef].Value;
+               if (!idBlRefMap.IsNull)
                {
-                  blRef.Position = Point3d.Origin;
+                  using (var blRef = idBlRefMap.Open(OpenMode.ForWrite, false, true) as BlockReference)
+                  {
+                     blRef.Position = Point3d.Origin;
+                  }
+                  db.SaveAs(File, DwgVersion.Current);
                }
-               db.SaveAs(File, DwgVersion.Current);
-            }            
+            }
             //Inspector.AddError($"Экспортирован блок {Name} в файл {File}", IdBlRef, icon: System.Drawing.SystemIcons.Information);
          }
       }

@@ -30,6 +30,7 @@ namespace AR_ExportApartments
 
       public string LogFileName { get; set; }= "AR_ExportApartment_Log.xlsx";
       public string BlockApartmentNameMatch { get; set; } = "^(RV_FL|RV_MD)";
+      public string LayersOffMatch { get; set; } = "штриховк";
 
       public static Options Load()
       {
