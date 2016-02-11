@@ -9,6 +9,7 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using AR_ApartmentBase.Model.AcadServices;
 using System.Xml.Serialization;
+using System.Drawing;
 
 namespace AR_ApartmentBase.Model.Revit
 {
@@ -181,21 +182,29 @@ namespace AR_ApartmentBase.Model.Revit
          {
             foreach (ObjectId idEnt in ms)
             {
-               using (var blRef = idEnt.Open(OpenMode.ForRead, false, true) as BlockReference)
+               using (var blRefApart = idEnt.Open(OpenMode.ForRead, false, true) as BlockReference)
                {
-                  if (blRef != null)
+                  if (blRefApart != null)
                   {
-                     string blName = blRef.GetEffectiveName();
+                     string blName = blRefApart.GetEffectiveName();
                      if (IsBlockNameApartment(blName))
                      {
-                        var blExport = new Apartment(blRef, blName);
-                        apartments.Add(blExport);
+                        try
+                        {
+                           var apartment = new Apartment(blRefApart, blName);
+                           apartments.Add(apartment);
+                        }
+                        catch (System.Exception ex)
+                        {
+                           Inspector.AddError($"Ошибка считывания блока квартиры {blName} - {ex.Message}.",
+                              blRefApart,  icon: SystemIcons.Error);
+                        }
                      }
                      else
                      {
                         Inspector.AddError($"Отфильтрован блок квартиры '{blName}', имя не соответствует " +
                            $"'{Options.Instance.BlockApartmentNameMatch}",
-                           blRef, icon: System.Drawing.SystemIcons.Information);
+                           blRefApart, icon: System.Drawing.SystemIcons.Information);
                      }
                   }
                }

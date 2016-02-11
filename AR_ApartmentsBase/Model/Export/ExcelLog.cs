@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AcadLib.Errors;
 using AR_ApartmentBase;
 using AR_ApartmentBase.Model.Revit;
 using OfficeOpenXml;
@@ -21,33 +22,40 @@ namespace AR_ApartmentBase.Model.Export
 
       public void AddtoLog(List<Apartment> bllocksToExport)
       {
-         if (!File.Exists(logFile))
+         try
          {
-            createExcel();
-         }
-
-         using (var xlPackage = new ExcelPackage(new FileInfo(logFile)))
-         {
-            var worksheet = xlPackage.Workbook.Worksheets["ЭкспортБлоковКвартир"];
-            int row = 2;
-
-            while (worksheet.Cells[row, 1].Text != "")
-               row++;
-
-            foreach (var blToExport in bllocksToExport)
+            if (!File.Exists(logFile))
             {
-               if (blToExport.ExportDate > DateTime.MinValue)
-               {
-                  worksheet.Cells[row, 1].Value = blToExport.ExportDate;//"Дата"
-                  worksheet.Cells[row, 2].Value = blToExport.BlockName;//"Блок"
-                  worksheet.Cells[row, 3].Value = blToExport.File;//"файл"
-                  worksheet.Cells[row, 4].Value = Environment.UserName;//"Пользователь"               
-                  row++;
-               }
+               createExcel();
             }
-            xlPackage.Save();
+
+            using (var xlPackage = new ExcelPackage(new FileInfo(logFile)))
+            {
+               var worksheet = xlPackage.Workbook.Worksheets["ЭкспортБлоковКвартир"];
+               int row = 2;
+
+               while (worksheet.Cells[row, 1].Text != "")
+                  row++;
+
+               foreach (var blToExport in bllocksToExport)
+               {
+                  if (blToExport.ExportDate > DateTime.MinValue)
+                  {
+                     worksheet.Cells[row, 1].Value = blToExport.ExportDate;//"Дата"
+                     worksheet.Cells[row, 2].Value = blToExport.BlockName;//"Блок"
+                     worksheet.Cells[row, 3].Value = blToExport.File;//"файл"
+                     worksheet.Cells[row, 4].Value = Environment.UserName;//"Пользователь"               
+                     row++;
+                  }
+               }
+               xlPackage.Save();
+            }
          }
-      }
+         catch (Exception ex)
+         {
+            Inspector.AddError($"Ошибка записи экспорта квартир в лог файл {logFile} - {ex.Message}");
+         }
+      }      
 
       private void createExcel()
       {

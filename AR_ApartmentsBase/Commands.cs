@@ -18,6 +18,9 @@ namespace AR_ApartmentBase
 {
    public class Commands
    {
+      /// <summary>
+      /// Поиск квартир в Модели и экспорт в отдельные файлы каждой квартиры, и експорт в базу.
+      /// </summary>
       [CommandMethod("PIK", "AR-ExportApartments", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
       public void ExportApartments()
       {
@@ -32,14 +35,13 @@ namespace AR_ApartmentBase
             Database db = doc.Database;
             Editor ed = doc.Editor;
 
-            // Считывание выбранных блоков
+            // Считывание блоков квартир.
             var apartments = Apartment.GetApartments(db);
             if (apartments.Count == 0)
             {
                throw new System.Exception($"Блоки квартир не найдены. Имя блока квартиры должно соответствовать условию Match = '{Options.Instance.BlockApartmentNameMatch}'");
             }
-
-            ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир. ");
+            ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир.");
 
             // Форма предпросмотра экспорта блоков
             FormBlocksExport formExport = new FormBlocksExport(apartments);
@@ -47,24 +49,18 @@ namespace AR_ApartmentBase
             {
                // Экспорт блоков в файлы
                var count = Apartment.ExportToFiles(apartments);
+               ed.WriteMessage($"\nЭкспортированно {count} квартиры.");
 
+               // Запись квартир в xml
                string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");
-               Apartment.ExportToXML(fileXml, apartments);
-
-               ed.WriteMessage($"\nЭкспортированно {count} блоков.");
+               Apartment.ExportToXML(fileXml, apartments);               
 
                // Запись лога экспортированных блоков      
                string logFile = Path.Combine(Path.GetDirectoryName(doc.Name), Options.Instance.LogFileName);
                ExcelLog excelLog = new ExcelLog(logFile);
-               try
-               {
-                  excelLog.AddtoLog(apartments);
-               }
-               catch (System.Exception ex)
-               {
-                  Inspector.AddError($"Ошибка записи экспорта в лог файл {logFile} - {ex.Message}");
-               }
+               excelLog.AddtoLog(apartments);
 
+               // Показ ошибок
                if (Inspector.HasErrors)
                {
                   Inspector.Show();
