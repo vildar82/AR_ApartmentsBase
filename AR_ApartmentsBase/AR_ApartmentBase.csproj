@@ -121,6 +121,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AutoCADNetLoad.scr" />
+    <None Include="Model\Revit\ClassDiagramRevit.cd" />
+    <None Include="Model\Revit\Graph1.dgml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

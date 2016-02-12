@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="RightToLeft" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@1 Namespace=AR_ApartmentBase.Model.Revit Type=Apartment)" Category="CodeSchema_Class" Bounds="-268.948092447918,-179.08203125,163.723333333335,146" CodeSchemaProperty_IsPublic="True" CommonLabel="Apartment" Group="Expanded" Icon="Microsoft.VisualStudio.Class.Public" Label="Apartment" SourceLocation="(Assembly=file:///C:/dev/АР/AR_ApartmentsBase/AR_ApartmentsBase/Model/Revit/Apartment.cs StartLineNumber=16 StartCharacterOffset=16 EndLineNumber=16 EndCharacterOffset=25)" UseManualLocation="True" />
+    <Node Id="(@1 Namespace=AR_ApartmentBase.Model.Revit Type=Element)" Category="CodeSchema_Class" Bounds="-228.947604166668,-99.08183125,83.7233333333352,26" CodeSchemaProperty_IsPublic="True" CommonLabel="Element" Icon="Microsoft.VisualStudio.Class.Public" Label="Element" SourceLocation="(Assembly=file:///C:/dev/АР/AR_ApartmentsBase/AR_ApartmentsBase/Model/Revit/Element.cs StartLineNumber=17 StartCharacterOffset=16 EndLineNumber=17 EndCharacterOffset=23)" />
+    <Node Id="@2" Category="CodeSchema_Class" Bounds="-248.948092447918,-139.08193125,123.723333333335,86.0002" CodeSchemaProperty_IsPublic="True" CommonLabel="Module" Group="Expanded" Icon="Microsoft.VisualStudio.Class.Public" Label="Module" SourceLocation="(Assembly=file:///C:/dev/АР/AR_ApartmentsBase/AR_ApartmentsBase/Model/Revit/Module.cs StartLineNumber=14 StartCharacterOffset=16 EndLineNumber=14 EndCharacterOffset=22)" />
+  </Nodes>
+  <Links>
+    <Link Source="(@1 Namespace=AR_ApartmentBase.Model.Revit Type=Apartment)" Target="@2" Category="Contains" />
+    <Link Source="@2" Target="(@1 Namespace=AR_ApartmentBase.Model.Revit Type=Element)" Category="Contains" />
+  </Links>
+  <Categories>
+    <Category Id="CodeSchema_Class" Label="Класс" BasedOn="CodeSchema_Type" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Class" NavigationActionLabel="Классы" />
+    <Category Id="CodeSchema_Type" Label="Тип" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Class" NavigationActionLabel="Типы" />
+    <Category Id="Contains" Label="Содержит" Description="Указывает, содержит ли источник связи целевой объект" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Содержится в" IsContainment="True" OutgoingActionLabel="Содержит" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsPublic" Label="Является Public" Description="Флаг, указывающий на область видимости Public" DataType="System.Boolean" />
+    <Property Id="CommonLabel" DataType="System.String" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation" />
+    <Property Id="Group" Label="Группа" Description="Отображать узел как группу" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="Icon" Label="Значок" Description="Значок" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="Label" Label="Метка" Description="Отображаемая метка аннотируемого объекта" DataType="System.String" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="SourceLocation" Label="Номер начальной строки" DataType="Microsoft.VisualStudio.GraphModel.CodeSchema.SourceLocation" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="Assembly" Label="Сборка" ValueType="Uri" />
+    <Name Id="Namespace" Label="Пространство имен" ValueType="System.String" />
+    <Name Id="Type" Label="Тип" ValueType="System.Object" />
+  </QualifiedNames>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(VsSolutionUri)/AR_ApartmentsBase/bin/Release/AR_ApartmentBase.dll" />
+    <Alias n="2" Id="(@1 Namespace=AR_ApartmentBase.Model.Revit Type=Module)" />
+  </IdentifierAliases>
+  <Paths>
+    <Path Id="VsSolutionUri" Value="file:///C:/dev/АР/AR_ApartmentsBase" />
+  </Paths>
+</DirectedGraph>
