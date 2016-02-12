@@ -47,12 +47,6 @@ namespace AR_ApartmentBase
       public string BlockModuleNameMatch { get; set; } = "^(RV_EL).*модуль";
 
       /// <summary>
-      /// Фильтр для блоков элементов.
-      /// Имя блока начинается с "RV_EL" и в имени блока есть слово "модуль".
-      /// </summary>
-      public string BlockElementNameMatch { get; set; } = "^RV_EL_BS";      
-
-      /// <summary>
       /// Отключяаемые слои в файлах эксопрта квартир
       /// </summary>
       public string LayersOffMatch { get; set; } = "штриховк";

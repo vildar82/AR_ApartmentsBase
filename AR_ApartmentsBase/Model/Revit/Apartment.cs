@@ -12,8 +12,7 @@ using System.Xml.Serialization;
 using System.Drawing;
 
 namespace AR_ApartmentBase.Model.Revit
-{
-   [Serializable]
+{   
    public class Apartment :IRevitBlock
    {
       private static List<ObjectId> _layersOff;
@@ -24,12 +23,11 @@ namespace AR_ApartmentBase.Model.Revit
       /// Имя блока
       /// </summary>
       public string BlockName { get; set; }
-
-      [XmlIgnore]
+      
       public ObjectId IdBlRef { get; set; }
-      [XmlIgnore]
+      
       public ObjectId IdBtr { get;  set; }
-      [XmlIgnore]
+      
       public Extents3d Extents { get;  set; }  
 
       /// <summary>
@@ -39,23 +37,18 @@ namespace AR_ApartmentBase.Model.Revit
 
       /// <summary>
       /// Дата экспорта
-      /// </summary>
-      [XmlIgnore]
+      /// </summary>      
       public DateTime ExportDate { get; set; }
 
       /// <summary>
       /// Полный путь к файлу экспортированного блока
-      /// </summary>
-      [XmlIgnore]
+      /// </summary>      
       public string File { get;  set; }            
             
       /// <summary>
       /// Точка вставки бллока квартиры в Модели.
-      /// </summary>
-      [XmlIgnore]
-      public Point3d Position { get;  set; }
-
-      public string LocationPoint { get { return Position.ToString(); } set { } }
+      /// </summary>      
+      public Point3d Position { get;  set; }      
 
       /// <summary>
       /// Угол поворота блока квартиры.

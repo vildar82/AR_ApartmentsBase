@@ -6,12 +6,12 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using AcadLib.Errors;
+using AR_ApartmentBase.Model.Revit.Elements;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
 namespace AR_ApartmentBase.Model.Revit
-{
-   [Serializable]
+{   
    public class Module : IRevitBlock
    {
       private Module() { }
@@ -21,20 +21,19 @@ namespace AR_ApartmentBase.Model.Revit
 
       public string BlockName { get;  set; }     
 
-      [XmlIgnore]
-      public Point3d Position { get;  set; }
-
-      public string LocationPoint { get { return Position.ToString(); } set { } }
+      /// <summary>
+      /// Точка вставки модуля
+      /// </summary>      
+      public Point3d Position { get;  set; }      
 
       public double Rotation { get;  set; }
-
+      
       public List<Element> Elements { get;  set; }
-
-      [XmlIgnore]
+      
       public ObjectId IdBlRefModule { get;  set; }
-      [XmlIgnore]
+            
       public ObjectId IdBtrModule { get;  set; }
-      [XmlIgnore]
+      
       public Matrix3d BlockTransform { get;  set; }
 
       public List<Parameter> Parameters { get;  set; }

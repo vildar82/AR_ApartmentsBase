@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcadLib.Errors;
+using AR_ApartmentBase.Model.DB;
 using AR_ApartmentBase.Model.Export;
 using AR_ApartmentBase.Model.Revit;
 using Autodesk.AutoCAD.ApplicationServices;
@@ -50,6 +51,10 @@ namespace AR_ApartmentBase
                // Экспорт блоков в файлы
                var count = Apartment.ExportToFiles(apartments);
                ed.WriteMessage($"\nЭкспортированно {count} квартиры.");
+
+               // Запись в DB
+               ExportDB exportDb = new ExportDB();
+               exportDb.Export(apartments);
 
                // Запись квартир в xml
                string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");

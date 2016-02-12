@@ -30,6 +30,6 @@ namespace AR_ApartmentBase.Model.Revit
       /// <summary>
       /// Параметры элемента
       /// </summary>
-      List<Parameter> Parameters { get; }
+      List<Parameter> Parameters { get; }      
    }
 }
