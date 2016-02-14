@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using AcadLib.Files;
 using Autodesk.AutoCAD.ApplicationServices;
 
-namespace AR_ApartmentBase
+namespace AR_ApartmentBase.Model
 {
    [Serializable]
    public class Options
@@ -27,34 +27,58 @@ namespace AR_ApartmentBase
          }
       }
 
-      private Options() {}
+      private Options() { }
 
       /// <summary>
       /// Имя файла лога в Excel
       /// </summary>
-      public string LogFileName { get; set; }= "AR_ExportApartment_Log.xlsx";
+      [Description("Имя Excel-файла лога экспорта квартир - файл располагается в корневой папке файла из которого выполняется экспорт квартир.")]
+      [DefaultValue("AR_ExportApartment_Log.xlsx")]
+      public string LogFileName { get; set; } = "AR_ExportApartment_Log.xlsx";
 
       /// <summary>
       /// Фильтр для блоков квартир
       /// Имя блока начинается с RV_FL или RV_MD
       /// </summary>
+      [Description("Паттерн для фильтра блоков квартир. ^(RV_FL|RV_MD) - означает, что имя блока начинающееся на RV_FL или RV_MD - это блок квартиры")]
+      [DefaultValue("^(RV_FL|RV_MD)")]
       public string BlockApartmentNameMatch { get; set; } = "^(RV_FL|RV_MD)";
 
       /// <summary>
       /// Фильтр для блоков модулей
       /// Имя блока начинается с "RV_EL" и в имени блока есть слово "модуль".
       /// </summary>
+      [Description("Паттерн для блоков модулей. ^(RV_EL).*модуль - имя блока начинается на RV_EL и в имени блока есть слово модуль.")]
+      [DefaultValue("^(RV_EL).*модуль")]
       public string BlockModuleNameMatch { get; set; } = "^(RV_EL).*модуль";
 
       /// <summary>
       /// Отключяаемые слои в файлах эксопрта квартир
       /// </summary>
+      [Description("Отключаемые слои при экспорте квартир. Паттерн соответствия имени слоя. штриховк - если в имени слоя есть слово штриховк, то этот слой будет отключен в файле экспортированной квартиры.")]
+      [DefaultValue("штриховк")]
       public string LayersOffMatch { get; set; } = "штриховк";
 
       /// <summary>
       /// Пропускаемые параметры в блоках (динамических свойств или атрибутов)
       /// </summary>
-      public List<string> IgnoreParamNames { get; set; } = new List<string> { "origin" };
+      [Description("Игнорируемые имена свойств блоков элементов. origin - служебное свойство.")]
+      [DefaultValue(new string[] { "origin" })]
+      public string[] IgnoreParamNames { get; set; } = new string[] { "origin" };
+
+      /// <summary>
+      /// Имя параметра для имени семейства в блоках элементов в автокаде
+      /// </summary>
+      [Description("Имя семейства")]
+      [DefaultValue("Имя параметра для имени семейства в блоках элементов в автокаде")]
+      public string ParameterFamilyName { get; set; } = "Имя семейства";
+
+      /// <summary>
+      /// Имя параметра для типоразмера семейства в блоках элементов в автокаде
+      /// </summary>
+      [Description("Тип семейства")]
+      [DefaultValue("Имя параметра для типоразмера семейства в блоках элементов в автокаде")]
+      public string ParameterFamilySymbolName { get; set; } = "Тип семейства";
 
 
       public static Options Load()
@@ -108,5 +132,15 @@ namespace AR_ApartmentBase
 
       //   return options;
       //}      
+
+      public static void Show()
+      {
+         FormOptions formOpt = new FormOptions((Options)Instance.MemberwiseClone());
+         if (Application.ShowModalDialog(formOpt) == System.Windows.Forms.DialogResult.OK)
+         {
+            _instance = formOpt.Options;
+            _instance.Save();
+         }
+      }
    }
 }

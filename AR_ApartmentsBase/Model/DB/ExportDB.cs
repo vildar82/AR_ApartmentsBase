@@ -44,7 +44,9 @@ namespace AR_ApartmentBase.Model.DB
                // Элементы
                foreach (var elem in module.Elements)
                {
+                  // Определение элемента в базе
                   var dbElem = getElement(elem, ds);                  
+                  // Привязка элемента к модулю                  
                }               
             }            
          }
@@ -55,18 +57,24 @@ namespace AR_ApartmentBase.Model.DB
          // Добавление категории - Стены
          var catWall = ds.F_S_Categories.AddF_S_CategoriesRow("Стены", "Wall");
          // Добавление параметров
-         ds.F_S_Parameters.AddF_S_ParametersRow("LocationPoint", "Point");
-         ds.F_S_Parameters.AddF_S_ParametersRow("Direction", "Point");
-         ds.F_S_Parameters.AddF_S_ParametersRow("Level", "String");
-         ds.F_S_Parameters.AddF_S_ParametersRow("Length", "Int");
-         ds.F_S_Parameters.AddF_S_ParametersRow("Height", "Int");
-         ds.F_S_Parameters.AddF_S_ParametersRow("FamilyName", "String");
-         ds.F_S_Parameters.AddF_S_ParametersRow("FamilySymbolName", "String");
+         var parLP = ds.F_S_Parameters.AddF_S_ParametersRow("LocationPoint", "Point");
+         var parDir = ds.F_S_Parameters.AddF_S_ParametersRow("Direction", "Point");
+         var parLevel= ds.F_S_Parameters.AddF_S_ParametersRow("Level", "String");
+         var parLen = ds.F_S_Parameters.AddF_S_ParametersRow("Length", "Int");
+         var parH= ds.F_S_Parameters.AddF_S_ParametersRow("Height", "Int");
+         var parFN = ds.F_S_Parameters.AddF_S_ParametersRow("FamilyName", "String");
+         var parFSN = ds.F_S_Parameters.AddF_S_ParametersRow("FamilySymbolName", "String");
 
          // Параметры стены
          foreach (var paramRow in ds.F_S_Parameters)
          {
-            ds.F_nn_Category_Parameters.AddF_nn_Category_ParametersRow();
+            ds.F_nn_Category_Parameters.AddF_nn_Category_ParametersRow(catWall.ID_CATEGORY, parLP);
+            ds.F_nn_Category_Parameters.AddF_nn_Category_ParametersRow(catWall.ID_CATEGORY, parDir);
+            ds.F_nn_Category_Parameters.AddF_nn_Category_ParametersRow(catWall.ID_CATEGORY, parLevel);
+            ds.F_nn_Category_Parameters.AddF_nn_Category_ParametersRow(catWall.ID_CATEGORY, parLen);
+            ds.F_nn_Category_Parameters.AddF_nn_Category_ParametersRow(catWall.ID_CATEGORY, parH);
+            ds.F_nn_Category_Parameters.AddF_nn_Category_ParametersRow(catWall.ID_CATEGORY, parFN);
+            ds.F_nn_Category_Parameters.AddF_nn_Category_ParametersRow(catWall.ID_CATEGORY, parFSN);
          }
       }
 
@@ -83,14 +91,46 @@ namespace AR_ApartmentBase.Model.DB
          return moduleRow;
       }
 
+      /// <summary>
+      /// Получение или создание строки таблицы Элементов по блоку Елемента
+      /// </summary>      
       private DataSet.F_S_ElementsRow getElement(Element elem, DataSet ds)
       {
-         var dbCategory = getCategory(elem, ds);
+         var category = getCategory(elem, ds);
+         var famInfo = getFamilyInfo(elem, ds);
+         var elemDb = ds.F_S_Elements.SingleOrDefault(e => e.F_S_CategoriesRow == category &&
+                                     e.F_S_FamilyInfosRow == famInfo);
+         if (elemDb == null)
+         {
+            // Создание новой записи элемента
+            elemDb = ds.F_S_Elements.AddF_S_ElementsRow(famInfo, category);
+         }
+         return elemDb;
+      }      
+
+      /// <summary>
+      /// Определение категории блока элемента
+      /// </summary>      
+      private DataSet.F_S_CategoriesRow getCategory(Element elem, DataSet ds)
+      {
+         return ds.F_S_Categories.Single(c => c.NAME_RUS_CATEGORY.Equals(elem.TypeElement, StringComparison.OrdinalIgnoreCase));         
       }
 
-      private object getCategory(Element elem, DataSet ds)
+      /// <summary>
+      /// Получениа или создания семейства
+      /// </summary>      
+      private DataSet.F_S_FamilyInfosRow getFamilyInfo(Element elem, DataSet ds)
       {
-         ds.F_S_Categories
+         var famInfo = ds.F_S_FamilyInfos.SingleOrDefault(f =>
+                                    f.FAMILY_NAME.Equals(elem.FamilyName) &&
+                                    f.FAMILY_SYMBOL.Equals(elem.FamilySymbolName)
+                                 );
+         if (famInfo == null)
+         {
+            // Добавление записи семейства
+            famInfo = ds.F_S_FamilyInfos.AddF_S_FamilyInfosRow(elem.FamilyName.Value, elem.FamilySymbolName.Value);
+         }
+         return famInfo;
       }
    }
 }

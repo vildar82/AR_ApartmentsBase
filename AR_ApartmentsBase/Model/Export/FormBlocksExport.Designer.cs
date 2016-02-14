@@ -32,9 +32,10 @@
          this.listBoxBlocksToExport = new System.Windows.Forms.ListBox();
          this.buttonCancel = new System.Windows.Forms.Button();
          this.buttonOk = new System.Windows.Forms.Button();
-         this.buttonShow = new System.Windows.Forms.Button();
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
          this.labelCount = new System.Windows.Forms.Label();
+         this.buttonOptions = new System.Windows.Forms.Button();
+         this.buttonShow = new System.Windows.Forms.Button();
          this.SuspendLayout();
          // 
          // listBoxBlocksToExport
@@ -78,6 +79,28 @@
          this.toolTip1.SetToolTip(this.buttonOk, "Выполнить экспорт блоков");
          this.buttonOk.UseVisualStyleBackColor = true;
          // 
+         // labelCount
+         // 
+         this.labelCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+         this.labelCount.AutoSize = true;
+         this.labelCount.Location = new System.Drawing.Point(18, 325);
+         this.labelCount.Name = "labelCount";
+         this.labelCount.Size = new System.Drawing.Size(16, 13);
+         this.labelCount.TabIndex = 3;
+         this.labelCount.Text = "-1";
+         // 
+         // buttonOptions
+         // 
+         this.buttonOptions.BackgroundImage = global::AR_ApartmentBase.Properties.Resources.options;
+         this.buttonOptions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+         this.buttonOptions.Location = new System.Drawing.Point(117, 358);
+         this.buttonOptions.Name = "buttonOptions";
+         this.buttonOptions.Size = new System.Drawing.Size(30, 30);
+         this.buttonOptions.TabIndex = 4;
+         this.toolTip1.SetToolTip(this.buttonOptions, "Настройки. После изменения настроек нужно перезапустить команду экспорта.");
+         this.buttonOptions.UseVisualStyleBackColor = true;
+         this.buttonOptions.Click += new System.EventHandler(this.buttonOptions_Click);
+         // 
          // buttonShow
          // 
          this.buttonShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -91,16 +114,6 @@
          this.buttonShow.UseVisualStyleBackColor = true;
          this.buttonShow.Click += new System.EventHandler(this.buttonShow_Click);
          // 
-         // labelCount
-         // 
-         this.labelCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-         this.labelCount.AutoSize = true;
-         this.labelCount.Location = new System.Drawing.Point(18, 325);
-         this.labelCount.Name = "labelCount";
-         this.labelCount.Size = new System.Drawing.Size(16, 13);
-         this.labelCount.TabIndex = 3;
-         this.labelCount.Text = "-1";
-         // 
          // FormBlocksExport
          // 
          this.AcceptButton = this.buttonOk;
@@ -108,6 +121,7 @@
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.CancelButton = this.buttonCancel;
          this.ClientSize = new System.Drawing.Size(397, 393);
+         this.Controls.Add(this.buttonOptions);
          this.Controls.Add(this.labelCount);
          this.Controls.Add(this.buttonShow);
          this.Controls.Add(this.buttonOk);
@@ -128,5 +142,6 @@
       private System.Windows.Forms.Button buttonShow;
       private System.Windows.Forms.ToolTip toolTip1;
       private System.Windows.Forms.Label labelCount;
+      private System.Windows.Forms.Button buttonOptions;
    }
 }

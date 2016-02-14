@@ -13,5 +13,10 @@ namespace AR_ApartmentBase.Model.DB.DbServices
       {
          return $"{pt.X};{pt.Y};{pt.Z}";
       }
+
+      public static string Point(Vector3d vec)
+      {
+         return $"{vec.X};{vec.Y};{vec.Z}";
+      }
    }
 }

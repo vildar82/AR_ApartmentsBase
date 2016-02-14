@@ -12,13 +12,16 @@ using Autodesk.AutoCAD.Geometry;
 
 namespace AR_ApartmentBase.Model.Revit
 {   
+   /// <summary>
+   /// Модуль - блок помещения в автокаде
+   /// </summary>
    public class Module : IRevitBlock
    {
       private Module() { }
 
       [XmlIgnore]
       public Apartment Apartment { get;  set; }
-
+            
       public string BlockName { get;  set; }     
 
       /// <summary>
@@ -27,7 +30,9 @@ namespace AR_ApartmentBase.Model.Revit
       public Point3d Position { get;  set; }      
 
       public double Rotation { get;  set; }
-      
+
+      public Vector3d Direction { get; set; }
+
       public List<Element> Elements { get;  set; }
       
       public ObjectId IdBlRefModule { get;  set; }
@@ -47,6 +52,7 @@ namespace AR_ApartmentBase.Model.Revit
          IdBtrModule = blRefModule.BlockTableRecord;
          Position = blRefModule.Position;
          Rotation = blRefModule.Rotation;
+         Direction = Element.GetDirection(blRefModule);
 
          Parameters = Parameter.GetParameters(blRefModule);
 

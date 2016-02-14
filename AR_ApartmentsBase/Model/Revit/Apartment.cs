@@ -10,9 +10,13 @@ using Autodesk.AutoCAD.Runtime;
 using AR_ApartmentBase.Model.AcadServices;
 using System.Xml.Serialization;
 using System.Drawing;
+using AR_ApartmentBase.Model.Revit.Elements;
 
 namespace AR_ApartmentBase.Model.Revit
 {   
+   /// <summary>
+   /// Квартира или МОП - блок в автокаде
+   /// </summary>
    public class Apartment :IRevitBlock
    {
       private static List<ObjectId> _layersOff;
@@ -23,7 +27,7 @@ namespace AR_ApartmentBase.Model.Revit
       /// Имя блока
       /// </summary>
       public string BlockName { get; set; }
-      
+
       public ObjectId IdBlRef { get; set; }
       
       public ObjectId IdBtr { get;  set; }
@@ -48,7 +52,8 @@ namespace AR_ApartmentBase.Model.Revit
       /// <summary>
       /// Точка вставки бллока квартиры в Модели.
       /// </summary>      
-      public Point3d Position { get;  set; }      
+      public Point3d Position { get;  set; }
+      public Vector3d Direction { get; set; }
 
       /// <summary>
       /// Угол поворота блока квартиры.
@@ -68,6 +73,7 @@ namespace AR_ApartmentBase.Model.Revit
          IdBtr = blRef.BlockTableRecord;
          Position = blRef.Position;
          Rotation = blRef.Rotation;
+         Direction = Element.GetDirection(blRef);
          File = Path.Combine(Path.GetDirectoryName(IdBlRef.Database.Filename), BlockName + ".dwg");
          try
          {

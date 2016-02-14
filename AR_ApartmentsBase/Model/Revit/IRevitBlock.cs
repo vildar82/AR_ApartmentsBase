@@ -28,6 +28,11 @@ namespace AR_ApartmentBase.Model.Revit
       double Rotation { get; }
 
       /// <summary>
+      /// Направление - единичный вектор
+      /// </summary>
+      Vector3d Direction { get; }
+
+      /// <summary>
       /// Параметры элемента
       /// </summary>
       List<Parameter> Parameters { get; }      

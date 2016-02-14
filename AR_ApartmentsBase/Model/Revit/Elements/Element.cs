@@ -12,12 +12,14 @@ using Autodesk.AutoCAD.Geometry;
 namespace AR_ApartmentBase.Model.Revit.Elements
 {
    /// <summary>
-   /// Элемент ревита - семейство
-   /// </summary>   
-   [XmlInclude(typeof(Wall))]
-   public abstract class Element : IRevitBlock
+   /// Элемент - блок в автокаде из которых состоит модуль - стены, окна, двери, мебель и т.п.
+   /// </summary>      
+   public class Element : IRevitBlock
    {
       public Element() { }
+
+      public Parameter FamilyName { get; set; }
+      public Parameter FamilySymbolName { get; set; }
 
       public string TypeElement { get; set; }
 
@@ -26,7 +28,8 @@ namespace AR_ApartmentBase.Model.Revit.Elements
       /// <summary>
       /// Точка вставки относительно базовой точки квартиры
       /// </summary>      
-      public Point3d Position { get; set; }      
+      public Point3d Position { get; set; }
+      public Vector3d Direction { get; set; }
 
       /// <summary>
       /// Поворот относительно 0 в блоке квартиры
@@ -53,8 +56,12 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          IdBtrElement = blRefElem.BlockTableRecord;
          Position = blRefElem.Position;
          Rotation = blRefElem.Rotation;
+         Direction = GetDirection(blRefElem);
 
          Parameters = Parameter.GetParameters(blRefElem);
+
+         FamilyName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilyName));
+         FamilySymbolName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilySymbolName));
       }
 
       /// <summary>
@@ -75,8 +82,9 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                   string blName = blRefElem.GetEffectiveName();
                   string typeElement;
                   if (IsBlockElement(blName, out typeElement))
-                  {                  
-                     Element element = ElementFactory.CreateElement(typeElement, blRefElem, module, blName);
+                  {
+                     Element element = new Element(blRefElem, module, blName);
+                     element.TypeElement = typeElement;
                      if (element != null)
                      {
                         //Element element = new Element(blRefElem, module, blName);
@@ -114,5 +122,11 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          typeElement = string.Empty;
          return false;
       }      
+
+      public static Vector3d GetDirection (BlockReference blRef)
+      {
+         Vector3d direction = new Vector3d(1, 0, 0);
+         return direction.RotateBy(blRef.Rotation, Vector3d.ZAxis);
+      }
    }
 }

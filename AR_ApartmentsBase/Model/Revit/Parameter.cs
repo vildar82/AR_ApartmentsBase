@@ -10,7 +10,7 @@ namespace AR_ApartmentBase.Model.Revit
    public class Parameter
    {
       public string Name { get;  set; }      
-      public object Value { get;  set; }
+      public string Value { get;  set; }
 
       public static List<Parameter> GetParameters(BlockReference blRef)
       {
@@ -32,7 +32,7 @@ namespace AR_ApartmentBase.Model.Revit
             foreach (DynamicBlockReferenceProperty prop in blRef.DynamicBlockReferencePropertyCollection)
             {
                Error errHasParam = new Error($"Дублирование параметра {prop.PropertyName} в блоке {blRef.Name}.", icon: SystemIcons.Error);
-               addParam(parameters, prop.PropertyName, prop.Value, errHasParam);               
+               addParam(parameters, prop.PropertyName, prop.Value.ToString(), errHasParam);               
             }
          }
       }
@@ -55,7 +55,7 @@ namespace AR_ApartmentBase.Model.Revit
          }
       }
       
-      private static void addParam (List<Parameter> parameters, string name, object value, Error errorHasParam)
+      private static void addParam (List<Parameter> parameters, string name, string value, Error errorHasParam)
       {
          if (hasParamName(parameters, name))
          {

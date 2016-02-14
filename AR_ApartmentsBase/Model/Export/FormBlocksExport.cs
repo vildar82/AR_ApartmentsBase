@@ -79,5 +79,10 @@ namespace AR_ApartmentBase.Model.Export
       {
          labelCount.Text = _binding.Count.ToString();
       }
+
+      private void buttonOptions_Click(object sender, EventArgs e)
+      {
+         Options.Show();
+      }
    }
 }

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AcadLib.Errors;
+using AR_ApartmentBase.Model;
 using AR_ApartmentBase.Model.DB;
 using AR_ApartmentBase.Model.Export;
 using AR_ApartmentBase.Model.Revit;
@@ -19,6 +21,33 @@ namespace AR_ApartmentBase
 {
    public class Commands
    {
+      [CommandMethod("PIK", "AR-ExportApartmentsAbout", CommandFlags.Modal)]
+      public void ExportApartmentsAbout()
+      {
+         Logger.Log.Info("Start command AR-ExportApartmentsAbout");
+         Document doc = Application.DocumentManager.MdiActiveDocument;         
+         if (doc == null) return;
+
+         Editor ed = doc.Editor;
+
+         ed.WriteMessage($"\nПрограмма экспорта блоков квартир. Версия {Assembly.GetExecutingAssembly().GetName().Version}");
+         ed.WriteMessage("\nКоманды:");
+         ed.WriteMessage("\nAR-ExportApartments - экспорт блоков квартир найденных в Модели в отдельные файлы и в базу.\n" +
+                          $"Имя блока квартиры должно соответствовать {Options.Instance.BlockApartmentNameMatch}");
+         ed.WriteMessage("\nAR-ExportApartmentsOptions - настройки программы.");
+         ed.WriteMessage("\nAR-ExportApartmentsAbout - описание программы.");
+      }
+
+      [CommandMethod("PIK", "AR-ExportApartmentsOptions", CommandFlags.Modal)]
+      public void ExportApartmentsOptions()
+      {
+         Logger.Log.Info("Start command AR-ExportApartmentsOptions");
+         Document doc = Application.DocumentManager.MdiActiveDocument;
+         if (doc == null) return;
+
+         Options.Show();
+      }
+
       /// <summary>
       /// Поиск квартир в Модели и экспорт в отдельные файлы каждой квартиры, и експорт в базу.
       /// </summary>
@@ -29,12 +58,20 @@ namespace AR_ApartmentBase
          Document doc = Application.DocumentManager.MdiActiveDocument;
          if (doc == null) return;
 
+         if (!File.Exists(doc.Name))
+         {
+            doc.Editor.WriteMessage("\nНужно сохранить текущий чертеж.");
+            return;
+         }
+
          try
          {
             Inspector.Clear();
 
             Database db = doc.Database;
             Editor ed = doc.Editor;
+
+            ExportApartmentsAbout();
 
             // Считывание блоков квартир.
             var apartments = Apartment.GetApartments(db);
