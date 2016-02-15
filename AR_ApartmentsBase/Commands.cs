@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AcadLib.Errors;
 using AR_ApartmentBase.Model;
 using AR_ApartmentBase.Model.DB;
+using AR_ApartmentBase.Model.DB.EntityModel;
 using AR_ApartmentBase.Model.Export;
 using AR_ApartmentBase.Model.Revit;
 using Autodesk.AutoCAD.ApplicationServices;
@@ -82,7 +83,7 @@ namespace AR_ApartmentBase
             ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир.");
 
             //Проверка всех элементов квартир в базе - категории, параметры.
-            CheckApartments.Check(apartments);
+            Model.DB.EntityModel.CheckApartments.Check(apartments);
 
             // Форма предпросмотра экспорта блоков
             FormBlocksExport formExport = new FormBlocksExport(apartments);
@@ -99,11 +100,13 @@ namespace AR_ApartmentBase
                string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");               
                Apartment.ExportToXML(fileXml, apartmentsToExport);               
 
-               // Запись в DB
-               ExportDB exportDb = new ExportDB();
+               // Запись в DB               
                try
                {
-                  exportDb.Export(apartmentsToExport);
+                  ExportModel exportModel = new ExportModel();
+                  exportModel.Export(apartmentsToExport);
+                  //ExportDB exportDb = new ExportDB();
+                  //exportDb.Export(apartmentsToExport);
                }
                catch (System.Exception ex)
                {
