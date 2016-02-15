@@ -96,16 +96,8 @@ namespace AR_ApartmentBase
                ed.WriteMessage($"\nЭкспортированно {count} квартиры.");
 
                // Запись квартир в xml
-               string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");
-               try
-               {
-                  Apartment.ExportToXML(fileXml, apartmentsToExport);
-               }
-               catch(System.Exception ex)
-               {
-                  Inspector.AddError($"Ошибка экспорта в xml - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
-                  //Logger.Log.Error(ex, "Запись квартир в xml");
-               }
+               string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");               
+               Apartment.ExportToXML(fileXml, apartmentsToExport);               
 
                // Запись в DB
                ExportDB exportDb = new ExportDB();

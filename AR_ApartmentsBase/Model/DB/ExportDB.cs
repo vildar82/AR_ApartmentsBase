@@ -46,7 +46,7 @@ namespace AR_ApartmentBase.Model.DB
                   foreach (var elem in module.Elements)
                   {
                      // Определение элемента в базе                                          
-                     DataSet.F_S_ElementsRow elemRow = getElement(elem, ds);
+                     var elemRow = getElement(elem, ds);
                      // Привязка элемента к модулю  
                      var elemFMRow = getElemInFM(ds, flatModuleRow, elemRow, elem);
 
@@ -263,8 +263,8 @@ namespace AR_ApartmentBase.Model.DB
          try
          {
             var famInfo = ds.F_S_FamilyInfos.SingleOrDefault(f =>
-                                       f.FAMILY_NAME.Equals(elem.FamilyName.Name, StringComparison.OrdinalIgnoreCase) &&
-                                       f.FAMILY_SYMBOL.Equals(elem.FamilySymbolName.Name, StringComparison.OrdinalIgnoreCase)
+                                       f.FAMILY_NAME.Equals(elem.FamilyName.Value, StringComparison.OrdinalIgnoreCase) &&
+                                       f.FAMILY_SYMBOL.Equals(elem.FamilySymbolName.Value, StringComparison.OrdinalIgnoreCase)
                                     );
             if (famInfo == null)
             {

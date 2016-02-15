@@ -132,7 +132,7 @@ namespace AR_ApartmentBase.Model.Revit
          }
          catch (System.Exception ex)
          {
-            Inspector.AddError($"Ошибка при экспорте квартир в XML - {ex.Message}");
+            Inspector.AddError($"Ошибка при экспорте квартир в XML - {ex.Message}.", icon: SystemIcons.Error);
          }         
       }
 

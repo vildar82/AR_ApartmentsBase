@@ -46,25 +46,25 @@ namespace AR_ApartmentBase.Model.DB {
         
         private CategoryParametersDataTable tableCategoryParameters;
         
-        private global::System.Data.DataRelation relationFK_F_nn_Category_Parameters_F_S_Categories;
-        
-        private global::System.Data.DataRelation relationFK_F_nn_Category_Parameters_F_S_Parameters;
+        private global::System.Data.DataRelation relationFK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules;
         
         private global::System.Data.DataRelation relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters;
         
-        private global::System.Data.DataRelation relationFK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules;
+        private global::System.Data.DataRelation relationFK_F_nn_Elements_FlatModules_F_S_Elements;
         
         private global::System.Data.DataRelation relationFK_F_nn_Elements_FlatModules_F_R_FlatModules;
         
-        private global::System.Data.DataRelation relationFK_F_nn_Elements_FlatModules_F_S_Elements;
+        private global::System.Data.DataRelation relationFK_F_R_FlatModules_F_R_Modules;
         
         private global::System.Data.DataRelation relationFK_F_R_FlatModules_F_R_Flats1;
         
-        private global::System.Data.DataRelation relationFK_F_R_FlatModules_F_R_Modules;
+        private global::System.Data.DataRelation relationFK_F_S_Elements_F_S_FamilyInfos;
         
         private global::System.Data.DataRelation relationFK_F_S_Elements_F_S_Categories;
         
-        private global::System.Data.DataRelation relationFK_F_S_Elements_F_S_FamilyInfos;
+        private global::System.Data.DataRelation relationFK_F_nn_Category_Parameters_F_S_Categories;
+        
+        private global::System.Data.DataRelation relationFK_F_nn_Category_Parameters_F_S_Parameters;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -454,16 +454,16 @@ namespace AR_ApartmentBase.Model.DB {
                     this.tableCategoryParameters.InitVars();
                 }
             }
+            this.relationFK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules = this.Relations["FK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules"];
+            this.relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters = this.Relations["FK_F_nn_ElementParam_Value_F_nn_Category_Parameters"];
+            this.relationFK_F_nn_Elements_FlatModules_F_S_Elements = this.Relations["FK_F_nn_Elements_FlatModules_F_S_Elements"];
+            this.relationFK_F_nn_Elements_FlatModules_F_R_FlatModules = this.Relations["FK_F_nn_Elements_FlatModules_F_R_FlatModules"];
+            this.relationFK_F_R_FlatModules_F_R_Modules = this.Relations["FK_F_R_FlatModules_F_R_Modules"];
+            this.relationFK_F_R_FlatModules_F_R_Flats1 = this.Relations["FK_F_R_FlatModules_F_R_Flats1"];
+            this.relationFK_F_S_Elements_F_S_FamilyInfos = this.Relations["FK_F_S_Elements_F_S_FamilyInfos"];
+            this.relationFK_F_S_Elements_F_S_Categories = this.Relations["FK_F_S_Elements_F_S_Categories"];
             this.relationFK_F_nn_Category_Parameters_F_S_Categories = this.Relations["FK_F_nn_Category_Parameters_F_S_Categories"];
             this.relationFK_F_nn_Category_Parameters_F_S_Parameters = this.Relations["FK_F_nn_Category_Parameters_F_S_Parameters"];
-            this.relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters = this.Relations["FK_F_nn_ElementParam_Value_F_nn_Category_Parameters"];
-            this.relationFK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules = this.Relations["FK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules"];
-            this.relationFK_F_nn_Elements_FlatModules_F_R_FlatModules = this.Relations["FK_F_nn_Elements_FlatModules_F_R_FlatModules"];
-            this.relationFK_F_nn_Elements_FlatModules_F_S_Elements = this.Relations["FK_F_nn_Elements_FlatModules_F_S_Elements"];
-            this.relationFK_F_R_FlatModules_F_R_Flats1 = this.Relations["FK_F_R_FlatModules_F_R_Flats1"];
-            this.relationFK_F_R_FlatModules_F_R_Modules = this.Relations["FK_F_R_FlatModules_F_R_Modules"];
-            this.relationFK_F_S_Elements_F_S_Categories = this.Relations["FK_F_S_Elements_F_S_Categories"];
-            this.relationFK_F_S_Elements_F_S_FamilyInfos = this.Relations["FK_F_S_Elements_F_S_FamilyInfos"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -496,6 +496,95 @@ namespace AR_ApartmentBase.Model.DB {
             base.Tables.Add(this.tableF_S_FamilyInfos);
             this.tableCategoryParameters = new CategoryParametersDataTable();
             base.Tables.Add(this.tableCategoryParameters);
+            global::System.Data.ForeignKeyConstraint fkc;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules", new global::System.Data.DataColumn[] {
+                        this.tableF_nn_Elements_FlatModules.ID_ELEMENT_IN_FMColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_ElementParam_Value.ID_ELEMENT_IN_FMColumn});
+            this.tableF_nn_ElementParam_Value.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_F_nn_ElementParam_Value_F_nn_Category_Parameters", new global::System.Data.DataColumn[] {
+                        this.tableF_nn_Category_Parameters.ID_CAT_PARAMETERColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_ElementParam_Value.ID_CAT_PARAMETERColumn});
+            this.tableF_nn_ElementParam_Value.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_F_nn_Elements_FlatModules_F_S_Elements", new global::System.Data.DataColumn[] {
+                        this.tableF_S_Elements.ID_ELEMENTColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_Elements_FlatModules.ID_ELEMENTColumn});
+            this.tableF_nn_Elements_FlatModules.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_F_nn_Elements_FlatModules_F_R_FlatModules", new global::System.Data.DataColumn[] {
+                        this.tableF_nn_FlatModules.ID_FLAT_MODULEColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_Elements_FlatModules.ID_FLAT_MODULEColumn});
+            this.tableF_nn_Elements_FlatModules.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_F_R_FlatModules_F_R_Modules", new global::System.Data.DataColumn[] {
+                        this.tableF_R_Modules.ID_MODULEColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_FlatModules.ID_MODULEColumn});
+            this.tableF_nn_FlatModules.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_F_R_FlatModules_F_R_Flats1", new global::System.Data.DataColumn[] {
+                        this.tableF_R_Flats.ID_FLATColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_FlatModules.ID_FLATColumn});
+            this.tableF_nn_FlatModules.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_F_S_Elements_F_S_FamilyInfos", new global::System.Data.DataColumn[] {
+                        this.tableF_S_FamilyInfos.ID_FAMILY_INFOColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_S_Elements.ID_FAMILY_INFOColumn});
+            this.tableF_S_Elements.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_F_S_Elements_F_S_Categories", new global::System.Data.DataColumn[] {
+                        this.tableF_S_Categories.ID_CATEGORYColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_S_Elements.ID_CATEGORYColumn});
+            this.tableF_S_Elements.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.None;
+            fkc.UpdateRule = global::System.Data.Rule.None;
+            this.relationFK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules = new global::System.Data.DataRelation("FK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules", new global::System.Data.DataColumn[] {
+                        this.tableF_nn_Elements_FlatModules.ID_ELEMENT_IN_FMColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_ElementParam_Value.ID_ELEMENT_IN_FMColumn}, false);
+            this.Relations.Add(this.relationFK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules);
+            this.relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters = new global::System.Data.DataRelation("FK_F_nn_ElementParam_Value_F_nn_Category_Parameters", new global::System.Data.DataColumn[] {
+                        this.tableF_nn_Category_Parameters.ID_CAT_PARAMETERColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_ElementParam_Value.ID_CAT_PARAMETERColumn}, false);
+            this.Relations.Add(this.relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters);
+            this.relationFK_F_nn_Elements_FlatModules_F_S_Elements = new global::System.Data.DataRelation("FK_F_nn_Elements_FlatModules_F_S_Elements", new global::System.Data.DataColumn[] {
+                        this.tableF_S_Elements.ID_ELEMENTColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_Elements_FlatModules.ID_ELEMENTColumn}, false);
+            this.Relations.Add(this.relationFK_F_nn_Elements_FlatModules_F_S_Elements);
+            this.relationFK_F_nn_Elements_FlatModules_F_R_FlatModules = new global::System.Data.DataRelation("FK_F_nn_Elements_FlatModules_F_R_FlatModules", new global::System.Data.DataColumn[] {
+                        this.tableF_nn_FlatModules.ID_FLAT_MODULEColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_Elements_FlatModules.ID_FLAT_MODULEColumn}, false);
+            this.Relations.Add(this.relationFK_F_nn_Elements_FlatModules_F_R_FlatModules);
+            this.relationFK_F_R_FlatModules_F_R_Modules = new global::System.Data.DataRelation("FK_F_R_FlatModules_F_R_Modules", new global::System.Data.DataColumn[] {
+                        this.tableF_R_Modules.ID_MODULEColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_FlatModules.ID_MODULEColumn}, false);
+            this.Relations.Add(this.relationFK_F_R_FlatModules_F_R_Modules);
+            this.relationFK_F_R_FlatModules_F_R_Flats1 = new global::System.Data.DataRelation("FK_F_R_FlatModules_F_R_Flats1", new global::System.Data.DataColumn[] {
+                        this.tableF_R_Flats.ID_FLATColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_FlatModules.ID_FLATColumn}, false);
+            this.Relations.Add(this.relationFK_F_R_FlatModules_F_R_Flats1);
+            this.relationFK_F_S_Elements_F_S_FamilyInfos = new global::System.Data.DataRelation("FK_F_S_Elements_F_S_FamilyInfos", new global::System.Data.DataColumn[] {
+                        this.tableF_S_FamilyInfos.ID_FAMILY_INFOColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_S_Elements.ID_FAMILY_INFOColumn}, false);
+            this.Relations.Add(this.relationFK_F_S_Elements_F_S_FamilyInfos);
+            this.relationFK_F_S_Elements_F_S_Categories = new global::System.Data.DataRelation("FK_F_S_Elements_F_S_Categories", new global::System.Data.DataColumn[] {
+                        this.tableF_S_Categories.ID_CATEGORYColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_S_Elements.ID_CATEGORYColumn}, false);
+            this.Relations.Add(this.relationFK_F_S_Elements_F_S_Categories);
             this.relationFK_F_nn_Category_Parameters_F_S_Categories = new global::System.Data.DataRelation("FK_F_nn_Category_Parameters_F_S_Categories", new global::System.Data.DataColumn[] {
                         this.tableF_S_Categories.ID_CATEGORYColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_Category_Parameters.ID_CATEGORYColumn}, false);
@@ -504,38 +593,6 @@ namespace AR_ApartmentBase.Model.DB {
                         this.tableF_S_Parameters.ID_PARAMETERColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_Category_Parameters.ID_PARAMETERColumn}, false);
             this.Relations.Add(this.relationFK_F_nn_Category_Parameters_F_S_Parameters);
-            this.relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters = new global::System.Data.DataRelation("FK_F_nn_ElementParam_Value_F_nn_Category_Parameters", new global::System.Data.DataColumn[] {
-                        this.tableF_nn_Category_Parameters.ID_CAT_PARAMETERColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_ElementParam_Value.ID_CAT_PARAMETERColumn}, false);
-            this.Relations.Add(this.relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters);
-            this.relationFK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules = new global::System.Data.DataRelation("FK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules", new global::System.Data.DataColumn[] {
-                        this.tableF_nn_Elements_FlatModules.ID_ELEMENT_IN_FMColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_ElementParam_Value.ID_ELEMENT_IN_FMColumn}, false);
-            this.Relations.Add(this.relationFK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules);
-            this.relationFK_F_nn_Elements_FlatModules_F_R_FlatModules = new global::System.Data.DataRelation("FK_F_nn_Elements_FlatModules_F_R_FlatModules", new global::System.Data.DataColumn[] {
-                        this.tableF_nn_FlatModules.ID_FLAT_MODULEColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_Elements_FlatModules.ID_FLAT_MODULEColumn}, false);
-            this.Relations.Add(this.relationFK_F_nn_Elements_FlatModules_F_R_FlatModules);
-            this.relationFK_F_nn_Elements_FlatModules_F_S_Elements = new global::System.Data.DataRelation("FK_F_nn_Elements_FlatModules_F_S_Elements", new global::System.Data.DataColumn[] {
-                        this.tableF_S_Elements.ID_ELEMENTColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_Elements_FlatModules.ID_ELEMENTColumn}, false);
-            this.Relations.Add(this.relationFK_F_nn_Elements_FlatModules_F_S_Elements);
-            this.relationFK_F_R_FlatModules_F_R_Flats1 = new global::System.Data.DataRelation("FK_F_R_FlatModules_F_R_Flats1", new global::System.Data.DataColumn[] {
-                        this.tableF_R_Flats.ID_FLATColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_FlatModules.ID_FLATColumn}, false);
-            this.Relations.Add(this.relationFK_F_R_FlatModules_F_R_Flats1);
-            this.relationFK_F_R_FlatModules_F_R_Modules = new global::System.Data.DataRelation("FK_F_R_FlatModules_F_R_Modules", new global::System.Data.DataColumn[] {
-                        this.tableF_R_Modules.ID_MODULEColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_FlatModules.ID_MODULEColumn}, false);
-            this.Relations.Add(this.relationFK_F_R_FlatModules_F_R_Modules);
-            this.relationFK_F_S_Elements_F_S_Categories = new global::System.Data.DataRelation("FK_F_S_Elements_F_S_Categories", new global::System.Data.DataColumn[] {
-                        this.tableF_S_Categories.ID_CATEGORYColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_S_Elements.ID_CATEGORYColumn}, false);
-            this.Relations.Add(this.relationFK_F_S_Elements_F_S_Categories);
-            this.relationFK_F_S_Elements_F_S_FamilyInfos = new global::System.Data.DataRelation("FK_F_S_Elements_F_S_FamilyInfos", new global::System.Data.DataColumn[] {
-                        this.tableF_S_FamilyInfos.ID_FAMILY_INFOColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_S_Elements.ID_FAMILY_INFOColumn}, false);
-            this.Relations.Add(this.relationFK_F_S_Elements_F_S_FamilyInfos);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4206,23 +4263,23 @@ namespace AR_ApartmentBase.Model.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_Category_ParametersRow F_nn_Category_ParametersRow {
-                get {
-                    return ((F_nn_Category_ParametersRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_ElementParam_Value_F_nn_Category_Parameters"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_ElementParam_Value_F_nn_Category_Parameters"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public F_nn_Elements_FlatModulesRow F_nn_Elements_FlatModulesRow {
                 get {
                     return ((F_nn_Elements_FlatModulesRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_Category_ParametersRow F_nn_Category_ParametersRow {
+                get {
+                    return ((F_nn_Category_ParametersRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_ElementParam_Value_F_nn_Category_Parameters"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_ElementParam_Value_F_nn_Category_Parameters"]);
                 }
             }
         }
@@ -4304,23 +4361,23 @@ namespace AR_ApartmentBase.Model.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_FlatModulesRow F_nn_FlatModulesRow {
-                get {
-                    return ((F_nn_FlatModulesRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_R_FlatModules"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_R_FlatModules"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public F_S_ElementsRow F_S_ElementsRow {
                 get {
                     return ((F_S_ElementsRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_S_Elements"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_S_Elements"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_FlatModulesRow F_nn_FlatModulesRow {
+                get {
+                    return ((F_nn_FlatModulesRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_R_FlatModules"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_R_FlatModules"]);
                 }
             }
             
@@ -4440,23 +4497,23 @@ namespace AR_ApartmentBase.Model.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_R_FlatsRow F_R_FlatsRow {
-                get {
-                    return ((F_R_FlatsRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Flats1"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Flats1"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public F_R_ModulesRow F_R_ModulesRow {
                 get {
                     return ((F_R_ModulesRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Modules"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Modules"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_R_FlatsRow F_R_FlatsRow {
+                get {
+                    return ((F_R_FlatsRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Flats1"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Flats1"]);
                 }
             }
             
@@ -4688,23 +4745,23 @@ namespace AR_ApartmentBase.Model.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_Category_ParametersRow[] GetF_nn_Category_ParametersRows() {
-                if ((this.Table.ChildRelations["FK_F_nn_Category_Parameters_F_S_Categories"] == null)) {
-                    return new F_nn_Category_ParametersRow[0];
-                }
-                else {
-                    return ((F_nn_Category_ParametersRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_nn_Category_Parameters_F_S_Categories"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public F_S_ElementsRow[] GetF_S_ElementsRows() {
                 if ((this.Table.ChildRelations["FK_F_S_Elements_F_S_Categories"] == null)) {
                     return new F_S_ElementsRow[0];
                 }
                 else {
                     return ((F_S_ElementsRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_S_Elements_F_S_Categories"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_Category_ParametersRow[] GetF_nn_Category_ParametersRows() {
+                if ((this.Table.ChildRelations["FK_F_nn_Category_Parameters_F_S_Categories"] == null)) {
+                    return new F_nn_Category_ParametersRow[0];
+                }
+                else {
+                    return ((F_nn_Category_ParametersRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_nn_Category_Parameters_F_S_Categories"])));
                 }
             }
         }
@@ -4758,23 +4815,23 @@ namespace AR_ApartmentBase.Model.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_S_CategoriesRow F_S_CategoriesRow {
-                get {
-                    return ((F_S_CategoriesRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_S_Elements_F_S_Categories"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_S_Elements_F_S_Categories"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public F_S_FamilyInfosRow F_S_FamilyInfosRow {
                 get {
                     return ((F_S_FamilyInfosRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_S_Elements_F_S_FamilyInfos"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_F_S_Elements_F_S_FamilyInfos"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_S_CategoriesRow F_S_CategoriesRow {
+                get {
+                    return ((F_S_CategoriesRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_S_Elements_F_S_Categories"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_S_Elements_F_S_Categories"]);
                 }
             }
             
@@ -9165,15 +9222,6 @@ SELECT ID_FAMILY_INFO, FAMILY_NAME, FAMILY_SYMBOL FROM F_S_FamilyInfos WHERE (ID
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._f_S_ParametersTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._f_S_ParametersTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._f_nn_FlatModulesTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.F_nn_FlatModules.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
@@ -9198,6 +9246,15 @@ SELECT ID_FAMILY_INFO, FAMILY_NAME, FAMILY_SYMBOL FROM F_S_FamilyInfos WHERE (ID
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
                     result = (result + this._f_nn_Category_ParametersTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._f_S_ParametersTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._f_S_ParametersTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -9261,14 +9318,6 @@ SELECT ID_FAMILY_INFO, FAMILY_NAME, FAMILY_SYMBOL FROM F_S_FamilyInfos WHERE (ID
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._f_S_ParametersTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._f_S_ParametersTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             if ((this._f_nn_FlatModulesTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.F_nn_FlatModules.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
@@ -9290,6 +9339,14 @@ SELECT ID_FAMILY_INFO, FAMILY_NAME, FAMILY_SYMBOL FROM F_S_FamilyInfos WHERE (ID
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
                     result = (result + this._f_nn_Category_ParametersTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._f_S_ParametersTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._f_S_ParametersTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -9335,6 +9392,14 @@ SELECT ID_FAMILY_INFO, FAMILY_NAME, FAMILY_SYMBOL FROM F_S_FamilyInfos WHERE (ID
                     allChangedRows.AddRange(deletedRows);
                 }
             }
+            if ((this._f_S_ParametersTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._f_S_ParametersTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
             if ((this._f_nn_Category_ParametersTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.F_nn_Category_Parameters.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
@@ -9356,14 +9421,6 @@ SELECT ID_FAMILY_INFO, FAMILY_NAME, FAMILY_SYMBOL FROM F_S_FamilyInfos WHERE (ID
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._f_nn_FlatModulesTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._f_S_ParametersTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._f_S_ParametersTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }

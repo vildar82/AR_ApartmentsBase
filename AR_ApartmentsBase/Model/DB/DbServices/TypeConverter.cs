@@ -11,12 +11,12 @@ namespace AR_ApartmentBase.Model.DB.DbServices
    {
       public static string Point(Point3d pt)
       {
-         return $"{pt.X};{pt.Y};{pt.Z}";
+         return $"{pt.X.ToString("0.0000")};{pt.Y.ToString("0.0000")};{pt.Z.ToString("0.0000")}";
       }
 
       public static string Point(Vector3d vec)
       {
-         return $"{vec.X};{vec.Y};{vec.Z}";
+         return $"{vec.X.ToString("0.0000")};{vec.Y.ToString("0.0000")};{vec.Z.ToString("0.0000")}";
       }      
    }
 }
