@@ -11,6 +11,8 @@ using AR_ApartmentBase.Model.AcadServices;
 using System.Xml.Serialization;
 using System.Drawing;
 using AR_ApartmentBase.Model.Revit.Elements;
+using Autodesk.AutoCAD.ApplicationServices;
+using AR_ApartmentBase.Model.DB.DbServices;
 
 namespace AR_ApartmentBase.Model.Revit
 {   
@@ -31,8 +33,6 @@ namespace AR_ApartmentBase.Model.Revit
       public ObjectId IdBlRef { get; set; }
       
       public ObjectId IdBtr { get;  set; }
-      
-      public Extents3d Extents { get;  set; }  
 
       /// <summary>
       /// Модули в квартире.
@@ -52,8 +52,7 @@ namespace AR_ApartmentBase.Model.Revit
       /// <summary>
       /// Точка вставки бллока квартиры в Модели.
       /// </summary>      
-      public Point3d Position { get;  set; }
-      public Vector3d Direction { get; set; }
+      public Point3d Position { get;  set; }      
 
       /// <summary>
       /// Угол поворота блока квартиры.
@@ -61,6 +60,43 @@ namespace AR_ApartmentBase.Model.Revit
       public double Rotation { get;  set; }
 
       public List<Parameter> Parameters { get;  set; }
+
+      private bool _extentsAreDefined;
+      private bool _extentsIsNull;
+      private Extents3d _extentsInModel;
+      public Extents3d ExtentsInModel
+      {
+         get
+         {
+            if (!_extentsAreDefined)
+            {
+               _extentsAreDefined = true;
+               using (var blRef = IdBlRef.Open( OpenMode.ForRead, false, true)as BlockReference)
+               {
+                  try
+                  {
+                     _extentsInModel = blRef.GeometricExtents;
+
+                  }
+                  catch
+                  {
+                     _extentsIsNull = true;
+                  }                  
+               }
+            }
+            if (_extentsIsNull)
+            {
+               Application.ShowAlertDialog("Границы блока не определены");
+            }
+            return _extentsInModel;            
+         }
+      }
+
+      public Matrix3d BlockTransform { get; set; }
+      public Error Error { get; set; }
+
+      public string Direction { get; set; }
+      public string LocationPoint { get; set; }
 
       /// <summary>
       /// Создание блока для экспорта из id
@@ -71,20 +107,12 @@ namespace AR_ApartmentBase.Model.Revit
          BlockName = blName;
          IdBlRef = blRef.Id;
          IdBtr = blRef.BlockTableRecord;
+         BlockTransform = blRef.BlockTransform;
          Position = blRef.Position;
          Rotation = blRef.Rotation;
-         Direction = Element.GetDirection(blRef);
-         File = Path.Combine(Path.GetDirectoryName(IdBlRef.Database.Filename), BlockName + ".dwg");
-         try
-         {
-            Extents = blRef.GeometricExtents;
-         }
-         catch (System.Exception ex)
-         {
-            Logger.Log.Error(ex, "BlockToExport - blRef.GeometricExtents");
-            Inspector.AddError($"Не определены границы блока '{BlockName}' с точкой вставки {Position}",                
-               icon: System.Drawing.SystemIcons.Error);
-         }
+         Direction = Element.GetDirection(Rotation);
+         LocationPoint = TypeConverter.Point(Position);
+         File = Path.Combine(Path.GetDirectoryName(IdBlRef.Database.Filename), BlockName + ".dwg");         
 
          // Определение модулуй в квартире
          Modules = Module.GetModules(this);
@@ -209,6 +237,7 @@ namespace AR_ApartmentBase.Model.Revit
                }
             }
          }
+         apartments.Sort((a1, a2) => a1.BlockName.CompareTo(a2.BlockName));
          return apartments;
       }
 
@@ -218,6 +247,15 @@ namespace AR_ApartmentBase.Model.Revit
       public static bool IsBlockNameApartment(string blName)
       {
          return Regex.IsMatch(blName, Options.Instance.BlockApartmentNameMatch, RegexOptions.IgnoreCase);
+      }
+
+      public bool HasError()
+      {
+         if (Error != null)
+         {
+            return true;
+         }
+         return Modules.Any(m => m.HasError());
       }
    }
 }

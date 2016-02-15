@@ -17,6 +17,6 @@ namespace AR_ApartmentBase.Model.DB.DbServices
       public static string Point(Vector3d vec)
       {
          return $"{vec.X};{vec.Y};{vec.Z}";
-      }
+      }      
    }
 }

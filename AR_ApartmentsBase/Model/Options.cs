@@ -71,14 +71,14 @@ namespace AR_ApartmentBase.Model
       /// </summary>
       [Description("Имя семейства")]
       [DefaultValue("Имя параметра для имени семейства в блоках элементов в автокаде")]
-      public string ParameterFamilyName { get; set; } = "Имя семейства";
+      public string ParameterFamilyName { get; set; } = "FamilyName";
 
       /// <summary>
       /// Имя параметра для типоразмера семейства в блоках элементов в автокаде
       /// </summary>
       [Description("Тип семейства")]
       [DefaultValue("Имя параметра для типоразмера семейства в блоках элементов в автокаде")]
-      public string ParameterFamilySymbolName { get; set; } = "Тип семейства";
+      public string ParameterFamilySymbolName { get; set; } = "FamilySymbolName";
 
 
       public static Options Load()

@@ -12,9 +12,13 @@ namespace AR_ApartmentBase.Model.Revit
       public string Name { get;  set; }      
       public string Value { get;  set; }
 
-      public static List<Parameter> GetParameters(BlockReference blRef)
+      public static List<Parameter> GetParameters(BlockReference blRef, IRevitBlock rBlock)
       {
          List<Parameter> parameters = new List<Parameter>();
+
+         // Добавление параметров LocationPoint и Direction
+         parameters.Add(new Parameter() { Name = "LocationPoint", Value = rBlock.LocationPoint });
+         parameters.Add(new Parameter() { Name = "Direction", Value = rBlock.Direction });
 
          // считывание дин параметров
          defineDynParams(blRef, parameters);

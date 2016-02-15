@@ -15,74 +15,111 @@ using AR_ApartmentBase.Model.Revit;
 namespace AR_ApartmentBase.Model.Export
 {
    public partial class FormBlocksExport : Form
-   {
-      private BindingSource _binding;
+   {      
       private Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
 
-      public FormBlocksExport(List<Apartment> blocksToExport)
+      public FormBlocksExport(List<Apartment> apartments)
       {
          InitializeComponent();
 
-         _binding = new BindingSource();
-         _binding.ListChanged += labelCountUpdate;
-         _binding.DataSource = blocksToExport;
+         labelCount.Text = apartments.Count.ToString();
 
-         listBoxBlocksToExport.DisplayMember = "Name";         
-         listBoxBlocksToExport.DataSource = _binding;         
+         fillTreeView(apartments);        
       }
 
-      private void buttonShow_Click(object sender, EventArgs e)
-      {
-         Apartment blockToExp =listBoxBlocksToExport.SelectedItem as Apartment;
-         if (blockToExp != null && blockToExp.Extents.Diagonal()>0)
-         {  
-            ed.Zoom(blockToExp.Extents);
-         }
-      }
-
-      private void listBoxBlocksToExport_MouseDoubleClick(object sender, MouseEventArgs e)
+      private void treeViewApartments_DoubleClick(object sender, EventArgs e)
       {
          buttonShow_Click(null, null);
       }
 
-      private void listBoxBlocksToExport_DrawItem(object sender, DrawItemEventArgs e)
+      private void buttonShow_Click(object sender, EventArgs e)
       {
-         ListBox list = (ListBox)sender;
-         if (e.Index > -1)
+         // TreeView         
+         var block = treeViewApartments.SelectedNode?.Tag as IRevitBlock;
+         if (block !=null)
          {
-            e.DrawBackground();
-            e.DrawFocusRectangle();
-
-            Apartment blToExport = list.Items[e.Index] as Apartment;
-            if (blToExport != null)
-            {
-               Brush brush;
-               if (File.Exists(blToExport.File))
-               {
-                  brush = Brushes.Red;
-               }
-               else
-               {
-                  brush = Brushes.Black;
-               }                                            
-               e.Graphics.DrawString(blToExport.BlockName, e.Font, brush, e.Bounds.X, e.Bounds.Y);
-            }
+            ed.Zoom(block.ExtentsInModel);
          }
-      }
-
-      private void listBoxBlocksToExport_MeasureItem(object sender, MeasureItemEventArgs e)
-      {
-         e.ItemHeight = listBoxBlocksToExport.Font.Height;
-      }
-
-      private void labelCountUpdate(object sender, EventArgs e)
-      {
-         labelCount.Text = _binding.Count.ToString();
-      }
+      }      
 
       private void buttonOptions_Click(object sender, EventArgs e)
       {
          Options.Show();
+      }
+
+      private void fillTreeView(List<Apartment> apartments)
+      {
+         treeViewApartments.Nodes.Clear();
+         foreach (var apart in apartments)
+         {
+            TreeNode nodeApart = new TreeNode(apart.BlockName);
+            nodeApart.Tag = (IRevitBlock)apart;
+            treeViewApartments.Nodes.Add(nodeApart);
+
+            foreach (var module in apart.Modules)
+            {
+               TreeNode nodeModule = new TreeNode(module.BlockName);
+               nodeApart.Nodes.Add(nodeModule);
+               nodeModule.Tag = (IRevitBlock)module;
+
+               foreach (var elem in module.Elements)
+               {
+                  TreeNode nodeElem = new TreeNode(elem.BlockName);
+                  nodeModule.Nodes.Add(nodeElem);
+                  nodeElem.Tag = (IRevitBlock)elem;
+               }
+            }
+         }
+      }
+
+      private void treeViewApartments_DrawNode(object sender, DrawTreeNodeEventArgs e)
+      {
+            Brush brush;
+            IRevitBlock rBlock = e.Node.Tag as IRevitBlock;
+            if (rBlock != null)
+            {
+               brush  = rBlock.HasError() ? Brushes.Red : Brushes.Green;
+            }
+            else
+            {
+               brush = Brushes.Black;
+            }                        
+            
+            //e.Graphics.FillRectangle(brush, e.Node.Bounds);
+
+            // Retrieve the node font. If the node font has not been set,
+            // use the TreeView font.
+            System.Drawing.Font nodeFont = e.Node.NodeFont;
+            if (nodeFont == null) nodeFont = ((TreeView)sender).Font;
+
+            // Draw the node text.
+            e.Graphics.DrawString(e.Node.Text, nodeFont, brush,
+                Rectangle.Inflate(e.Bounds, 2, 0));         
+
+
+         //// If the node has focus, draw the focus rectangle large, making
+         //// it large enough to include the text of the node tag, if present.
+         //if ((e.State & TreeNodeStates.Focused) != 0)
+         //{
+         //   using (Pen focusPen = new Pen(Color.Black))
+         //   {
+         //      focusPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+         //      Rectangle focusBounds = e.Node.Bounds;
+         //      focusBounds.Size = new Size(focusBounds.Width - 1,
+         //      focusBounds.Height - 1);
+         //      e.Graphics.DrawRectangle(focusPen, focusBounds);
+         //   }
+         //}
+      }
+
+      private void treeViewApartments_AfterSelect(object sender, TreeViewEventArgs e)
+      {
+         textBoxInfo.Text = string.Empty;
+         var rBlock = e?.Node?.Tag as IRevitBlock;
+         if (rBlock != null && rBlock.Error !=null)
+         {
+            textBoxInfo.Text = rBlock.Error.Message;
+         }
       }
    }
 }

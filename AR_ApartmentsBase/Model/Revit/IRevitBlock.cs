@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
 namespace AR_ApartmentBase.Model.Revit
@@ -30,11 +31,32 @@ namespace AR_ApartmentBase.Model.Revit
       /// <summary>
       /// Направление - единичный вектор
       /// </summary>
-      Vector3d Direction { get; }
+      string Direction { get; }
+      string LocationPoint { get; }
 
       /// <summary>
       /// Параметры элемента
       /// </summary>
       List<Parameter> Parameters { get; }      
+
+      /// <summary>
+      /// Границы блока в Модели
+      /// </summary>
+      Extents3d ExtentsInModel { get; }
+
+      /// <summary>
+      /// Трансформация блока.
+      /// </summary>
+      Matrix3d BlockTransform { get; }
+
+      /// <summary>
+      /// Описание ошибки элемента если есть.
+      /// </summary>
+      AcadLib.Errors.Error Error { get; }
+
+      /// <summary>
+      /// Есть ли ошибки
+      /// </summary>      
+      bool HasError();
    }
 }

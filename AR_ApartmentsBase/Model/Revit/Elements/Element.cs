@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using AcadLib.Errors;
+using AR_ApartmentBase.Model.DB.DbServices;
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
@@ -28,8 +30,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
       /// <summary>
       /// Точка вставки относительно базовой точки квартиры
       /// </summary>      
-      public Point3d Position { get; set; }
-      public Vector3d Direction { get; set; }
+      public Point3d Position { get; set; }      
 
       /// <summary>
       /// Поворот относительно 0 в блоке квартиры
@@ -46,7 +47,45 @@ namespace AR_ApartmentBase.Model.Revit.Elements
       public ObjectId IdBtrElement { get; set; }
       
       [XmlIgnore]
-      public Module Module { get;  set; }      
+      public Module Module { get;  set; }
+
+      public Matrix3d BlockTransform { get; set; }
+      public Error Error { get; set; }
+
+      private bool _extentsAreDefined;
+      private bool _extentsIsNull;
+      private Extents3d _extentsInModel;
+      public Extents3d ExtentsInModel
+      {
+         get
+         {
+            if (!_extentsAreDefined)
+            {
+               _extentsAreDefined = true;
+               using (var blRef = IdBlRefElement.Open(OpenMode.ForRead, false, true) as BlockReference)
+               {
+                  try
+                  {
+                     _extentsInModel = blRef.GeometricExtents;
+                     _extentsInModel.TransformBy(Module.BlockTransform*Module.Apartment.BlockTransform);
+
+                  }
+                  catch
+                  {
+                     _extentsIsNull = true;
+                  }
+               }
+            }
+            if (_extentsIsNull)
+            {
+               Application.ShowAlertDialog("Границы блока не определены");
+            }
+            return _extentsInModel;
+         }
+      }
+
+      public string Direction { get; set; }
+      public string LocationPoint { get; set; }
 
       public Element(BlockReference blRefElem, Module module, string blName)
       {
@@ -54,11 +93,13 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          Module = module;
          IdBlRefElement = blRefElem.Id;
          IdBtrElement = blRefElem.BlockTableRecord;
-         Position = blRefElem.Position;
-         Rotation = blRefElem.Rotation;
-         Direction = GetDirection(blRefElem);
+         BlockTransform = blRefElem.BlockTransform;
+         Position = blRefElem.Position.TransformBy(module.BlockTransform);
+         Rotation = blRefElem.Rotation+module.Rotation;
+         Direction = Element.GetDirection(Rotation);
+         LocationPoint = TypeConverter.Point(Position);
 
-         Parameters = Parameter.GetParameters(blRefElem);
+         Parameters = Parameter.GetParameters(blRefElem, this);
 
          FamilyName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilyName));
          FamilySymbolName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilySymbolName));
@@ -104,6 +145,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                }
             }
          }
+         elements.Sort((e1, e2) => e1.BlockName.CompareTo(e2.BlockName));
          return elements;
       }
 
@@ -123,10 +165,16 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          return false;
       }      
 
-      public static Vector3d GetDirection (BlockReference blRef)
+      public static string GetDirection (double rotation)
       {
          Vector3d direction = new Vector3d(1, 0, 0);
-         return direction.RotateBy(blRef.Rotation, Vector3d.ZAxis);
+         direction = direction.RotateBy(rotation, Vector3d.ZAxis);
+         return TypeConverter.Point(direction);
+      }
+
+      public bool HasError()
+      {
+         return Error != null;
       }
    }
 }

@@ -99,6 +99,10 @@
     <Compile Include="Commands.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Model\AcadServices\LayerService.cs" />
+    <Compile Include="Model\DB\CheckApartments.cs" />
+    <Compile Include="Model\DB\DataSet.cs">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Model\DB\DataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -106,12 +110,6 @@
     </Compile>
     <Compile Include="Model\DB\DbServices\TypeConverter.cs" />
     <Compile Include="Model\DB\ExportDB.cs" />
-    <Compile Include="Model\DB\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Model\DB\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Model\FormOptions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,7 +142,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="AutoCADNetLoad.scr" />
     <None Include="Model\DB\DataSet.xsc">
       <DependentUpon>DataSet.xsd</DependentUpon>
@@ -162,9 +159,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Model\DB\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Model\Export\FormBlocksExport.resx">
       <DependentUpon>FormBlocksExport.cs</DependentUpon>
     </EmbeddedResource>

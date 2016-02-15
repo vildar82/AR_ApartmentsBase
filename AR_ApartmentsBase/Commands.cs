@@ -81,26 +81,48 @@ namespace AR_ApartmentBase
             }
             ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир.");
 
+            //Проверка всех элементов квартир в базе - категории, параметры.
+            CheckApartments.Check(apartments);
+
             // Форма предпросмотра экспорта блоков
             FormBlocksExport formExport = new FormBlocksExport(apartments);
             if (Application.ShowModalDialog(formExport) == System.Windows.Forms.DialogResult.OK)
             {
-               // Экспорт блоков в файлы
-               var count = Apartment.ExportToFiles(apartments);
-               ed.WriteMessage($"\nЭкспортированно {count} квартиры.");
+               // Экспорт только блоков квартир без ошибок.
+               var apartmentsToExport = apartments.Where(a => !a.HasError()).ToList();
 
-               // Запись в DB
-               ExportDB exportDb = new ExportDB();
-               exportDb.Export(apartments);
+               // Экспорт блоков в файлы
+               var count = Apartment.ExportToFiles(apartmentsToExport);
+               ed.WriteMessage($"\nЭкспортированно {count} квартиры.");
 
                // Запись квартир в xml
                string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");
-               Apartment.ExportToXML(fileXml, apartments);               
+               try
+               {
+                  Apartment.ExportToXML(fileXml, apartmentsToExport);
+               }
+               catch(System.Exception ex)
+               {
+                  Inspector.AddError($"Ошибка экспорта в xml - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
+                  //Logger.Log.Error(ex, "Запись квартир в xml");
+               }
+
+               // Запись в DB
+               ExportDB exportDb = new ExportDB();
+               try
+               {
+                  exportDb.Export(apartmentsToExport);
+               }
+               catch (System.Exception ex)
+               {
+                  Inspector.AddError($"Ошибка экспорта в БД - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
+                  //Logger.Log.Error(ex, "Запись в DB");
+               }               
 
                // Запись лога экспортированных блоков      
                string logFile = Path.Combine(Path.GetDirectoryName(doc.Name), Options.Instance.LogFileName);
                ExcelLog excelLog = new ExcelLog(logFile);
-               excelLog.AddtoLog(apartments);
+               excelLog.AddtoLog(apartmentsToExport);
 
                // Показ ошибок
                if (Inspector.HasErrors)
