@@ -33,9 +33,9 @@
          this.buttonCancel = new System.Windows.Forms.Button();
          this.buttonOk = new System.Windows.Forms.Button();
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-         this.labelCount = new System.Windows.Forms.Label();
          this.buttonOptions = new System.Windows.Forms.Button();
          this.buttonShow = new System.Windows.Forms.Button();
+         this.labelCount = new System.Windows.Forms.Label();
          this.SuspendLayout();
          // 
          // listBoxBlocksToExport
@@ -48,7 +48,7 @@
          this.listBoxBlocksToExport.FormattingEnabled = true;
          this.listBoxBlocksToExport.Location = new System.Drawing.Point(12, 12);
          this.listBoxBlocksToExport.Name = "listBoxBlocksToExport";
-         this.listBoxBlocksToExport.Size = new System.Drawing.Size(373, 310);
+         this.listBoxBlocksToExport.Size = new System.Drawing.Size(444, 323);
          this.listBoxBlocksToExport.TabIndex = 0;
          this.toolTip1.SetToolTip(this.listBoxBlocksToExport, "Выбранные блоки для экспорта по своим файлам. Красным помечены блоки файлы которы" +
         "х уже существуют.");
@@ -60,7 +60,7 @@
          // 
          this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
          this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-         this.buttonCancel.Location = new System.Drawing.Point(310, 358);
+         this.buttonCancel.Location = new System.Drawing.Point(381, 371);
          this.buttonCancel.Name = "buttonCancel";
          this.buttonCancel.Size = new System.Drawing.Size(75, 23);
          this.buttonCancel.TabIndex = 1;
@@ -71,7 +71,7 @@
          // 
          this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
          this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-         this.buttonOk.Location = new System.Drawing.Point(229, 358);
+         this.buttonOk.Location = new System.Drawing.Point(300, 371);
          this.buttonOk.Name = "buttonOk";
          this.buttonOk.Size = new System.Drawing.Size(75, 23);
          this.buttonOk.TabIndex = 1;
@@ -79,21 +79,12 @@
          this.toolTip1.SetToolTip(this.buttonOk, "Выполнить экспорт блоков");
          this.buttonOk.UseVisualStyleBackColor = true;
          // 
-         // labelCount
-         // 
-         this.labelCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-         this.labelCount.AutoSize = true;
-         this.labelCount.Location = new System.Drawing.Point(18, 325);
-         this.labelCount.Name = "labelCount";
-         this.labelCount.Size = new System.Drawing.Size(16, 13);
-         this.labelCount.TabIndex = 3;
-         this.labelCount.Text = "-1";
-         // 
          // buttonOptions
          // 
+         this.buttonOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonOptions.BackgroundImage = global::AR_ApartmentBase.Properties.Resources.options;
          this.buttonOptions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-         this.buttonOptions.Location = new System.Drawing.Point(117, 358);
+         this.buttonOptions.Location = new System.Drawing.Point(117, 371);
          this.buttonOptions.Name = "buttonOptions";
          this.buttonOptions.Size = new System.Drawing.Size(30, 30);
          this.buttonOptions.TabIndex = 4;
@@ -106,7 +97,7 @@
          this.buttonShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonShow.BackgroundImage = global::AR_ApartmentBase.Properties.Resources.Show;
          this.buttonShow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-         this.buttonShow.Location = new System.Drawing.Point(12, 353);
+         this.buttonShow.Location = new System.Drawing.Point(12, 366);
          this.buttonShow.Name = "buttonShow";
          this.buttonShow.Size = new System.Drawing.Size(41, 32);
          this.buttonShow.TabIndex = 2;
@@ -114,13 +105,23 @@
          this.buttonShow.UseVisualStyleBackColor = true;
          this.buttonShow.Click += new System.EventHandler(this.buttonShow_Click);
          // 
+         // labelCount
+         // 
+         this.labelCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+         this.labelCount.AutoSize = true;
+         this.labelCount.Location = new System.Drawing.Point(18, 338);
+         this.labelCount.Name = "labelCount";
+         this.labelCount.Size = new System.Drawing.Size(16, 13);
+         this.labelCount.TabIndex = 3;
+         this.labelCount.Text = "-1";
+         // 
          // FormBlocksExport
          // 
          this.AcceptButton = this.buttonOk;
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.CancelButton = this.buttonCancel;
-         this.ClientSize = new System.Drawing.Size(397, 393);
+         this.ClientSize = new System.Drawing.Size(468, 406);
          this.Controls.Add(this.buttonOptions);
          this.Controls.Add(this.labelCount);
          this.Controls.Add(this.buttonShow);
