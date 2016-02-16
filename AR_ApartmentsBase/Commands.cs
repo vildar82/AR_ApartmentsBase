@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AcadLib.Errors;
 using AR_ApartmentBase.Model;
-using AR_ApartmentBase.Model.DB;
 using AR_ApartmentBase.Model.DB.EntityModel;
 using AR_ApartmentBase.Model.Export;
 using AR_ApartmentBase.Model.Revit;
@@ -22,27 +21,27 @@ namespace AR_ApartmentBase
 {
    public class Commands
    {
-      [CommandMethod("PIK", "AR-ExportApartmentsAbout", CommandFlags.Modal)]
+      [CommandMethod("PIK", "AR-BaseApartmentsAbout", CommandFlags.Modal)]
       public void ExportApartmentsAbout()
       {
-         Logger.Log.Info("Start command AR-ExportApartmentsAbout");
-         Document doc = Application.DocumentManager.MdiActiveDocument;         
+         Logger.Log.Info("Start command AR-BaseApartmentsAbout");
+         Document doc = Application.DocumentManager.MdiActiveDocument;
          if (doc == null) return;
 
          Editor ed = doc.Editor;
 
          ed.WriteMessage($"\nПрограмма экспорта блоков квартир. Версия {Assembly.GetExecutingAssembly().GetName().Version}");
          ed.WriteMessage("\nКоманды:");
-         ed.WriteMessage("\nAR-ExportApartments - экспорт блоков квартир найденных в Модели в отдельные файлы и в базу.\n" +
+         ed.WriteMessage("\nAR-BaseApartmentsExport - экспорт блоков квартир найденных в Модели в отдельные файлы и в базу.\n" +
                           $"Имя блока квартиры должно соответствовать {Options.Instance.BlockApartmentNameMatch}");
-         ed.WriteMessage("\nAR-ExportApartmentsOptions - настройки программы.");
-         ed.WriteMessage("\nAR-ExportApartmentsAbout - описание программы.");
+         ed.WriteMessage("\nAR-BaseApartmentsOptions - настройки программы.");
+         ed.WriteMessage("\nAR-BaseApartmentsAbout - описание программы.");
       }
 
-      [CommandMethod("PIK", "AR-ExportApartmentsOptions", CommandFlags.Modal)]
+      [CommandMethod("PIK", "AR-BaseApartmentsOptions", CommandFlags.Modal)]
       public void ExportApartmentsOptions()
       {
-         Logger.Log.Info("Start command AR-ExportApartmentsOptions");
+         Logger.Log.Info("Start command AR-BaseApartmentsOptions");
          Document doc = Application.DocumentManager.MdiActiveDocument;
          if (doc == null) return;
 
@@ -52,10 +51,10 @@ namespace AR_ApartmentBase
       /// <summary>
       /// Поиск квартир в Модели и экспорт в отдельные файлы каждой квартиры, и експорт в базу.
       /// </summary>
-      [CommandMethod("PIK", "AR-ExportApartments", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
-      public void ExportApartments()
+      [CommandMethod("PIK", "AR-BaseApartmentsExport", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
+      public void BaseApartmentsExport()
       {
-         Logger.Log.Info("Start command AR-ExportApartments");
+         Logger.Log.Info("Start command AR-BaseApartmentsExport");
          Document doc = Application.DocumentManager.MdiActiveDocument;
          if (doc == null) return;
 
@@ -83,7 +82,7 @@ namespace AR_ApartmentBase
             ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир.");
 
             //Проверка всех элементов квартир в базе - категории, параметры.
-            Model.DB.EntityModel.CheckApartments.Check(apartments);
+            CheckApartments.Check(apartments);
 
             // Форма предпросмотра экспорта блоков
             FormBlocksExport formExport = new FormBlocksExport(apartments);
@@ -96,23 +95,20 @@ namespace AR_ApartmentBase
                var count = Apartment.ExportToFiles(apartmentsToExport);
                ed.WriteMessage($"\nЭкспортированно {count} квартиры.");
 
-               // Запись квартир в xml
-               string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");               
-               Apartment.ExportToXML(fileXml, apartmentsToExport);               
+               //// Запись квартир в xml
+               //string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");               
+               //Apartment.ExportToXML(fileXml, apartmentsToExport);               
 
                // Запись в DB               
                try
                {
-                  ExportModel exportModel = new ExportModel();
+                  BaseApartments exportModel = new BaseApartments();
                   exportModel.Export(apartmentsToExport);
-                  //ExportDB exportDb = new ExportDB();
-                  //exportDb.Export(apartmentsToExport);
                }
                catch (System.Exception ex)
                {
                   Inspector.AddError($"Ошибка экспорта в БД - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
-                  //Logger.Log.Error(ex, "Запись в DB");
-               }               
+               }
 
                // Запись лога экспортированных блоков      
                string logFile = Path.Combine(Path.GetDirectoryName(doc.Name), Options.Instance.LogFileName);
@@ -131,9 +127,34 @@ namespace AR_ApartmentBase
             doc.Editor.WriteMessage($"\nОшибка экспорта блоков: {ex.Message}");
             if (!ex.Message.Contains("Отменено пользователем"))
             {
-               Logger.Log.Error(ex, $"Command: AR-ExportApartments. {doc.Name}");
+               Logger.Log.Error(ex, $"Command: AR-BaseApartmentsExport. {doc.Name}");
             }
-         }         
+         }
+      }
+
+      /// <summary>
+      /// Очистка базы квартир.
+      /// </summary>
+      [CommandMethod("PIK", "AR-BaseApartmentsClear", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
+      public void BaseApartmentsClear()
+      {
+         Logger.Log.Info("Start command AR-BaseApartmentsClear");
+         Document doc = Application.DocumentManager.MdiActiveDocument;
+         if (doc == null) return;
+
+         try
+         {
+            BaseApartments baseApartments = new BaseApartments();
+            baseApartments.Clear();
+         }
+         catch (System.Exception ex)
+         {
+            doc.Editor.WriteMessage($"\nОшибка очистки базы: {ex.Message}");
+            if (!ex.Message.Contains("Отменено пользователем"))
+            {
+               Logger.Log.Error(ex, $"Command: AR-BaseApartmentsClear. {doc.Name}");
+            }
+         }
       }
    }
-}
+}        

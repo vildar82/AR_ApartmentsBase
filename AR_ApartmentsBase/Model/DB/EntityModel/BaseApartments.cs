@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Data.Entity;
 using System.Data.Entity.Core.EntityClient;
 using System.Linq;
 using System.Text;
@@ -12,16 +13,46 @@ using AR_ApartmentBase.Properties;
 
 namespace AR_ApartmentBase.Model.DB.EntityModel
 {
-   public class ExportModel
+   public class BaseApartments
    {
       private SAPREntities entities;
 
-      public void Export (List<Apartment> apartments)
-      {         
-         DbConnection dbCon = new EntityConnection(Settings.Default.SaprCon);         
-         using (entities = new SAPREntities(dbCon))
-         {
+      public static SAPREntities NewEntities()
+      {
+         return new SAPREntities(new EntityConnection(Settings.Default.SaprCon));
+      }
 
+      /// <summary>
+      /// Очистка базы
+      /// </summary>
+      public void Clear()
+      {
+         using (var entities = NewEntities())
+         {
+            entities.F_S_FamilyInfos.RemoveRange(entities.F_S_FamilyInfos);
+            entities.F_nn_FlatModules.RemoveRange(entities.F_nn_FlatModules);            
+
+            entities.SaveChanges();
+         }
+      }
+
+      /// <summary>
+      /// Экспорт квартир в базу
+      /// </summary>      
+      public void Export (List<Apartment> apartments)
+      {
+         using (entities = NewEntities())
+         {
+            // Загрузка таблиц
+            entities.F_R_Flats.Load();
+            entities.F_R_Modules.Load();
+            entities.F_nn_FlatModules.Load();
+            entities.F_nn_ElementParam_Value.Load();
+            entities.F_nn_Elements_FlatModules.Load();
+            entities.F_S_Elements.Load();
+            entities.F_S_FamilyInfos.Load();            
+
+            bool hasError = false;
             foreach (Apartment apart in apartments)
             {
                try
@@ -48,31 +79,35 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                         // Заполнение параметров элемента
                         setElemParams(efmEnt, elemEnt, elem);
                      }
-                  }
-                  // Сохранение изменений
-                  entities.SaveChanges();
+                  }                  
                }
                catch (Exception ex)
                {
                   Inspector.AddError(ex.Message, icon: System.Drawing.SystemIcons.Error);
+                  hasError = true;
                }
             }
+            if (!hasError)
+            {
+               // Сохранение изменений
+               entities.SaveChanges();
+            }            
          }
       }      
 
       private F_R_Flats getFlat(Apartment apart)
       {
-         var flatEnt = entities.F_R_Flats.SingleOrDefault(f => f.WORKNAME.Equals(apart.BlockName, StringComparison.OrdinalIgnoreCase));
+         var flatEnt = entities.F_R_Flats.Local.SingleOrDefault(f => f.WORKNAME.Equals(apart.BlockName, StringComparison.OrdinalIgnoreCase));
          if (flatEnt == null)
          {
-            flatEnt = entities.F_R_Flats.Add(new F_R_Flats() { WORKNAME = apart.BlockName });
+            flatEnt = entities.F_R_Flats.Add(new F_R_Flats() { WORKNAME = apart.BlockName, COMMERCIAL_NAME = "" });
          }
          return flatEnt;
       }
 
       private F_R_Modules getModuleRow(Module module)
       {
-         var moduleEnt = entities.F_R_Modules.SingleOrDefault(m => m.NAME_MODULE.Equals(module.BlockName, StringComparison.OrdinalIgnoreCase));
+         var moduleEnt = entities.F_R_Modules.Local.SingleOrDefault(m => m.NAME_MODULE.Equals(module.BlockName, StringComparison.OrdinalIgnoreCase));
          if (moduleEnt == null)
          {
             moduleEnt = entities.F_R_Modules.Add(new F_R_Modules() { NAME_MODULE = module.BlockName });
@@ -82,10 +117,11 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
       private F_nn_FlatModules getFlatModuleRow(F_R_Flats flatEnt, F_R_Modules moduleEnt, Module module)
       {
-         var fmEnt = entities.F_nn_FlatModules.SingleOrDefault(fm => fm.ID_FLAT == flatEnt.ID_FLAT &&
-                                                   fm.ID_MODULE == moduleEnt.ID_MODULE &&
-                                                   fm.LOCATION == module.LocationPoint &&
-                                                   fm.DIRECTION == module.Direction);
+         var fmEnt = entities.F_nn_FlatModules.Local.SingleOrDefault(fm => 
+                                    fm.ID_FLAT == flatEnt.ID_FLAT &&
+                                    fm.ID_MODULE == moduleEnt.ID_MODULE &&
+                                    fm.LOCATION == module.LocationPoint &&
+                                    fm.DIRECTION == module.Direction);
          if (fmEnt == null)
          {
             fmEnt = entities.F_nn_FlatModules.Add(new F_nn_FlatModules()
@@ -94,7 +130,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                F_R_Modules = moduleEnt,
                LOCATION = module.LocationPoint,
                DIRECTION = module.Direction,
-               REVISION = 0
+               REVISION = 0                
             });
          }
          return fmEnt;
@@ -105,7 +141,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          // Категория элемента
          var catEnt = entities.F_S_Categories.Single(c => c.NAME_RUS_CATEGORY.Equals(elem.TypeElement, StringComparison.OrdinalIgnoreCase));
          // Семейство элемента
-         var famInfoEnt = entities.F_S_FamilyInfos.SingleOrDefault(f =>
+         var famInfoEnt = entities.F_S_FamilyInfos.Local.SingleOrDefault(f =>
                   f.FAMILY_NAME.Equals(elem.FamilyName.Value, StringComparison.OrdinalIgnoreCase) &&
                   f.FAMILY_SYMBOL.Equals(elem.FamilySymbolName.Value, StringComparison.OrdinalIgnoreCase));
          if (famInfoEnt == null)
@@ -113,24 +149,28 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             famInfoEnt = entities.F_S_FamilyInfos.Add(new F_S_FamilyInfos()
             {
                FAMILY_NAME = elem.FamilyName.Value,
-               FAMILY_SYMBOL = elem.FamilySymbolName.Value,                
+               FAMILY_SYMBOL = elem.FamilySymbolName.Value                                              
             });
          }
 
          // Елемент
-         var elemEnt = entities.F_S_Elements.SingleOrDefault(e => 
+         var elemEnt = entities.F_S_Elements.Local.SingleOrDefault(e => 
                   e.ID_CATEGORY == catEnt.ID_CATEGORY &&
                   e.ID_FAMILY_INFO == famInfoEnt.ID_FAMILY_INFO);
          if (elemEnt == null)
          {
-            elemEnt = entities.F_S_Elements.Add(new F_S_Elements() { F_S_Categories = catEnt, F_S_FamilyInfos = famInfoEnt });
+            elemEnt = entities.F_S_Elements.Add(new F_S_Elements()
+            {
+               F_S_Categories = catEnt,
+               F_S_FamilyInfos = famInfoEnt                
+            });
          }
          return elemEnt;
       }
 
       private F_nn_Elements_FlatModules getElemInFM(F_nn_FlatModules fmEnt, F_S_Elements elemEnt, Element elem)
       {
-         var efmEnt = entities.F_nn_Elements_FlatModules.SingleOrDefault(efm =>
+         var efmEnt = entities.F_nn_Elements_FlatModules.Local.SingleOrDefault(efm =>
                efm.ID_FLAT_MODULE == fmEnt.ID_FLAT_MODULE &&
                efm.ID_ELEMENT == elemEnt.ID_ELEMENT &&
                efm.LOCATION_POINT.Equals(elem.LocationPoint, StringComparison.OrdinalIgnoreCase) &&
@@ -143,11 +183,11 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                F_nn_FlatModules = fmEnt,
                F_S_Elements = elemEnt,
                LOCATION_POINT = elem.LocationPoint,
-               DIRECTION = elem.Direction
+               DIRECTION = elem.Direction               
             });
          }
          return efmEnt;
-      }
+      }     
 
       private void setElemParams(F_nn_Elements_FlatModules efmEnt, F_S_Elements elemEnt, Element elem)
       {
@@ -155,17 +195,14 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          var cpEnts = entities.F_nn_Category_Parameters.Where(cp => cp.ID_CATEGORY == elemEnt.ID_CATEGORY);
          foreach (var cp in cpEnts)
          {
-            // Поиск параметра и его типа
-            var paramEnt = entities.F_S_Parameters.Single(p => p.ID_PARAMETER == cp.ID_PARAMETER);
-
             // Поиск этого параметра в блоке
-            var param = elem.Parameters.Find(p => p.Name.Equals(paramEnt.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
+            var param = elem.Parameters.Find(p => p.Name.Equals(cp.F_S_Parameters.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
 
-            // Проверка естьли уже такая запись в таблице F_nn_ElementParam_Value - елем-кв-модуля и значения параметра
-            var val = entities.F_nn_ElementParam_Value.SingleOrDefault(epv => 
+            // Проверка есть ли уже такая запись в таблице F_nn_ElementParam_Value - елем-кв-модуля и значения параметра
+            var val = entities.F_nn_ElementParam_Value.Local.SingleOrDefault(epv => 
                epv.ID_ELEMENT_IN_FM == efmEnt.ID_ELEMENT_IN_FM &&
                epv.ID_CAT_PARAMETER == cp.ID_CAT_PARAMETER &&
-               epv.PARAMETER_VALUE.Equals(param.Value));
+               epv.PARAMETER_VALUE.Equals(param.Value, StringComparison.OrdinalIgnoreCase));
 
             // если нет, то добавление
             if (val == null)
@@ -174,7 +211,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                {
                   F_nn_Category_Parameters = cp,
                   F_nn_Elements_FlatModules = efmEnt,
-                  PARAMETER_VALUE = param.Value
+                  PARAMETER_VALUE = param.Value                  
                });
             }
          }

@@ -26,7 +26,7 @@ namespace AR_ApartmentBase.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("metadata=res://*/Model.DB.EntityModel.Model.csdl|res://*/Model.DB.EntityModel.Model.ssdl|res://*/Model.DB.EntityModel.Model.msl;provider=System.Data.SqlClient;provider connection string='data source=cad01pik;initial catalog=SAPR;persist security info=True;user id=cad_ar;password=qwerty!2345;MultipleActiveResultSets=True;App=EntityFramework';")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"metadata=res://*/Model.DB.EntityModel.Model.csdl|res://*/Model.DB.EntityModel.Model.ssdl|res://*/Model.DB.EntityModel.Model.msl;provider=System.Data.SqlClient;provider connection string=""data source=cad01pik;initial catalog=SAPR;persist security info=True;user id=cad_ar;password=qwerty!2345;MultipleActiveResultSets=True;App=EntityFramework""")]
         public string SaprCon {
             get {
                 return ((string)(this["SaprCon"]));

@@ -127,7 +127,7 @@
     <Compile Include="Model\AcadServices\LayerService.cs" />
     <Compile Include="Model\DB\DbServices\TypeConverter.cs" />
     <Compile Include="Model\DB\EntityModel\CheckApartments.cs" />
-    <Compile Include="Model\DB\EntityModel\ExportModel.cs" />
+    <Compile Include="Model\DB\EntityModel\BaseApartments.cs" />
     <Compile Include="Model\DB\EntityModel\F_nn_Category_Parameters.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -231,10 +231,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\Settings.settings">
+    <EmbeddedResource Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+    </EmbeddedResource>
     <None Include="Resources\Show.png" />
   </ItemGroup>
   <ItemGroup>
@@ -255,13 +255,6 @@
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
     <Content Include="Model\DB\EntityModel\ModelCopy.edmx.sql" />
-    <Content Include="Model\DB\EntityModel\Test\DatabaseTest.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Model\DB\EntityModel\Test\DatabaseTest_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>DatabaseTest.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
