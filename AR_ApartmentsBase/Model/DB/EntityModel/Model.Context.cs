@@ -9,17 +9,16 @@
 
 namespace AR_ApartmentBase.Model.DB.EntityModel
 {
-   using System;
-   using System.Data.Common;
-   using System.Data.Entity;
-   using System.Data.Entity.Infrastructure;
-
-   public partial class Entities : DbContext
+    using System;
+    using System.Data.Common;
+    using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
+    
+    public partial class SAPREntities : DbContext
     {
-        public Entities(DbConnection connectionString, bool contextOwnsConnection)
-            : base(connectionString, contextOwnsConnection)
+        public SAPREntities(DbConnection dbCon)
+            : base(dbCon, true)
         {
-            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

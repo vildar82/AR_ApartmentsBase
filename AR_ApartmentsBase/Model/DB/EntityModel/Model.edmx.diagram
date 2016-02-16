@@ -4,17 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="60cf5f8bcc0342ba902ff8fdcbbfccc2" Name="Diagram1">
-        <EntityTypeShape EntityType="SAPRModel.F_nn_Category_Parameters" Width="2.25" PointX="0.5" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SAPRModel.F_nn_Elements_FlatModules" Width="2.5" PointX="7.625" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="SAPRModel.F_nn_FlatModules" Width="2.125" PointX="7.625" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SAPRModel.F_R_Flats" Width="1.875" PointX="3.875" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SAPRModel.F_R_Modules" Width="1.5" PointX="11.625" PointY="0.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SAPRModel.F_S_Categories" Width="1.875" PointX="0.5" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SAPRModel.F_S_Elements" Width="1.5" PointX="7.875" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="SAPRModel.F_S_FamilyInfos" Width="1.5" PointX="12.875" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="SAPRModel.F_S_Parameters" Width="1.875" PointX="0.5" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SAPRModel.F_nn_ElementParam_Value" Width="2.5" PointX="4.125" PointY="4.125" IsExpanded="true" />
+      <Diagram DiagramId="9ff7d11456044a1d84a0b0c3e128ca7b" Name="Diagram1">
+        <EntityTypeShape EntityType="SAPRModel.F_nn_Category_Parameters" Width="2.125" PointX="0.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAPRModel.F_nn_Elements_FlatModules" Width="2.375" PointX="9.875" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAPRModel.F_nn_FlatModules" Width="2.625" PointX="6.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAPRModel.F_R_Flats" Width="1.5" PointX="4.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAPRModel.F_R_Modules" Width="1.5" PointX="10.125" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAPRModel.F_S_Categories" Width="1.5" PointX="0.5" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAPRModel.F_S_Elements" Width="1.5" PointX="7.125" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAPRModel.F_S_FamilyInfos" Width="1.5" PointX="9.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAPRModel.F_S_Parameters" Width="1.75" PointX="2.5" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAPRModel.F_nn_ElementParam_Value" Width="2.25" PointX="3.75" PointY="4.25" IsExpanded="true" />
         <AssociationConnector Association="SAPRModel.FK_F_nn_Category_Parameters_F_S_Categories" ManuallyRouted="false" />
         <AssociationConnector Association="SAPRModel.FK_F_nn_Category_Parameters_F_S_Parameters" ManuallyRouted="false" />
         <AssociationConnector Association="SAPRModel.FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" ManuallyRouted="false" />

@@ -17,6 +17,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         public int ID_ELEMENT_IN_FM { get; set; }
         public int ID_CAT_PARAMETER { get; set; }
         public string PARAMETER_VALUE { get; set; }
+        public int ID_ELEMENT_VALUE { get; set; }
     
         public virtual F_nn_Category_Parameters F_nn_Category_Parameters { get; set; }
         public virtual F_nn_Elements_FlatModules F_nn_Elements_FlatModules { get; set; }

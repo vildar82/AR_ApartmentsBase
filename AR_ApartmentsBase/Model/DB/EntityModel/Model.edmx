@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище SAPRModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище SAPRModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="F_nn_Category_Parameters">
           <Key>
             <PropertyRef Name="ID_CAT_PARAMETER" />
@@ -13,14 +13,11 @@
           <Property Name="ID_CATEGORY" Type="int" Nullable="false" />
           <Property Name="ID_PARAMETER" Type="int" Nullable="false" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "SAPR.dbo.F_nn_ElementParam_Value" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="F_nn_ElementParam_Value">
           <Key>
-            <PropertyRef Name="ID_ELEMENT_IN_FM" />
-            <PropertyRef Name="ID_CAT_PARAMETER" />
-            <PropertyRef Name="PARAMETER_VALUE" />
+            <PropertyRef Name="ID_ELEMENT_VALUE" />
           </Key>
+          <Property Name="ID_ELEMENT_VALUE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_ELEMENT_IN_FM" Type="int" Nullable="false" />
           <Property Name="ID_CAT_PARAMETER" Type="int" Nullable="false" />
           <Property Name="PARAMETER_VALUE" Type="nvarchar" MaxLength="250" Nullable="false" />
@@ -231,6 +228,7 @@
         </Association>
         <EntityContainer Name="Хранилище SAPRModelContainer">
           <EntitySet Name="F_nn_Category_Parameters" EntityType="Self.F_nn_Category_Parameters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="F_nn_ElementParam_Value" EntityType="Self.F_nn_ElementParam_Value" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="F_nn_Elements_FlatModules" EntityType="Self.F_nn_Elements_FlatModules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="F_nn_FlatModules" EntityType="Self.F_nn_FlatModules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="F_R_Flats" EntityType="Self.F_R_Flats" Schema="dbo" store:Type="Tables" />
@@ -239,13 +237,6 @@
           <EntitySet Name="F_S_Elements" EntityType="Self.F_S_Elements" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="F_S_FamilyInfos" EntityType="Self.F_S_FamilyInfos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="F_S_Parameters" EntityType="Self.F_S_Parameters" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="F_nn_ElementParam_Value" EntityType="Self.F_nn_ElementParam_Value" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [F_nn_ElementParam_Value].[ID_ELEMENT_IN_FM] AS [ID_ELEMENT_IN_FM], 
-    [F_nn_ElementParam_Value].[ID_CAT_PARAMETER] AS [ID_CAT_PARAMETER], 
-    [F_nn_ElementParam_Value].[PARAMETER_VALUE] AS [PARAMETER_VALUE]
-    FROM [dbo].[F_nn_ElementParam_Value] AS [F_nn_ElementParam_Value]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_F_nn_Category_Parameters_F_S_Categories" Association="Self.FK_F_nn_Category_Parameters_F_S_Categories">
             <End Role="F_S_Categories" EntitySet="F_S_Categories" />
             <End Role="F_nn_Category_Parameters" EntitySet="F_nn_Category_Parameters" />
@@ -287,8 +278,7 @@
             <End Role="F_S_Elements" EntitySet="F_S_Elements" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SAPRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -388,15 +378,14 @@
         </EntityType>
         <EntityType Name="F_nn_ElementParam_Value">
           <Key>
-            <PropertyRef Name="ID_ELEMENT_IN_FM" />
-            <PropertyRef Name="ID_CAT_PARAMETER" />
-            <PropertyRef Name="PARAMETER_VALUE" />
+            <PropertyRef Name="ID_ELEMENT_VALUE" />
           </Key>
           <Property Name="ID_ELEMENT_IN_FM" Type="Int32" Nullable="false" />
           <Property Name="ID_CAT_PARAMETER" Type="Int32" Nullable="false" />
           <Property Name="PARAMETER_VALUE" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="F_nn_Category_Parameters" Relationship="Self.FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" FromRole="F_nn_ElementParam_Value" ToRole="F_nn_Category_Parameters" />
           <NavigationProperty Name="F_nn_Elements_FlatModules" Relationship="Self.FK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules" FromRole="F_nn_ElementParam_Value" ToRole="F_nn_Elements_FlatModules" />
+          <Property Name="ID_ELEMENT_VALUE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <Association Name="FK_F_nn_Category_Parameters_F_S_Categories">
           <End Role="F_S_Categories" Type="Self.F_S_Categories" Multiplicity="1">
@@ -534,7 +523,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="false">
+        <EntityContainer Name="SAPREntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="F_nn_Category_Parameters" EntityType="Self.F_nn_Category_Parameters" />
           <EntitySet Name="F_nn_Elements_FlatModules" EntityType="Self.F_nn_Elements_FlatModules" />
           <EntitySet Name="F_nn_FlatModules" EntityType="Self.F_nn_FlatModules" />
@@ -591,7 +580,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище SAPRModelContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище SAPRModelContainer" CdmEntityContainer="SAPREntities">
           <EntitySetMapping Name="F_nn_Category_Parameters">
             <EntityTypeMapping TypeName="SAPRModel.F_nn_Category_Parameters">
               <MappingFragment StoreEntitySet="F_nn_Category_Parameters">
@@ -680,6 +669,7 @@
           <EntitySetMapping Name="F_nn_ElementParam_Value">
             <EntityTypeMapping TypeName="SAPRModel.F_nn_ElementParam_Value">
               <MappingFragment StoreEntitySet="F_nn_ElementParam_Value">
+                <ScalarProperty Name="ID_ELEMENT_VALUE" ColumnName="ID_ELEMENT_VALUE" />
                 <ScalarProperty Name="ID_ELEMENT_IN_FM" ColumnName="ID_ELEMENT_IN_FM" />
                 <ScalarProperty Name="ID_CAT_PARAMETER" ColumnName="ID_CAT_PARAMETER" />
                 <ScalarProperty Name="PARAMETER_VALUE" ColumnName="PARAMETER_VALUE" />
