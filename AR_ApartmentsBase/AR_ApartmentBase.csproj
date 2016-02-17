@@ -107,6 +107,10 @@
       <HintPath>..\..\..\Package\Excel\EPPlus.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -158,6 +162,7 @@
     <Compile Include="Model\DB\EntityModel\F_S_Parameters.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\DB\EntityModel\GetApartments.cs" />
     <Compile Include="Model\DB\EntityModel\Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -188,6 +193,7 @@
       <DependentUpon>FormBlocksExport.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Revit\Elements\Element.cs" />
+    <Compile Include="Model\Revit\EnumBaseStatus.cs" />
     <Compile Include="Model\Revit\IRevitBlock.cs" />
     <Compile Include="Model\Revit\Module.cs" />
     <Compile Include="Model\Revit\Parameter.cs" />

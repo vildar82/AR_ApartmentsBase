@@ -19,12 +19,10 @@ namespace AR_ApartmentBase.Model.Revit
    /// <summary>
    /// Квартира или МОП - блок в автокаде
    /// </summary>
-   public class Apartment :IRevitBlock
+   public class Apartment :IRevitBlock, IEquatable<Apartment>
    {
       private static List<ObjectId> _layersOff;
-
-      private Apartment() { }
-
+      
       /// <summary>
       /// Имя блока
       /// </summary>
@@ -98,6 +96,8 @@ namespace AR_ApartmentBase.Model.Revit
       public string Direction { get; set; }
       public string LocationPoint { get; set; }
 
+      public EnumBaseStatus BaseStatus { get; set; }
+
       /// <summary>
       /// Создание блока для экспорта из id
       /// Если id не блока, то Exception
@@ -116,6 +116,17 @@ namespace AR_ApartmentBase.Model.Revit
 
          // Определение модулуй в квартире
          Modules = Module.GetModules(this);
+      }
+
+      /// <summary>
+      /// Конструктор для создания квартиры из базы
+      /// </summary>
+      public Apartment (string name)
+      {
+         BlockName = name;
+         _extentsIsNull = true;
+         _extentsAreDefined = true;
+         Modules = new List<Module>();
       }
 
       /// <summary>
@@ -249,13 +260,10 @@ namespace AR_ApartmentBase.Model.Revit
          return Regex.IsMatch(blName, Options.Instance.BlockApartmentNameMatch, RegexOptions.IgnoreCase);
       }
 
-      public bool HasError()
+      public bool Equals(Apartment other)
       {
-         if (Error != null)
-         {
-            return true;
-         }
-         return Modules.Any(m => m.HasError());
+         return this.BlockName.Equals(other.BlockName, StringComparison.OrdinalIgnoreCase) && Modules.SequenceEqual(other.Modules);
+
       }
    }
 }

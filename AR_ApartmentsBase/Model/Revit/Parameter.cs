@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace AR_ApartmentBase.Model.Revit
 {
-   public class Parameter
+   public class Parameter : IEquatable<Parameter>
    {
       public string Name { get;  set; }      
       public string Value { get;  set; }
@@ -17,14 +17,17 @@ namespace AR_ApartmentBase.Model.Revit
          List<Parameter> parameters = new List<Parameter>();
 
          // Добавление параметров LocationPoint и Direction
-         parameters.Add(new Parameter() { Name = "LocationPoint", Value = rBlock.LocationPoint });
-         parameters.Add(new Parameter() { Name = "Direction", Value = rBlock.Direction });
+         parameters.Add(new Parameter() { Name = nameof(IRevitBlock.LocationPoint), Value = rBlock.LocationPoint });
+         parameters.Add(new Parameter() { Name = nameof(IRevitBlock.Direction), Value = rBlock.Direction });
 
          // считывание дин параметров
          defineDynParams(blRef, parameters);
 
          // считывание атрибутов
-         defineAttributesParam(blRef, parameters);        
+         defineAttributesParam(blRef, parameters);
+
+         //// Сортировка параметров по имени
+         //parameters = parameters.OrderBy(p => p.Name).ToList();
 
          return parameters;
       }
@@ -80,6 +83,12 @@ namespace AR_ApartmentBase.Model.Revit
       private static bool hasParamName(List<Parameter> parameters, string name)
       {
          return parameters.Exists(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+      }
+
+      public bool Equals(Parameter other)
+      {
+         return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase) &&
+            this.Value.Equals(other.Value, StringComparison.OrdinalIgnoreCase);
       }
    }
 }

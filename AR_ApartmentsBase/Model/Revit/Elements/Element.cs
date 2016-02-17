@@ -16,9 +16,9 @@ namespace AR_ApartmentBase.Model.Revit.Elements
    /// <summary>
    /// Элемент - блок в автокаде из которых состоит модуль - стены, окна, двери, мебель и т.п.
    /// </summary>      
-   public class Element : IRevitBlock
+   public class Element : IRevitBlock, IEquatable<Element>
    {
-      public Element() { }
+      private Element() { }
 
       public Parameter FamilyName { get; set; }
       public Parameter FamilySymbolName { get; set; }
@@ -44,9 +44,8 @@ namespace AR_ApartmentBase.Model.Revit.Elements
       
       public ObjectId IdBlRefElement { get; set; }
       
-      public ObjectId IdBtrElement { get; set; }
+      public ObjectId IdBtrElement { get; set; }      
       
-      [XmlIgnore]
       public Module Module { get;  set; }
 
       public Matrix3d BlockTransform { get; set; }
@@ -87,6 +86,8 @@ namespace AR_ApartmentBase.Model.Revit.Elements
       public string Direction { get; set; }
       public string LocationPoint { get; set; }
 
+      public EnumBaseStatus BaseStatus { get; set; }
+
       public Element(BlockReference blRefElem, Module module, string blName)
       {
          BlockName = blName;
@@ -103,6 +104,20 @@ namespace AR_ApartmentBase.Model.Revit.Elements
 
          FamilyName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilyName));
          FamilySymbolName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilySymbolName));
+      }
+
+      /// <summary>
+      /// Конструктор создания элемента из базы
+      /// </summary>
+      public Element (Module module, string direction, string location, string familyName, string fsn, List<Parameter> parameters)
+      {
+         Direction = direction;
+         LocationPoint = location;
+         FamilyName = new Parameter() { Name = Options.Instance.ParameterFamilyName, Value = familyName };
+         FamilySymbolName = new Parameter() { Name = Options.Instance.ParameterFamilySymbolName, Value = fsn }; 
+         Module = module;
+         module.Elements.Add(this);
+         Parameters = parameters;
       }
 
       /// <summary>
@@ -172,9 +187,12 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          return TypeConverter.Point(direction);
       }
 
-      public bool HasError()
+      public bool Equals(Element other)
       {
-         return Error != null;
+         return this.Direction.Equals(other.Direction) &&
+            this.LocationPoint.Equals(other.LocationPoint) &&
+            this.FamilyName.Equals(other.FamilyName) &&
+            this.FamilySymbolName.Equals(other.FamilySymbolName);            
       }
    }
 }

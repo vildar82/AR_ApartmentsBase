@@ -52,11 +52,11 @@ namespace AR_ApartmentBase.Model.Revit
       /// <summary>
       /// Описание ошибки элемента если есть.
       /// </summary>
-      AcadLib.Errors.Error Error { get; }
+      AcadLib.Errors.Error Error { get; }      
 
       /// <summary>
-      /// Есть ли ошибки
-      /// </summary>      
-      bool HasError();
+      /// Статус элемента блока квартиры в базек данных - есть, нет, изменился
+      /// </summary>
+      EnumBaseStatus BaseStatus { get; }
    }
 }

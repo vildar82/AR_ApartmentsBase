@@ -29,8 +29,6 @@
           <Property Name="ID_ELEMENT_IN_FM" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_FLAT_MODULE" Type="int" Nullable="false" />
           <Property Name="ID_ELEMENT" Type="int" Nullable="false" />
-          <Property Name="LOCATION_POINT" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="DIRECTION" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="F_nn_FlatModules">
           <Key>
@@ -300,8 +298,6 @@
           <Property Name="ID_ELEMENT_IN_FM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_FLAT_MODULE" Type="Int32" Nullable="false" />
           <Property Name="ID_ELEMENT" Type="Int32" Nullable="false" />
-          <Property Name="LOCATION_POINT" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DIRECTION" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="F_nn_ElementParam_Value" Relationship="Self.FK_F_nn_ElementParam_Value_F_nn_Elements_FlatModules" FromRole="F_nn_Elements_FlatModules" ToRole="F_nn_ElementParam_Value" />
           <NavigationProperty Name="F_nn_FlatModules" Relationship="Self.FK_F_nn_Elements_FlatModules_F_R_FlatModules" FromRole="F_nn_Elements_FlatModules" ToRole="F_nn_FlatModules" />
           <NavigationProperty Name="F_S_Elements" Relationship="Self.FK_F_nn_Elements_FlatModules_F_S_Elements" FromRole="F_nn_Elements_FlatModules" ToRole="F_S_Elements" />
@@ -596,8 +592,6 @@
                 <ScalarProperty Name="ID_ELEMENT_IN_FM" ColumnName="ID_ELEMENT_IN_FM" />
                 <ScalarProperty Name="ID_FLAT_MODULE" ColumnName="ID_FLAT_MODULE" />
                 <ScalarProperty Name="ID_ELEMENT" ColumnName="ID_ELEMENT" />
-                <ScalarProperty Name="LOCATION_POINT" ColumnName="LOCATION_POINT" />
-                <ScalarProperty Name="DIRECTION" ColumnName="DIRECTION" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

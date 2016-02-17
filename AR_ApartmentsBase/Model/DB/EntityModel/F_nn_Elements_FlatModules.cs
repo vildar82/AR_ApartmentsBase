@@ -23,8 +23,6 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         public int ID_ELEMENT_IN_FM { get; set; }
         public int ID_FLAT_MODULE { get; set; }
         public int ID_ELEMENT { get; set; }
-        public string LOCATION_POINT { get; set; }
-        public string DIRECTION { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<F_nn_ElementParam_Value> F_nn_ElementParam_Value { get; set; }

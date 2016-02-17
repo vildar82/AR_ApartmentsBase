@@ -81,15 +81,18 @@ namespace AR_ApartmentBase
             }
             ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир.");
 
+            // Квартиры в базе
+            var apartmentsInBase = GetApartments.GetAll();            
+
             //Проверка всех элементов квартир в базе - категории, параметры.
-            CheckApartments.Check(apartments);
+            //CheckApartments.Check(apartments, apartmentsInBase);
 
             // Форма предпросмотра экспорта блоков
             FormBlocksExport formExport = new FormBlocksExport(apartments);
             if (Application.ShowModalDialog(formExport) == System.Windows.Forms.DialogResult.OK)
             {
-               // Экспорт только блоков квартир без ошибок.
-               var apartmentsToExport = apartments.Where(a => !a.HasError()).ToList();
+               // Экспорт только блоков квартир без ошибок, которых нет в базе или они изменились
+               var apartmentsToExport = apartments;//.Where(a => a.BaseStatus == EnumBaseStatus.Changed || a.BaseStatus == EnumBaseStatus.NotInBase).ToList();
 
                // Экспорт блоков в файлы
                var count = Apartment.ExportToFiles(apartmentsToExport);
@@ -101,9 +104,8 @@ namespace AR_ApartmentBase
 
                // Запись в DB               
                try
-               {
-                  BaseApartments exportModel = new BaseApartments();
-                  exportModel.Export(apartmentsToExport);
+               {                  
+                  BaseApartments.Export(apartmentsToExport);
                }
                catch (System.Exception ex)
                {
@@ -143,9 +145,8 @@ namespace AR_ApartmentBase
          if (doc == null) return;
 
          try
-         {
-            BaseApartments baseApartments = new BaseApartments();
-            baseApartments.Clear();
+         {            
+            BaseApartments.Clear();
          }
          catch (System.Exception ex)
          {

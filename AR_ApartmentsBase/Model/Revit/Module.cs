@@ -17,11 +17,8 @@ namespace AR_ApartmentBase.Model.Revit
    /// <summary>
    /// Модуль - блок помещения в автокаде
    /// </summary>
-   public class Module : IRevitBlock
-   {
-      private Module() { }
-
-      [XmlIgnore]
+   public class Module : IRevitBlock, IEquatable<Module>
+   {        
       public Apartment Apartment { get;  set; }
             
       public string BlockName { get;  set; }     
@@ -80,6 +77,8 @@ namespace AR_ApartmentBase.Model.Revit
       public string Direction { get; set; }
       public string LocationPoint { get; set; }
 
+      public EnumBaseStatus BaseStatus { get; set; }
+
       public Module(BlockReference blRefModule, Apartment apartment, string blName)
       {
          BlockName = blName;
@@ -95,6 +94,21 @@ namespace AR_ApartmentBase.Model.Revit
          Parameters = Parameter.GetParameters(blRefModule, this);
 
          Elements = Element.GetElements(this);
+      }
+
+      /// <summary>
+      /// Конструктор для создания модуля из Базы
+      /// </summary>
+      public Module (string name, Apartment apart, string direction, string locationPoint)
+      {
+         BlockName = name;
+         Apartment = apart;
+         _extentsAreDefined = true;
+         _extentsIsNull = true;
+         Elements = new List<Element>();
+         apart.Modules.Add(this);
+         Direction = direction;
+         LocationPoint = locationPoint;
       }
 
       /// <summary>
@@ -134,13 +148,12 @@ namespace AR_ApartmentBase.Model.Revit
          return Regex.IsMatch(blName, Options.Instance.BlockModuleNameMatch, RegexOptions.IgnoreCase);
       }
 
-      public bool HasError()
+      public bool Equals(Module other)
       {
-         if (Error != null)
-         {
-            return true;
-         }
-         return Elements.Any(e => e.HasError());
+         return this.BlockName.Equals(other.BlockName, StringComparison.OrdinalIgnoreCase) &&
+                this.Direction.Equals(other.Direction) &&
+                this.LocationPoint.Equals(other.LocationPoint) &&
+                this.Elements.SequenceEqual(other.Elements);
       }
    }
 }

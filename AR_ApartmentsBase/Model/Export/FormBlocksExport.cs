@@ -78,7 +78,7 @@ namespace AR_ApartmentBase.Model.Export
             IRevitBlock rBlock = e.Node.Tag as IRevitBlock;
             if (rBlock != null)
             {
-               brush  = rBlock.HasError() ? Brushes.Red : Brushes.Green;
+               brush  = rBlock.BaseStatus.HasFlag(EnumBaseStatus.Error)? Brushes.Red : Brushes.Green;
             }
             else
             {

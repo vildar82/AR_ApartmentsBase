@@ -13,9 +13,9 @@ using AR_ApartmentBase.Properties;
 
 namespace AR_ApartmentBase.Model.DB.EntityModel
 {
-   public class BaseApartments
+   public static class BaseApartments
    {
-      private SAPREntities entities;
+      private static SAPREntities entities;
 
       public static SAPREntities NewEntities()
       {
@@ -25,7 +25,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       /// <summary>
       /// Очистка базы
       /// </summary>
-      public void Clear()
+      public static void Clear()
       {
          using (var entities = NewEntities())
          {
@@ -39,7 +39,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       /// <summary>
       /// Экспорт квартир в базу
       /// </summary>      
-      public void Export (List<Apartment> apartments)
+      public static void Export (List<Apartment> apartments)
       {
          using (entities = NewEntities())
          {
@@ -95,7 +95,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          }
       }      
 
-      private F_R_Flats getFlat(Apartment apart)
+      private static F_R_Flats getFlat(Apartment apart)
       {
          var flatEnt = entities.F_R_Flats.Local.SingleOrDefault(f => f.WORKNAME.Equals(apart.BlockName, StringComparison.OrdinalIgnoreCase));
          if (flatEnt == null)
@@ -105,7 +105,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          return flatEnt;
       }
 
-      private F_R_Modules getModuleRow(Module module)
+      private static F_R_Modules getModuleRow(Module module)
       {
          var moduleEnt = entities.F_R_Modules.Local.SingleOrDefault(m => m.NAME_MODULE.Equals(module.BlockName, StringComparison.OrdinalIgnoreCase));
          if (moduleEnt == null)
@@ -115,13 +115,14 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          return moduleEnt;
       }
 
-      private F_nn_FlatModules getFlatModuleRow(F_R_Flats flatEnt, F_R_Modules moduleEnt, Module module)
+      private static F_nn_FlatModules getFlatModuleRow(F_R_Flats flatEnt, F_R_Modules moduleEnt, Module module)
       {
-         var fmEnt = entities.F_nn_FlatModules.Local.SingleOrDefault(fm => 
-                                    fm.ID_FLAT == flatEnt.ID_FLAT &&
-                                    fm.ID_MODULE == moduleEnt.ID_MODULE &&
-                                    fm.LOCATION == module.LocationPoint &&
-                                    fm.DIRECTION == module.Direction);
+         var fmEnt = flatEnt.F_nn_FlatModules.SingleOrDefault
+                              (fm =>
+                                    fm.ID_FLAT == moduleEnt.ID_MODULE &&
+                                    fm.LOCATION.Equals(module.LocationPoint) &&
+                                    fm.DIRECTION.Equals(module.Direction)
+                              );         
          if (fmEnt == null)
          {
             fmEnt = entities.F_nn_FlatModules.Add(new F_nn_FlatModules()
@@ -136,7 +137,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          return fmEnt;
       }
 
-      private F_S_Elements getElement(Element elem)
+      private static F_S_Elements getElement(Element elem)
       {
          // Категория элемента
          var catEnt = entities.F_S_Categories.Single(c => c.NAME_RUS_CATEGORY.Equals(elem.TypeElement, StringComparison.OrdinalIgnoreCase));
@@ -168,52 +169,32 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          return elemEnt;
       }
 
-      private F_nn_Elements_FlatModules getElemInFM(F_nn_FlatModules fmEnt, F_S_Elements elemEnt, Element elem)
+      private static F_nn_Elements_FlatModules getElemInFM(F_nn_FlatModules fmEnt, F_S_Elements elemEnt, Element elem)
       {
-         var efmEnt = entities.F_nn_Elements_FlatModules.Local.SingleOrDefault(efm =>
-               efm.ID_FLAT_MODULE == fmEnt.ID_FLAT_MODULE &&
-               efm.ID_ELEMENT == elemEnt.ID_ELEMENT &&
-               efm.LOCATION_POINT.Equals(elem.LocationPoint, StringComparison.OrdinalIgnoreCase) &&
-               efm.DIRECTION.Equals(elem.Direction, StringComparison.OrdinalIgnoreCase)
-               );
-         if (efmEnt == null)
+         var efmEnt = entities.F_nn_Elements_FlatModules.Add(new F_nn_Elements_FlatModules()
          {
-            efmEnt = entities.F_nn_Elements_FlatModules.Add(new F_nn_Elements_FlatModules()
-            {
-               F_nn_FlatModules = fmEnt,
-               F_S_Elements = elemEnt,
-               LOCATION_POINT = elem.LocationPoint,
-               DIRECTION = elem.Direction               
-            });
-         }
+            F_nn_FlatModules = fmEnt,
+            F_S_Elements = elemEnt,            
+         });
          return efmEnt;
-      }     
+      }
 
-      private void setElemParams(F_nn_Elements_FlatModules efmEnt, F_S_Elements elemEnt, Element elem)
+      private static void setElemParams(F_nn_Elements_FlatModules efmEnt, F_S_Elements elemEnt, Element elem)
       {
          // Параметры для этой категории элемента         
          var cpEnts = entities.F_nn_Category_Parameters.Where(cp => cp.ID_CATEGORY == elemEnt.ID_CATEGORY);
          foreach (var cp in cpEnts)
          {
             // Поиск этого параметра в блоке
-            var param = elem.Parameters.Find(p => p.Name.Equals(cp.F_S_Parameters.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
+            var param = elem.Parameters.Find(p => p.Name.Equals(cp.F_S_Parameters.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));            
 
-            // Проверка есть ли уже такая запись в таблице F_nn_ElementParam_Value - елем-кв-модуля и значения параметра
-            var val = entities.F_nn_ElementParam_Value.Local.SingleOrDefault(epv => 
-               epv.ID_ELEMENT_IN_FM == efmEnt.ID_ELEMENT_IN_FM &&
-               epv.ID_CAT_PARAMETER == cp.ID_CAT_PARAMETER &&
-               epv.PARAMETER_VALUE.Equals(param.Value, StringComparison.OrdinalIgnoreCase));
-
-            // если нет, то добавление
-            if (val == null)
+            // если нет, то добавление            
+            var val = entities.F_nn_ElementParam_Value.Add(new F_nn_ElementParam_Value()
             {
-               val = entities.F_nn_ElementParam_Value.Add(new F_nn_ElementParam_Value()
-               {
-                  F_nn_Category_Parameters = cp,
-                  F_nn_Elements_FlatModules = efmEnt,
-                  PARAMETER_VALUE = param.Value                  
-               });
-            }
+               F_nn_Category_Parameters = cp,
+               F_nn_Elements_FlatModules = efmEnt,
+               PARAMETER_VALUE = param.Value
+            });
          }
       }
    }
