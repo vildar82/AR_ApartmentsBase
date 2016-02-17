@@ -109,10 +109,10 @@ namespace AR_ApartmentBase.Model.Revit.Elements
       /// <summary>
       /// Конструктор создания элемента из базы
       /// </summary>
-      public Element (Module module, string direction, string location, string familyName, string fsn, List<Parameter> parameters)
+      public Element (Module module, string familyName, string fsn, List<Parameter> parameters)
       {
-         Direction = direction;
-         LocationPoint = location;
+         Direction = parameters.FirstOrDefault(p => p.Name.Equals(nameof(IRevitBlock.Direction)))?.Value;
+         LocationPoint = parameters.FirstOrDefault(p => p.Name.Equals(nameof(IRevitBlock.LocationPoint)))?.Value;
          FamilyName = new Parameter() { Name = Options.Instance.ParameterFamilyName, Value = familyName };
          FamilySymbolName = new Parameter() { Name = Options.Instance.ParameterFamilySymbolName, Value = fsn }; 
          Module = module;
@@ -128,12 +128,12 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          List<Element> elements = new List<Element>();
 
          using ( var btrModule = module.IdBtrModule.Open( OpenMode.ForRead, false, true) as BlockTableRecord)
-         {
+         {            
             foreach (var idEnt in btrModule)
             {
                using (var blRefElem = idEnt.Open( OpenMode.ForRead, false, true)as BlockReference )
                {
-                  if (blRefElem == null) continue;
+                  if (blRefElem == null || !blRefElem.Visible) continue;
 
                   string blName = blRefElem.GetEffectiveName();
                   string typeElement;

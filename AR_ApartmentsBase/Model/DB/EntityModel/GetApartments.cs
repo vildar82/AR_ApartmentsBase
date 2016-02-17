@@ -8,12 +8,12 @@ using AR_ApartmentBase.Model.Revit.Elements;
 using MoreLinq;
 
 namespace AR_ApartmentBase.Model.DB.EntityModel
-{
-   /// <summary>
-   /// Получение списка квартир в базе
-   /// </summary>
+{   
    public static class GetApartments
    {
+      /// <summary>
+      /// Получение списка квартир в базе
+      /// </summary>
       public static List<Apartment> GetAll()
       {
          // Преобразование квартир в базе в объекты Apartment
@@ -24,17 +24,16 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             {
                Apartment apart = new Apartment(flatEnt.WORKNAME);
 
-               //Модули в квартире для последней ревизии
-               var fmEnts = entities.F_nn_FlatModules.
-                                 Where(fm => fm.ID_FLAT == flatEnt.ID_FLAT).
-                                 GroupBy(g => g.LOCATION + g.DIRECTION).
-                                 Select(g => new { fms = g.Select(i => i), revision = g.Max(k => k.REVISION) });
+               //Все модули в квартире
+               var fmEnts = flatEnt.F_nn_FlatModules.GroupBy(g => new { g.DIRECTION, g.LOCATION })
+                           .Select(g => g.MaxBy(r => r.REVISION));
+
                foreach (var fmEnt in fmEnts)
                {
                   Module module = new Module(fmEnt.F_R_Modules.NAME_MODULE, apart, fmEnt.DIRECTION, fmEnt.LOCATION);
 
-                 // Елементы
-                 var elemEnts = entities.F_nn_Elements_FlatModules.Where(efm => efm.ID_FLAT_MODULE == fmEnt.ID_FLAT_MODULE);
+                  // Елементы
+                  var elemEnts = entities.F_nn_Elements_FlatModules.Where(efm => efm.ID_FLAT_MODULE == fmEnt.ID_FLAT_MODULE);
                   foreach (var elemEnt in elemEnts)
                   {
                      List<Parameter> parameters = new List<Parameter>();
@@ -43,9 +42,10 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                         Name = p.F_nn_Category_Parameters.F_S_Categories.NAME_RUS_CATEGORY,
                         Value = p.PARAMETER_VALUE
                      }));
-                     Element elem = new Element(module, elemEnt.DIRECTION, elemEnt.LOCATION_POINT,
-                        elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_NAME,
-                        elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_SYMBOL, parameters);
+                     Element elem = new Element(module,
+                                          elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_NAME,
+                                          elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_SYMBOL,
+                                          parameters);
                   }
                }
             }

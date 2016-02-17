@@ -17,64 +17,64 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
    /// </summary>
    public class CheckApartments
    {
-      //private static void CheckElementsOld(List<Apartment> apartments, SAPREntities entities)
-      //{
-      //   var elementsAll = apartments.SelectMany(a => a.Modules.SelectMany(m => m.Elements));
-
-      //   // Все категории и их свойства в базе
-
-      //   foreach (var elem in elementsAll)
+      //   private static void CheckElementsOld(List<Apartment> apartments, SAPREntities entities)
       //   {
-      //      string err = string.Empty;
-      //      // Получить категорию элемента 
-      //      var catEnt = entities.F_S_Categories.FirstOrDefault(c => c.NAME_RUS_CATEGORY.Equals(elem.TypeElement, StringComparison.OrdinalIgnoreCase));
+      //      var elementsAll = apartments.SelectMany(a => a.Modules.SelectMany(m => m.Elements));
 
-      //      if (catEnt == null)
+      //      // Все категории и их свойства в базе
+
+      //      foreach (var elem in elementsAll)
       //      {
-      //         // Нет такой категории элемента
-      //         err += $"Не найдена категория в базе - {elem.TypeElement}";
-      //      }
-      //      else
-      //      {
-      //         // Параметры для этой категории
-      //         var paramsEnt = catEnt.F_nn_Category_Parameters.Select(p => p.F_S_Parameters);
-      //         foreach (var paramEnt in paramsEnt)
+      //         string err = string.Empty;
+      //         // Получить категорию элемента 
+      //         var catEnt = entities.F_S_Categories.FirstOrDefault(c => c.NAME_RUS_CATEGORY.Equals(elem.TypeElement, StringComparison.OrdinalIgnoreCase));
+
+      //         if (catEnt == null)
       //         {
-      //            if (!elem.Parameters.Exists(p => p.Name.Equals(paramEnt.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase)))
+      //            // Нет такой категории элемента
+      //            err += $"Не найдена категория в базе - {elem.TypeElement}";
+      //         }
+      //         else
+      //         {
+      //            // Параметры для этой категории
+      //            var paramsEnt = catEnt.F_nn_Category_Parameters.Select(p => p.F_S_Parameters);
+      //            foreach (var paramEnt in paramsEnt)
       //            {
-      //               err += $"Нет необходимого параметра '{paramEnt.NAME_PARAMETER}'. ";
+      //               if (!elem.Parameters.Exists(p => p.Name.Equals(paramEnt.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase)))
+      //               {
+      //                  err += $"Нет необходимого параметра '{paramEnt.NAME_PARAMETER}'. ";
+      //               }
       //            }
       //         }
-      //      }
 
-      //      if (!string.IsNullOrEmpty(err))
-      //      {
-      //         elem.Error = new Error($"Ошибка в элементе {elem.BlockName}: {err}.", elem.ExtentsInModel, elem.IdBlRefElement,
-      //            icon: System.Drawing.SystemIcons.Error);
-      //      }
-      //   }
-      //}
-      
-      //public static void CheckAndChangesOld(List<Apartment> apartments)
-      //{
-      //   // Проверка квартир и проверка изменений.
-      //   using (SAPREntities entities = BaseApartments.NewEntities())
-      //   {
-      //      // Проверка всех блоков элементов - 
-      //      CheckElements(apartments, entities);
-
-      //      foreach (var apart in apartments)
-      //      {
-      //         var apartEnt = entities.F_R_Flats.SingleOrDefault(f => f.WORKNAME.Equals(apart.BlockName, StringComparison.OrdinalIgnoreCase));
-      //         if (apartEnt == null)
+      //         if (!string.IsNullOrEmpty(err))
       //         {
-      //            // Нет такой квартиры в базе
-      //            apart.BaseStatus |= EnumBaseStatus.NotInBase;                  
+      //            elem.Error = new Error($"Ошибка в элементе {elem.BlockName}: {err}.", elem.ExtentsInModel, elem.IdBlRefElement,
+      //               icon: System.Drawing.SystemIcons.Error);
       //         }
-               
       //      }
       //   }
-      //}
+
+      //   public static void CheckAndChangesOld(List<Apartment> apartments)
+      //   {
+      //      // Проверка квартир и проверка изменений.
+      //      using (SAPREntities entities = BaseApartments.NewEntities())
+      //      {
+      //         // Проверка всех блоков элементов - 
+      //         CheckElements(apartments, entities);
+
+      //         foreach (var apart in apartments)
+      //         {
+      //            var apartEnt = entities.F_R_Flats.SingleOrDefault(f => f.WORKNAME.Equals(apart.BlockName, StringComparison.OrdinalIgnoreCase));
+      //            if (apartEnt == null)
+      //            {
+      //               // Нет такой квартиры в базе
+      //               apart.BaseStatus |= EnumBaseStatus.NotInBase;
+      //            }
+
+      //         }
+      //      }
+      //   }
 
       /// <summary>
       /// Проверка квартир в чертеже и в базе
@@ -163,10 +163,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             try
             {
                moduleInBase = apartInBase.Modules.SingleOrDefault(m =>
-               m.BlockName.Equals(module.BlockName, StringComparison.OrdinalIgnoreCase) &&
-               m.Direction.Equals(module.Direction) &&
-               m.LocationPoint.Equals(module.LocationPoint)
-               );
+                              m.BlockName.Equals(module.BlockName, StringComparison.OrdinalIgnoreCase) &&
+                              m.Direction.Equals(module.Direction) &&
+                              m.LocationPoint.Equals(module.LocationPoint));
             }
             catch
             {
