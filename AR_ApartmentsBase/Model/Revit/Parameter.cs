@@ -27,9 +27,14 @@ namespace AR_ApartmentBase.Model.Revit
          defineAttributesParam(blRef, parameters);
 
          //// Сортировка параметров по имени
-         //parameters = parameters.OrderBy(p => p.Name).ToList();
+         parameters= Sort(parameters);
 
          return parameters;
+      }
+
+      public static List<Parameter> Sort(List<Parameter> parameters)
+      {
+         return parameters.OrderBy(p => p.Name).ToList();         
       }
 
       private static void defineDynParams(BlockReference blRef, List<Parameter> parameters)
@@ -89,6 +94,24 @@ namespace AR_ApartmentBase.Model.Revit
       {
          return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase) &&
             this.Value.Equals(other.Value, StringComparison.OrdinalIgnoreCase);
+      }
+
+      /// <summary>
+      /// проверка списков параметров.
+      /// Все элементы из второго списка обязательно должны соответствовать первому списку, 
+      /// второй список может содержать лишние параметры
+      /// </summary>      
+      public static bool Equal(List<Parameter> params1, List<Parameter> params2)
+      {         
+         foreach (var p1 in params1)
+         {
+            if (!params2.Exists(p => p.Name.Equals(p1.Name, StringComparison.OrdinalIgnoreCase) &&
+                                       p.Value.Equals(p1.Value, StringComparison.OrdinalIgnoreCase)))
+            {
+               return false;
+            }
+         }
+         return true;
       }
    }
 }

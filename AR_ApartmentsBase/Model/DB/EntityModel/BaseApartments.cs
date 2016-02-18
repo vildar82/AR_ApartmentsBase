@@ -17,7 +17,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
    {
       private static SAPREntities entities;
 
-      public static SAPREntities NewEntities()
+      public static SAPREntities ConnectEntities()
       {
          return new SAPREntities(new EntityConnection(Settings.Default.SaprCon));
       }
@@ -27,7 +27,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       /// </summary>
       public static void Clear()
       {
-         using (var entities = NewEntities())
+         using (var entities = ConnectEntities())
          {
             entities.F_S_FamilyInfos.RemoveRange(entities.F_S_FamilyInfos);
             entities.F_nn_FlatModules.RemoveRange(entities.F_nn_FlatModules);            
@@ -41,14 +41,14 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       /// </summary>      
       public static void Export (List<Apartment> apartments)
       {
-         using (entities = NewEntities())
+         using (entities = ConnectEntities())
          {
             // Загрузка таблиц
             entities.F_R_Flats.Load();
             entities.F_R_Modules.Load();
             entities.F_nn_FlatModules.Load();
             entities.F_nn_ElementParam_Value.Load();
-            entities.F_nn_Elements_FlatModules.Load();
+            entities.F_nn_Elements_Modules.Load();
             entities.F_S_Elements.Load();
             entities.F_S_FamilyInfos.Load();            
 
@@ -74,7 +74,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                         // Определение элемента в базе                                          
                         var elemEnt = getElement(elem);
                         // Привязка элемента к модулю  
-                        var efmEnt = getElemInFM(fmEnt, elemEnt, elem);
+                        var efmEnt = getElemInM(moduleEnt, elemEnt, elem);
 
                         // Заполнение параметров элемента
                         setElemParams(efmEnt, elemEnt, elem);
@@ -131,6 +131,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                F_R_Modules = moduleEnt,
                LOCATION = module.LocationPoint,
                DIRECTION = module.Direction,
+               ANGLE = module.Rotation,
                REVISION = 0                
             });
          }
@@ -140,7 +141,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       private static F_S_Elements getElement(Element elem)
       {
          // Категория элемента
-         var catEnt = entities.F_S_Categories.Single(c => c.NAME_RUS_CATEGORY.Equals(elem.TypeElement, StringComparison.OrdinalIgnoreCase));
+         var catEnt = entities.F_S_Categories.Single(c => c.NAME_RUS_CATEGORY.Equals(elem.CategoryElement, StringComparison.OrdinalIgnoreCase));
          // Семейство элемента
          var famInfoEnt = entities.F_S_FamilyInfos.Local.SingleOrDefault(f =>
                   f.FAMILY_NAME.Equals(elem.FamilyName.Value, StringComparison.OrdinalIgnoreCase) &&
@@ -169,17 +170,18 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          return elemEnt;
       }
 
-      private static F_nn_Elements_FlatModules getElemInFM(F_nn_FlatModules fmEnt, F_S_Elements elemEnt, Element elem)
+      private static F_nn_Elements_Modules getElemInM(F_R_Modules mEnt, F_S_Elements elemEnt, Element elem)
       {
-         var efmEnt = entities.F_nn_Elements_FlatModules.Add(new F_nn_Elements_FlatModules()
+         var efmEnt = entities.F_nn_Elements_Modules.Add(new F_nn_Elements_Modules()
          {
-            F_nn_FlatModules = fmEnt,
-            F_S_Elements = elemEnt,            
+             F_R_Modules = mEnt,
+             DIRECTION = elem.Direction,
+             LOCATION = elem.LocationPoint                                 
          });
          return efmEnt;
       }
 
-      private static void setElemParams(F_nn_Elements_FlatModules efmEnt, F_S_Elements elemEnt, Element elem)
+      private static void setElemParams(F_nn_Elements_Modules emEnt, F_S_Elements elemEnt, Element elem)
       {
          // Параметры для этой категории элемента         
          var cpEnts = entities.F_nn_Category_Parameters.Where(cp => cp.ID_CATEGORY == elemEnt.ID_CATEGORY);
@@ -190,11 +192,12 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
             // если нет, то добавление            
             var val = entities.F_nn_ElementParam_Value.Add(new F_nn_ElementParam_Value()
-            {
-               F_nn_Category_Parameters = cp,
-               F_nn_Elements_FlatModules = efmEnt,
-               PARAMETER_VALUE = param.Value
+            {                
+                F_nn_Category_Parameters = cp,
+                F_S_Elements = elemEnt, 
+                PARAMETER_VALUE = param.Value
             });
+            emEnt.F_nn_ElementParam_Value = val;
          }
       }
    }

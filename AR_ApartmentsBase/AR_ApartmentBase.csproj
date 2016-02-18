@@ -138,7 +138,7 @@
     <Compile Include="Model\DB\EntityModel\F_nn_ElementParam_Value.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\DB\EntityModel\F_nn_Elements_FlatModules.cs">
+    <Compile Include="Model\DB\EntityModel\F_nn_Elements_Modules.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DB\EntityModel\F_nn_FlatModules.cs">

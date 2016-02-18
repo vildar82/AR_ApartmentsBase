@@ -55,8 +55,7 @@ namespace AR_ApartmentBase.Model.Revit
                   try
                   {
                      _extentsInModel = blRef.GeometricExtents;
-                     _extentsInModel.TransformBy(Apartment.BlockTransform);
-
+                     _extentsInModel.TransformBy(Apartment.BlockTransform);                     
                   }
                   catch
                   {

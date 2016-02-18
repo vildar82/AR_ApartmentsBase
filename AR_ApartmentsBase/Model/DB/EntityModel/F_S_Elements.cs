@@ -17,7 +17,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public F_S_Elements()
         {
-            this.F_nn_Elements_FlatModules = new HashSet<F_nn_Elements_FlatModules>();
+            this.F_nn_ElementParam_Value = new HashSet<F_nn_ElementParam_Value>();
         }
     
         public int ID_ELEMENT { get; set; }
@@ -25,7 +25,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         public int ID_CATEGORY { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<F_nn_Elements_FlatModules> F_nn_Elements_FlatModules { get; set; }
+        public virtual ICollection<F_nn_ElementParam_Value> F_nn_ElementParam_Value { get; set; }
         public virtual F_S_Categories F_S_Categories { get; set; }
         public virtual F_S_FamilyInfos F_S_FamilyInfos { get; set; }
     }

@@ -74,27 +74,51 @@ namespace AR_ApartmentBase.Model.Export
 
       private void treeViewApartments_DrawNode(object sender, DrawTreeNodeEventArgs e)
       {
-            Brush brush;
-            IRevitBlock rBlock = e.Node.Tag as IRevitBlock;
-            if (rBlock != null)
+         Brush brush = null;
+         IRevitBlock rBlock = e.Node.Tag as IRevitBlock;
+         if (rBlock != null)
+         {
+            if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.Error))
             {
-               brush  = rBlock.BaseStatus.HasFlag(EnumBaseStatus.Error)? Brushes.Red : Brushes.Green;
+               // Ошибка
+               brush = Brushes.Red;
             }
-            else
+            else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.NotInBase))
             {
-               brush = Brushes.Black;
-            }                        
-            
-            //e.Graphics.FillRectangle(brush, e.Node.Bounds);
+               // Новый
+               brush = Brushes.Green;
+            }
+            else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg))
+            {
+               // Нет в чертеже, но есть в базе
+               brush = Brushes.Pink;
+            }
+            else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.Changed))
+            {
+               // Изменился
+               brush = Brushes.Yellow;
+            }
+            else if (rBlock.BaseStatus == EnumBaseStatus.OK)
+            {
+               // Не изменился
+               brush = Brushes.Blue;
+            }
+         }
+         else
+         {
+            brush = Brushes.Black;
+         }
 
-            // Retrieve the node font. If the node font has not been set,
-            // use the TreeView font.
-            System.Drawing.Font nodeFont = e.Node.NodeFont;
-            if (nodeFont == null) nodeFont = ((TreeView)sender).Font;
+         //e.Graphics.FillRectangle(brush, e.Node.Bounds);
 
-            // Draw the node text.
-            e.Graphics.DrawString(e.Node.Text, nodeFont, brush,
-                Rectangle.Inflate(e.Bounds, 2, 0));         
+         // Retrieve the node font. If the node font has not been set,
+         // use the TreeView font.
+         System.Drawing.Font nodeFont = e.Node.NodeFont;
+         if (nodeFont == null) nodeFont = ((TreeView)sender).Font;
+
+         // Draw the node text.
+         e.Graphics.DrawString(e.Node.Text, nodeFont, brush,
+             Rectangle.Inflate(e.Bounds, 2, 0));
 
 
          //// If the node has focus, draw the focus rectangle large, making
@@ -116,9 +140,16 @@ namespace AR_ApartmentBase.Model.Export
       {
          textBoxInfo.Text = string.Empty;
          var rBlock = e?.Node?.Tag as IRevitBlock;
-         if (rBlock != null && rBlock.Error !=null)
+         if (rBlock != null)
          {
-            textBoxInfo.Text = rBlock.Error.Message;
+            if (rBlock.Error != null)
+            {
+               textBoxInfo.Text = rBlock.Error.Message;
+            }
+            else
+            {
+               textBoxInfo.Text = "Элемент совпадает с базой.";
+            }
          }
       }
    }

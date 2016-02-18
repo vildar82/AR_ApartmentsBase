@@ -82,7 +82,7 @@ namespace AR_ApartmentBase
             ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир.");
 
             // Квартиры в базе
-            var apartmentsInBase = GetApartments.GetAll();            
+            //var apartmentsInBase = GetBaseApartments.GetAll();            
 
             //Проверка всех элементов квартир в базе - категории, параметры.
             //CheckApartments.Check(apartments, apartmentsInBase);
@@ -102,9 +102,10 @@ namespace AR_ApartmentBase
                //string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");               
                //Apartment.ExportToXML(fileXml, apartmentsToExport);               
 
-               // Запись в DB               
+               // Запись в DB    
+               // Для димана пока без записи в БД           
                try
-               {                  
+               {
                   BaseApartments.Export(apartmentsToExport);
                }
                catch (System.Exception ex)

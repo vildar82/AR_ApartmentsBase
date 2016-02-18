@@ -14,12 +14,20 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
     
     public partial class F_nn_ElementParam_Value
     {
-        public int ID_ELEMENT_IN_FM { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public F_nn_ElementParam_Value()
+        {
+            this.F_nn_Elements_Modules = new HashSet<F_nn_Elements_Modules>();
+        }
+    
+        public int ID_ELEMENT_VALUE { get; set; }
+        public int ID_ELEMENT { get; set; }
         public int ID_CAT_PARAMETER { get; set; }
         public string PARAMETER_VALUE { get; set; }
-        public int ID_ELEMENT_VALUE { get; set; }
     
         public virtual F_nn_Category_Parameters F_nn_Category_Parameters { get; set; }
-        public virtual F_nn_Elements_FlatModules F_nn_Elements_FlatModules { get; set; }
+        public virtual F_S_Elements F_S_Elements { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<F_nn_Elements_Modules> F_nn_Elements_Modules { get; set; }
     }
 }

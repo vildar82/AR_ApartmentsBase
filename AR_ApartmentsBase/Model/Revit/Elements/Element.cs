@@ -23,7 +23,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
       public Parameter FamilyName { get; set; }
       public Parameter FamilySymbolName { get; set; }
 
-      public string TypeElement { get; set; }
+      public string CategoryElement { get; set; }
 
       public string BlockName { get; set; }    
 
@@ -102,8 +102,10 @@ namespace AR_ApartmentBase.Model.Revit.Elements
 
          Parameters = Parameter.GetParameters(blRefElem, this);
 
-         FamilyName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilyName));
-         FamilySymbolName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilySymbolName));
+         FamilyName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilyName)) 
+                        ?? new Parameter() { Name = Options.Instance.ParameterFamilyName, Value = "" };
+         FamilySymbolName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilySymbolName)) 
+                        ?? new Parameter() { Name = Options.Instance.ParameterFamilySymbolName, Value = "" };
       }
 
       /// <summary>
@@ -140,7 +142,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                   if (IsBlockElement(blName, out typeElement))
                   {
                      Element element = new Element(blRefElem, module, blName);
-                     element.TypeElement = typeElement;
+                     element.CategoryElement = typeElement;
                      if (element != null)
                      {
                         //Element element = new Element(blRefElem, module, blName);
