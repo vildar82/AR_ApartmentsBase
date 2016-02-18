@@ -114,7 +114,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          {
             flatEnt = entities.F_R_Flats.Local
                               .Where(f => f.WORKNAME.Equals(apart.BlockName, StringComparison.OrdinalIgnoreCase))
-                              .MaxBy(r => r.REVISION);            
+                              .OrderByDescending(r => r.REVISION).FirstOrDefault();                              
          }
 
          if (flatEnt == null)
@@ -140,7 +140,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          {
             moduleEnt = entities.F_R_Modules.Local
                                  .Where(m => m.NAME_MODULE.Equals(module.BlockName, StringComparison.OrdinalIgnoreCase))
-                                 .MaxBy(r=>r.REVISION);
+                                 .OrderByDescending(r => r.REVISION).FirstOrDefault();                                 
          }
                   
          if (moduleEnt == null)
@@ -201,7 +201,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             elemEnt = entities.F_S_Elements.Add(new F_S_Elements()
             {
                F_S_Categories = catEnt,
-               F_S_FamilyInfos = famInfoEnt      ,                          
+               F_S_FamilyInfos = famInfoEnt,
             });
          }
          return elemEnt;

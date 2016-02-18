@@ -82,21 +82,24 @@ namespace AR_ApartmentBase
             ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир.");
 
             // Квартиры в базе
-            //var apartmentsInBase = GetBaseApartments.GetAll();            
+            var apartmentsInBase = GetBaseApartments.GetAll();            
 
             //Проверка всех элементов квартир в базе - категории, параметры.
-            //CheckApartments.Check(apartments, apartmentsInBase);
+            CheckApartments.Check(apartments, apartmentsInBase);
 
             // Форма предпросмотра экспорта блоков
             FormBlocksExport formExport = new FormBlocksExport(apartments);
             if (Application.ShowModalDialog(formExport) == System.Windows.Forms.DialogResult.OK)
             {
-               // Экспорт только блоков квартир без ошибок, которых нет в базе или они изменились
-               var apartmentsToExport = apartments;//.Where(a => a.BaseStatus == EnumBaseStatus.Changed || a.BaseStatus == EnumBaseStatus.NotInBase).ToList();
-
                // Экспорт блоков в файлы
-               var count = Apartment.ExportToFiles(apartmentsToExport);
-               ed.WriteMessage($"\nЭкспортированно {count} квартиры.");
+               var count = Apartment.ExportToFiles(apartments);
+               ed.WriteMessage($"\nЭкспортированно {count} квартир в отдельные файлы.");
+
+               // Экспорт только блоков квартир без ошибок, которых нет в базе или они изменились
+               var apartmentsToExport = apartments.Where(a => 
+                                 !a.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
+                                 !a.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg)).ToList();
+
 
                //// Запись квартир в xml
                //string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");               

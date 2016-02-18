@@ -1,4 +1,6 @@
-﻿namespace AR_ApartmentBase.Model.Export
+﻿using System.Drawing;
+
+namespace AR_ApartmentBase.Model.Export
 {
    partial class FormBlocksExport
    {
@@ -37,13 +39,18 @@
          this.labelCount = new System.Windows.Forms.Label();
          this.treeViewApartments = new System.Windows.Forms.TreeView();
          this.textBoxInfo = new System.Windows.Forms.TextBox();
+         this.labelNotInBase = new System.Windows.Forms.Label();
+         this.labelError = new System.Windows.Forms.Label();
+         this.labelChanged = new System.Windows.Forms.Label();
+         this.labelNotInDwg = new System.Windows.Forms.Label();
+         this.labelOK = new System.Windows.Forms.Label();
          this.SuspendLayout();
          // 
          // buttonCancel
          // 
          this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
          this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-         this.buttonCancel.Location = new System.Drawing.Point(456, 453);
+         this.buttonCancel.Location = new System.Drawing.Point(490, 463);
          this.buttonCancel.Name = "buttonCancel";
          this.buttonCancel.Size = new System.Drawing.Size(75, 23);
          this.buttonCancel.TabIndex = 1;
@@ -54,7 +61,7 @@
          // 
          this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
          this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-         this.buttonOk.Location = new System.Drawing.Point(375, 453);
+         this.buttonOk.Location = new System.Drawing.Point(409, 463);
          this.buttonOk.Name = "buttonOk";
          this.buttonOk.Size = new System.Drawing.Size(75, 23);
          this.buttonOk.TabIndex = 1;
@@ -67,7 +74,7 @@
          this.buttonOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonOptions.BackgroundImage = global::AR_ApartmentBase.Properties.Resources.options;
          this.buttonOptions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-         this.buttonOptions.Location = new System.Drawing.Point(117, 449);
+         this.buttonOptions.Location = new System.Drawing.Point(117, 459);
          this.buttonOptions.Name = "buttonOptions";
          this.buttonOptions.Size = new System.Drawing.Size(30, 30);
          this.buttonOptions.TabIndex = 4;
@@ -80,7 +87,7 @@
          this.buttonShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.buttonShow.BackgroundImage = global::AR_ApartmentBase.Properties.Resources.Show;
          this.buttonShow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-         this.buttonShow.Location = new System.Drawing.Point(60, 447);
+         this.buttonShow.Location = new System.Drawing.Point(60, 457);
          this.buttonShow.Name = "buttonShow";
          this.buttonShow.Size = new System.Drawing.Size(41, 32);
          this.buttonShow.TabIndex = 2;
@@ -92,7 +99,7 @@
          // 
          this.labelCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.labelCount.AutoSize = true;
-         this.labelCount.Location = new System.Drawing.Point(12, 457);
+         this.labelCount.Location = new System.Drawing.Point(12, 467);
          this.labelCount.Name = "labelCount";
          this.labelCount.Size = new System.Drawing.Size(16, 13);
          this.labelCount.TabIndex = 3;
@@ -106,7 +113,7 @@
          this.treeViewApartments.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
          this.treeViewApartments.Location = new System.Drawing.Point(12, 12);
          this.treeViewApartments.Name = "treeViewApartments";
-         this.treeViewApartments.Size = new System.Drawing.Size(519, 375);
+         this.treeViewApartments.Size = new System.Drawing.Size(553, 357);
          this.treeViewApartments.TabIndex = 5;
          this.treeViewApartments.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeViewApartments_DrawNode);
          this.treeViewApartments.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewApartments_AfterSelect);
@@ -116,12 +123,67 @@
          // 
          this.textBoxInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-         this.textBoxInfo.Location = new System.Drawing.Point(12, 393);
+         this.textBoxInfo.Location = new System.Drawing.Point(12, 375);
          this.textBoxInfo.Multiline = true;
          this.textBoxInfo.Name = "textBoxInfo";
          this.textBoxInfo.ReadOnly = true;
-         this.textBoxInfo.Size = new System.Drawing.Size(519, 50);
+         this.textBoxInfo.Size = new System.Drawing.Size(553, 76);
          this.textBoxInfo.TabIndex = 6;
+         // 
+         // labelNotInBase
+         // 
+         this.labelNotInBase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+         this.labelNotInBase.AutoSize = true;
+         this.labelNotInBase.ForeColor = Color.Lime;
+         this.labelNotInBase.Location = new System.Drawing.Point(166, 457);
+         this.labelNotInBase.Name = "labelNotInBase";
+         this.labelNotInBase.Size = new System.Drawing.Size(41, 13);
+         this.labelNotInBase.TabIndex = 7;
+         this.labelNotInBase.Text = "Новые";
+         // 
+         // labelError
+         // 
+         this.labelError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+         this.labelError.AutoSize = true;
+         this.labelError.ForeColor = Color.Red;
+         this.labelError.Location = new System.Drawing.Point(213, 457);
+         this.labelError.Name = "labelError";
+         this.labelError.Size = new System.Drawing.Size(47, 13);
+         this.labelError.TabIndex = 7;
+         this.labelError.Text = "Ошибки";
+         // 
+         // labelChanged
+         // 
+         this.labelChanged.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+         this.labelChanged.AutoSize = true;
+         this.labelChanged.ForeColor = Color.Olive;
+         this.labelChanged.Location = new System.Drawing.Point(266, 457);
+         this.labelChanged.Name = "labelChanged";
+         this.labelChanged.Size = new System.Drawing.Size(65, 13);
+         this.labelChanged.TabIndex = 7;
+         this.labelChanged.Text = "Изменение";
+         // 
+         // labelNotInDwg
+         // 
+         this.labelNotInDwg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+         this.labelNotInDwg.AutoSize = true;
+         this.labelNotInDwg.ForeColor = Color.DarkViolet;
+         this.labelNotInDwg.Location = new System.Drawing.Point(166, 473);
+         this.labelNotInDwg.Name = "labelNotInDwg";
+         this.labelNotInDwg.Size = new System.Drawing.Size(80, 13);
+         this.labelNotInDwg.TabIndex = 7;
+         this.labelNotInDwg.Text = "Нет в чертеже";
+         // 
+         // labelOK
+         // 
+         this.labelOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+         this.labelOK.AutoSize = true;
+         this.labelOK.ForeColor = Color.Blue;
+         this.labelOK.Location = new System.Drawing.Point(252, 473);
+         this.labelOK.Name = "labelOK";
+         this.labelOK.Size = new System.Drawing.Size(85, 13);
+         this.labelOK.TabIndex = 7;
+         this.labelOK.Text = "Нет изменений";
          // 
          // FormBlocksExport
          // 
@@ -129,7 +191,12 @@
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.CancelButton = this.buttonCancel;
-         this.ClientSize = new System.Drawing.Size(543, 479);
+         this.ClientSize = new System.Drawing.Size(577, 489);
+         this.Controls.Add(this.labelOK);
+         this.Controls.Add(this.labelNotInDwg);
+         this.Controls.Add(this.labelChanged);
+         this.Controls.Add(this.labelError);
+         this.Controls.Add(this.labelNotInBase);
          this.Controls.Add(this.textBoxInfo);
          this.Controls.Add(this.treeViewApartments);
          this.Controls.Add(this.buttonOptions);
@@ -153,5 +220,10 @@
       private System.Windows.Forms.Button buttonOptions;
       private System.Windows.Forms.TreeView treeViewApartments;
       private System.Windows.Forms.TextBox textBoxInfo;
+      private System.Windows.Forms.Label labelNotInBase;
+      private System.Windows.Forms.Label labelError;
+      private System.Windows.Forms.Label labelChanged;
+      private System.Windows.Forms.Label labelNotInDwg;
+      private System.Windows.Forms.Label labelOK;      
    }
 }

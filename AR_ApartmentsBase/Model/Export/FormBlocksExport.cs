@@ -18,9 +18,27 @@ namespace AR_ApartmentBase.Model.Export
    {      
       private Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
 
+      private Brush brushNotInBase = Brushes.Lime;
+      private Brush brushError = Brushes.Red;
+      private Brush brushNotInDwg = Brushes.DarkViolet;
+      private Brush brushChanged = Brushes.Olive;
+      private Brush brushOk = Brushes.Blue;
+
+      private  Color colorNotInBase = Color.Lime;
+      private  Color colorError = Color.Red;
+      private  Color colorNotInDwg = Color.DarkViolet;
+      private  Color colorChanged = Color.Olive;
+      private  Color colorOk = Color.Blue;
+
       public FormBlocksExport(List<Apartment> apartments)
       {
          InitializeComponent();
+
+         labelChanged.ForeColor = colorChanged;
+         labelOK.ForeColor = colorOk;
+         labelError.ForeColor = colorError;
+         labelNotInBase.ForeColor = colorNotInBase;
+         labelNotInDwg.ForeColor = colorNotInDwg;
 
          labelCount.Text = apartments.Count.ToString();
 
@@ -80,28 +98,28 @@ namespace AR_ApartmentBase.Model.Export
          {
             if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.Error))
             {
-               // Ошибка
-               brush = Brushes.Red;
+               // Ошибка               
+               brush = this.brushError;// Brushes.Red;
             }
             else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.NotInBase))
             {
                // Новый
-               brush = Brushes.Green;
+               brush = this.brushNotInBase;  //Brushes.Lime;
             }
             else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg))
             {
                // Нет в чертеже, но есть в базе
-               brush = Brushes.Pink;
+               brush = this.brushNotInDwg; //Brushes.DarkViolet;
             }
             else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.Changed))
             {
                // Изменился
-               brush = Brushes.Yellow;
+               brush = this.brushChanged; //Brushes.Olive;
             }
             else if (rBlock.BaseStatus == EnumBaseStatus.OK)
             {
                // Не изменился
-               brush = Brushes.Blue;
+               brush = this.brushOk; // Brushes.Blue;
             }
          }
          else

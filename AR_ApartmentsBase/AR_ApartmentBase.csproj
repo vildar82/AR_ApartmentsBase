@@ -220,8 +220,8 @@
     <None Include="Model\DB\EntityModel\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </None>
-    <None Include="Model\Revit\ClassDiagramRevit.cd" />
-    <None Include="Model\Revit\Graph1.dgml" />
+    <None Include="Model\Revit\Schemas\ClassDiagramRevit.cd" />
+    <None Include="Model\Revit\Schemas\Graph1.dgml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

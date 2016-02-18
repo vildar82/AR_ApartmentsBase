@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,41 +19,45 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       {
          // Преобразование квартир в базе в объекты Apartment
          List<Apartment> apartments = new List<Apartment>();
-         //using (var entities = BaseApartments.ConnectEntities())
-         //{
-         //   foreach (var flatEnt in entities.F_R_Flats)
-         //   {
-         //      Apartment apart = new Apartment(flatEnt.WORKNAME);
-         //      apartments.Add(apart);
+         using (var entities = BaseApartments.ConnectEntities())
+         {
+            entities.F_R_Flats.Load();            
 
-         //      //Все модули в квартире
-         //      var fmEnts = flatEnt.F_nn_FlatModules.GroupBy(g => new { g.DIRECTION, g.LOCATION })
-         //                  .Select(g => g.MaxBy(r => r.REVISION));
+            var flatsLastRev = entities.F_R_Flats.Local.GroupBy(g => g.WORKNAME).Select(f => f.MaxBy(r => r.REVISION));
+            foreach (var flatEnt in flatsLastRev)
+            {
+               Apartment apart = new Apartment(flatEnt.WORKNAME);
+               apartments.Add(apart);
 
-         //      foreach (var fmEnt in fmEnts)
-         //      {
-         //         Module module = new Module(fmEnt.F_R_Modules.NAME_MODULE, apart, fmEnt.DIRECTION, fmEnt.LOCATION);
+               //Все модули в квартире
+               var fmsLastModRev = flatEnt.F_nn_FlatModules.GroupBy(fm => fm.F_R_Modules.NAME_MODULE)
+                                    .Select(m => m.MaxBy(r => r.F_R_Modules.REVISION));
 
-         //         // Елементы
-         //         var elemEnts = entities.F_nn_Elements_FlatModules.Where(efm => efm.ID_FLAT_MODULE == fmEnt.ID_FLAT_MODULE);
-         //         foreach (var elemEnt in elemEnts)
-         //         {
-         //            List<Parameter> parameters = new List<Parameter>();
-         //            elemEnt.F_nn_ElementParam_Value.ForEach(p => parameters.Add(new Parameter()
-         //            {
-         //               Name = p.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER,
-         //               Value = p.PARAMETER_VALUE
-         //            }));
-         //            parameters = Parameter.Sort(parameters);
-         //            Element elem = new Element(module,
-         //                                 elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_NAME,
-         //                                 elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_SYMBOL,
-         //                                 parameters);
-         //            elem.CategoryElement = elemEnt.F_S_Elements.F_S_Categories.NAME_RUS_CATEGORY;
-         //         }
-         //      }
-         //   }
-         //}
+               foreach (var fmEnt in fmsLastModRev)
+               {
+                  Module module = new Module(fmEnt.F_R_Modules.NAME_MODULE, apart, fmEnt.DIRECTION, fmEnt.LOCATION);
+
+                  // Елементы
+                  var elemsEnt = fmEnt.F_R_Modules.F_nn_Elements_Modules;
+                  foreach (var elemEnt in elemsEnt)
+                  {
+                     List<Parameter> parameters = new List<Parameter>();
+                     elemEnt.F_nn_ElementParam_Value.ForEach(p => parameters.Add(
+                           new Parameter()
+                           {
+                              Name = p.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER,
+                              Value = p.PARAMETER_VALUE
+                           }));
+                     parameters = Parameter.Sort(parameters);
+                     Element elem = new Element(module,
+                                          elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_NAME,
+                                          elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_SYMBOL,
+                                          parameters);
+                     elem.CategoryElement = elemEnt.F_S_Elements.F_S_Categories.NAME_RUS_CATEGORY;
+                  }
+               }
+            }
+         }
          return apartments;
       }
    }
