@@ -95,8 +95,8 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          IdBlRefElement = blRefElem.Id;
          IdBtrElement = blRefElem.BlockTableRecord;
          BlockTransform = blRefElem.BlockTransform;
-         Position = blRefElem.Position.TransformBy(module.BlockTransform);
-         Rotation = blRefElem.Rotation+module.Rotation;
+         Position = blRefElem.Position;
+         Rotation = blRefElem.Rotation;
          Direction = Element.GetDirection(Rotation);
          LocationPoint = TypeConverter.Point(Position);
 
