@@ -23,6 +23,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         public int ID_FLAT { get; set; }
         public string COMMERCIAL_NAME { get; set; }
         public string WORKNAME { get; set; }
+        public int REVISION { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<F_nn_FlatModules> F_nn_FlatModules { get; set; }

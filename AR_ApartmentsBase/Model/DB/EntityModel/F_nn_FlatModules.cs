@@ -17,7 +17,6 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         public int ID_FLAT_MODULE { get; set; }
         public int ID_FLAT { get; set; }
         public int ID_MODULE { get; set; }
-        public int REVISION { get; set; }
         public string LOCATION { get; set; }
         public string DIRECTION { get; set; }
         public Nullable<double> ANGLE { get; set; }

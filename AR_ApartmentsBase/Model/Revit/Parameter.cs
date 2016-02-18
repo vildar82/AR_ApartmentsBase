@@ -17,8 +17,8 @@ namespace AR_ApartmentBase.Model.Revit
          List<Parameter> parameters = new List<Parameter>();
 
          // Добавление параметров LocationPoint и Direction
-         parameters.Add(new Parameter() { Name = nameof(IRevitBlock.LocationPoint), Value = rBlock.LocationPoint });
-         parameters.Add(new Parameter() { Name = nameof(IRevitBlock.Direction), Value = rBlock.Direction });
+         //parameters.Add(new Parameter() { Name = nameof(IRevitBlock.LocationPoint), Value = rBlock.LocationPoint });
+         //parameters.Add(new Parameter() { Name = nameof(IRevitBlock.Direction), Value = rBlock.Direction });
 
          // считывание дин параметров
          defineDynParams(blRef, parameters);

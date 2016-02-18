@@ -23,6 +23,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
     
         public int ID_MODULE { get; set; }
         public string NAME_MODULE { get; set; }
+        public int REVISION { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<F_nn_Elements_Modules> F_nn_Elements_Modules { get; set; }
