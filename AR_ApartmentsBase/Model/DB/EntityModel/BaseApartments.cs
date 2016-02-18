@@ -102,7 +102,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       {
          F_R_Flats flatEnt = null;
          int revision = 0;
-         if (apart.BaseStatus.HasFlag(EnumBaseStatus.Changed))
+         if (apart.BaseStatus == EnumBaseStatus.Changed)
          {
             // Новая ревизия квартиры
             var lastRevision = entities.F_R_Flats.Local
@@ -112,7 +112,8 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          }
          else
          {
-            flatEnt = entities.F_R_Flats.Local.Where(f => f.WORKNAME.Equals(apart.BlockName, StringComparison.OrdinalIgnoreCase))
+            flatEnt = entities.F_R_Flats.Local
+                              .Where(f => f.WORKNAME.Equals(apart.BlockName, StringComparison.OrdinalIgnoreCase))
                               .MaxBy(r => r.REVISION);            
          }
 
@@ -126,16 +127,25 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       private static F_R_Modules getModuleEnt(Module module)
       {
          F_R_Modules moduleEnt = null;
-
-         //if (module.BaseStatus.HasFlag())
-         //{
-
-         //}
-
-         moduleEnt = entities.F_R_Modules.Local.SingleOrDefault(m => m.NAME_MODULE.Equals(module.BlockName, StringComparison.OrdinalIgnoreCase));
+         int revision = 0;
+         if (module.BaseStatus==EnumBaseStatus.Changed)
+         {
+            // Новая ревизия модуля
+            var lastRevision = entities.F_R_Modules.Local
+                                 .Where(m => m.NAME_MODULE.Equals(module.BlockName, StringComparison.OrdinalIgnoreCase))
+                                 .Max(r => r.REVISION);
+            revision = lastRevision + 1;
+         }
+         else
+         {
+            moduleEnt = entities.F_R_Modules.Local
+                                 .Where(m => m.NAME_MODULE.Equals(module.BlockName, StringComparison.OrdinalIgnoreCase))
+                                 .MaxBy(r=>r.REVISION);
+         }
+                  
          if (moduleEnt == null)
          {
-            moduleEnt = entities.F_R_Modules.Add(new F_R_Modules() { NAME_MODULE = module.BlockName, REVISION =0 });
+            moduleEnt = entities.F_R_Modules.Add(new F_R_Modules() { NAME_MODULE = module.BlockName, REVISION = revision });
          }
          return moduleEnt;
       }
@@ -146,10 +156,10 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                               (fm =>
                                     fm.ID_FLAT == moduleEnt.ID_MODULE &&
                                     fm.LOCATION.Equals(module.LocationPoint) &&
-                                    fm.DIRECTION.Equals(module.Direction)                                    
+                                    fm.DIRECTION.Equals(module.Direction)                                                                   
                               );         
          if (fmEnt == null)
-         {
+         {            
             fmEnt = new F_nn_FlatModules()
             {
                F_R_Flats = flatEnt,
@@ -166,18 +176,20 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       private static F_S_Elements getElement(Element elem)
       {
          // Категория элемента
-         var catEnt = entities.F_S_Categories.Single(c => c.NAME_RUS_CATEGORY.Equals(elem.CategoryElement, StringComparison.OrdinalIgnoreCase));
+         var catEnt = entities.F_S_Categories.Single(
+                       c => c.NAME_RUS_CATEGORY.Equals(elem.CategoryElement, StringComparison.OrdinalIgnoreCase));
          // Семейство элемента         
          var famInfoEnt = entities.F_S_FamilyInfos.Local.SingleOrDefault(f =>
                   f.FAMILY_NAME.Equals(elem.FamilyName.Value, StringComparison.OrdinalIgnoreCase) &&
                   f.FAMILY_SYMBOL.Equals(elem.FamilySymbolName.Value, StringComparison.OrdinalIgnoreCase));
          if (famInfoEnt == null)
          {
-            famInfoEnt = entities.F_S_FamilyInfos.Add(new F_S_FamilyInfos()
-            {
-               FAMILY_NAME = elem.FamilyName.Value,
-               FAMILY_SYMBOL = elem.FamilySymbolName.Value                                              
-            });
+            famInfoEnt = entities.F_S_FamilyInfos.Add(
+               new F_S_FamilyInfos()
+               {
+                  FAMILY_NAME = elem.FamilyName.Value,
+                  FAMILY_SYMBOL = elem.FamilySymbolName.Value                  
+               });
          }
 
          // Елемент
@@ -189,7 +201,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             elemEnt = entities.F_S_Elements.Add(new F_S_Elements()
             {
                F_S_Categories = catEnt,
-               F_S_FamilyInfos = famInfoEnt                
+               F_S_FamilyInfos = famInfoEnt      ,                          
             });
          }
          return elemEnt;
@@ -202,14 +214,14 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             F_R_Modules = moduleEnt,
             F_S_Elements = elemEnt,
             DIRECTION = elem.Direction,
-            LOCATION = elem.LocationPoint
+            LOCATION = elem.LocationPoint             
          };
          moduleEnt.F_nn_Elements_Modules.Add(elemM);
          return elemM;
       }
 
       private static void setElemValues(F_nn_Elements_Modules emEnt, F_S_Elements elemEnt, Element elem)
-      {
+      {         
          // Параметры элемента которые нужно заполнить
          foreach (var paramEnt in elemEnt.F_S_Categories.F_nn_Category_Parameters)
          {

@@ -30,7 +30,5 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         public virtual ICollection<F_nn_ElementParam_Value> F_nn_ElementParam_Value { get; set; }
         public virtual F_R_Modules F_R_Modules { get; set; }
         public virtual F_S_Elements F_S_Elements { get; set; }
-        public virtual F_nn_Elements_Modules F_nn_Elements_Modules1 { get; set; }
-        public virtual F_nn_Elements_Modules F_nn_Elements_Modules2 { get; set; }
     }
 }

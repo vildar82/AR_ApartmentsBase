@@ -46,13 +46,13 @@ namespace Tests_ApartmentBase.DbTest {
         
         private F_nn_FlatModulesDataTable tableF_nn_FlatModules;
         
+        private Elemenmt_ElementValueDataTable tableElemenmt_ElementValue;
+        
         private global::System.Data.DataRelation relationFK_F_nn_Category_Parameters_F_S_Categories;
         
         private global::System.Data.DataRelation relationFK_F_nn_Category_Parameters_F_S_Parameters;
         
         private global::System.Data.DataRelation relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters;
-        
-        private global::System.Data.DataRelation relationFK_F_nn_ElementParam_Value_F_nn_Elements_Modules;
         
         private global::System.Data.DataRelation relationFK_F_nn_Elements_Modules_F_nn_Elements_Modules;
         
@@ -65,6 +65,10 @@ namespace Tests_ApartmentBase.DbTest {
         private global::System.Data.DataRelation relationFK_F_R_FlatModules_F_R_Modules;
         
         private global::System.Data.DataRelation relationFK_F_nn_Elements_FlatModules_F_R_Modules;
+        
+        private global::System.Data.DataRelation relationF_S_Elements_Elemenmt_ElementValue;
+        
+        private global::System.Data.DataRelation relationF_nn_ElementParam_Value_Elemenmt_ElementValue;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -126,6 +130,9 @@ namespace Tests_ApartmentBase.DbTest {
                 }
                 if ((ds.Tables["F_nn_FlatModules"] != null)) {
                     base.Tables.Add(new F_nn_FlatModulesDataTable(ds.Tables["F_nn_FlatModules"]));
+                }
+                if ((ds.Tables["Elemenmt_ElementValue"] != null)) {
+                    base.Tables.Add(new Elemenmt_ElementValueDataTable(ds.Tables["Elemenmt_ElementValue"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -257,6 +264,16 @@ namespace Tests_ApartmentBase.DbTest {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public Elemenmt_ElementValueDataTable Elemenmt_ElementValue {
+            get {
+                return this.tableElemenmt_ElementValue;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -354,6 +371,9 @@ namespace Tests_ApartmentBase.DbTest {
                 }
                 if ((ds.Tables["F_nn_FlatModules"] != null)) {
                     base.Tables.Add(new F_nn_FlatModulesDataTable(ds.Tables["F_nn_FlatModules"]));
+                }
+                if ((ds.Tables["Elemenmt_ElementValue"] != null)) {
+                    base.Tables.Add(new Elemenmt_ElementValueDataTable(ds.Tables["Elemenmt_ElementValue"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -454,16 +474,23 @@ namespace Tests_ApartmentBase.DbTest {
                     this.tableF_nn_FlatModules.InitVars();
                 }
             }
+            this.tableElemenmt_ElementValue = ((Elemenmt_ElementValueDataTable)(base.Tables["Elemenmt_ElementValue"]));
+            if ((initTable == true)) {
+                if ((this.tableElemenmt_ElementValue != null)) {
+                    this.tableElemenmt_ElementValue.InitVars();
+                }
+            }
             this.relationFK_F_nn_Category_Parameters_F_S_Categories = this.Relations["FK_F_nn_Category_Parameters_F_S_Categories"];
             this.relationFK_F_nn_Category_Parameters_F_S_Parameters = this.Relations["FK_F_nn_Category_Parameters_F_S_Parameters"];
             this.relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters = this.Relations["FK_F_nn_ElementParam_Value_F_nn_Category_Parameters"];
-            this.relationFK_F_nn_ElementParam_Value_F_nn_Elements_Modules = this.Relations["FK_F_nn_ElementParam_Value_F_nn_Elements_Modules"];
             this.relationFK_F_nn_Elements_Modules_F_nn_Elements_Modules = this.Relations["FK_F_nn_Elements_Modules_F_nn_Elements_Modules"];
             this.relationFK_F_S_Elements_F_S_Categories = this.Relations["FK_F_S_Elements_F_S_Categories"];
             this.relationFK_F_S_Elements_F_S_FamilyInfos = this.Relations["FK_F_S_Elements_F_S_FamilyInfos"];
             this.relationFK_F_R_FlatModules_F_R_Flats1 = this.Relations["FK_F_R_FlatModules_F_R_Flats1"];
             this.relationFK_F_R_FlatModules_F_R_Modules = this.Relations["FK_F_R_FlatModules_F_R_Modules"];
             this.relationFK_F_nn_Elements_FlatModules_F_R_Modules = this.Relations["FK_F_nn_Elements_FlatModules_F_R_Modules"];
+            this.relationF_S_Elements_Elemenmt_ElementValue = this.Relations["F_S_Elements_Elemenmt_ElementValue"];
+            this.relationF_nn_ElementParam_Value_Elemenmt_ElementValue = this.Relations["F_nn_ElementParam_Value_Elemenmt_ElementValue"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -496,6 +523,8 @@ namespace Tests_ApartmentBase.DbTest {
             base.Tables.Add(this.tableF_R_Modules);
             this.tableF_nn_FlatModules = new F_nn_FlatModulesDataTable();
             base.Tables.Add(this.tableF_nn_FlatModules);
+            this.tableElemenmt_ElementValue = new Elemenmt_ElementValueDataTable();
+            base.Tables.Add(this.tableElemenmt_ElementValue);
             this.relationFK_F_nn_Category_Parameters_F_S_Categories = new global::System.Data.DataRelation("FK_F_nn_Category_Parameters_F_S_Categories", new global::System.Data.DataColumn[] {
                         this.tableF_S_Categories.ID_CATEGORYColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_Category_Parameters.ID_CATEGORYColumn}, false);
@@ -508,10 +537,6 @@ namespace Tests_ApartmentBase.DbTest {
                         this.tableF_nn_Category_Parameters.ID_CAT_PARAMETERColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_ElementParam_Value.ID_CAT_PARAMETERColumn}, false);
             this.Relations.Add(this.relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters);
-            this.relationFK_F_nn_ElementParam_Value_F_nn_Elements_Modules = new global::System.Data.DataRelation("FK_F_nn_ElementParam_Value_F_nn_Elements_Modules", new global::System.Data.DataColumn[] {
-                        this.tableF_nn_Elements_Modules.ID_ELEMENT_IN_MODULEColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_ElementParam_Value.ID_ELEMENT_IN_MODULEColumn}, false);
-            this.Relations.Add(this.relationFK_F_nn_ElementParam_Value_F_nn_Elements_Modules);
             this.relationFK_F_nn_Elements_Modules_F_nn_Elements_Modules = new global::System.Data.DataRelation("FK_F_nn_Elements_Modules_F_nn_Elements_Modules", new global::System.Data.DataColumn[] {
                         this.tableF_S_Elements.ID_ELEMENTColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_Elements_Modules.ID_ELEMENTColumn}, false);
@@ -536,6 +561,14 @@ namespace Tests_ApartmentBase.DbTest {
                         this.tableF_R_Modules.ID_MODULEColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_Elements_Modules.ID_MODULEColumn}, false);
             this.Relations.Add(this.relationFK_F_nn_Elements_FlatModules_F_R_Modules);
+            this.relationF_S_Elements_Elemenmt_ElementValue = new global::System.Data.DataRelation("F_S_Elements_Elemenmt_ElementValue", new global::System.Data.DataColumn[] {
+                        this.tableF_S_Elements.ID_ELEMENTColumn}, new global::System.Data.DataColumn[] {
+                        this.tableElemenmt_ElementValue.ID_ELEMENTColumn}, false);
+            this.Relations.Add(this.relationF_S_Elements_Elemenmt_ElementValue);
+            this.relationF_nn_ElementParam_Value_Elemenmt_ElementValue = new global::System.Data.DataRelation("F_nn_ElementParam_Value_Elemenmt_ElementValue", new global::System.Data.DataColumn[] {
+                        this.tableF_nn_ElementParam_Value.ID_ELEMENT_VALUEColumn}, new global::System.Data.DataColumn[] {
+                        this.tableElemenmt_ElementValue.ID_ELEMENT_VALUEColumn}, false);
+            this.Relations.Add(this.relationF_nn_ElementParam_Value_Elemenmt_ElementValue);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -601,6 +634,12 @@ namespace Tests_ApartmentBase.DbTest {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private bool ShouldSerializeF_nn_FlatModules() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private bool ShouldSerializeElemenmt_ElementValue() {
             return false;
         }
         
@@ -691,6 +730,9 @@ namespace Tests_ApartmentBase.DbTest {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void F_nn_FlatModulesRowChangeEventHandler(object sender, F_nn_FlatModulesRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public delegate void Elemenmt_ElementValueRowChangeEventHandler(object sender, Elemenmt_ElementValueRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -1400,16 +1442,13 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_ElementParam_ValueRow AddF_nn_ElementParam_ValueRow(F_nn_Elements_ModulesRow parentF_nn_Elements_ModulesRowByFK_F_nn_ElementParam_Value_F_nn_Elements_Modules, F_nn_Category_ParametersRow parentF_nn_Category_ParametersRowByFK_F_nn_ElementParam_Value_F_nn_Category_Parameters, string PARAMETER_VALUE) {
+            public F_nn_ElementParam_ValueRow AddF_nn_ElementParam_ValueRow(int ID_ELEMENT_IN_MODULE, F_nn_Category_ParametersRow parentF_nn_Category_ParametersRowByFK_F_nn_ElementParam_Value_F_nn_Category_Parameters, string PARAMETER_VALUE) {
                 F_nn_ElementParam_ValueRow rowF_nn_ElementParam_ValueRow = ((F_nn_ElementParam_ValueRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
-                        null,
+                        ID_ELEMENT_IN_MODULE,
                         null,
                         PARAMETER_VALUE};
-                if ((parentF_nn_Elements_ModulesRowByFK_F_nn_ElementParam_Value_F_nn_Elements_Modules != null)) {
-                    columnValuesArray[1] = parentF_nn_Elements_ModulesRowByFK_F_nn_ElementParam_Value_F_nn_Elements_Modules[0];
-                }
                 if ((parentF_nn_Category_ParametersRowByFK_F_nn_ElementParam_Value_F_nn_Category_Parameters != null)) {
                     columnValuesArray[2] = parentF_nn_Category_ParametersRowByFK_F_nn_ElementParam_Value_F_nn_Category_Parameters[0];
                 }
@@ -4084,6 +4123,293 @@ namespace Tests_ApartmentBase.DbTest {
         }
         
         /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class Elemenmt_ElementValueDataTable : global::System.Data.TypedTableBase<Elemenmt_ElementValueRow> {
+            
+            private global::System.Data.DataColumn columnID;
+            
+            private global::System.Data.DataColumn columnID_ELEMENT;
+            
+            private global::System.Data.DataColumn columnID_ELEMENT_VALUE;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public Elemenmt_ElementValueDataTable() {
+                this.TableName = "Elemenmt_ElementValue";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal Elemenmt_ElementValueDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected Elemenmt_ElementValueDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn IDColumn {
+                get {
+                    return this.columnID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ID_ELEMENTColumn {
+                get {
+                    return this.columnID_ELEMENT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ID_ELEMENT_VALUEColumn {
+                get {
+                    return this.columnID_ELEMENT_VALUE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public Elemenmt_ElementValueRow this[int index] {
+                get {
+                    return ((Elemenmt_ElementValueRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event Elemenmt_ElementValueRowChangeEventHandler Elemenmt_ElementValueRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event Elemenmt_ElementValueRowChangeEventHandler Elemenmt_ElementValueRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event Elemenmt_ElementValueRowChangeEventHandler Elemenmt_ElementValueRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event Elemenmt_ElementValueRowChangeEventHandler Elemenmt_ElementValueRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void AddElemenmt_ElementValueRow(Elemenmt_ElementValueRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public Elemenmt_ElementValueRow AddElemenmt_ElementValueRow(F_S_ElementsRow parentF_S_ElementsRowByF_S_Elements_Elemenmt_ElementValue, F_nn_ElementParam_ValueRow parentF_nn_ElementParam_ValueRowByF_nn_ElementParam_Value_Elemenmt_ElementValue) {
+                Elemenmt_ElementValueRow rowElemenmt_ElementValueRow = ((Elemenmt_ElementValueRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        null,
+                        null};
+                if ((parentF_S_ElementsRowByF_S_Elements_Elemenmt_ElementValue != null)) {
+                    columnValuesArray[1] = parentF_S_ElementsRowByF_S_Elements_Elemenmt_ElementValue[0];
+                }
+                if ((parentF_nn_ElementParam_ValueRowByF_nn_ElementParam_Value_Elemenmt_ElementValue != null)) {
+                    columnValuesArray[2] = parentF_nn_ElementParam_ValueRowByF_nn_ElementParam_Value_Elemenmt_ElementValue[0];
+                }
+                rowElemenmt_ElementValueRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowElemenmt_ElementValueRow);
+                return rowElemenmt_ElementValueRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                Elemenmt_ElementValueDataTable cln = ((Elemenmt_ElementValueDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new Elemenmt_ElementValueDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal void InitVars() {
+                this.columnID = base.Columns["ID"];
+                this.columnID_ELEMENT = base.Columns["ID_ELEMENT"];
+                this.columnID_ELEMENT_VALUE = base.Columns["ID_ELEMENT_VALUE"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            private void InitClass() {
+                this.columnID = new global::System.Data.DataColumn("ID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID);
+                this.columnID_ELEMENT = new global::System.Data.DataColumn("ID_ELEMENT", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_ELEMENT);
+                this.columnID_ELEMENT_VALUE = new global::System.Data.DataColumn("ID_ELEMENT_VALUE", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_ELEMENT_VALUE);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnID}, false));
+                this.columnID.AutoIncrement = true;
+                this.columnID.AutoIncrementSeed = -1;
+                this.columnID.AutoIncrementStep = -1;
+                this.columnID.Unique = true;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public Elemenmt_ElementValueRow NewElemenmt_ElementValueRow() {
+                return ((Elemenmt_ElementValueRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new Elemenmt_ElementValueRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(Elemenmt_ElementValueRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.Elemenmt_ElementValueRowChanged != null)) {
+                    this.Elemenmt_ElementValueRowChanged(this, new Elemenmt_ElementValueRowChangeEvent(((Elemenmt_ElementValueRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.Elemenmt_ElementValueRowChanging != null)) {
+                    this.Elemenmt_ElementValueRowChanging(this, new Elemenmt_ElementValueRowChangeEvent(((Elemenmt_ElementValueRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.Elemenmt_ElementValueRowDeleted != null)) {
+                    this.Elemenmt_ElementValueRowDeleted(this, new Elemenmt_ElementValueRowChangeEvent(((Elemenmt_ElementValueRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.Elemenmt_ElementValueRowDeleting != null)) {
+                    this.Elemenmt_ElementValueRowDeleting(this, new Elemenmt_ElementValueRowChangeEvent(((Elemenmt_ElementValueRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void RemoveElemenmt_ElementValueRow(Elemenmt_ElementValueRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                DataSet1 ds = new DataSet1();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "Elemenmt_ElementValueDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         public partial class F_nn_Category_ParametersRow : global::System.Data.DataRow {
@@ -4311,12 +4637,12 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_Elements_ModulesRow F_nn_Elements_ModulesRow {
-                get {
-                    return ((F_nn_Elements_ModulesRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_ElementParam_Value_F_nn_Elements_Modules"])));
+            public Elemenmt_ElementValueRow[] GetElemenmt_ElementValueRows() {
+                if ((this.Table.ChildRelations["F_nn_ElementParam_Value_Elemenmt_ElementValue"] == null)) {
+                    return new Elemenmt_ElementValueRow[0];
                 }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_ElementParam_Value_F_nn_Elements_Modules"]);
+                else {
+                    return ((Elemenmt_ElementValueRow[])(base.GetChildRows(this.Table.ChildRelations["F_nn_ElementParam_Value_Elemenmt_ElementValue"])));
                 }
             }
         }
@@ -4427,17 +4753,6 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetDIRECTIONNull() {
                 this[this.tableF_nn_Elements_Modules.DIRECTIONColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_ElementParam_ValueRow[] GetF_nn_ElementParam_ValueRows() {
-                if ((this.Table.ChildRelations["FK_F_nn_ElementParam_Value_F_nn_Elements_Modules"] == null)) {
-                    return new F_nn_ElementParam_ValueRow[0];
-                }
-                else {
-                    return ((F_nn_ElementParam_ValueRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_nn_ElementParam_Value_F_nn_Elements_Modules"])));
-                }
             }
         }
         
@@ -4624,6 +4939,17 @@ namespace Tests_ApartmentBase.DbTest {
                 }
                 else {
                     return ((F_nn_Elements_ModulesRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_nn_Elements_Modules_F_nn_Elements_Modules"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public Elemenmt_ElementValueRow[] GetElemenmt_ElementValueRows() {
+                if ((this.Table.ChildRelations["F_S_Elements_Elemenmt_ElementValue"] == null)) {
+                    return new Elemenmt_ElementValueRow[0];
+                }
+                else {
+                    return ((Elemenmt_ElementValueRow[])(base.GetChildRows(this.Table.ChildRelations["F_S_Elements_Elemenmt_ElementValue"])));
                 }
             }
         }
@@ -5063,6 +5389,129 @@ namespace Tests_ApartmentBase.DbTest {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class Elemenmt_ElementValueRow : global::System.Data.DataRow {
+            
+            private Elemenmt_ElementValueDataTable tableElemenmt_ElementValue;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal Elemenmt_ElementValueRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableElemenmt_ElementValue = ((Elemenmt_ElementValueDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int ID {
+                get {
+                    try {
+                        return ((int)(this[this.tableElemenmt_ElementValue.IDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'ID\' в таблице \'Elemenmt_ElementValue\' равно DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableElemenmt_ElementValue.IDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int ID_ELEMENT {
+                get {
+                    try {
+                        return ((int)(this[this.tableElemenmt_ElementValue.ID_ELEMENTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'ID_ELEMENT\' в таблице \'Elemenmt_ElementValue\' равно DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableElemenmt_ElementValue.ID_ELEMENTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int ID_ELEMENT_VALUE {
+                get {
+                    try {
+                        return ((int)(this[this.tableElemenmt_ElementValue.ID_ELEMENT_VALUEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'ID_ELEMENT_VALUE\' в таблице \'Elemenmt_ElementValue\' равно D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableElemenmt_ElementValue.ID_ELEMENT_VALUEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_S_ElementsRow F_S_ElementsRow {
+                get {
+                    return ((F_S_ElementsRow)(this.GetParentRow(this.Table.ParentRelations["F_S_Elements_Elemenmt_ElementValue"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["F_S_Elements_Elemenmt_ElementValue"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_ElementParam_ValueRow F_nn_ElementParam_ValueRow {
+                get {
+                    return ((F_nn_ElementParam_ValueRow)(this.GetParentRow(this.Table.ParentRelations["F_nn_ElementParam_Value_Elemenmt_ElementValue"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["F_nn_ElementParam_Value_Elemenmt_ElementValue"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsIDNull() {
+                return this.IsNull(this.tableElemenmt_ElementValue.IDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetIDNull() {
+                this[this.tableElemenmt_ElementValue.IDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsID_ELEMENTNull() {
+                return this.IsNull(this.tableElemenmt_ElementValue.ID_ELEMENTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetID_ELEMENTNull() {
+                this[this.tableElemenmt_ElementValue.ID_ELEMENTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsID_ELEMENT_VALUENull() {
+                return this.IsNull(this.tableElemenmt_ElementValue.ID_ELEMENT_VALUEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetID_ELEMENT_VALUENull() {
+                this[this.tableElemenmt_ElementValue.ID_ELEMENT_VALUEColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -5422,6 +5871,40 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public F_nn_FlatModulesRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public class Elemenmt_ElementValueRowChangeEvent : global::System.EventArgs {
+            
+            private Elemenmt_ElementValueRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public Elemenmt_ElementValueRowChangeEvent(Elemenmt_ElementValueRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public Elemenmt_ElementValueRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -9392,24 +9875,6 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateUpdatedRows(DataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._f_S_CategoriesTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.F_S_Categories.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._f_S_CategoriesTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
-            if ((this._f_S_FamilyInfosTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.F_S_FamilyInfos.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._f_S_FamilyInfosTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._f_S_ParametersTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
@@ -9419,21 +9884,12 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._f_S_ElementsTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.F_S_Elements.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._f_S_CategoriesTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.F_S_Categories.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._f_S_ElementsTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
-            if ((this._f_R_ModulesTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.F_R_Modules.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._f_R_ModulesTableAdapter.Update(updatedRows));
+                    result = (result + this._f_S_CategoriesTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -9446,12 +9902,30 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._f_nn_Elements_ModulesTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.F_nn_Elements_Modules.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._f_S_FamilyInfosTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.F_S_FamilyInfos.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._f_nn_Elements_ModulesTableAdapter.Update(updatedRows));
+                    result = (result + this._f_S_FamilyInfosTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.F_nn_ElementParam_Value.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._f_nn_ElementParam_ValueTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._f_S_ElementsTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.F_S_Elements.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._f_S_ElementsTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -9464,12 +9938,21 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.F_nn_ElementParam_Value.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._f_R_ModulesTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.F_R_Modules.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._f_nn_ElementParam_ValueTableAdapter.Update(updatedRows));
+                    result = (result + this._f_R_ModulesTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._f_nn_Elements_ModulesTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.F_nn_Elements_Modules.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._f_nn_Elements_ModulesTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -9492,22 +9975,6 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateInsertedRows(DataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._f_S_CategoriesTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.F_S_Categories.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._f_S_CategoriesTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
-            if ((this._f_S_FamilyInfosTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.F_S_FamilyInfos.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._f_S_FamilyInfosTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             if ((this._f_S_ParametersTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
@@ -9516,19 +9983,11 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._f_S_ElementsTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.F_S_Elements.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._f_S_CategoriesTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.F_S_Categories.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._f_S_ElementsTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
-            if ((this._f_R_ModulesTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.F_R_Modules.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._f_R_ModulesTableAdapter.Update(addedRows));
+                    result = (result + this._f_S_CategoriesTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -9540,11 +9999,27 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._f_nn_Elements_ModulesTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.F_nn_Elements_Modules.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._f_S_FamilyInfosTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.F_S_FamilyInfos.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._f_nn_Elements_ModulesTableAdapter.Update(addedRows));
+                    result = (result + this._f_S_FamilyInfosTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.F_nn_ElementParam_Value.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._f_nn_ElementParam_ValueTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._f_S_ElementsTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.F_S_Elements.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._f_S_ElementsTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -9556,11 +10031,19 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.F_nn_ElementParam_Value.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._f_R_ModulesTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.F_R_Modules.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._f_nn_ElementParam_ValueTableAdapter.Update(addedRows));
+                    result = (result + this._f_R_ModulesTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._f_nn_Elements_ModulesTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.F_nn_Elements_Modules.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._f_nn_Elements_ModulesTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -9590,35 +10073,11 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.F_nn_ElementParam_Value.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._f_nn_ElementParam_ValueTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._f_R_FlatsTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.F_R_Flats.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._f_R_FlatsTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
             if ((this._f_nn_Elements_ModulesTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.F_nn_Elements_Modules.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._f_nn_Elements_ModulesTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._f_nn_Category_ParametersTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.F_nn_Category_Parameters.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._f_nn_Category_ParametersTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -9630,6 +10089,14 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
                     allChangedRows.AddRange(deletedRows);
                 }
             }
+            if ((this._f_R_FlatsTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.F_R_Flats.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._f_R_FlatsTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
             if ((this._f_S_ElementsTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.F_S_Elements.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
@@ -9638,11 +10105,11 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._f_S_ParametersTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.F_nn_ElementParam_Value.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._f_S_ParametersTableAdapter.Update(deletedRows));
+                    result = (result + this._f_nn_ElementParam_ValueTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -9654,11 +10121,27 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
                     allChangedRows.AddRange(deletedRows);
                 }
             }
+            if ((this._f_nn_Category_ParametersTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.F_nn_Category_Parameters.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._f_nn_Category_ParametersTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
             if ((this._f_S_CategoriesTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.F_S_Categories.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._f_S_CategoriesTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._f_S_ParametersTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._f_S_ParametersTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }

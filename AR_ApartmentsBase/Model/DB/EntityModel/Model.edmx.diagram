@@ -7,7 +7,7 @@
       <Diagram DiagramId="281f767c6ca645e8aed449aa1efa6773" Name="Diagram1">
         <EntityTypeShape EntityType="SAPRModel.F_nn_Category_Parameters" Width="2.25" PointX="11.5" PointY="4" />
         <EntityTypeShape EntityType="SAPRModel.F_nn_ElementParam_Value" Width="2.625" PointX="10.875" PointY="0.5" />
-        <EntityTypeShape EntityType="SAPRModel.F_nn_Elements_Modules" Width="2.5" PointX="7.625" PointY="0.5" />
+        <EntityTypeShape EntityType="SAPRModel.F_nn_Elements_Modules" Width="2.5" PointX="7.75" PointY="0.5" />
         <EntityTypeShape EntityType="SAPRModel.F_nn_FlatModules" Width="2.125" PointX="2.75" PointY="0.5" />
         <EntityTypeShape EntityType="SAPRModel.F_R_Flats" Width="1.5" PointX="0.5" PointY="0.5" />
         <EntityTypeShape EntityType="SAPRModel.F_R_Modules" Width="1.875" PointX="5.375" PointY="0.5" />
@@ -25,7 +25,6 @@
         <AssociationConnector Association="SAPRModel.FK_F_R_FlatModules_F_R_Modules" />
         <AssociationConnector Association="SAPRModel.FK_F_S_Elements_F_S_Categories" />
         <AssociationConnector Association="SAPRModel.FK_F_S_Elements_F_S_FamilyInfos" />
-        <AssociationConnector Association="SAPRModel.FK_F_nn_Elements_Modules_F_nn_Elements_Modules1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

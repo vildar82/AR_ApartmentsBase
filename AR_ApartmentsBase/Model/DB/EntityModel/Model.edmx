@@ -353,10 +353,6 @@
             <End Role="F_S_FamilyInfos" EntitySet="F_S_FamilyInfos" />
             <End Role="F_S_Elements" EntitySet="F_S_Elements" />
           </AssociationSet>
-          <AssociationSet Name="FK_F_nn_Elements_Modules_F_nn_Elements_Modules1" Association="SAPRModel.FK_F_nn_Elements_Modules_F_nn_Elements_Modules1">
-            <End Role="F_nn_Elements_Modules" EntitySet="F_nn_Elements_Modules" />
-            <End Role="F_nn_Elements_Modules1" EntitySet="F_nn_Elements_Modules" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="F_nn_Category_Parameters">
           <Key>
@@ -392,9 +388,7 @@
           <NavigationProperty Name="F_nn_ElementParam_Value" Relationship="SAPRModel.FK_F_nn_ElementParam_Value_F_nn_Elements_Modules" FromRole="F_nn_Elements_Modules" ToRole="F_nn_ElementParam_Value" />
           <NavigationProperty Name="F_R_Modules" Relationship="SAPRModel.FK_F_nn_Elements_FlatModules_F_R_Modules" FromRole="F_nn_Elements_Modules" ToRole="F_R_Modules" />
           <NavigationProperty Name="F_S_Elements" Relationship="SAPRModel.FK_F_nn_Elements_Modules_F_nn_Elements_Modules" FromRole="F_nn_Elements_Modules" ToRole="F_S_Elements" />
-          <NavigationProperty Name="F_nn_Elements_Modules1" Relationship="SAPRModel.FK_F_nn_Elements_Modules_F_nn_Elements_Modules1" FromRole="F_nn_Elements_Modules" ToRole="F_nn_Elements_Modules1" />
-          <NavigationProperty Name="F_nn_Elements_Modules2" Relationship="SAPRModel.FK_F_nn_Elements_Modules_F_nn_Elements_Modules1" FromRole="F_nn_Elements_Modules1" ToRole="F_nn_Elements_Modules" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="F_nn_FlatModules">
           <Key>
             <PropertyRef Name="ID_FLAT_MODULE" />
@@ -602,18 +596,6 @@
             </Principal>
             <Dependent Role="F_S_Elements">
               <PropertyRef Name="ID_FAMILY_INFO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_F_nn_Elements_Modules_F_nn_Elements_Modules1">
-          <End Type="SAPRModel.F_nn_Elements_Modules" Role="F_nn_Elements_Modules" Multiplicity="1" />
-          <End Type="SAPRModel.F_nn_Elements_Modules" Role="F_nn_Elements_Modules1" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="F_nn_Elements_Modules">
-              <PropertyRef Name="ID_ELEMENT_IN_MODULE" />
-            </Principal>
-            <Dependent Role="F_nn_Elements_Modules1">
-              <PropertyRef Name="ID_ELEMENT_IN_MODULE" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
