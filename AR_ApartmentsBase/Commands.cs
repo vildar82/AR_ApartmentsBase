@@ -73,6 +73,8 @@ namespace AR_ApartmentBase
 
             ExportApartmentsAbout();
 
+            Parameter.BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
+
             // Считывание блоков квартир.
             var apartments = Apartment.GetApartments(db);
             if (apartments.Count == 0)
@@ -81,8 +83,18 @@ namespace AR_ApartmentBase
             }
             ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир.");
 
+            if (Inspector.HasErrors)
+            {
+               if (Inspector.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+               {
+                  Inspector.Clear();
+                  throw new System.Exception("Отменено пользователем");
+               }
+               Inspector.Clear();
+            }            
+
             // Квартиры в базе
-            var apartmentsInBase = GetBaseApartments.GetAll();            
+            var apartmentsInBase = GetBaseApartments.GetAll();
 
             //Проверка всех элементов квартир в базе - категории, параметры.
             CheckApartments.Check(apartments, apartmentsInBase);
@@ -95,11 +107,15 @@ namespace AR_ApartmentBase
                var count = Apartment.ExportToFiles(apartments);
                ed.WriteMessage($"\nЭкспортированно {count} квартир в отдельные файлы.");
 
-               // Экспорт только блоков квартир без ошибок, которых нет в базе или они изменились
-               var apartmentsToExport = apartments.Where(a => 
-                                 !a.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
-                                 !a.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg)).ToList();
-
+               // Выбор квартир записываемых в базу - изменившиеся и новые
+               var apartsToDb = apartments.Where(a => 
+                              a.BaseStatus == EnumBaseStatus.Changed ||
+                              a.BaseStatus == EnumBaseStatus.New).ToList();
+               var apartsNotToDB = apartments.Except(apartsToDb);
+               foreach (var apartNotToDB in apartsNotToDB)
+               {
+                  ed.WriteMessage($"\nКвартира не будет записана в базу, статус {apartNotToDB.BaseStatus} - {apartNotToDB.Name}.");
+               }
 
                //// Запись квартир в xml
                //string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");               
@@ -107,25 +123,20 @@ namespace AR_ApartmentBase
 
                // Запись в DB    
                // Для димана пока без записи в БД           
+#if DEBUG
                try
                {
-                  BaseApartments.Export(apartmentsToExport);
+                  BaseApartments.Export(apartsToDb);                  
                }
                catch (System.Exception ex)
                {
                   Inspector.AddError($"Ошибка экспорта в БД - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
                }
-
+#endif
                // Запись лога экспортированных блоков      
                string logFile = Path.Combine(Path.GetDirectoryName(doc.Name), Options.Instance.LogFileName);
                ExcelLog excelLog = new ExcelLog(logFile);
-               excelLog.AddtoLog(apartmentsToExport);
-
-               // Показ ошибок
-               if (Inspector.HasErrors)
-               {
-                  Inspector.Show();
-               }
+               excelLog.AddtoLog(apartments);
             }
          }
          catch (System.Exception ex)
@@ -135,6 +146,12 @@ namespace AR_ApartmentBase
             {
                Logger.Log.Error(ex, $"Command: AR-BaseApartmentsExport. {doc.Name}");
             }
+         }
+
+         // Показ ошибок
+         if (Inspector.HasErrors)
+         {
+            Inspector.Show();
          }
       }
 

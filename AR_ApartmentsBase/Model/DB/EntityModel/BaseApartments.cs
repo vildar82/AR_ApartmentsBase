@@ -40,8 +40,14 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       /// <summary>
       /// Экспорт квартир в базу.
       /// </summary>      
-      public static void Export (List<Apartment> apartments)
+      public static List<ExportDBInfo> Export (List<Apartment> apartments)
       {
+         List<ExportDBInfo> exportInfos = new List<ExportDBInfo>();
+         if (apartments.Count == 0)
+         {
+            return exportInfos;
+         }
+
          using (entities = ConnectEntities())
          {
             // Загрузка таблиц
@@ -51,77 +57,107 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             entities.F_nn_ElementParam_Value.Load();
             entities.F_nn_Elements_Modules.Load();
             entities.F_S_Elements.Load();
-            entities.F_S_FamilyInfos.Load();            
+            entities.F_S_FamilyInfos.Load();
 
-            bool hasError = false;
-            foreach (Apartment apart in apartments)
+            try
             {
-               try
-               {
-                  // Квартира
-                  var flatEnt = getFlatEnt(apart);
+               // Новые и изменившиеся квартиры
+               var apartmentsToDb = apartments.Where(a =>
+                        a.BaseStatus == EnumBaseStatus.Changed ||
+                        a.BaseStatus == EnumBaseStatus.New);
 
-                  // Модули
-                  foreach (var module in apart.Modules)
+               var otherApartments = apartments.Where(a => !apartmentsToDb.Contains(a));
+               foreach (var otherApart in otherApartments)
+               {
+                  ExportDBInfo exportInfp = new ExportDBInfo()
                   {
-                     // Модуль
-                     var moduleEnt = getModuleEnt(module);
-                     // Квартира-модуль
-                     var fmEnt = getFMEnt(flatEnt, moduleEnt, module);
-
-                     // Элементы                  
-                     foreach (var elem in module.Elements)
-                     {
-                        // Определение элемента в базе                                          
-                        var elemEnt = getElement(elem);
-
-                        // Добавление элемента в модуль
-                        var elemInModEnt = addElemToModule(elemEnt, moduleEnt, elem);
-
-                        // Заполнение параметров
-                        setElemValues(elemInModEnt, elemEnt, elem);
-                        
-                     }
-                  }                  
+                     NameElement = otherApart.Name,
+                     ExporInfo = $"Квартира не записана в базу, статус {otherApart.BaseStatus}."
+                  };
                }
-               catch (Exception ex)
+
+               foreach (Apartment apart in apartmentsToDb)
                {
-                  Inspector.AddError(ex.Message, icon: System.Drawing.SystemIcons.Error);
-                  hasError = true;
+                  // Определение квартиры
+                  var flatEnt = defineFlatEnt(apart);                  
                }
-            }
-            if (!hasError)
-            {
+
+               // Модули - новые или с изменениями
+               var modules = apartments.SelectMany(a => a.Modules)
+                              .Where(m =>
+                                   m.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
+                                   m.BaseStatus.HasFlag(EnumBaseStatus.New))
+                              .GroupBy(g => g.Name)
+                              .Select(g => g.First());
+
+               foreach (var module in modules)
+               {
+                  // Элементы                  
+                  foreach (var elem in module.Elements)
+                  {
+                     // Определение элемента в базе                                          
+                     var elemEnt = getElement(elem);
+
+                     var moduleEnt = getModuleEnt(module);
+
+                     // Добавление элемента в модуль
+                     var elemInModEnt = addElemToModule(elemEnt, moduleEnt, elem);
+
+                     // Заполнение параметров
+                     setElemValues(elemInModEnt, elemEnt, elem);
+                  }
+               }
+
                // Сохранение изменений
                entities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+               Inspector.AddError(ex.Message, icon: System.Drawing.SystemIcons.Error);               
             }            
          }
+         return exportInfos;
       }      
 
-      private static F_R_Flats getFlatEnt(Apartment apart)
+      private static F_R_Flats defineFlatEnt(Apartment apart)
       {
+         // Определение квартиры - для новой записи квартиры выполняется привязка модулей.
          F_R_Flats flatEnt = null;
          int revision = 0;
          if (apart.BaseStatus == EnumBaseStatus.Changed)
          {
             // Новая ревизия квартиры
             var lastRevision = entities.F_R_Flats.Local
-                              .Where(f => f.WORKNAME.Equals(apart.BlockName, StringComparison.OrdinalIgnoreCase))
+                              .Where(f => f.WORKNAME.Equals(apart.Name, StringComparison.OrdinalIgnoreCase))
                               .Max(r => r.REVISION);
-            revision = lastRevision + 1;
+            revision = lastRevision + 1;            
          }
          else
          {
             flatEnt = entities.F_R_Flats.Local
-                              .Where(f => f.WORKNAME.Equals(apart.BlockName, StringComparison.OrdinalIgnoreCase))
-                              .OrderByDescending(r => r.REVISION).FirstOrDefault();                              
+                              .Where(f => f.WORKNAME.Equals(apart.Name, StringComparison.OrdinalIgnoreCase))                              
+                              .OrderByDescending(r => r.REVISION).FirstOrDefault();
          }
 
          if (flatEnt == null)
-         {            
-            flatEnt = entities.F_R_Flats.Add(new F_R_Flats() { WORKNAME = apart.BlockName, COMMERCIAL_NAME = "", REVISION = revision });
+         {
+            flatEnt = entities.F_R_Flats.Add(new F_R_Flats() { WORKNAME = apart.Name, COMMERCIAL_NAME = "", REVISION = revision });
+            // Привязка модулей
+            attachModulesToFlat(flatEnt, apart);
          }
+
          return flatEnt;
+      }
+
+      private static void attachModulesToFlat(F_R_Flats flatEnt, Apartment apart)
+      {
+         foreach (var module in apart.Modules)
+         {
+            // Модуль
+            var moduleEnt = getModuleEnt(module);
+            // Квартира-модуль
+            var fmEnt = getFMEnt(flatEnt, moduleEnt, module);
+         }
       }
 
       private static F_R_Modules getModuleEnt(Module module)
@@ -132,20 +168,20 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          {
             // Новая ревизия модуля
             var lastRevision = entities.F_R_Modules.Local
-                                 .Where(m => m.NAME_MODULE.Equals(module.BlockName, StringComparison.OrdinalIgnoreCase))
+                                 .Where(m => m.NAME_MODULE.Equals(module.Name, StringComparison.OrdinalIgnoreCase))
                                  .Max(r => r.REVISION);
             revision = lastRevision + 1;
          }
          else
          {
             moduleEnt = entities.F_R_Modules.Local
-                                 .Where(m => m.NAME_MODULE.Equals(module.BlockName, StringComparison.OrdinalIgnoreCase))
+                                 .Where(m => m.NAME_MODULE.Equals(module.Name, StringComparison.OrdinalIgnoreCase))                                 
                                  .OrderByDescending(r => r.REVISION).FirstOrDefault();                                 
          }
                   
          if (moduleEnt == null)
          {
-            moduleEnt = entities.F_R_Modules.Add(new F_R_Modules() { NAME_MODULE = module.BlockName, REVISION = revision });
+            moduleEnt = entities.F_R_Modules.Add(new F_R_Modules() { NAME_MODULE = module.Name, REVISION = revision });
          }
          return moduleEnt;
       }
@@ -209,15 +245,15 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
       private static F_nn_Elements_Modules addElemToModule(F_S_Elements elemEnt, F_R_Modules moduleEnt, Element elem)
       {
-         var elemM = new F_nn_Elements_Modules ()
+         var emEnt = new F_nn_Elements_Modules()
          {
             F_R_Modules = moduleEnt,
             F_S_Elements = elemEnt,
             DIRECTION = elem.Direction,
-            LOCATION = elem.LocationPoint             
+            LOCATION = elem.LocationPoint
          };
-         moduleEnt.F_nn_Elements_Modules.Add(elemM);
-         return elemM;
+         moduleEnt.F_nn_Elements_Modules.Add(emEnt);
+         return emEnt;
       }
 
       private static void setElemValues(F_nn_Elements_Modules emEnt, F_S_Elements elemEnt, Element elem)

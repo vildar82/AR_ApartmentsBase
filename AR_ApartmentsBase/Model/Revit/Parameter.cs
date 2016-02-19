@@ -12,13 +12,11 @@ namespace AR_ApartmentBase.Model.Revit
       public string Name { get;  set; }      
       public string Value { get;  set; }
 
-      public static List<Parameter> GetParameters(BlockReference blRef, IRevitBlock rBlock)
-      {
-         List<Parameter> parameters = new List<Parameter>();
+      public static Dictionary<ObjectId, List<Parameter>> BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
 
-         // Добавление параметров LocationPoint и Direction
-         //parameters.Add(new Parameter() { Name = nameof(IRevitBlock.LocationPoint), Value = rBlock.LocationPoint });
-         //parameters.Add(new Parameter() { Name = nameof(IRevitBlock.Direction), Value = rBlock.Direction });
+      public static List<Parameter> GetParameters(BlockReference blRef)
+      {
+         List<Parameter> parameters = new List<Parameter>();         
 
          // считывание дин параметров
          defineDynParams(blRef, parameters);
@@ -46,13 +44,13 @@ namespace AR_ApartmentBase.Model.Revit
                Error errHasParam = new Error($"Дублирование параметра {prop.PropertyName} в блоке {blRef.Name}.", icon: SystemIcons.Error);
                addParam(parameters, prop.PropertyName, prop.Value.ToString(), errHasParam);               
             }
-         }
+         }         
       }
 
       private static void defineAttributesParam(BlockReference blRef, List<Parameter> parameters)
       {
          if (blRef.AttributeCollection != null)
-         {
+         {            
             foreach (ObjectId idAtrRef in blRef.AttributeCollection)
             {
                using (var atrRef = idAtrRef.Open(OpenMode.ForRead, false, true) as AttributeReference)
@@ -65,8 +63,34 @@ namespace AR_ApartmentBase.Model.Revit
                }
             }
          }
+         // Добавка константных атрибутов
+         parameters.AddRange(getConstAtrParameters(blRef));
       }
-      
+
+      private static List<Parameter> getConstAtrParameters(BlockReference blRef)
+      {
+         List<Parameter> constAtrParameters;
+         ObjectId idBtr = blRef.DynamicBlockTableRecord;
+         if (!BlocksConstantAtrs.TryGetValue(idBtr, out constAtrParameters))
+         {
+            constAtrParameters = new List<Parameter>();
+            using (var btr = idBtr.Open( OpenMode.ForRead) as BlockTableRecord)
+            {
+               foreach (var idEnt in btr)
+               {
+                  using (var atr = idEnt.Open( OpenMode.ForRead, false, true)as AttributeDefinition)
+                  {
+                     if (atr == null || !atr.Constant) continue;
+                     Parameter constAtrParam = new Parameter() { Name = atr.Tag.Trim(), Value = atr.TextString.Trim() };
+                     constAtrParameters.Add(constAtrParam);
+                  }
+               }
+               BlocksConstantAtrs.Add(idBtr, constAtrParameters);
+            }
+         }
+         return constAtrParameters;
+      }
+
       private static void addParam (List<Parameter> parameters, string name, string value, Error errorHasParam)
       {
          if (hasParamName(parameters, name))

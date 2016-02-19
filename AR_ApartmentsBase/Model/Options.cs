@@ -32,7 +32,7 @@ namespace AR_ApartmentBase.Model
       /// <summary>
       /// Имя файла лога в Excel
       /// </summary>
-      [Description("Имя Excel-файла лога экспорта квартир - файл располагается в корневой папке файла из которого выполняется экспорт квартир.")]
+      [Description("Имя Excel-файла лога экспорта квартир - файл располагается в корневой папке файла из которого выполняется экспорт квартир.")]      
       [DefaultValue("AR_ExportApartment_Log.xlsx")]
       public string LogFileName { get; set; } = "AR_ExportApartment_Log.xlsx";
 
@@ -53,6 +53,14 @@ namespace AR_ApartmentBase.Model
       public string BlockModuleNameMatch { get; set; } = "^(RV_EL).*модуль";
 
       /// <summary>
+      /// Фильтр для блоков элемнтов
+      /// Имя блока начинается с "RV_EL_BS".
+      /// </summary>
+      [Description("Паттерн для блоков элементов. ^RV_EL_BS - имя блока начинается на RV_EL_BS.")]
+      [DefaultValue("^RV_EL_BS")]
+      public string BlockElementNameMatch { get; set; } = "^RV_EL_BS";
+
+      /// <summary>
       /// Отключяаемые слои в файлах эксопрта квартир
       /// </summary>
       [Description("Отключаемые слои при экспорте квартир. Паттерн соответствия имени слоя. штриховк - если в имени слоя есть слово штриховк, то этот слой будет отключен в файле экспортированной квартиры.")]
@@ -69,17 +77,30 @@ namespace AR_ApartmentBase.Model
       /// <summary>
       /// Имя параметра для имени семейства в блоках элементов в автокаде
       /// </summary>
-      [Description("Имя семейства")]
-      [DefaultValue("Имя параметра для имени семейства в блоках элементов в автокаде")]
+      [DefaultValue("FamilyName")]
+      [Description("Имя параметра для имени семейства в блоках элементов в автокаде")]
       public string ParameterFamilyName { get; set; } = "FamilyName";
 
       /// <summary>
       /// Имя параметра для типоразмера семейства в блоках элементов в автокаде
       /// </summary>
-      [Description("Тип семейства")]
-      [DefaultValue("Имя параметра для типоразмера семейства в блоках элементов в автокаде")]
+      [DefaultValue("FamilySymbolName")]
+      [Description("Имя параметра для типоразмера семейства в блоках элементов в автокаде")]
       public string ParameterFamilySymbolName { get; set; } = "FamilySymbolName";
 
+      /// <summary>
+      /// Имя параметра для категории элемента в блоке автокада.
+      /// </summary>
+      [DefaultValue("Категория")]
+      [Description("Имя параметра для категории элемента в блоке автокада.")]
+      public string ParameterCategoryName { get; set; } = "Категория";
+
+      /// <summary>
+      /// Имя параметра для имени модуля
+      /// </summary>
+      [DefaultValue("Тип")]
+      [Description("Имя параметра для имени модуля.")]
+      public string ParameterModuleName { get; set; } = "Тип";
 
       public static Options Load()
       {

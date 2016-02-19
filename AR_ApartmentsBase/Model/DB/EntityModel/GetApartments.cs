@@ -54,6 +54,8 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                                           elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_SYMBOL,
                                           parameters);
                      elem.CategoryElement = elemEnt.F_S_Elements.F_S_Categories.NAME_RUS_CATEGORY;
+                     elem.Direction = elemEnt.DIRECTION;
+                     elem.LocationPoint = elemEnt.LOCATION;
                   }
                }
             }

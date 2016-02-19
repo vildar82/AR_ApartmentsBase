@@ -14,9 +14,9 @@ namespace AR_ApartmentBase.Model.Revit
    public interface IRevitBlock
    {
       /// <summary>
-      /// Имя блока
+      /// Имя элемнта
       /// </summary>
-      string BlockName { get; }
+      string Name { get; }
 
       /// <summary>
       /// Точка вставки блока.

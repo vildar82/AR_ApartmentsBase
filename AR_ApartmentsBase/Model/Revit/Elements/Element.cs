@@ -25,7 +25,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
 
       public string CategoryElement { get; set; }
 
-      public string BlockName { get; set; }    
+      public string Name { get; set; }    
 
       /// <summary>
       /// Точка вставки относительно базовой точки квартиры
@@ -88,9 +88,9 @@ namespace AR_ApartmentBase.Model.Revit.Elements
 
       public EnumBaseStatus BaseStatus { get; set; }
 
-      public Element(BlockReference blRefElem, Module module, string blName)
+      public Element(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
       {
-         BlockName = blName;
+         Name = blName;
          Module = module;
          IdBlRefElement = blRefElem.Id;
          IdBtrElement = blRefElem.BlockTableRecord;
@@ -100,7 +100,8 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          Direction = Element.GetDirection(Rotation);
          LocationPoint = TypeConverter.Point(Position);
 
-         Parameters = Parameter.GetParameters(blRefElem, this);
+         Parameters = parameters;
+         CategoryElement = category;
 
          FamilyName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilyName)) 
                         ?? new Parameter() { Name = Options.Instance.ParameterFamilyName, Value = "" };
@@ -137,49 +138,41 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                {
                   if (blRefElem == null || !blRefElem.Visible) continue;
 
-                  string blName = blRefElem.GetEffectiveName();
-                  string typeElement;
-                  if (IsBlockElement(blName, out typeElement))
+                  string blName = blRefElem.GetEffectiveName();                                   
+
+                  if (IsBlockElement(blName))
                   {
-                     Element element = new Element(blRefElem, module, blName);
-                     element.CategoryElement = typeElement;
-                     if (element != null)
+                     var parameters = Parameter.GetParameters(blRefElem);
+                     var categoryElement = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterCategoryName, StringComparison.OrdinalIgnoreCase));
+
+                     if (string.IsNullOrEmpty(categoryElement.Value))
                      {
-                        //Element element = new Element(blRefElem, module, blName);
-                        elements.Add(element);
+                        Inspector.AddError($"Не определена категория элемента у блока {blName}");
                      }
                      else
                      {
-                        Inspector.AddError($"Не определен тип элемента по блоку {blName}");
-                     }
+                        Element element = new Element(blRefElem, module, blName, parameters, categoryElement.Value);                        
+                        elements.Add(element);
+                     }                     
                   }
                   else
                   {
-                     Inspector.AddError($"Отфильтрован блок элемента '{blName}' в блоке модуля {module.BlockName} " + 
-                        $"в квартире {module.Apartment.BlockName}, имя не соответствует блоку элемента.",
-                        icon: System.Drawing.SystemIcons.Information);
+                     var extInModel = blRefElem.GeometricExtents;
+                     extInModel.TransformBy(module.BlockTransform * module.Apartment.BlockTransform);
+
+                     Inspector.AddError($"Отфильтрован блок элемента '{blName}' имя не соответствует блоку элемента - {Options.Instance.BlockElementNameMatch}.",
+                        extInModel, idEnt, icon: System.Drawing.SystemIcons.Information);
                   }
                }
             }
          }
-         elements.Sort((e1, e2) => e1.BlockName.CompareTo(e2.BlockName));
+         elements.Sort((e1, e2) => e1.Name.CompareTo(e2.Name));
          return elements;
       }
 
-      public static bool IsBlockElement(string blName, out string typeElement)
+      public static bool IsBlockElement(string blName)
       {
-         var tokens = blName.Split('_');
-         if (tokens.Count()>=4 &&
-            tokens[0].Equals("RV") &&
-            tokens[1].Equals("EL") &&
-            tokens[2].Equals("BS")
-            )
-         {
-            typeElement = tokens[3];
-            return true;
-         }
-         typeElement = string.Empty;
-         return false;
+         return Regex.IsMatch(blName, Options.Instance.BlockElementNameMatch, RegexOptions.IgnoreCase);
       }      
 
       public static string GetDirection (double rotation)

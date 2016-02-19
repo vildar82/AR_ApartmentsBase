@@ -26,7 +26,7 @@ namespace AR_ApartmentBase.Model.Revit
       /// <summary>
       /// Имя блока
       /// </summary>
-      public string BlockName { get; set; }
+      public string Name { get; set; }
 
       public ObjectId IdBlRef { get; set; }
       
@@ -104,7 +104,7 @@ namespace AR_ApartmentBase.Model.Revit
       /// </summary>      
       public Apartment(BlockReference blRef, string blName)
       {
-         BlockName = blName;
+         Name = blName;
          IdBlRef = blRef.Id;
          IdBtr = blRef.BlockTableRecord;
          BlockTransform = blRef.BlockTransform;
@@ -112,7 +112,7 @@ namespace AR_ApartmentBase.Model.Revit
          Rotation = blRef.Rotation;
          Direction = Element.GetDirection(Rotation);
          LocationPoint = TypeConverter.Point(Position);
-         File = Path.Combine(Path.GetDirectoryName(IdBlRef.Database.Filename), BlockName + ".dwg");         
+         File = Path.Combine(Path.GetDirectoryName(IdBlRef.Database.Filename), Name + ".dwg");         
 
          // Определение модулуй в квартире
          Modules = Module.GetModules(this);
@@ -123,7 +123,7 @@ namespace AR_ApartmentBase.Model.Revit
       /// </summary>
       public Apartment (string name)
       {
-         BlockName = name;
+         Name = name;
          _extentsIsNull = true;
          _extentsAreDefined = true;
          Modules = new List<Module>();
@@ -145,7 +145,7 @@ namespace AR_ApartmentBase.Model.Revit
          {
             Inspector.AddError($"Ошибка при экспорте квартир в XML - {ex.Message}.", icon: SystemIcons.Error);
          }         
-      }
+      }     
 
       /// <summary>
       /// Экспорт блоков квартир в отдельные файлы dwg квартир.
@@ -169,7 +169,7 @@ namespace AR_ApartmentBase.Model.Revit
             }
             catch (System.Exception ex)
             {
-               Inspector.AddError($"Ошибка при экспорте блока '{apart.BlockName}' - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
+               Inspector.AddError($"Ошибка при экспорте блока '{apart.Name}' - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
             }
          }
 
@@ -229,8 +229,11 @@ namespace AR_ApartmentBase.Model.Revit
                      {
                         try
                         {
-                           var apartment = new Apartment(blRefApart, blName);
-                           apartments.Add(apartment);
+                           if (!apartments.Exists(a => a.Name.Equals(blName, StringComparison.OrdinalIgnoreCase)))
+                           {
+                              var apartment = new Apartment(blRefApart, blName);
+                              apartments.Add(apartment);
+                           }                           
                         }
                         catch (System.Exception ex)
                         {
@@ -248,7 +251,7 @@ namespace AR_ApartmentBase.Model.Revit
                }
             }
          }
-         apartments.Sort((a1, a2) => a1.BlockName.CompareTo(a2.BlockName));
+         apartments.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));
          return apartments;
       }
 
@@ -262,7 +265,7 @@ namespace AR_ApartmentBase.Model.Revit
 
       public bool Equals(Apartment other)
       {
-         return this.BlockName.Equals(other.BlockName, StringComparison.OrdinalIgnoreCase) && Modules.SequenceEqual(other.Modules);
+         return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase) && Modules.SequenceEqual(other.Modules);
 
       }
    }

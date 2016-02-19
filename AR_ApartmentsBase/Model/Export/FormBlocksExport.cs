@@ -70,19 +70,19 @@ namespace AR_ApartmentBase.Model.Export
          treeViewApartments.Nodes.Clear();
          foreach (var apart in apartments)
          {
-            TreeNode nodeApart = new TreeNode(apart.BlockName);
+            TreeNode nodeApart = new TreeNode(apart.Name);
             nodeApart.Tag = (IRevitBlock)apart;
             treeViewApartments.Nodes.Add(nodeApart);
 
             foreach (var module in apart.Modules)
             {
-               TreeNode nodeModule = new TreeNode(module.BlockName);
+               TreeNode nodeModule = new TreeNode(module.Name);
                nodeApart.Nodes.Add(nodeModule);
                nodeModule.Tag = (IRevitBlock)module;
 
                foreach (var elem in module.Elements)
                {
-                  TreeNode nodeElem = new TreeNode(elem.BlockName);
+                  TreeNode nodeElem = new TreeNode(elem.Name);
                   nodeModule.Nodes.Add(nodeElem);
                   nodeElem.Tag = (IRevitBlock)elem;
                }
@@ -92,7 +92,7 @@ namespace AR_ApartmentBase.Model.Export
 
       private void treeViewApartments_DrawNode(object sender, DrawTreeNodeEventArgs e)
       {
-         Brush brush = null;
+         Brush brush = Brushes.Black;
          IRevitBlock rBlock = e.Node.Tag as IRevitBlock;
          if (rBlock != null)
          {
@@ -101,7 +101,7 @@ namespace AR_ApartmentBase.Model.Export
                // Ошибка               
                brush = this.brushError;// Brushes.Red;
             }
-            else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.NotInBase))
+            else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.New))
             {
                // Новый
                brush = this.brushNotInBase;  //Brushes.Lime;
@@ -121,11 +121,7 @@ namespace AR_ApartmentBase.Model.Export
                // Не изменился
                brush = this.brushOk; // Brushes.Blue;
             }
-         }
-         else
-         {
-            brush = Brushes.Black;
-         }
+         }         
 
          //e.Graphics.FillRectangle(brush, e.Node.Bounds);
 

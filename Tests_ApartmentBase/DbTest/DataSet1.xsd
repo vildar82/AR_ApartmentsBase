@@ -394,34 +394,6 @@ SELECT ID_FAMILY_INFO, FAMILY_NAME, FAMILY_SYMBOL FROM F_S_FamilyInfos WHERE (ID
             </Mappings>
             <Sources />
           </TableAdapter>
-          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DataTable1TableAdapter" GeneratorDataComponentClassName="DataTable1TableAdapter" Name="DataTable1" UserDataComponentName="DataTable1TableAdapter">
-            <MainSource>
-              <DbSource ConnectionRef="SAPRConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
-                <SelectCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT        F_R_Modules.NAME_MODULE, F_S_FamilyInfos.FAMILY_NAME, F_S_FamilyInfos.FAMILY_SYMBOL, F_nn_Elements_Modules.LOCATION, 
-                         F_nn_Elements_Modules.DIRECTION, F_S_Parameters.NAME_PARAMETER
-FROM            F_S_Parameters INNER JOIN
-                         F_nn_Category_Parameters ON F_S_Parameters.ID_PARAMETER = F_nn_Category_Parameters.ID_PARAMETER CROSS JOIN
-                         F_R_Modules INNER JOIN
-                         F_nn_Elements_Modules ON F_R_Modules.ID_MODULE = F_nn_Elements_Modules.ID_MODULE INNER JOIN
-                         F_S_Elements ON F_nn_Elements_Modules.ID_ELEMENT = F_S_Elements.ID_ELEMENT INNER JOIN
-                         F_S_FamilyInfos ON F_S_Elements.ID_FAMILY_INFO = F_S_FamilyInfos.ID_FAMILY_INFO</CommandText>
-                    <Parameters />
-                  </DbCommand>
-                </SelectCommand>
-              </DbSource>
-            </MainSource>
-            <Mappings>
-              <Mapping SourceColumn="NAME_MODULE" DataSetColumn="NAME_MODULE" />
-              <Mapping SourceColumn="FAMILY_NAME" DataSetColumn="FAMILY_NAME" />
-              <Mapping SourceColumn="FAMILY_SYMBOL" DataSetColumn="FAMILY_SYMBOL" />
-              <Mapping SourceColumn="LOCATION" DataSetColumn="LOCATION" />
-              <Mapping SourceColumn="DIRECTION" DataSetColumn="DIRECTION" />
-              <Mapping SourceColumn="NAME_PARAMETER" DataSetColumn="NAME_PARAMETER" />
-            </Mappings>
-            <Sources />
-          </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="F_R_FlatsTableAdapter" GeneratorDataComponentClassName="F_R_FlatsTableAdapter" Name="F_R_Flats" UserDataComponentName="F_R_FlatsTableAdapter">
             <MainSource>
               <DbSource ConnectionRef="SAPRConnectionString (Settings)" DbObjectName="SAPR.dbo.F_R_Flats" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
@@ -602,6 +574,100 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="Квартиры-МодулиTableAdapter" GeneratorDataComponentClassName="Квартиры_МодулиTableAdapter" Name="Квартиры-Модули" UserDataComponentName="Квартиры-МодулиTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="SAPRConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        F_R_Flats.WORKNAME, F_R_Flats.REVISION, F_R_Flats.ID_FLAT, F_nn_FlatModules.LOCATION, F_nn_FlatModules.DIRECTION, F_R_Modules.NAME_MODULE, 
+                         F_R_Modules.REVISION AS Expr1, F_R_Modules.ID_MODULE
+FROM            F_nn_FlatModules INNER JOIN
+                         F_R_Flats ON F_nn_FlatModules.ID_FLAT = F_R_Flats.ID_FLAT INNER JOIN
+                         F_R_Modules ON F_nn_FlatModules.ID_MODULE = F_R_Modules.ID_MODULE</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="WORKNAME" DataSetColumn="WORKNAME" />
+              <Mapping SourceColumn="REVISION" DataSetColumn="REVISION" />
+              <Mapping SourceColumn="ID_FLAT" DataSetColumn="ID_FLAT" />
+              <Mapping SourceColumn="LOCATION" DataSetColumn="LOCATION" />
+              <Mapping SourceColumn="DIRECTION" DataSetColumn="DIRECTION" />
+              <Mapping SourceColumn="NAME_MODULE" DataSetColumn="NAME_MODULE" />
+              <Mapping SourceColumn="Expr1" DataSetColumn="Expr1" />
+              <Mapping SourceColumn="ID_MODULE" DataSetColumn="ID_MODULE" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="Элементы в модулеTableAdapter" GeneratorDataComponentClassName="Элементы_в_модулеTableAdapter" Name="Элементы в модуле" UserDataComponentName="Элементы в модулеTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="SAPRConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        F_R_Modules.NAME_MODULE, F_R_Modules.REVISION, F_S_Categories.NAME_RUS_CATEGORY, F_nn_Elements_Modules.DIRECTION, 
+                         F_nn_Elements_Modules.LOCATION, F_R_Modules.ID_MODULE, F_S_FamilyInfos.FAMILY_NAME, F_S_FamilyInfos.FAMILY_SYMBOL, 
+                         F_nn_Elements_Modules.ID_ELEMENT_IN_MODULE, F_S_Elements.ID_ELEMENT
+FROM            F_S_Elements INNER JOIN
+                         F_R_Modules INNER JOIN
+                         F_nn_Elements_Modules ON F_R_Modules.ID_MODULE = F_nn_Elements_Modules.ID_MODULE ON 
+                         F_S_Elements.ID_ELEMENT = F_nn_Elements_Modules.ID_ELEMENT INNER JOIN
+                         F_S_Categories ON F_S_Elements.ID_CATEGORY = F_S_Categories.ID_CATEGORY INNER JOIN
+                         F_S_FamilyInfos ON F_S_Elements.ID_FAMILY_INFO = F_S_FamilyInfos.ID_FAMILY_INFO
+WHERE        (F_R_Modules.ID_MODULE = @idModule)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="idModule" ColumnName="ID_MODULE" DataSourceName="SAPR.dbo.F_R_Modules" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@idModule" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ID_MODULE" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="NAME_MODULE" DataSetColumn="NAME_MODULE" />
+              <Mapping SourceColumn="REVISION" DataSetColumn="REVISION" />
+              <Mapping SourceColumn="FAMILY_NAME" DataSetColumn="FAMILY_NAME" />
+              <Mapping SourceColumn="FAMILY_SYMBOL" DataSetColumn="FAMILY_SYMBOL" />
+              <Mapping SourceColumn="NAME_RUS_CATEGORY" DataSetColumn="NAME_RUS_CATEGORY" />
+              <Mapping SourceColumn="DIRECTION" DataSetColumn="DIRECTION" />
+              <Mapping SourceColumn="LOCATION" DataSetColumn="LOCATION" />
+              <Mapping SourceColumn="ID_MODULE" DataSetColumn="ID_MODULE" />
+              <Mapping SourceColumn="ID_ELEMENT_IN_MODULE" DataSetColumn="ID_ELEMENT_IN_MODULE" />
+              <Mapping SourceColumn="ID_ELEMENT" DataSetColumn="ID_ELEMENT" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ПараметрыЭлементаTableAdapter" GeneratorDataComponentClassName="ПараметрыЭлементаTableAdapter" Name="ПараметрыЭлемента" UserDataComponentName="ПараметрыЭлементаTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="SAPRConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        F_S_Elements.ID_ELEMENT, F_S_Categories.NAME_RUS_CATEGORY, F_S_FamilyInfos.FAMILY_NAME, F_S_FamilyInfos.FAMILY_SYMBOL, 
+                         F_S_Parameters.NAME_PARAMETER, F_nn_ElementParam_Value.PARAMETER_VALUE
+FROM            F_nn_Category_Parameters INNER JOIN
+                         F_nn_ElementParam_Value ON F_nn_Category_Parameters.ID_CAT_PARAMETER = F_nn_ElementParam_Value.ID_CAT_PARAMETER INNER JOIN
+                         F_S_Categories ON F_nn_Category_Parameters.ID_CATEGORY = F_S_Categories.ID_CATEGORY INNER JOIN
+                         F_S_Elements ON F_S_Categories.ID_CATEGORY = F_S_Elements.ID_CATEGORY INNER JOIN
+                         F_S_FamilyInfos ON F_S_Elements.ID_FAMILY_INFO = F_S_FamilyInfos.ID_FAMILY_INFO INNER JOIN
+                         F_S_Parameters ON F_nn_Category_Parameters.ID_PARAMETER = F_S_Parameters.ID_PARAMETER
+WHERE        (F_nn_ElementParam_Value.ID_ELEMENT_IN_MODULE = @ID_Elem_In_Module)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="ID_Elem_In_Module" ColumnName="ID_ELEMENT_IN_MODULE" DataSourceName="SAPR.dbo.F_nn_ElementParam_Value" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ID_Elem_In_Module" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ID_ELEMENT_IN_MODULE" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ID_ELEMENT" DataSetColumn="ID_ELEMENT" />
+              <Mapping SourceColumn="NAME_RUS_CATEGORY" DataSetColumn="NAME_RUS_CATEGORY" />
+              <Mapping SourceColumn="FAMILY_NAME" DataSetColumn="FAMILY_NAME" />
+              <Mapping SourceColumn="FAMILY_SYMBOL" DataSetColumn="FAMILY_SYMBOL" />
+              <Mapping SourceColumn="NAME_PARAMETER" DataSetColumn="NAME_PARAMETER" />
+              <Mapping SourceColumn="PARAMETER_VALUE" DataSetColumn="PARAMETER_VALUE" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -610,7 +676,7 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
   <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="F_nn_Category_Parameters" msprop:Generator_TableClassName="F_nn_Category_ParametersDataTable" msprop:Generator_TableVarName="tableF_nn_Category_Parameters" msprop:Generator_TablePropName="F_nn_Category_Parameters" msprop:Generator_RowDeletingName="F_nn_Category_ParametersRowDeleting" msprop:Generator_RowChangingName="F_nn_Category_ParametersRowChanging" msprop:Generator_RowEvHandlerName="F_nn_Category_ParametersRowChangeEventHandler" msprop:Generator_RowDeletedName="F_nn_Category_ParametersRowDeleted" msprop:Generator_UserTableName="F_nn_Category_Parameters" msprop:Generator_RowChangedName="F_nn_Category_ParametersRowChanged" msprop:Generator_RowEvArgName="F_nn_Category_ParametersRowChangeEvent" msprop:Generator_RowClassName="F_nn_Category_ParametersRow">
+        <xs:element name="F_nn_Category_Parameters" msprop:Generator_TableClassName="F_nn_Category_ParametersDataTable" msprop:Generator_TableVarName="tableF_nn_Category_Parameters" msprop:Generator_RowChangedName="F_nn_Category_ParametersRowChanged" msprop:Generator_TablePropName="F_nn_Category_Parameters" msprop:Generator_RowDeletingName="F_nn_Category_ParametersRowDeleting" msprop:Generator_RowChangingName="F_nn_Category_ParametersRowChanging" msprop:Generator_RowEvHandlerName="F_nn_Category_ParametersRowChangeEventHandler" msprop:Generator_RowDeletedName="F_nn_Category_ParametersRowDeleted" msprop:Generator_RowClassName="F_nn_Category_ParametersRow" msprop:Generator_UserTableName="F_nn_Category_Parameters" msprop:Generator_RowEvArgName="F_nn_Category_ParametersRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_CAT_PARAMETER" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_CAT_PARAMETER" msprop:Generator_ColumnPropNameInRow="ID_CAT_PARAMETER" msprop:Generator_ColumnPropNameInTable="ID_CAT_PARAMETERColumn" msprop:Generator_UserColumnName="ID_CAT_PARAMETER" type="xs:int" />
@@ -619,7 +685,7 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="F_S_Parameters" msprop:Generator_TableClassName="F_S_ParametersDataTable" msprop:Generator_TableVarName="tableF_S_Parameters" msprop:Generator_TablePropName="F_S_Parameters" msprop:Generator_RowDeletingName="F_S_ParametersRowDeleting" msprop:Generator_RowChangingName="F_S_ParametersRowChanging" msprop:Generator_RowEvHandlerName="F_S_ParametersRowChangeEventHandler" msprop:Generator_RowDeletedName="F_S_ParametersRowDeleted" msprop:Generator_UserTableName="F_S_Parameters" msprop:Generator_RowChangedName="F_S_ParametersRowChanged" msprop:Generator_RowEvArgName="F_S_ParametersRowChangeEvent" msprop:Generator_RowClassName="F_S_ParametersRow">
+        <xs:element name="F_S_Parameters" msprop:Generator_TableClassName="F_S_ParametersDataTable" msprop:Generator_TableVarName="tableF_S_Parameters" msprop:Generator_RowChangedName="F_S_ParametersRowChanged" msprop:Generator_TablePropName="F_S_Parameters" msprop:Generator_RowDeletingName="F_S_ParametersRowDeleting" msprop:Generator_RowChangingName="F_S_ParametersRowChanging" msprop:Generator_RowEvHandlerName="F_S_ParametersRowChangeEventHandler" msprop:Generator_RowDeletedName="F_S_ParametersRowDeleted" msprop:Generator_RowClassName="F_S_ParametersRow" msprop:Generator_UserTableName="F_S_Parameters" msprop:Generator_RowEvArgName="F_S_ParametersRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_PARAMETER" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_PARAMETER" msprop:Generator_ColumnPropNameInRow="ID_PARAMETER" msprop:Generator_ColumnPropNameInTable="ID_PARAMETERColumn" msprop:Generator_UserColumnName="ID_PARAMETER" type="xs:int" />
@@ -640,7 +706,7 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="F_nn_ElementParam_Value" msprop:Generator_TableClassName="F_nn_ElementParam_ValueDataTable" msprop:Generator_TableVarName="tableF_nn_ElementParam_Value" msprop:Generator_TablePropName="F_nn_ElementParam_Value" msprop:Generator_RowDeletingName="F_nn_ElementParam_ValueRowDeleting" msprop:Generator_RowChangingName="F_nn_ElementParam_ValueRowChanging" msprop:Generator_RowEvHandlerName="F_nn_ElementParam_ValueRowChangeEventHandler" msprop:Generator_RowDeletedName="F_nn_ElementParam_ValueRowDeleted" msprop:Generator_UserTableName="F_nn_ElementParam_Value" msprop:Generator_RowChangedName="F_nn_ElementParam_ValueRowChanged" msprop:Generator_RowEvArgName="F_nn_ElementParam_ValueRowChangeEvent" msprop:Generator_RowClassName="F_nn_ElementParam_ValueRow">
+        <xs:element name="F_nn_ElementParam_Value" msprop:Generator_TableClassName="F_nn_ElementParam_ValueDataTable" msprop:Generator_TableVarName="tableF_nn_ElementParam_Value" msprop:Generator_RowChangedName="F_nn_ElementParam_ValueRowChanged" msprop:Generator_TablePropName="F_nn_ElementParam_Value" msprop:Generator_RowDeletingName="F_nn_ElementParam_ValueRowDeleting" msprop:Generator_RowChangingName="F_nn_ElementParam_ValueRowChanging" msprop:Generator_RowEvHandlerName="F_nn_ElementParam_ValueRowChangeEventHandler" msprop:Generator_RowDeletedName="F_nn_ElementParam_ValueRowDeleted" msprop:Generator_RowClassName="F_nn_ElementParam_ValueRow" msprop:Generator_UserTableName="F_nn_ElementParam_Value" msprop:Generator_RowEvArgName="F_nn_ElementParam_ValueRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_ELEMENT_VALUE" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_ELEMENT_VALUE" msprop:Generator_ColumnPropNameInRow="ID_ELEMENT_VALUE" msprop:Generator_ColumnPropNameInTable="ID_ELEMENT_VALUEColumn" msprop:Generator_UserColumnName="ID_ELEMENT_VALUE" type="xs:int" />
@@ -656,7 +722,7 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="F_nn_Elements_Modules" msprop:Generator_TableClassName="F_nn_Elements_ModulesDataTable" msprop:Generator_TableVarName="tableF_nn_Elements_Modules" msprop:Generator_TablePropName="F_nn_Elements_Modules" msprop:Generator_RowDeletingName="F_nn_Elements_ModulesRowDeleting" msprop:Generator_RowChangingName="F_nn_Elements_ModulesRowChanging" msprop:Generator_RowEvHandlerName="F_nn_Elements_ModulesRowChangeEventHandler" msprop:Generator_RowDeletedName="F_nn_Elements_ModulesRowDeleted" msprop:Generator_UserTableName="F_nn_Elements_Modules" msprop:Generator_RowChangedName="F_nn_Elements_ModulesRowChanged" msprop:Generator_RowEvArgName="F_nn_Elements_ModulesRowChangeEvent" msprop:Generator_RowClassName="F_nn_Elements_ModulesRow">
+        <xs:element name="F_nn_Elements_Modules" msprop:Generator_TableClassName="F_nn_Elements_ModulesDataTable" msprop:Generator_TableVarName="tableF_nn_Elements_Modules" msprop:Generator_RowChangedName="F_nn_Elements_ModulesRowChanged" msprop:Generator_TablePropName="F_nn_Elements_Modules" msprop:Generator_RowDeletingName="F_nn_Elements_ModulesRowDeleting" msprop:Generator_RowChangingName="F_nn_Elements_ModulesRowChanging" msprop:Generator_RowEvHandlerName="F_nn_Elements_ModulesRowChangeEventHandler" msprop:Generator_RowDeletedName="F_nn_Elements_ModulesRowDeleted" msprop:Generator_RowClassName="F_nn_Elements_ModulesRow" msprop:Generator_UserTableName="F_nn_Elements_Modules" msprop:Generator_RowEvArgName="F_nn_Elements_ModulesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_ELEMENT_IN_MODULE" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_ELEMENT_IN_MODULE" msprop:Generator_ColumnPropNameInRow="ID_ELEMENT_IN_MODULE" msprop:Generator_ColumnPropNameInTable="ID_ELEMENT_IN_MODULEColumn" msprop:Generator_UserColumnName="ID_ELEMENT_IN_MODULE" type="xs:int" />
@@ -679,7 +745,7 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="F_S_Categories" msprop:Generator_TableClassName="F_S_CategoriesDataTable" msprop:Generator_TableVarName="tableF_S_Categories" msprop:Generator_TablePropName="F_S_Categories" msprop:Generator_RowDeletingName="F_S_CategoriesRowDeleting" msprop:Generator_RowChangingName="F_S_CategoriesRowChanging" msprop:Generator_RowEvHandlerName="F_S_CategoriesRowChangeEventHandler" msprop:Generator_RowDeletedName="F_S_CategoriesRowDeleted" msprop:Generator_UserTableName="F_S_Categories" msprop:Generator_RowChangedName="F_S_CategoriesRowChanged" msprop:Generator_RowEvArgName="F_S_CategoriesRowChangeEvent" msprop:Generator_RowClassName="F_S_CategoriesRow">
+        <xs:element name="F_S_Categories" msprop:Generator_TableClassName="F_S_CategoriesDataTable" msprop:Generator_TableVarName="tableF_S_Categories" msprop:Generator_RowChangedName="F_S_CategoriesRowChanged" msprop:Generator_TablePropName="F_S_Categories" msprop:Generator_RowDeletingName="F_S_CategoriesRowDeleting" msprop:Generator_RowChangingName="F_S_CategoriesRowChanging" msprop:Generator_RowEvHandlerName="F_S_CategoriesRowChangeEventHandler" msprop:Generator_RowDeletedName="F_S_CategoriesRowDeleted" msprop:Generator_RowClassName="F_S_CategoriesRow" msprop:Generator_UserTableName="F_S_Categories" msprop:Generator_RowEvArgName="F_S_CategoriesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_CATEGORY" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_CATEGORY" msprop:Generator_ColumnPropNameInRow="ID_CATEGORY" msprop:Generator_ColumnPropNameInTable="ID_CATEGORYColumn" msprop:Generator_UserColumnName="ID_CATEGORY" type="xs:int" />
@@ -700,7 +766,7 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="F_S_Elements" msprop:Generator_TableClassName="F_S_ElementsDataTable" msprop:Generator_TableVarName="tableF_S_Elements" msprop:Generator_TablePropName="F_S_Elements" msprop:Generator_RowDeletingName="F_S_ElementsRowDeleting" msprop:Generator_RowChangingName="F_S_ElementsRowChanging" msprop:Generator_RowEvHandlerName="F_S_ElementsRowChangeEventHandler" msprop:Generator_RowDeletedName="F_S_ElementsRowDeleted" msprop:Generator_UserTableName="F_S_Elements" msprop:Generator_RowChangedName="F_S_ElementsRowChanged" msprop:Generator_RowEvArgName="F_S_ElementsRowChangeEvent" msprop:Generator_RowClassName="F_S_ElementsRow">
+        <xs:element name="F_S_Elements" msprop:Generator_TableClassName="F_S_ElementsDataTable" msprop:Generator_TableVarName="tableF_S_Elements" msprop:Generator_RowChangedName="F_S_ElementsRowChanged" msprop:Generator_TablePropName="F_S_Elements" msprop:Generator_RowDeletingName="F_S_ElementsRowDeleting" msprop:Generator_RowChangingName="F_S_ElementsRowChanging" msprop:Generator_RowEvHandlerName="F_S_ElementsRowChangeEventHandler" msprop:Generator_RowDeletedName="F_S_ElementsRowDeleted" msprop:Generator_RowClassName="F_S_ElementsRow" msprop:Generator_UserTableName="F_S_Elements" msprop:Generator_RowEvArgName="F_S_ElementsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_ELEMENT" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_ELEMENT" msprop:Generator_ColumnPropNameInRow="ID_ELEMENT" msprop:Generator_ColumnPropNameInTable="ID_ELEMENTColumn" msprop:Generator_UserColumnName="ID_ELEMENT" type="xs:int" />
@@ -709,7 +775,7 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="F_S_FamilyInfos" msprop:Generator_TableClassName="F_S_FamilyInfosDataTable" msprop:Generator_TableVarName="tableF_S_FamilyInfos" msprop:Generator_TablePropName="F_S_FamilyInfos" msprop:Generator_RowDeletingName="F_S_FamilyInfosRowDeleting" msprop:Generator_RowChangingName="F_S_FamilyInfosRowChanging" msprop:Generator_RowEvHandlerName="F_S_FamilyInfosRowChangeEventHandler" msprop:Generator_RowDeletedName="F_S_FamilyInfosRowDeleted" msprop:Generator_UserTableName="F_S_FamilyInfos" msprop:Generator_RowChangedName="F_S_FamilyInfosRowChanged" msprop:Generator_RowEvArgName="F_S_FamilyInfosRowChangeEvent" msprop:Generator_RowClassName="F_S_FamilyInfosRow">
+        <xs:element name="F_S_FamilyInfos" msprop:Generator_TableClassName="F_S_FamilyInfosDataTable" msprop:Generator_TableVarName="tableF_S_FamilyInfos" msprop:Generator_RowChangedName="F_S_FamilyInfosRowChanged" msprop:Generator_TablePropName="F_S_FamilyInfos" msprop:Generator_RowDeletingName="F_S_FamilyInfosRowDeleting" msprop:Generator_RowChangingName="F_S_FamilyInfosRowChanging" msprop:Generator_RowEvHandlerName="F_S_FamilyInfosRowChangeEventHandler" msprop:Generator_RowDeletedName="F_S_FamilyInfosRowDeleted" msprop:Generator_RowClassName="F_S_FamilyInfosRow" msprop:Generator_UserTableName="F_S_FamilyInfos" msprop:Generator_RowEvArgName="F_S_FamilyInfosRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_FAMILY_INFO" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_FAMILY_INFO" msprop:Generator_ColumnPropNameInRow="ID_FAMILY_INFO" msprop:Generator_ColumnPropNameInTable="ID_FAMILY_INFOColumn" msprop:Generator_UserColumnName="ID_FAMILY_INFO" type="xs:int" />
@@ -730,55 +796,7 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="DataTable1" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_UserTableName="DataTable1" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_RowClassName="DataTable1Row">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="NAME_MODULE" msprop:Generator_ColumnVarNameInTable="columnNAME_MODULE" msprop:Generator_ColumnPropNameInRow="NAME_MODULE" msprop:Generator_ColumnPropNameInTable="NAME_MODULEColumn" msprop:Generator_UserColumnName="NAME_MODULE">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="FAMILY_NAME" msprop:Generator_ColumnVarNameInTable="columnFAMILY_NAME" msprop:Generator_ColumnPropNameInRow="FAMILY_NAME" msprop:Generator_ColumnPropNameInTable="FAMILY_NAMEColumn" msprop:Generator_UserColumnName="FAMILY_NAME">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="100" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="FAMILY_SYMBOL" msprop:Generator_ColumnVarNameInTable="columnFAMILY_SYMBOL" msprop:Generator_ColumnPropNameInRow="FAMILY_SYMBOL" msprop:Generator_ColumnPropNameInTable="FAMILY_SYMBOLColumn" msprop:Generator_UserColumnName="FAMILY_SYMBOL">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="100" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="LOCATION" msprop:Generator_ColumnVarNameInTable="columnLOCATION" msprop:Generator_ColumnPropNameInRow="LOCATION" msprop:Generator_ColumnPropNameInTable="LOCATIONColumn" msprop:Generator_UserColumnName="LOCATION">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="150" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="DIRECTION" msprop:Generator_ColumnVarNameInTable="columnDIRECTION" msprop:Generator_ColumnPropNameInRow="DIRECTION" msprop:Generator_ColumnPropNameInTable="DIRECTIONColumn" msprop:Generator_UserColumnName="DIRECTION" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="150" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="NAME_PARAMETER" msprop:Generator_ColumnVarNameInTable="columnNAME_PARAMETER" msprop:Generator_ColumnPropNameInRow="NAME_PARAMETER" msprop:Generator_ColumnPropNameInTable="NAME_PARAMETERColumn" msprop:Generator_UserColumnName="NAME_PARAMETER">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="150" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="F_R_Flats" msprop:Generator_TableClassName="F_R_FlatsDataTable" msprop:Generator_TableVarName="tableF_R_Flats" msprop:Generator_TablePropName="F_R_Flats" msprop:Generator_RowDeletingName="F_R_FlatsRowDeleting" msprop:Generator_RowChangingName="F_R_FlatsRowChanging" msprop:Generator_RowEvHandlerName="F_R_FlatsRowChangeEventHandler" msprop:Generator_RowDeletedName="F_R_FlatsRowDeleted" msprop:Generator_UserTableName="F_R_Flats" msprop:Generator_RowChangedName="F_R_FlatsRowChanged" msprop:Generator_RowEvArgName="F_R_FlatsRowChangeEvent" msprop:Generator_RowClassName="F_R_FlatsRow">
+        <xs:element name="F_R_Flats" msprop:Generator_TableClassName="F_R_FlatsDataTable" msprop:Generator_TableVarName="tableF_R_Flats" msprop:Generator_RowChangedName="F_R_FlatsRowChanged" msprop:Generator_TablePropName="F_R_Flats" msprop:Generator_RowDeletingName="F_R_FlatsRowDeleting" msprop:Generator_RowChangingName="F_R_FlatsRowChanging" msprop:Generator_RowEvHandlerName="F_R_FlatsRowChangeEventHandler" msprop:Generator_RowDeletedName="F_R_FlatsRowDeleted" msprop:Generator_RowClassName="F_R_FlatsRow" msprop:Generator_UserTableName="F_R_Flats" msprop:Generator_RowEvArgName="F_R_FlatsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_FLAT" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_FLAT" msprop:Generator_ColumnPropNameInRow="ID_FLAT" msprop:Generator_ColumnPropNameInTable="ID_FLATColumn" msprop:Generator_UserColumnName="ID_FLAT" type="xs:int" />
@@ -800,7 +818,7 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="F_R_Modules" msprop:Generator_TableClassName="F_R_ModulesDataTable" msprop:Generator_TableVarName="tableF_R_Modules" msprop:Generator_TablePropName="F_R_Modules" msprop:Generator_RowDeletingName="F_R_ModulesRowDeleting" msprop:Generator_RowChangingName="F_R_ModulesRowChanging" msprop:Generator_RowEvHandlerName="F_R_ModulesRowChangeEventHandler" msprop:Generator_RowDeletedName="F_R_ModulesRowDeleted" msprop:Generator_UserTableName="F_R_Modules" msprop:Generator_RowChangedName="F_R_ModulesRowChanged" msprop:Generator_RowEvArgName="F_R_ModulesRowChangeEvent" msprop:Generator_RowClassName="F_R_ModulesRow">
+        <xs:element name="F_R_Modules" msprop:Generator_TableClassName="F_R_ModulesDataTable" msprop:Generator_TableVarName="tableF_R_Modules" msprop:Generator_RowChangedName="F_R_ModulesRowChanged" msprop:Generator_TablePropName="F_R_Modules" msprop:Generator_RowDeletingName="F_R_ModulesRowDeleting" msprop:Generator_RowChangingName="F_R_ModulesRowChanging" msprop:Generator_RowEvHandlerName="F_R_ModulesRowChangeEventHandler" msprop:Generator_RowDeletedName="F_R_ModulesRowDeleted" msprop:Generator_RowClassName="F_R_ModulesRow" msprop:Generator_UserTableName="F_R_Modules" msprop:Generator_RowEvArgName="F_R_ModulesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_MODULE" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_MODULE" msprop:Generator_ColumnPropNameInRow="ID_MODULE" msprop:Generator_ColumnPropNameInTable="ID_MODULEColumn" msprop:Generator_UserColumnName="ID_MODULE" type="xs:int" />
@@ -815,7 +833,7 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="F_nn_FlatModules" msprop:Generator_TableClassName="F_nn_FlatModulesDataTable" msprop:Generator_TableVarName="tableF_nn_FlatModules" msprop:Generator_TablePropName="F_nn_FlatModules" msprop:Generator_RowDeletingName="F_nn_FlatModulesRowDeleting" msprop:Generator_RowChangingName="F_nn_FlatModulesRowChanging" msprop:Generator_RowEvHandlerName="F_nn_FlatModulesRowChangeEventHandler" msprop:Generator_RowDeletedName="F_nn_FlatModulesRowDeleted" msprop:Generator_UserTableName="F_nn_FlatModules" msprop:Generator_RowChangedName="F_nn_FlatModulesRowChanged" msprop:Generator_RowEvArgName="F_nn_FlatModulesRowChangeEvent" msprop:Generator_RowClassName="F_nn_FlatModulesRow">
+        <xs:element name="F_nn_FlatModules" msprop:Generator_TableClassName="F_nn_FlatModulesDataTable" msprop:Generator_TableVarName="tableF_nn_FlatModules" msprop:Generator_RowChangedName="F_nn_FlatModulesRowChanged" msprop:Generator_TablePropName="F_nn_FlatModules" msprop:Generator_RowDeletingName="F_nn_FlatModulesRowDeleting" msprop:Generator_RowChangingName="F_nn_FlatModulesRowChanging" msprop:Generator_RowEvHandlerName="F_nn_FlatModulesRowChangeEventHandler" msprop:Generator_RowDeletedName="F_nn_FlatModulesRowDeleted" msprop:Generator_RowClassName="F_nn_FlatModulesRow" msprop:Generator_UserTableName="F_nn_FlatModules" msprop:Generator_RowEvArgName="F_nn_FlatModulesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_FLAT_MODULE" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_FLAT_MODULE" msprop:Generator_ColumnPropNameInRow="ID_FLAT_MODULE" msprop:Generator_ColumnPropNameInTable="ID_FLAT_MODULEColumn" msprop:Generator_UserColumnName="ID_FLAT_MODULE" type="xs:int" />
@@ -839,12 +857,135 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Elemenmt_ElementValue" msprop:Generator_TableClassName="Elemenmt_ElementValueDataTable" msprop:Generator_TableVarName="tableElemenmt_ElementValue" msprop:Generator_TablePropName="Elemenmt_ElementValue" msprop:Generator_RowDeletingName="Elemenmt_ElementValueRowDeleting" msprop:Generator_RowChangingName="Elemenmt_ElementValueRowChanging" msprop:Generator_RowEvHandlerName="Elemenmt_ElementValueRowChangeEventHandler" msprop:Generator_RowDeletedName="Elemenmt_ElementValueRowDeleted" msprop:Generator_UserTableName="Elemenmt_ElementValue" msprop:Generator_RowChangedName="Elemenmt_ElementValueRowChanged" msprop:Generator_RowEvArgName="Elemenmt_ElementValueRowChangeEvent" msprop:Generator_RowClassName="Elemenmt_ElementValueRow">
+        <xs:element name="Квартиры-Модули" msprop:Generator_TableClassName="_Квартиры_МодулиDataTable" msprop:Generator_TableVarName="_tableКвартиры_Модули" msprop:Generator_RowChangedName="_Квартиры_МодулиRowChanged" msprop:Generator_TablePropName="_Квартиры_Модули" msprop:Generator_RowDeletingName="_Квартиры_МодулиRowDeleting" msprop:Generator_RowChangingName="_Квартиры_МодулиRowChanging" msprop:Generator_RowEvHandlerName="_Квартиры_МодулиRowChangeEventHandler" msprop:Generator_RowDeletedName="_Квартиры_МодулиRowDeleted" msprop:Generator_RowClassName="_Квартиры_МодулиRow" msprop:Generator_UserTableName="Квартиры-Модули" msprop:Generator_RowEvArgName="_Квартиры_МодулиRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" minOccurs="0" />
-              <xs:element name="ID_ELEMENT" msprop:Generator_ColumnVarNameInTable="columnID_ELEMENT" msprop:Generator_ColumnPropNameInRow="ID_ELEMENT" msprop:Generator_ColumnPropNameInTable="ID_ELEMENTColumn" msprop:Generator_UserColumnName="ID_ELEMENT" type="xs:int" minOccurs="0" />
-              <xs:element name="ID_ELEMENT_VALUE" msprop:Generator_ColumnVarNameInTable="columnID_ELEMENT_VALUE" msprop:Generator_ColumnPropNameInRow="ID_ELEMENT_VALUE" msprop:Generator_ColumnPropNameInTable="ID_ELEMENT_VALUEColumn" msprop:Generator_UserColumnName="ID_ELEMENT_VALUE" type="xs:int" minOccurs="0" />
+              <xs:element name="WORKNAME" msprop:Generator_ColumnVarNameInTable="columnWORKNAME" msprop:Generator_ColumnPropNameInRow="WORKNAME" msprop:Generator_ColumnPropNameInTable="WORKNAMEColumn" msprop:Generator_UserColumnName="WORKNAME">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="REVISION" msprop:Generator_ColumnVarNameInTable="columnREVISION" msprop:Generator_ColumnPropNameInRow="REVISION" msprop:Generator_ColumnPropNameInTable="REVISIONColumn" msprop:Generator_UserColumnName="REVISION" type="xs:int" />
+              <xs:element name="ID_FLAT" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_FLAT" msprop:Generator_ColumnPropNameInRow="ID_FLAT" msprop:Generator_ColumnPropNameInTable="ID_FLATColumn" msprop:Generator_UserColumnName="ID_FLAT" type="xs:int" />
+              <xs:element name="LOCATION" msprop:Generator_ColumnVarNameInTable="columnLOCATION" msprop:Generator_ColumnPropNameInRow="LOCATION" msprop:Generator_ColumnPropNameInTable="LOCATIONColumn" msprop:Generator_UserColumnName="LOCATION">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DIRECTION" msprop:Generator_ColumnVarNameInTable="columnDIRECTION" msprop:Generator_ColumnPropNameInRow="DIRECTION" msprop:Generator_ColumnPropNameInTable="DIRECTIONColumn" msprop:Generator_UserColumnName="DIRECTION" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NAME_MODULE" msprop:Generator_ColumnVarNameInTable="columnNAME_MODULE" msprop:Generator_ColumnPropNameInRow="NAME_MODULE" msprop:Generator_ColumnPropNameInTable="NAME_MODULEColumn" msprop:Generator_UserColumnName="NAME_MODULE">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Expr1" msprop:Generator_ColumnVarNameInTable="columnExpr1" msprop:Generator_ColumnPropNameInRow="Expr1" msprop:Generator_ColumnPropNameInTable="Expr1Column" msprop:Generator_UserColumnName="Expr1" type="xs:int" />
+              <xs:element name="ID_MODULE" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_MODULE" msprop:Generator_ColumnPropNameInRow="ID_MODULE" msprop:Generator_ColumnPropNameInTable="ID_MODULEColumn" msprop:Generator_UserColumnName="ID_MODULE" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Элементы_x0020_в_x0020_модуле" msprop:Generator_TableClassName="Элементы_в_модулеDataTable" msprop:Generator_TableVarName="tableЭлементы_в_модуле" msprop:Generator_TablePropName="Элементы_в_модуле" msprop:Generator_RowDeletingName="Элементы_в_модулеRowDeleting" msprop:Generator_RowChangingName="Элементы_в_модулеRowChanging" msprop:Generator_RowEvHandlerName="Элементы_в_модулеRowChangeEventHandler" msprop:Generator_RowDeletedName="Элементы_в_модулеRowDeleted" msprop:Generator_UserTableName="Элементы в модуле" msprop:Generator_RowChangedName="Элементы_в_модулеRowChanged" msprop:Generator_RowEvArgName="Элементы_в_модулеRowChangeEvent" msprop:Generator_RowClassName="Элементы_в_модулеRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NAME_MODULE" msprop:Generator_ColumnVarNameInTable="columnNAME_MODULE" msprop:Generator_ColumnPropNameInRow="NAME_MODULE" msprop:Generator_ColumnPropNameInTable="NAME_MODULEColumn" msprop:Generator_UserColumnName="NAME_MODULE">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="REVISION" msprop:Generator_ColumnVarNameInTable="columnREVISION" msprop:Generator_ColumnPropNameInRow="REVISION" msprop:Generator_ColumnPropNameInTable="REVISIONColumn" msprop:Generator_UserColumnName="REVISION" type="xs:int" />
+              <xs:element name="FAMILY_NAME" msprop:Generator_ColumnVarNameInTable="columnFAMILY_NAME" msprop:Generator_ColumnPropNameInRow="FAMILY_NAME" msprop:Generator_ColumnPropNameInTable="FAMILY_NAMEColumn" msprop:Generator_UserColumnName="FAMILY_NAME">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FAMILY_SYMBOL" msprop:Generator_ColumnVarNameInTable="columnFAMILY_SYMBOL" msprop:Generator_ColumnPropNameInRow="FAMILY_SYMBOL" msprop:Generator_ColumnPropNameInTable="FAMILY_SYMBOLColumn" msprop:Generator_UserColumnName="FAMILY_SYMBOL">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NAME_RUS_CATEGORY" msprop:Generator_ColumnVarNameInTable="columnNAME_RUS_CATEGORY" msprop:Generator_ColumnPropNameInRow="NAME_RUS_CATEGORY" msprop:Generator_ColumnPropNameInTable="NAME_RUS_CATEGORYColumn" msprop:Generator_UserColumnName="NAME_RUS_CATEGORY" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DIRECTION" msprop:Generator_ColumnVarNameInTable="columnDIRECTION" msprop:Generator_ColumnPropNameInRow="DIRECTION" msprop:Generator_ColumnPropNameInTable="DIRECTIONColumn" msprop:Generator_UserColumnName="DIRECTION" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LOCATION" msprop:Generator_ColumnVarNameInTable="columnLOCATION" msprop:Generator_ColumnPropNameInRow="LOCATION" msprop:Generator_ColumnPropNameInTable="LOCATIONColumn" msprop:Generator_UserColumnName="LOCATION">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ID_MODULE" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_MODULE" msprop:Generator_ColumnPropNameInRow="ID_MODULE" msprop:Generator_ColumnPropNameInTable="ID_MODULEColumn" msprop:Generator_UserColumnName="ID_MODULE" type="xs:int" />
+              <xs:element name="ID_ELEMENT_IN_MODULE" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_ELEMENT_IN_MODULE" msprop:Generator_ColumnPropNameInRow="ID_ELEMENT_IN_MODULE" msprop:Generator_ColumnPropNameInTable="ID_ELEMENT_IN_MODULEColumn" msprop:Generator_UserColumnName="ID_ELEMENT_IN_MODULE" type="xs:int" />
+              <xs:element name="ID_ELEMENT" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_ELEMENT" msprop:Generator_ColumnPropNameInRow="ID_ELEMENT" msprop:Generator_ColumnPropNameInTable="ID_ELEMENTColumn" msprop:Generator_UserColumnName="ID_ELEMENT" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ПараметрыЭлемента" msprop:Generator_TableClassName="ПараметрыЭлементаDataTable" msprop:Generator_TableVarName="tableПараметрыЭлемента" msprop:Generator_TablePropName="ПараметрыЭлемента" msprop:Generator_RowDeletingName="ПараметрыЭлементаRowDeleting" msprop:Generator_RowChangingName="ПараметрыЭлементаRowChanging" msprop:Generator_RowEvHandlerName="ПараметрыЭлементаRowChangeEventHandler" msprop:Generator_RowDeletedName="ПараметрыЭлементаRowDeleted" msprop:Generator_UserTableName="ПараметрыЭлемента" msprop:Generator_RowChangedName="ПараметрыЭлементаRowChanged" msprop:Generator_RowEvArgName="ПараметрыЭлементаRowChangeEvent" msprop:Generator_RowClassName="ПараметрыЭлементаRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_ELEMENT" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnID_ELEMENT" msprop:Generator_ColumnPropNameInRow="ID_ELEMENT" msprop:Generator_ColumnPropNameInTable="ID_ELEMENTColumn" msprop:Generator_UserColumnName="ID_ELEMENT" type="xs:int" />
+              <xs:element name="NAME_RUS_CATEGORY" msprop:Generator_ColumnVarNameInTable="columnNAME_RUS_CATEGORY" msprop:Generator_ColumnPropNameInRow="NAME_RUS_CATEGORY" msprop:Generator_ColumnPropNameInTable="NAME_RUS_CATEGORYColumn" msprop:Generator_UserColumnName="NAME_RUS_CATEGORY" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FAMILY_NAME" msprop:Generator_ColumnVarNameInTable="columnFAMILY_NAME" msprop:Generator_ColumnPropNameInRow="FAMILY_NAME" msprop:Generator_ColumnPropNameInTable="FAMILY_NAMEColumn" msprop:Generator_UserColumnName="FAMILY_NAME">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FAMILY_SYMBOL" msprop:Generator_ColumnVarNameInTable="columnFAMILY_SYMBOL" msprop:Generator_ColumnPropNameInRow="FAMILY_SYMBOL" msprop:Generator_ColumnPropNameInTable="FAMILY_SYMBOLColumn" msprop:Generator_UserColumnName="FAMILY_SYMBOL">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NAME_PARAMETER" msprop:Generator_ColumnVarNameInTable="columnNAME_PARAMETER" msprop:Generator_ColumnPropNameInRow="NAME_PARAMETER" msprop:Generator_ColumnPropNameInTable="NAME_PARAMETERColumn" msprop:Generator_UserColumnName="NAME_PARAMETER">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PARAMETER_VALUE" msprop:Generator_ColumnVarNameInTable="columnPARAMETER_VALUE" msprop:Generator_ColumnPropNameInRow="PARAMETER_VALUE" msprop:Generator_ColumnPropNameInTable="PARAMETER_VALUEColumn" msprop:Generator_UserColumnName="PARAMETER_VALUE">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="250" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -890,24 +1031,34 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
       <xs:selector xpath=".//mstns:F_nn_FlatModules" />
       <xs:field xpath="mstns:ID_FLAT_MODULE" />
     </xs:unique>
-    <xs:unique name="Elemenmt_ElementValue_Constraint1" msdata:ConstraintName="Constraint1">
-      <xs:selector xpath=".//mstns:Elemenmt_ElementValue" />
-      <xs:field xpath="mstns:ID" />
+    <xs:unique name="Квартиры-Модули_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Квартиры-Модули" />
+      <xs:field xpath="mstns:ID_FLAT" />
+    </xs:unique>
+    <xs:unique name="Элементы_x0020_в_x0020_модуле_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Элементы_x0020_в_x0020_модуле" />
+      <xs:field xpath="mstns:ID_MODULE" />
+    </xs:unique>
+    <xs:unique name="ПараметрыЭлемента_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:ПараметрыЭлемента" />
+      <xs:field xpath="mstns:ID_ELEMENT" />
     </xs:unique>
   </xs:element>
   <xs:annotation>
     <xs:appinfo>
-      <msdata:Relationship name="FK_F_nn_Category_Parameters_F_S_Categories" msdata:parent="F_S_Categories" msdata:child="F_nn_Category_Parameters" msdata:parentkey="ID_CATEGORY" msdata:childkey="ID_CATEGORY" msprop:Generator_UserChildTable="F_nn_Category_Parameters" msprop:Generator_ChildPropName="GetF_nn_Category_ParametersRows" msprop:Generator_UserRelationName="FK_F_nn_Category_Parameters_F_S_Categories" msprop:Generator_RelationVarName="relationFK_F_nn_Category_Parameters_F_S_Categories" msprop:Generator_UserParentTable="F_S_Categories" msprop:Generator_ParentPropName="F_S_CategoriesRow" />
-      <msdata:Relationship name="FK_F_nn_Category_Parameters_F_S_Parameters" msdata:parent="F_S_Parameters" msdata:child="F_nn_Category_Parameters" msdata:parentkey="ID_PARAMETER" msdata:childkey="ID_PARAMETER" msprop:Generator_UserChildTable="F_nn_Category_Parameters" msprop:Generator_ChildPropName="GetF_nn_Category_ParametersRows" msprop:Generator_UserRelationName="FK_F_nn_Category_Parameters_F_S_Parameters" msprop:Generator_RelationVarName="relationFK_F_nn_Category_Parameters_F_S_Parameters" msprop:Generator_UserParentTable="F_S_Parameters" msprop:Generator_ParentPropName="F_S_ParametersRow" />
-      <msdata:Relationship name="FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" msdata:parent="F_nn_Category_Parameters" msdata:child="F_nn_ElementParam_Value" msdata:parentkey="ID_CAT_PARAMETER" msdata:childkey="ID_CAT_PARAMETER" msprop:Generator_UserChildTable="F_nn_ElementParam_Value" msprop:Generator_ChildPropName="GetF_nn_ElementParam_ValueRows" msprop:Generator_UserRelationName="FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" msprop:Generator_ParentPropName="F_nn_Category_ParametersRow" msprop:Generator_RelationVarName="relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters" msprop:Generator_UserParentTable="F_nn_Category_Parameters" />
-      <msdata:Relationship name="FK_F_nn_Elements_Modules_F_nn_Elements_Modules" msdata:parent="F_S_Elements" msdata:child="F_nn_Elements_Modules" msdata:parentkey="ID_ELEMENT" msdata:childkey="ID_ELEMENT" msprop:Generator_UserChildTable="F_nn_Elements_Modules" msprop:Generator_ChildPropName="GetF_nn_Elements_ModulesRows" msprop:Generator_UserRelationName="FK_F_nn_Elements_Modules_F_nn_Elements_Modules" msprop:Generator_RelationVarName="relationFK_F_nn_Elements_Modules_F_nn_Elements_Modules" msprop:Generator_UserParentTable="F_S_Elements" msprop:Generator_ParentPropName="F_S_ElementsRow" />
-      <msdata:Relationship name="FK_F_S_Elements_F_S_Categories" msdata:parent="F_S_Categories" msdata:child="F_S_Elements" msdata:parentkey="ID_CATEGORY" msdata:childkey="ID_CATEGORY" msprop:Generator_UserChildTable="F_S_Elements" msprop:Generator_ChildPropName="GetF_S_ElementsRows" msprop:Generator_UserRelationName="FK_F_S_Elements_F_S_Categories" msprop:Generator_ParentPropName="F_S_CategoriesRow" msprop:Generator_RelationVarName="relationFK_F_S_Elements_F_S_Categories" msprop:Generator_UserParentTable="F_S_Categories" />
-      <msdata:Relationship name="FK_F_S_Elements_F_S_FamilyInfos" msdata:parent="F_S_FamilyInfos" msdata:child="F_S_Elements" msdata:parentkey="ID_FAMILY_INFO" msdata:childkey="ID_FAMILY_INFO" msprop:Generator_UserChildTable="F_S_Elements" msprop:Generator_ChildPropName="GetF_S_ElementsRows" msprop:Generator_UserRelationName="FK_F_S_Elements_F_S_FamilyInfos" msprop:Generator_RelationVarName="relationFK_F_S_Elements_F_S_FamilyInfos" msprop:Generator_UserParentTable="F_S_FamilyInfos" msprop:Generator_ParentPropName="F_S_FamilyInfosRow" />
-      <msdata:Relationship name="FK_F_R_FlatModules_F_R_Flats1" msdata:parent="F_R_Flats" msdata:child="F_nn_FlatModules" msdata:parentkey="ID_FLAT" msdata:childkey="ID_FLAT" msprop:Generator_UserChildTable="F_nn_FlatModules" msprop:Generator_ChildPropName="GetF_nn_FlatModulesRows" msprop:Generator_UserRelationName="FK_F_R_FlatModules_F_R_Flats1" msprop:Generator_ParentPropName="F_R_FlatsRow" msprop:Generator_RelationVarName="relationFK_F_R_FlatModules_F_R_Flats1" msprop:Generator_UserParentTable="F_R_Flats" />
-      <msdata:Relationship name="FK_F_R_FlatModules_F_R_Modules" msdata:parent="F_R_Modules" msdata:child="F_nn_FlatModules" msdata:parentkey="ID_MODULE" msdata:childkey="ID_MODULE" msprop:Generator_UserChildTable="F_nn_FlatModules" msprop:Generator_ChildPropName="GetF_nn_FlatModulesRows" msprop:Generator_UserRelationName="FK_F_R_FlatModules_F_R_Modules" msprop:Generator_ParentPropName="F_R_ModulesRow" msprop:Generator_RelationVarName="relationFK_F_R_FlatModules_F_R_Modules" msprop:Generator_UserParentTable="F_R_Modules" />
-      <msdata:Relationship name="FK_F_nn_Elements_FlatModules_F_R_Modules" msdata:parent="F_R_Modules" msdata:child="F_nn_Elements_Modules" msdata:parentkey="ID_MODULE" msdata:childkey="ID_MODULE" msprop:Generator_UserChildTable="F_nn_Elements_Modules" msprop:Generator_ChildPropName="GetF_nn_Elements_ModulesRows" msprop:Generator_UserRelationName="FK_F_nn_Elements_FlatModules_F_R_Modules" msprop:Generator_RelationVarName="relationFK_F_nn_Elements_FlatModules_F_R_Modules" msprop:Generator_UserParentTable="F_R_Modules" msprop:Generator_ParentPropName="F_R_ModulesRow" />
-      <msdata:Relationship name="F_S_Elements_Elemenmt_ElementValue" msdata:parent="F_S_Elements" msdata:child="Elemenmt_ElementValue" msdata:parentkey="ID_ELEMENT" msdata:childkey="ID_ELEMENT" msprop:Generator_UserChildTable="Elemenmt_ElementValue" msprop:Generator_ChildPropName="GetElemenmt_ElementValueRows" msprop:Generator_UserRelationName="F_S_Elements_Elemenmt_ElementValue" msprop:Generator_ParentPropName="F_S_ElementsRow" msprop:Generator_RelationVarName="relationF_S_Elements_Elemenmt_ElementValue" msprop:Generator_UserParentTable="F_S_Elements" />
-      <msdata:Relationship name="F_nn_ElementParam_Value_Elemenmt_ElementValue" msdata:parent="F_nn_ElementParam_Value" msdata:child="Elemenmt_ElementValue" msdata:parentkey="ID_ELEMENT_VALUE" msdata:childkey="ID_ELEMENT_VALUE" msprop:Generator_UserChildTable="Elemenmt_ElementValue" msprop:Generator_ChildPropName="GetElemenmt_ElementValueRows" msprop:Generator_UserRelationName="F_nn_ElementParam_Value_Elemenmt_ElementValue" msprop:Generator_ParentPropName="F_nn_ElementParam_ValueRow" msprop:Generator_RelationVarName="relationF_nn_ElementParam_Value_Elemenmt_ElementValue" msprop:Generator_UserParentTable="F_nn_ElementParam_Value" />
+      <msdata:Relationship name="FK_F_nn_Category_Parameters_F_S_Categories" msdata:parent="F_S_Categories" msdata:child="F_nn_Category_Parameters" msdata:parentkey="ID_CATEGORY" msdata:childkey="ID_CATEGORY" msprop:Generator_UserChildTable="F_nn_Category_Parameters" msprop:Generator_ChildPropName="GetF_nn_Category_ParametersRows" msprop:Generator_UserRelationName="FK_F_nn_Category_Parameters_F_S_Categories" msprop:Generator_ParentPropName="F_S_CategoriesRow" msprop:Generator_RelationVarName="relationFK_F_nn_Category_Parameters_F_S_Categories" msprop:Generator_UserParentTable="F_S_Categories" />
+      <msdata:Relationship name="FK_F_nn_Category_Parameters_F_S_Parameters" msdata:parent="F_S_Parameters" msdata:child="F_nn_Category_Parameters" msdata:parentkey="ID_PARAMETER" msdata:childkey="ID_PARAMETER" msprop:Generator_UserChildTable="F_nn_Category_Parameters" msprop:Generator_ChildPropName="GetF_nn_Category_ParametersRows" msprop:Generator_UserRelationName="FK_F_nn_Category_Parameters_F_S_Parameters" msprop:Generator_ParentPropName="F_S_ParametersRow" msprop:Generator_RelationVarName="relationFK_F_nn_Category_Parameters_F_S_Parameters" msprop:Generator_UserParentTable="F_S_Parameters" />
+      <msdata:Relationship name="FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" msdata:parent="F_nn_Category_Parameters" msdata:child="F_nn_ElementParam_Value" msdata:parentkey="ID_CAT_PARAMETER" msdata:childkey="ID_CAT_PARAMETER" msprop:Generator_UserChildTable="F_nn_ElementParam_Value" msprop:Generator_ChildPropName="GetF_nn_ElementParam_ValueRows" msprop:Generator_UserRelationName="FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" msprop:Generator_RelationVarName="relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters" msprop:Generator_UserParentTable="F_nn_Category_Parameters" msprop:Generator_ParentPropName="F_nn_Category_ParametersRow" />
+      <msdata:Relationship name="FK_F_nn_Elements_Modules_F_nn_Elements_Modules" msdata:parent="F_S_Elements" msdata:child="F_nn_Elements_Modules" msdata:parentkey="ID_ELEMENT" msdata:childkey="ID_ELEMENT" msprop:Generator_UserChildTable="F_nn_Elements_Modules" msprop:Generator_ChildPropName="GetF_nn_Elements_ModulesRows" msprop:Generator_UserRelationName="FK_F_nn_Elements_Modules_F_nn_Elements_Modules" msprop:Generator_ParentPropName="F_S_ElementsRow" msprop:Generator_RelationVarName="relationFK_F_nn_Elements_Modules_F_nn_Elements_Modules" msprop:Generator_UserParentTable="F_S_Elements" />
+      <msdata:Relationship name="FK_F_S_Elements_F_S_Categories" msdata:parent="F_S_Categories" msdata:child="F_S_Elements" msdata:parentkey="ID_CATEGORY" msdata:childkey="ID_CATEGORY" msprop:Generator_UserChildTable="F_S_Elements" msprop:Generator_ChildPropName="GetF_S_ElementsRows" msprop:Generator_UserRelationName="FK_F_S_Elements_F_S_Categories" msprop:Generator_RelationVarName="relationFK_F_S_Elements_F_S_Categories" msprop:Generator_UserParentTable="F_S_Categories" msprop:Generator_ParentPropName="F_S_CategoriesRow" />
+      <msdata:Relationship name="FK_F_S_Elements_F_S_FamilyInfos" msdata:parent="F_S_FamilyInfos" msdata:child="F_S_Elements" msdata:parentkey="ID_FAMILY_INFO" msdata:childkey="ID_FAMILY_INFO" msprop:Generator_UserChildTable="F_S_Elements" msprop:Generator_ChildPropName="GetF_S_ElementsRows" msprop:Generator_UserRelationName="FK_F_S_Elements_F_S_FamilyInfos" msprop:Generator_ParentPropName="F_S_FamilyInfosRow" msprop:Generator_RelationVarName="relationFK_F_S_Elements_F_S_FamilyInfos" msprop:Generator_UserParentTable="F_S_FamilyInfos" />
+      <msdata:Relationship name="FK_F_R_FlatModules_F_R_Flats1" msdata:parent="F_R_Flats" msdata:child="F_nn_FlatModules" msdata:parentkey="ID_FLAT" msdata:childkey="ID_FLAT" msprop:Generator_UserChildTable="F_nn_FlatModules" msprop:Generator_ChildPropName="GetF_nn_FlatModulesRows" msprop:Generator_UserRelationName="FK_F_R_FlatModules_F_R_Flats1" msprop:Generator_RelationVarName="relationFK_F_R_FlatModules_F_R_Flats1" msprop:Generator_UserParentTable="F_R_Flats" msprop:Generator_ParentPropName="F_R_FlatsRow" />
+      <msdata:Relationship name="FK_F_R_FlatModules_F_R_Modules" msdata:parent="F_R_Modules" msdata:child="F_nn_FlatModules" msdata:parentkey="ID_MODULE" msdata:childkey="ID_MODULE" msprop:Generator_UserChildTable="F_nn_FlatModules" msprop:Generator_ChildPropName="GetF_nn_FlatModulesRows" msprop:Generator_UserRelationName="FK_F_R_FlatModules_F_R_Modules" msprop:Generator_RelationVarName="relationFK_F_R_FlatModules_F_R_Modules" msprop:Generator_UserParentTable="F_R_Modules" msprop:Generator_ParentPropName="F_R_ModulesRow" />
+      <msdata:Relationship name="FK_F_nn_Elements_FlatModules_F_R_Modules" msdata:parent="F_R_Modules" msdata:child="F_nn_Elements_Modules" msdata:parentkey="ID_MODULE" msdata:childkey="ID_MODULE" msprop:Generator_UserChildTable="F_nn_Elements_Modules" msprop:Generator_ChildPropName="GetF_nn_Elements_ModulesRows" msprop:Generator_UserRelationName="FK_F_nn_Elements_FlatModules_F_R_Modules" msprop:Generator_ParentPropName="F_R_ModulesRow" msprop:Generator_RelationVarName="relationFK_F_nn_Elements_FlatModules_F_R_Modules" msprop:Generator_UserParentTable="F_R_Modules" />
+      <msdata:Relationship name="FK_F_R_FlatModules_F_R_Flats11" msdata:parent="Квартиры-Модули" msdata:child="F_nn_FlatModules" msdata:parentkey="ID_FLAT" msdata:childkey="ID_FLAT" msprop:Generator_UserChildTable="F_nn_FlatModules" msprop:Generator_ChildPropName="GetF_nn_FlatModulesRows" msprop:Generator_UserRelationName="FK_F_R_FlatModules_F_R_Flats11" msprop:Generator_ParentPropName="_Квартиры_МодулиRow" msprop:Generator_RelationVarName="relationFK_F_R_FlatModules_F_R_Flats11" msprop:Generator_UserParentTable="Квартиры-Модули" />
+      <msdata:Relationship name="FK_F_nn_Elements_FlatModules_F_R_Modules1" msdata:parent="Элементы_x0020_в_x0020_модуле" msdata:child="F_nn_Elements_Modules" msdata:parentkey="ID_MODULE" msdata:childkey="ID_MODULE" msprop:Generator_UserChildTable="F_nn_Elements_Modules" msprop:Generator_ChildPropName="GetF_nn_Elements_ModulesRows" msprop:Generator_UserRelationName="FK_F_nn_Elements_FlatModules_F_R_Modules1" msprop:Generator_RelationVarName="relationFK_F_nn_Elements_FlatModules_F_R_Modules1" msprop:Generator_UserParentTable="Элементы в модуле" msprop:Generator_ParentPropName="Элементы_в_модулеRow" />
+      <msdata:Relationship name="FK_F_R_FlatModules_F_R_Modules1" msdata:parent="Элементы_x0020_в_x0020_модуле" msdata:child="F_nn_FlatModules" msdata:parentkey="ID_MODULE" msdata:childkey="ID_MODULE" msprop:Generator_UserChildTable="F_nn_FlatModules" msprop:Generator_ChildPropName="GetF_nn_FlatModulesRows" msprop:Generator_UserRelationName="FK_F_R_FlatModules_F_R_Modules1" msprop:Generator_RelationVarName="relationFK_F_R_FlatModules_F_R_Modules1" msprop:Generator_UserParentTable="Элементы в модуле" msprop:Generator_ParentPropName="Элементы_в_модулеRow" />
+      <msdata:Relationship name="F_nn_Elements_Modules_F_nn_ElementParam_Value" msdata:parent="F_nn_Elements_Modules" msdata:child="F_nn_ElementParam_Value" msdata:parentkey="ID_ELEMENT_IN_MODULE" msdata:childkey="ID_ELEMENT_IN_MODULE" msprop:Generator_UserChildTable="F_nn_ElementParam_Value" msprop:Generator_ChildPropName="GetF_nn_ElementParam_ValueRows" msprop:Generator_UserRelationName="F_nn_Elements_Modules_F_nn_ElementParam_Value" msprop:Generator_RelationVarName="relationF_nn_Elements_Modules_F_nn_ElementParam_Value" msprop:Generator_UserParentTable="F_nn_Elements_Modules" msprop:Generator_ParentPropName="F_nn_Elements_ModulesRow" />
     </xs:appinfo>
   </xs:annotation>
 </xs:schema>

@@ -9,6 +9,7 @@ using AcadLib.Errors;
 using AR_ApartmentBase.Model.Revit;
 using AR_ApartmentBase.Properties;
 using AR_ApartmentBase.Model.Revit.Elements;
+//using MoreLinq;
 
 namespace AR_ApartmentBase.Model.DB.EntityModel
 {
@@ -17,65 +18,6 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
    /// </summary>
    public class CheckApartments
    {
-      //   private static void CheckElementsOld(List<Apartment> apartments, SAPREntities entities)
-      //   {
-      //      var elementsAll = apartments.SelectMany(a => a.Modules.SelectMany(m => m.Elements));
-
-      //      // Все категории и их свойства в базе
-
-      //      foreach (var elem in elementsAll)
-      //      {
-      //         string err = string.Empty;
-      //         // Получить категорию элемента 
-      //         var catEnt = entities.F_S_Categories.FirstOrDefault(c => c.NAME_RUS_CATEGORY.Equals(elem.TypeElement, StringComparison.OrdinalIgnoreCase));
-
-      //         if (catEnt == null)
-      //         {
-      //            // Нет такой категории элемента
-      //            err += $"Не найдена категория в базе - {elem.TypeElement}";
-      //         }
-      //         else
-      //         {
-      //            // Параметры для этой категории
-      //            var paramsEnt = catEnt.F_nn_Category_Parameters.Select(p => p.F_S_Parameters);
-      //            foreach (var paramEnt in paramsEnt)
-      //            {
-      //               if (!elem.Parameters.Exists(p => p.Name.Equals(paramEnt.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase)))
-      //               {
-      //                  err += $"Нет необходимого параметра '{paramEnt.NAME_PARAMETER}'. ";
-      //               }
-      //            }
-      //         }
-
-      //         if (!string.IsNullOrEmpty(err))
-      //         {
-      //            elem.Error = new Error($"Ошибка в элементе {elem.BlockName}: {err}.", elem.ExtentsInModel, elem.IdBlRefElement,
-      //               icon: System.Drawing.SystemIcons.Error);
-      //         }
-      //      }
-      //   }
-
-      //   public static void CheckAndChangesOld(List<Apartment> apartments)
-      //   {
-      //      // Проверка квартир и проверка изменений.
-      //      using (SAPREntities entities = BaseApartments.NewEntities())
-      //      {
-      //         // Проверка всех блоков элементов - 
-      //         CheckElements(apartments, entities);
-
-      //         foreach (var apart in apartments)
-      //         {
-      //            var apartEnt = entities.F_R_Flats.SingleOrDefault(f => f.WORKNAME.Equals(apart.BlockName, StringComparison.OrdinalIgnoreCase));
-      //            if (apartEnt == null)
-      //            {
-      //               // Нет такой квартиры в базе
-      //               apart.BaseStatus |= EnumBaseStatus.NotInBase;
-      //            }
-
-      //         }
-      //      }
-      //   }
-
       /// <summary>
       /// Проверка квартир в чертеже и в базе
       /// </summary>      
@@ -84,13 +26,14 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          // Проверка квартир и проверка изменений.         
          // квартиры которых нет в чертеже
          var apartmentsMissingInDwg = apartmentsInBase.Where(
-            aBase => !apartments.Any(a => a.BlockName.Equals(aBase.BlockName, StringComparison.OrdinalIgnoreCase))).ToList();
+            aBase => !apartments.Any(a => a.Name.Equals(aBase.Name, StringComparison.OrdinalIgnoreCase))).ToList();
          apartmentsMissingInDwg.ForEach(a =>
                                  {
                                     a.BaseStatus = EnumBaseStatus.NotInDwg;
                                     apartments.Add(a);
                                  });
 
+         // проверка квартир и их состава
          foreach (var apart in apartments)
          {
             string errApart = string.Empty;
@@ -100,13 +43,81 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
             if (!string.IsNullOrEmpty(errApart))
             {
-               apart.Error = new Error(errApart, apart.ExtentsInModel, apart.IdBlRef, System.Drawing.SystemIcons.Error);
+               apart.Error = new Error(errApart, apart.ExtentsInModel, apart.IdBlRef, System.Drawing.SystemIcons.Error);               
             }
-         }
-         // Проверить элементы в блоках - наличие необходимых параметров, категории               
-         var allElements = apartments.SelectMany(a => a.Modules.SelectMany(m => m.Elements)).ToList();
+            if (apart.BaseStatus == EnumBaseStatus.None)
+            {
+               apart.BaseStatus = EnumBaseStatus.OK;
+            }
+         }        
+
+         // Все уникальные модули
+         var modulesAll = apartments.SelectMany(a => a.Modules).GroupBy(m=>m.Name).Select(g=>g.First());
+
+         // Проверка всех элементов - имен параметров и т.п.
+         var allElements = modulesAll.SelectMany(m => m.Elements).ToList();
          checkElements(allElements);
-      }    
+
+         // Проверка состава модулей
+         foreach (var module in modulesAll)
+         {
+            // Соответствующий модуль в модулях из базы
+            var moduleInBase = apartmentsInBase.SelectMany(a => a.Modules).FirstOrDefault(m=>m.Name.Equals(module.Name, StringComparison.OrdinalIgnoreCase));
+            
+            if (moduleInBase == null)
+            {
+               // Нет такого модуля в базе - новый
+               module.BaseStatus |= EnumBaseStatus.New;
+            }
+            else
+            {
+               string errModule = string.Empty;
+
+               // не совпадает количество элементов в блоке модуля и в модуле из базы
+               if (module.Elements.Count != moduleInBase.Elements.Count)
+               {
+                  // Не совпадают количества элементов в модуле в базе и в двг файле
+                  errModule = $"Изменилось количество элементов в модуле, было (по базе) '{moduleInBase.Elements.Count}' стало (по блоку) '{module.Elements.Count}'. ";                                                 
+                  module.BaseStatus = EnumBaseStatus.Changed;
+               }
+
+               // Проверка каждого элемента
+               foreach (var elem in module.Elements)
+               {
+                  string errElem = string.Empty;
+                  checkElement(elem, moduleInBase, ref errElem);
+               }
+
+               // Если хоть один элемент с ошибкой - то весь модуль ошибочный
+               if (module.Elements.Any(e => e.BaseStatus.HasFlag(EnumBaseStatus.Error)))
+               {
+                  errModule += "Есть елементы с ошибками. ";
+                  module.BaseStatus |= EnumBaseStatus.Error;
+               }
+               // Если хоть один элемент новый - то весь модуль изменился
+               else if (module.Elements.Any(e =>
+                    e.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
+                    e.BaseStatus.HasFlag(EnumBaseStatus.New)))
+               {
+                  errModule += "Есть изменившиеся елементы. ";
+                  module.BaseStatus |= EnumBaseStatus.Changed;
+               }
+
+               // добавление строки сообщения в модуль если есть
+               if (!string.IsNullOrEmpty(errModule))
+               {
+                  if (module.Error == null)
+                  {
+                     module.Error = new Error(errModule, module.ExtentsInModel, module.IdBlRefModule, System.Drawing.SystemIcons.Error);
+                  }
+                  else
+                  {
+                     module.Error.AdditionToMessage(errModule);
+                  }
+               }
+            }
+         }         
+      }      
 
       private static void checkApart(Apartment apart, List<Apartment> apartmentsInBase ,ref string errApart)
       {
@@ -114,7 +125,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          Apartment apartInBase = null;
          try
          {
-            apartInBase = apartmentsInBase.SingleOrDefault(a => a.BlockName.Equals(apart.BlockName, StringComparison.OrdinalIgnoreCase));
+            apartInBase = apartmentsInBase.SingleOrDefault(a => a.Name.Equals(apart.Name, StringComparison.OrdinalIgnoreCase));
          }
          catch
          {
@@ -127,7 +138,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          if (apartInBase == null)
          {
             // Квартиры нет в базе
-            apart.BaseStatus |= EnumBaseStatus.NotInBase;
+            apart.BaseStatus |= EnumBaseStatus.New;
             errApart += "Квартиры нет в базе. ";
          }
          else
@@ -146,7 +157,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                   errApart += $"Не совпадает количество модулей в базе '{apartInBase.Modules.Count}' и в чертеже '{apart.Modules.Count}'. ";
                   apart.BaseStatus = EnumBaseStatus.Changed;
                }
-
+               
                foreach (var module in apart.Modules)
                {
                   string errModule = string.Empty;
@@ -157,14 +168,21 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                   if (!string.IsNullOrEmpty(errModule))
                   {                     
                      module.Error = new Error(errModule, module.ExtentsInModel, module.IdBlRefModule, System.Drawing.SystemIcons.Error);                     
-                  }                  
+                  }
+                  if (module.BaseStatus == EnumBaseStatus.None)
+                  {
+                     module.BaseStatus = EnumBaseStatus.OK;
+                  }                      
                }
+               // Если хоть в одном модуле есть ошибки - вся квартира считается ошибочной
                if (apart.Modules.Any(m=>m.BaseStatus.HasFlag(EnumBaseStatus.Error)))
                {
                   errApart += "Есть модули с ошибками. ";
                   apart.BaseStatus |= EnumBaseStatus.Error;
                }
-               if (apart.Modules.Any(m => m.BaseStatus.HasFlag(EnumBaseStatus.Changed)))
+               // Если хоть один модуль поменял положение или новый, то изменение всей квартиры
+               if (apart.Modules.Any(m => m.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
+                                          m.BaseStatus.HasFlag(EnumBaseStatus.New)))
                {
                   errApart += "Есть изменившиеся модули. ";
                   apart.BaseStatus |= EnumBaseStatus.Changed;
@@ -174,16 +192,24 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       }
 
       private static void checkModule(Module module, Apartment apartInBase, ref string errModule)
-      {         
+      {
          // Есть ли модуль с таким именем в квартирах из базы
-         if (apartInBase.Modules.Exists(m => m.BlockName.Equals(module.BlockName)))
+         var modulesInBase = apartInBase.Modules.Where(m => m.Name.Equals(module.Name, StringComparison.OrdinalIgnoreCase));
+
+         // Нет такого модуля в базе
+         if (modulesInBase.Count() == 0)
          {
-            // Проверка параеметров модудля
-            Module moduleInBase = null;
+            module.BaseStatus |= EnumBaseStatus.New;
+            errModule += "Модуля с таким именем нет в базе. ";
+         }
+         else
+         {
+            // Проверка параеметров модудля  
+            Module moduleInBase;
             try
             {
-               moduleInBase = apartInBase.Modules.SingleOrDefault(m =>
-                              m.BlockName.Equals(module.BlockName, StringComparison.OrdinalIgnoreCase) &&
+               moduleInBase = modulesInBase.SingleOrDefault(m =>
+                              m.Name.Equals(module.Name, StringComparison.OrdinalIgnoreCase) &&
                               m.Direction.Equals(module.Direction) &&
                               m.LocationPoint.Equals(module.LocationPoint));
             }
@@ -197,63 +223,64 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             if (moduleInBase == null)
             {
                // Не найден модуль с такими параметрами - изменился
-               module.BaseStatus |= EnumBaseStatus.Changed;
-               errModule += "Параметры модуля изменились. ";               
+               module.BaseStatus |= EnumBaseStatus.New;
+               errModule += "Параметры модуля в квартире изменились или это новый модуль в квартире. ";
             }
             // Модуль с такими параметрами найден в базе квартир
             else
             {
-               // Проверка элементов в модуле          
-               if (module.Elements.Count==0)
+               // Ошибка если в блоке модуля нет элементов
+               if (module.Elements.Count == 0)
                {
                   errModule += "В блоке модуля нет элементов. ";
-                  module.BaseStatus |= EnumBaseStatus.Error;                  
+                  module.BaseStatus |= EnumBaseStatus.Error;
                }
-               else
-               {
-                  if (module.Elements.Count != moduleInBase.Elements.Count)
-                  {
-                     // Не совпадают количества элементов в модуле в базе и в двг файле
-                     errModule += $"Не совпадает количество элементов в базе '{moduleInBase.Elements.Count}' и в чертеже '{module.Elements.Count}'. ";
-                     module.BaseStatus = EnumBaseStatus.Error;                     
-                  }
+               //else
+               //{
+               //   if (module.Elements.Count != moduleInBase.Elements.Count)
+               //   {
+               //      // Не совпадают количества элементов в модуле в базе и в двг файле
+               //      errModule += $"Изменилось количество элементов в модуле, было (по базе) '{moduleInBase.Elements.Count}' стало (по блоку) '{module.Elements.Count}'. ";
+               //      module.BaseStatus = EnumBaseStatus.Changed;
+               //   }
 
-                  foreach (var elem in module.Elements)
-                  {
-                     string errElem = string.Empty;
+               //   foreach (var elem in module.Elements)
+               //   {
+               //      string errElem = string.Empty;
 
-                     // Проверка элемента
-                     checkElement(elem, moduleInBase, ref errElem);
+               //      // Проверка элемента
+               //      checkElement(elem, moduleInBase, ref errElem);
 
-                     if (!string.IsNullOrEmpty(errElem))
-                     {
-                        elem.Error = new Error(errElem, elem.ExtentsInModel, elem.IdBlRefElement, System.Drawing.SystemIcons.Error);
-                     }
-                  }
+               //      if (!string.IsNullOrEmpty(errElem))
+               //      {
+               //         elem.Error = new Error(errElem, elem.ExtentsInModel, elem.IdBlRefElement, System.Drawing.SystemIcons.Error);
+               //      }
+               //      if (elem.BaseStatus == EnumBaseStatus.None)
+               //      {
+               //         elem.BaseStatus = EnumBaseStatus.OK;
+               //      }
+               //   }
 
-                  if (module.Elements.Any(e=>e.BaseStatus.HasFlag( EnumBaseStatus.Error)))
-                  {
-                     errModule += "Есть елементы с ошибками. ";
-                     module.BaseStatus |= EnumBaseStatus.Error;
-                  }
-                  if (module.Elements.Any(e => e.BaseStatus.HasFlag(EnumBaseStatus.Changed)))
-                  {
-                     errModule += "Есть изменившиеся елементы. ";
-                     module.BaseStatus |= EnumBaseStatus.Changed;
-                  }
-               }
+               //   if (module.Elements.Any(e => e.BaseStatus.HasFlag(EnumBaseStatus.Error)))
+               //   {
+               //      errModule += "Есть елементы с ошибками. ";
+               //      module.BaseStatus |= EnumBaseStatus.Error;
+               //   }
+               //   else if (module.Elements.Any(e =>
+               //        e.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
+               //        e.BaseStatus.HasFlag(EnumBaseStatus.New)))
+               //   {
+               //      errModule += "Есть изменившиеся елементы. ";
+               //      module.BaseStatus |= EnumBaseStatus.Changed;
+               //   }
+               //}
             }
          }
-         else
-         {
-            // Нет такого модуля в базе
-            module.BaseStatus |= EnumBaseStatus.NotInBase;
-            errModule += "Модуля с таким именем нет в базе. ";
-         }         
       }
 
       private static void checkElement(Element elem, Module moduleInBase, ref string errElem)
       {
+         // Проверка элемента в модуле
          Element elemInBase = null;
          try
          {
@@ -261,7 +288,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                         (e =>
                               e.CategoryElement.Equals(elem.CategoryElement, StringComparison.OrdinalIgnoreCase) &&
                               e.FamilyName.Equals(elem.FamilyName) &&
-                              e.FamilySymbolName.Equals(elem.FamilySymbolName) &&                              
+                              e.FamilySymbolName.Equals(elem.FamilySymbolName) &&   
+                              e.Direction.Equals (elem.Direction)                            &&
+                              e.LocationPoint.Equals(elem.LocationPoint) &&
                               Parameter.Equal(e.Parameters, elem.Parameters)
                         );
          }
@@ -275,8 +304,8 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          if (elemInBase == null)
          {
             // Не найден елемент с такими параметрами - изменился
-            elem.BaseStatus |= EnumBaseStatus.Changed;
-            errElem += "Параметры модуля изменились. ";
+            elem.BaseStatus |= EnumBaseStatus.New;
+            errElem += "Параметры модуля изменились или это новый элемент. ";
          }
       }
 
@@ -335,6 +364,6 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                }
             }
          }
-      }
+      }      
    }
 }

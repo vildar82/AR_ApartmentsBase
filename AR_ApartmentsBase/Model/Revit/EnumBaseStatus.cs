@@ -10,28 +10,33 @@ namespace AR_ApartmentBase.Model.Revit
    public enum EnumBaseStatus
    {
       /// <summary>
+      /// По умолчанию - не установлен
+      /// </summary>
+      None = 0x0,
+
+      /// <summary>
       /// Есть в базе, без изменений
       /// </summary>
-      OK = 0x0,
+      OK = 0x1,
 
       /// <summary>
       /// Есть в базе, но с изменениями
       /// </summary>      
-      Changed = 0x1,
+      Changed = 0x2,
 
       /// <summary>
-      /// Нет в базе
+      /// Новый, или с параметрами, которых не было раньше
       /// </summary>
-      NotInBase = 0x2,
+      New = 0x4,
 
       /// <summary>
       /// Нет в файле dwg библиотеки квартир
       /// </summary>
-      NotInDwg = 0x4,
+      NotInDwg = 0x8,
 
       /// <summary>
       /// Ошибка в блоке
       /// </summary>
-      Error = 0x8         
+      Error = 0x16      
    }
 }
