@@ -98,6 +98,8 @@ namespace AR_ApartmentBase.Model.Revit
 
       public EnumBaseStatus BaseStatus { get; set; }
 
+      public object DBObject { get; set; }
+
       /// <summary>
       /// Создание блока для экспорта из id
       /// Если id не блока, то Exception
@@ -229,6 +231,7 @@ namespace AR_ApartmentBase.Model.Revit
                      {
                         try
                         {
+                           // Не добавлять одну и ту же квартиру в список
                            if (!apartments.Exists(a => a.Name.Equals(blName, StringComparison.OrdinalIgnoreCase)))
                            {
                               var apartment = new Apartment(blRefApart, blName);

@@ -77,6 +77,7 @@ namespace AR_ApartmentBase.Model.Revit
       public string LocationPoint { get; set; }
 
       public EnumBaseStatus BaseStatus { get; set; }
+      public object DBObject { get; set; }
 
       public Module(BlockReference blRefModule, Apartment apartment, string blName)
       {         

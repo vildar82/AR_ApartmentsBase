@@ -18,7 +18,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
    /// </summary>      
    public class Element : IRevitBlock, IEquatable<Element>
    {
-      private Element() { }
+      public Element() { }
 
       public Parameter FamilyName { get; set; }
       public Parameter FamilySymbolName { get; set; }
@@ -87,6 +87,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
       public string LocationPoint { get; set; }
 
       public EnumBaseStatus BaseStatus { get; set; }
+      public object DBObject { get; set; }
 
       public Element(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
       {
@@ -112,7 +113,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
       /// <summary>
       /// Конструктор создания элемента из базы
       /// </summary>
-      public Element (Module module, string familyName, string fsn, List<Parameter> parameters)
+      public Element (Module module, string familyName, string fsn, List<Parameter> parameters, string category)
       {
          Direction = parameters.FirstOrDefault(p => p.Name.Equals(nameof(IRevitBlock.Direction)))?.Value;
          LocationPoint = parameters.FirstOrDefault(p => p.Name.Equals(nameof(IRevitBlock.LocationPoint)))?.Value;
@@ -121,6 +122,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          Module = module;
          module.Elements.Add(this);
          Parameters = parameters;
+         CategoryElement = category;
       }
 
       /// <summary>
@@ -151,8 +153,14 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                      }
                      else
                      {
-                        Element element = new Element(blRefElem, module, blName, parameters, categoryElement.Value);                        
-                        elements.Add(element);
+                        Element elem = ElementFactory.CreateElementDWG(blRefElem, module, blName, parameters, categoryElement.Value);                        
+                        if (elem == null)
+                        {
+                           Inspector.AddError($"Не удалось создать элемент из блока '{blName}', категории '{categoryElement.Value}'.",
+                              blRefElem, module.BlockTransform*module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Information);
+                           continue;
+                        }
+                        elements.Add(elem);
                      }                     
                   }
                   else
@@ -164,6 +172,13 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                         extInModel, idEnt, icon: System.Drawing.SystemIcons.Information);
                   }
                }
+            }
+
+            // Для дверей поиск их стен
+            var doors = elements.OfType<DoorElement>();
+            foreach (var door in doors)
+            {
+               door.SearchHostWallDwg(elements);
             }
          }
          elements.Sort((e1, e2) => e1.Name.CompareTo(e2.Name));

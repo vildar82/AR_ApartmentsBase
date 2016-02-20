@@ -27,6 +27,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             foreach (var flatEnt in flatsLastRev)
             {
                Apartment apart = new Apartment(flatEnt.WORKNAME);
+               apart.DBObject = flatsLastRev;
                apartments.Add(apart);
 
                //Все модули в квартире
@@ -36,28 +37,38 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                foreach (var fmEnt in fmsLastModRev)
                {
                   Module module = new Module(fmEnt.F_R_Modules.NAME_MODULE, apart, fmEnt.DIRECTION, fmEnt.LOCATION);
+                  module.DBObject = fmEnt;
 
-                  // Елементы
+                  // Елементы в модуле
                   var elemsEnt = fmEnt.F_R_Modules.F_nn_Elements_Modules;
                   foreach (var elemEnt in elemsEnt)
                   {
+                     // Параметры элемента в базе
                      List<Parameter> parameters = new List<Parameter>();
-                     elemEnt.F_nn_ElementParam_Value.ForEach(p => parameters.Add(
+                     elemEnt.F_S_Elements.F_nn_ElementParam_Value.ForEach(p => parameters.Add(
                            new Parameter()
                            {
                               Name = p.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER,
                               Value = p.PARAMETER_VALUE
                            }));
                      parameters = Parameter.Sort(parameters);
-                     Element elem = new Element(module,
+
+                     // Создание элемента из элемента базы базы
+                     Element elem = ElementFactory.CreateElementDB(module,
                                           elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_NAME,
                                           elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_SYMBOL,
-                                          parameters);
-                     elem.CategoryElement = elemEnt.F_S_Elements.F_S_Categories.NAME_RUS_CATEGORY;
+                                          parameters, elemEnt.F_S_Elements.F_S_Categories.NAME_RUS_CATEGORY);
+                     elem.DBObject = elemEnt;                     
                      elem.Direction = elemEnt.DIRECTION;
                      elem.LocationPoint = elemEnt.LOCATION;
                   }
-               }
+                  //// Для стен 
+                  //var doors = module.Elements.OfType<DoorElement>();
+                  //foreach (var door in doors)
+                  //{
+                  //   door.SearchHostWallDB();
+                  //}
+               }               
             }
          }
          return apartments;

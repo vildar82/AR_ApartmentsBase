@@ -58,5 +58,10 @@ namespace AR_ApartmentBase.Model.Revit
       /// Статус элемента блока квартиры в базек данных - есть, нет, изменился
       /// </summary>
       EnumBaseStatus BaseStatus { get; }
+
+      /// <summary>
+      /// Соответствующая запись в базе данных
+      /// </summary>
+      Object DBObject { get; set; }
    }
 }

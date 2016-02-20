@@ -91,7 +91,7 @@ namespace AR_ApartmentBase
                   throw new System.Exception("Отменено пользователем");
                }
                Inspector.Clear();
-            }            
+            }
 
             // Квартиры в базе
             var apartmentsInBase = GetBaseApartments.GetAll();
@@ -105,16 +105,16 @@ namespace AR_ApartmentBase
             {
                // Экспорт блоков в файлы
                var count = Apartment.ExportToFiles(apartments);
-               ed.WriteMessage($"\nЭкспортированно {count} квартир в отдельные файлы.");
+               ed.WriteMessage($"\nЭкспортированно '{count}' квартир в отдельные файлы.");
 
                // Выбор квартир записываемых в базу - изменившиеся и новые
-               var apartsToDb = apartments.Where(a => 
+               var apartsToDb = apartments.Where(a =>
                               a.BaseStatus == EnumBaseStatus.Changed ||
                               a.BaseStatus == EnumBaseStatus.New).ToList();
                var apartsNotToDB = apartments.Except(apartsToDb);
                foreach (var apartNotToDB in apartsNotToDB)
                {
-                  ed.WriteMessage($"\nКвартира не будет записана в базу, статус {apartNotToDB.BaseStatus} - {apartNotToDB.Name}.");
+                  ed.WriteMessage($"\nКвартира не будет записана в базу, статус '{apartNotToDB.BaseStatus}' - '{apartNotToDB.Name}'.");
                }
 
                //// Запись квартир в xml
@@ -126,7 +126,7 @@ namespace AR_ApartmentBase
 #if DEBUG
                try
                {
-                  BaseApartments.Export(apartsToDb);                  
+               BaseApartments.Export(apartsToDb);
                }
                catch (System.Exception ex)
                {
