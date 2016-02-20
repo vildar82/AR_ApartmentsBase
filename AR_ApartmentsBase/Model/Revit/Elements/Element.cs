@@ -77,7 +77,17 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             }
             if (_extentsIsNull)
             {
-               Application.ShowAlertDialog("Границы блока не определены");
+               if (Error == null)
+               {
+                  Error = new Error("Границы блока не определены. ");
+               }
+               else
+               {
+                  if (!Error.Message.Contains("Границы блока не определены."))
+                  {
+                     Error.AdditionToMessage("Границы блока не определены. ");
+                  }
+               }
             }
             return _extentsInModel;
          }
@@ -149,7 +159,8 @@ namespace AR_ApartmentBase.Model.Revit.Elements
 
                      if (string.IsNullOrEmpty(categoryElement.Value))
                      {
-                        Inspector.AddError($"Не определена категория элемента у блока {blName}");
+                        Inspector.AddError($"Не определена категория элемента у блока {blName}",
+                           blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                      }
                      else
                      {
@@ -157,7 +168,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                         if (elem == null)
                         {
                            Inspector.AddError($"Не удалось создать элемент из блока '{blName}', категории '{categoryElement.Value}'.",
-                              blRefElem, module.BlockTransform*module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Information);
+                              blRefElem, module.BlockTransform*module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                            continue;
                         }
                         elements.Add(elem);

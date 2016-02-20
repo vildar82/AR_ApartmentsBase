@@ -84,7 +84,17 @@ namespace AR_ApartmentBase.Model.Revit
             }
             if (_extentsIsNull)
             {
-               Application.ShowAlertDialog("Границы блока не определены");
+               if (Error == null)
+               {
+                  Error = new Error("Границы блока не определены. ");
+               }
+               else
+               {
+                  if (!Error.Message.Contains("Границы блока не определены."))
+                  {
+                     Error.AdditionToMessage("Границы блока не определены. ");
+                  }
+               }
             }
             return _extentsInModel;            
          }

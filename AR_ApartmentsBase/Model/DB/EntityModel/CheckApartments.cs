@@ -23,15 +23,10 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       /// </summary>      
       public static void Check(List<Apartment> apartments, List<Apartment> apartmentsInBase)
       {
-         // Проверка квартир и проверка изменений.         
-         // квартиры которых нет в чертеже
-         var apartmentsMissingInDwg = apartmentsInBase.Where(
-            aBase => !apartments.Any(a => a.Name.Equals(aBase.Name, StringComparison.OrdinalIgnoreCase))).ToList();
-         apartmentsMissingInDwg.ForEach(a =>
-                                 {
-                                    a.BaseStatus = EnumBaseStatus.NotInDwg;
-                                    apartments.Add(a);
-                                 });
+         if (apartments == null || apartmentsInBase == null || apartments.Count ==0 || apartmentsInBase.Count == 0)
+         {
+            return;
+         }         
 
          // проверка квартир и их состава
          foreach (var apart in apartments)
@@ -116,7 +111,17 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                   }
                }
             }
-         }         
+         }
+
+         // Проверка квартир и проверка изменений.         
+         // квартиры которых нет в чертеже
+         var apartmentsMissingInDwg = apartmentsInBase.Where(
+            aBase => !apartments.Any(a => a.Name.Equals(aBase.Name, StringComparison.OrdinalIgnoreCase))).ToList();
+         apartmentsMissingInDwg.ForEach(a =>
+         {
+            a.BaseStatus = EnumBaseStatus.NotInDwg;
+            apartments.Add(a);
+         });
       }      
 
       private static void checkApart(Apartment apart, List<Apartment> apartmentsInBase ,ref string errApart)

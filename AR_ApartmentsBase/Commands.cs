@@ -75,7 +75,7 @@ namespace AR_ApartmentBase
 
             Parameter.BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
 
-            // Считывание блоков квартир.
+            // Считывание блоков квартир из чертежа
             var apartments = Apartment.GetApartments(db);
             if (apartments.Count == 0)
             {

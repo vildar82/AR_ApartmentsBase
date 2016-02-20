@@ -62,6 +62,6 @@ namespace AR_ApartmentBase.Model.Revit
       /// <summary>
       /// Соответствующая запись в базе данных
       /// </summary>
-      Object DBObject { get; set; }
+      object DBObject { get; set; }
    }
 }

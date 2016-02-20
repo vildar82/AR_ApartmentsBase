@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using AcadLib.Errors;
 using System.Drawing;
+using AR_ApartmentBase.Model.DB.DbServices;
 
 namespace AR_ApartmentBase.Model.Revit
 {
@@ -12,6 +13,7 @@ namespace AR_ApartmentBase.Model.Revit
       public string Name { get;  set; }      
       public string Value { get;  set; }
 
+      // Константные атрибуты в блоках
       public static Dictionary<ObjectId, List<Parameter>> BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
 
       public static List<Parameter> GetParameters(BlockReference blRef)
@@ -42,7 +44,7 @@ namespace AR_ApartmentBase.Model.Revit
             foreach (DynamicBlockReferenceProperty prop in blRef.DynamicBlockReferencePropertyCollection)
             {
                Error errHasParam = new Error($"Дублирование параметра {prop.PropertyName} в блоке {blRef.Name}.", icon: SystemIcons.Error);
-               addParam(parameters, prop.PropertyName, prop.Value.ToString(), errHasParam);               
+               addParam(parameters, prop.PropertyName, TypeConverter.Object(prop.Value), errHasParam);               
             }
          }         
       }
