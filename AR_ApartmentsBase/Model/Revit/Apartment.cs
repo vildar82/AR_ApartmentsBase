@@ -13,6 +13,7 @@ using System.Drawing;
 using AR_ApartmentBase.Model.Revit.Elements;
 using Autodesk.AutoCAD.ApplicationServices;
 using AR_ApartmentBase.Model.DB.DbServices;
+using AR_ApartmentBase.Model.DB.EntityModel;
 
 namespace AR_ApartmentBase.Model.Revit
 {   
@@ -21,7 +22,8 @@ namespace AR_ApartmentBase.Model.Revit
    /// </summary>
    public class Apartment :IRevitBlock, IEquatable<Apartment>
    {
-      private static List<ObjectId> _layersOff;
+      private static List<ObjectId> layersOff;
+      public static List<KeyValuePair<string, List<F_S_Parameters>>> BaseCategoryParameters;
       
       /// <summary>
       /// Имя блока
@@ -169,7 +171,7 @@ namespace AR_ApartmentBase.Model.Revit
          DateTime now = DateTime.Now;
 
          // Выключение слоев штриховки
-         _layersOff = LayerService.LayersOff(Options.Instance.LayersOffMatch);
+         layersOff = LayerService.LayersOff(Options.Instance.LayersOffMatch);
 
          foreach (var apart in apartments)
          {
@@ -186,7 +188,7 @@ namespace AR_ApartmentBase.Model.Revit
          }
 
          // Восстановление слоев
-         LayerService.LayersOn(_layersOff);
+         LayerService.LayersOn(layersOff);
 
          return count;
       }      
@@ -228,6 +230,14 @@ namespace AR_ApartmentBase.Model.Revit
       public static List<Apartment> GetApartments(Database db)
       {
          List<Apartment> apartments = new List<Apartment>();
+
+         // Импользование базы для проверки категории элементов и их параметров
+         using (var entities = BaseApartments.ConnectEntities())
+         {
+            BaseCategoryParameters = entities.F_nn_Category_Parameters.GroupBy(cp => cp.F_S_Categories).Select(p =>
+                          new KeyValuePair<string,List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
+         }
+
          using (var ms = SymbolUtilityServices.GetBlockModelSpaceId(db).Open(OpenMode.ForRead) as BlockTableRecord)
          {
             foreach (ObjectId idEnt in ms)
@@ -246,12 +256,12 @@ namespace AR_ApartmentBase.Model.Revit
                            {
                               var apartment = new Apartment(blRefApart, blName);
                               apartments.Add(apartment);
-                           }                           
+                           }
                         }
                         catch (System.Exception ex)
                         {
                            Inspector.AddError($"Ошибка считывания блока квартиры {blName} - {ex.Message}.",
-                              blRefApart,  icon: SystemIcons.Error);
+                              blRefApart, icon: SystemIcons.Error);
                         }
                      }
                      else
@@ -263,7 +273,7 @@ namespace AR_ApartmentBase.Model.Revit
                   }
                }
             }
-         }
+         }         
          apartments.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));
          return apartments;
       }

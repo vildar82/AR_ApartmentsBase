@@ -110,14 +110,15 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          Rotation = blRefElem.Rotation;
          Direction = Element.GetDirection(Rotation);
          LocationPoint = TypeConverter.Point(Position);
-
-         Parameters = parameters;
+                  
          CategoryElement = category;
 
          FamilyName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilyName)) 
                         ?? new Parameter() { Name = Options.Instance.ParameterFamilyName, Value = "" };
          FamilySymbolName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilySymbolName)) 
                         ?? new Parameter() { Name = Options.Instance.ParameterFamilySymbolName, Value = "" };
+
+         Parameters = Parameter.ExceptOnlyRequiredParameters(parameters, category);
       }
 
       /// <summary>
@@ -164,14 +165,23 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                      }
                      else
                      {
-                        Element elem = ElementFactory.CreateElementDWG(blRefElem, module, blName, parameters, categoryElement.Value);                        
-                        if (elem == null)
+                        try
                         {
-                           Inspector.AddError($"Не удалось создать элемент из блока '{blName}', категории '{categoryElement.Value}'.",
-                              blRefElem, module.BlockTransform*module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
-                           continue;
+                           // Попытка создать элемент. Если такой категории нет в базе, то будет ошибка
+                           Element elem = ElementFactory.CreateElementDWG(blRefElem, module, blName, parameters, categoryElement.Value);
+                           if (elem == null)
+                           {
+                              Inspector.AddError($"Не удалось создать элемент из блока '{blName}', категории '{categoryElement.Value}'.",
+                                 blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                              continue;
+                           }
+                           elements.Add(elem);
                         }
-                        elements.Add(elem);
+                        catch (Exception ex)
+                        {
+                           Inspector.AddError($"Ошибка при создании элемента из блока '{blName}' категории '{categoryElement.Value}'. Возможно такой категории нет в базе. - {ex.Message}.",
+                                 blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                        }
                      }                     
                   }
                   else

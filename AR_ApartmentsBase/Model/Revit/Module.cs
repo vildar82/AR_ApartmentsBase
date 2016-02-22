@@ -154,7 +154,7 @@ namespace AR_ApartmentBase.Model.Revit
             {
                using (var blRefModule = idEnt.Open( OpenMode.ForRead, false, true)as BlockReference)
                {
-                  if (blRefModule == null) continue;
+                  if (blRefModule == null || !blRefModule.Visible) continue;
                   string blName = blRefModule.GetEffectiveName();
                   if (IsBlockNameModule(blName))
                   {

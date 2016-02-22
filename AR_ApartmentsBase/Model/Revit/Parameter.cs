@@ -17,7 +17,7 @@ namespace AR_ApartmentBase.Model.Revit
       public static Dictionary<ObjectId, List<Parameter>> BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
 
       public static List<Parameter> GetParameters(BlockReference blRef)
-      {
+      {         
          List<Parameter> parameters = new List<Parameter>();         
 
          // считывание дин параметров
@@ -26,7 +26,7 @@ namespace AR_ApartmentBase.Model.Revit
          // считывание атрибутов
          defineAttributesParam(blRef, parameters);
 
-         //// Сортировка параметров по имени
+         // Сортировка параметров по имени
          parameters= Sort(parameters);
 
          return parameters;
@@ -44,10 +44,10 @@ namespace AR_ApartmentBase.Model.Revit
             foreach (DynamicBlockReferenceProperty prop in blRef.DynamicBlockReferencePropertyCollection)
             {
                Error errHasParam = new Error($"Дублирование параметра {prop.PropertyName} в блоке {blRef.Name}.", icon: SystemIcons.Error);
-               addParam(parameters, prop.PropertyName, TypeConverter.Object(prop.Value), errHasParam);               
+               addParam(parameters, prop.PropertyName, TypeConverter.Object(prop.Value), errHasParam);
             }
          }         
-      }
+      }      
 
       private static void defineAttributesParam(BlockReference blRef, List<Parameter> parameters)
       {
@@ -109,6 +109,24 @@ namespace AR_ApartmentBase.Model.Revit
                parameters.Add(param);
             }
          }
+      }
+
+      /// <summary>
+      /// Оставить только нужные для базы параметры
+      /// </summary>      
+      public static List<Parameter> ExceptOnlyRequiredParameters(List<Parameter> parameters, string category)
+      {         
+         var paramsCategory = Apartment.BaseCategoryParameters.Single(c => c.Key.Equals(category)).Value;
+         List<Parameter> resVal = new List<Parameter>();
+
+         foreach (var param in parameters)
+         {
+            if (paramsCategory.Any(p=>p.NAME_PARAMETER.Equals(param.Name, StringComparison.OrdinalIgnoreCase)))
+            {
+               resVal.Add(param);
+            }
+         }
+         return resVal;
       }
 
       private static bool hasParamName(List<Parameter> parameters, string name)
