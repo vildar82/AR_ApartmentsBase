@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using AcadLib.Errors;
 using AR_ApartmentBase.Model.DB.DbServices;
+using AR_ApartmentBase.Model.DB.EntityModel;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using MoreLinq;
 
 namespace AR_ApartmentBase.Model.Revit.Elements
 {
@@ -20,8 +22,8 @@ namespace AR_ApartmentBase.Model.Revit.Elements
    {
       public Element() { }
 
-      public Parameter FamilyName { get; set; }
-      public Parameter FamilySymbolName { get; set; }
+      public string FamilyName { get; set; }
+      public string FamilySymbolName { get; set; }
 
       public string CategoryElement { get; set; }
 
@@ -113,10 +115,8 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                   
          CategoryElement = category;
 
-         FamilyName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilyName)) 
-                        ?? new Parameter() { Name = Options.Instance.ParameterFamilyName, Value = "" };
-         FamilySymbolName = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilySymbolName)) 
-                        ?? new Parameter() { Name = Options.Instance.ParameterFamilySymbolName, Value = "" };
+         FamilyName = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilyName)).Value ?? "";
+         FamilySymbolName = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilySymbolName)).Value ?? "";
 
          Parameters = Parameter.ExceptOnlyRequiredParameters(parameters, category);
       }
@@ -124,16 +124,25 @@ namespace AR_ApartmentBase.Model.Revit.Elements
       /// <summary>
       /// Конструктор создания элемента из базы
       /// </summary>
-      public Element (Module module, string familyName, string fsn, List<Parameter> parameters, string category)
+      public Element (Module module, F_nn_Elements_Modules emEnt)
       {
-         Direction = parameters.FirstOrDefault(p => p.Name.Equals(nameof(IRevitBlock.Direction)))?.Value;
-         LocationPoint = parameters.FirstOrDefault(p => p.Name.Equals(nameof(IRevitBlock.LocationPoint)))?.Value;
-         FamilyName = new Parameter() { Name = Options.Instance.ParameterFamilyName, Value = familyName };
-         FamilySymbolName = new Parameter() { Name = Options.Instance.ParameterFamilySymbolName, Value = fsn }; 
+         CategoryElement = emEnt.F_S_Elements.F_S_Categories.NAME_RUS_CATEGORY;
+         Direction = emEnt.DIRECTION;
+         LocationPoint = emEnt.LOCATION;
+         FamilyName = emEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_NAME;
+         FamilySymbolName = emEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_SYMBOL;
          Module = module;
-         module.Elements.Add(this);
-         Parameters = parameters;
-         CategoryElement = category;
+         DBObject = emEnt;
+
+         // Параметры элемента в базе
+         List<Parameter> parameters = new List<Parameter>();
+         emEnt.F_S_Elements.F_nn_ElementParam_Value.ForEach(p => 
+                                 parameters.Add(new Parameter(
+                                    p.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER, 
+                                    p.PARAMETER_VALUE)));
+         Parameters = Parameter.Sort(parameters);                  
+
+         module.Elements.Add(this);                 
       }
 
       /// <summary>
@@ -218,12 +227,13 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          return TypeConverter.Point(direction);
       }
 
-      public bool Equals(Element other)
+      public virtual bool Equals(Element other)
       {
          return this.Direction.Equals(other.Direction) &&
             this.LocationPoint.Equals(other.LocationPoint) &&
             this.FamilyName.Equals(other.FamilyName) &&
-            this.FamilySymbolName.Equals(other.FamilySymbolName);            
+            this.FamilySymbolName.Equals(other.FamilySymbolName) &&
+            Parameter.Equal(this.Parameters, other.Parameters);
       }
    }
 }

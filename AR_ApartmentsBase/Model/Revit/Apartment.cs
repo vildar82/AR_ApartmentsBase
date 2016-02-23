@@ -14,6 +14,7 @@ using AR_ApartmentBase.Model.Revit.Elements;
 using Autodesk.AutoCAD.ApplicationServices;
 using AR_ApartmentBase.Model.DB.DbServices;
 using AR_ApartmentBase.Model.DB.EntityModel;
+using System.Data.Entity;
 
 namespace AR_ApartmentBase.Model.Revit
 {   
@@ -199,7 +200,7 @@ namespace AR_ApartmentBase.Model.Revit
       /// </summary>      
       public void ExportToFile()
       {
-         using (var db = new Database(true, true))
+         using (var db = new Autodesk.AutoCAD.DatabaseServices.Database(true, true))
          {
             db.CloseInput(true);
 
@@ -227,14 +228,15 @@ namespace AR_ApartmentBase.Model.Revit
       /// <summary>
       /// Поиск квартир в чертеже.
       /// </summary>      
-      public static List<Apartment> GetApartments(Database db)
+      public static List<Apartment> GetApartments(Autodesk.AutoCAD.DatabaseServices.Database db)
       {
          List<Apartment> apartments = new List<Apartment>();
 
          // Импользование базы для проверки категории элементов и их параметров
          using (var entities = BaseApartments.ConnectEntities())
          {
-            BaseCategoryParameters = entities.F_nn_Category_Parameters.GroupBy(cp => cp.F_S_Categories).Select(p =>
+            entities.F_nn_Category_Parameters.Load();         
+            BaseCategoryParameters = entities.F_nn_Category_Parameters.Local.GroupBy(cp => cp.F_S_Categories).Select(p =>
                           new KeyValuePair<string,List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
          }
 

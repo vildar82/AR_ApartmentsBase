@@ -16,7 +16,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 {
    public static class BaseApartments
    {
-      private static List<Tuple<F_S_Elements, F_nn_Elements_Modules>> doorsAndHostWall;
+      private static List<Tuple<F_nn_Elements_Modules, F_nn_Elements_Modules>> doorsAndHostWall;
 
       private static SAPREntities entities;
 
@@ -68,7 +68,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             try
             {
                // Элементы дверей и их стены - для обновления параметрв idWall
-               doorsAndHostWall = new List<Tuple<F_S_Elements, F_nn_Elements_Modules>>();
+               doorsAndHostWall = new List<Tuple<F_nn_Elements_Modules, F_nn_Elements_Modules>>();
 
                // Модули - новые или с изменениями
                var modules = apartments.SelectMany(a => a.Modules)
@@ -97,12 +97,14 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                {
                   foreach (var doorAndHostWall in doorsAndHostWall)
                   {
-                     F_S_Elements doorEnt = doorAndHostWall.Item1;
-                     F_nn_Elements_Modules wallEnt = doorAndHostWall.Item2;
-                     var paramHostWall = doorEnt.F_nn_ElementParam_Value.Single(p => 
+                     F_nn_Elements_Modules doorEmEnt = doorAndHostWall.Item1;
+                     F_nn_Elements_Modules wallEmEnt = doorAndHostWall.Item2;
+                     // Поиск параметра IdWall для заполнения
+                     var paramHostWall = doorEmEnt.F_S_Elements.F_nn_ElementParam_Value.Single(p => 
                            p.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER
                               .Equals(Options.Instance.DoorHostWallParameter, StringComparison.OrdinalIgnoreCase));
-                     paramHostWall.PARAMETER_VALUE = wallEnt.ID_ELEMENT_IN_MODULE.ToString();
+                     // Запись id стены в параметр
+                     paramHostWall.PARAMETER_VALUE = wallEmEnt.ID_ELEMENT_IN_MODULE.ToString();
                   }
                }
                entities.SaveChanges();
@@ -226,12 +228,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          var doors = module.Elements.OfType<DoorElement>();
          foreach (var door in doors)
          {
-            F_S_Elements doorEnt = (F_S_Elements)door.DBObject;
-            F_S_Elements wallEnt = (F_S_Elements)door.HostWall.DBObject;
-            F_nn_Elements_Modules wallInModule = wallEnt.F_nn_Elements_Modules.Single(w=>
-                     w.LOCATION.Equals(door.HostWall.LocationPoint) &&
-                     w.DIRECTION.Equals (door.HostWall.Direction));
-            doorsAndHostWall.Add(new Tuple<F_S_Elements, F_nn_Elements_Modules>(item1: doorEnt, item2: wallInModule));
+            F_nn_Elements_Modules doorEmEnt = (F_nn_Elements_Modules)door.DBObject;
+            F_nn_Elements_Modules wallEmEnt = (F_nn_Elements_Modules)door.HostWall.DBObject;            
+            doorsAndHostWall.Add(new Tuple<F_nn_Elements_Modules, F_nn_Elements_Modules>(item1: doorEmEnt, item2: wallEmEnt));
          }
       }
 
@@ -277,15 +276,15 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          {
             // поиск семейство элемента
             var famInfoEnt = entities.F_S_FamilyInfos.Local.SingleOrDefault(f =>
-                     f.FAMILY_NAME.Equals(elem.FamilyName.Value, StringComparison.OrdinalIgnoreCase) &&
-                     f.FAMILY_SYMBOL.Equals(elem.FamilySymbolName.Value, StringComparison.OrdinalIgnoreCase));
+                     f.FAMILY_NAME.Equals(elem.FamilyName, StringComparison.OrdinalIgnoreCase) &&
+                     f.FAMILY_SYMBOL.Equals(elem.FamilySymbolName, StringComparison.OrdinalIgnoreCase));
             // если нет семейства, то создание
             if (famInfoEnt == null)
             {
                famInfoEnt = entities.F_S_FamilyInfos.Add(new F_S_FamilyInfos()
                {
-                  FAMILY_NAME = elem.FamilyName.Value,
-                  FAMILY_SYMBOL = elem.FamilySymbolName.Value
+                  FAMILY_NAME = elem.FamilyName,
+                  FAMILY_SYMBOL = elem.FamilySymbolName
                });
             }
 
@@ -312,8 +311,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                   PARAMETER_VALUE = elemParam.Value
                });
             }
-         }
-         elem.DBObject = elemEnt;
+         }         
          return elemEnt;
       }
 
@@ -324,8 +322,8 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             // Категория элемента
             .Where(e => e.F_S_Categories.NAME_RUS_CATEGORY.Equals(elem.CategoryElement, StringComparison.OrdinalIgnoreCase))
             // Семейство элемента
-            .Where(e => e.F_S_FamilyInfos.FAMILY_NAME.Equals(elem.FamilyName.Value, StringComparison.OrdinalIgnoreCase) &&
-                      e.F_S_FamilyInfos.FAMILY_SYMBOL.Equals(elem.FamilySymbolName.Value, StringComparison.OrdinalIgnoreCase))
+            .Where(e => e.F_S_FamilyInfos.FAMILY_NAME.Equals(elem.FamilyName, StringComparison.OrdinalIgnoreCase) &&
+                      e.F_S_FamilyInfos.FAMILY_SYMBOL.Equals(elem.FamilySymbolName, StringComparison.OrdinalIgnoreCase))
             // Параметры элемента
             .Where(e => e.F_nn_ElementParam_Value.All(p =>
                   elem.Parameters.Any(ep =>
@@ -343,6 +341,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             LOCATION = elem.LocationPoint
          };
          moduleEnt.F_nn_Elements_Modules.Add(emEnt);
+         elem.DBObject = emEnt;
          return emEnt;
       }     
    }

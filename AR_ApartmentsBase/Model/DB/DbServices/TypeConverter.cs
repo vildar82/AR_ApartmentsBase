@@ -19,17 +19,20 @@ namespace AR_ApartmentBase.Model.DB.DbServices
          return $"{vec.X.ToString("F4")};{vec.Y.ToString("F4")};{vec.Z.ToString("F4")}";
       }
 
-      /// <summary>
-      /// Конвертация типа object в строку
-      /// При этом double числа округляются.
-      /// </summary>      
-      public static string Object(object value)
+      public static string Point(object objectValue)
       {
-         if (value is double)
+         if (objectValue is Point3d)
          {
-            return ((double)value).ToString("F4");
+            return Point((Point3d)objectValue);
          }
-         return value.ToString();
+         else if (objectValue is Vector3d)
+         {
+            return Point((Vector3d)objectValue);
+         }
+         else
+         {
+            return objectValue.ToString();
+         }         
       }
    }
 }

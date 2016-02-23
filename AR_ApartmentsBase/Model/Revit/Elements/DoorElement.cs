@@ -13,17 +13,17 @@ namespace AR_ApartmentBase.Model.Revit.Elements
    public class DoorElement : Element
    {
       public WallElement HostWall { get; set; }
-      public int count = 0;
+      public int count = -1;
 
       public DoorElement(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category) 
             : base(blRefElem, module, blName, parameters, category)
       {
          // Добавление параметра idWall - 0 - условно
-         parameters.Add(new Parameter() { Name = Options.Instance.DoorHostWallParameter, Value = count++.ToString() });         
+         parameters.Add(new Parameter(Options.Instance.DoorHostWallParameter, count--.ToString()));         
       }
 
-      public DoorElement(Module module, string familyName, string fsn, List<Parameter> parameters, string category)
-         : base(module, familyName, fsn, parameters, category)
+      public DoorElement(Module module, F_nn_Elements_Modules emEnt)
+         : base(module, emEnt)
       {
          
       }
@@ -51,24 +51,6 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          }
       }
 
-      ///// <summary>
-      ///// Поиск принадлежащей двери стены в элементах базы данных этого модуля
-      ///// </summary>
-      //public void SearchHostWallDB()
-      //{
-      //   F_S_Elements doorEnt = (F_S_Elements)this.DBObject;
-
-      //   // Параметр стены HostWall        
-      //   var idWallParamValue = Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.DoorHostWallParameter, StringComparison.OrdinalIgnoreCase)).Value;
-
-      //   // Поиск стены с таким параметром
-      //   var hostWallElem = this.Module.Elements.OfType<WallElement>().SingleOrDefault(e =>
-      //      e.Parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.DoorHostWallParameter)).Value.Equals(idWallParamValue));
-
-      //   HostWall = hostWallElem;
-      //}
-
-
       public void DefineOrientation (BlockReference blRefElem)
       {
          // Определение направления
@@ -91,6 +73,40 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                   $"Направление открывания двери определяется отрезком с цветом {Options.Instance.DoorOrientLineColorIndex} в блоке двери.",
                   this.ExtentsInModel, this.IdBlRefElement, System.Drawing.SystemIcons.Error);
             }
+         }
+      }
+
+      /// <summary>
+      /// Определение стены для двери в объектах созданных не из чертежа, а из базы
+      /// </summary>
+      public void SearchHostWallDB(F_R_Modules moduleEnt)
+      {
+         // найти стену по id в параметре двери
+         var paramIdWall = Parameters.Single(p => p.Name.Equals(Options.Instance.DoorHostWallParameter, StringComparison.OrdinalIgnoreCase));
+         int idWall = Convert.ToInt32(paramIdWall.Value);         
+         // найти стену в элементах модуля         
+         var wall = this.Module.Elements.SingleOrDefault(e => ((F_nn_Elements_Modules)e.DBObject).ID_ELEMENT_IN_MODULE == idWall);
+         HostWall = (WallElement)wall;
+      }
+
+      public override bool Equals(Element other)
+      {
+         DoorElement door2 = other as DoorElement;
+         if (door2 == null)
+         {
+            return false;
+         }
+         else
+         {
+            var param1 = Parameters.Where(p => !p.Name.Equals(Options.Instance.DoorHostWallParameter, StringComparison.OrdinalIgnoreCase)).ToList();
+            var param2 = door2.Parameters.Where(p => !p.Name.Equals(Options.Instance.DoorHostWallParameter, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            return FamilyName.Equals(door2.FamilyName, StringComparison.OrdinalIgnoreCase) &&
+                   FamilySymbolName.Equals(door2.FamilySymbolName, StringComparison.OrdinalIgnoreCase) &&
+                   Direction.Equals(door2.Direction) &&
+                   LocationPoint.Equals(door2.LocationPoint) &&
+                   HostWall.Equals(door2.HostWall) &&
+                   Parameter.Equal(param1, param2);
          }
       }
    }

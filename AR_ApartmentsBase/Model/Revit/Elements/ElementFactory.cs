@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AR_ApartmentBase.Model.DB.EntityModel;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace AR_ApartmentBase.Model.Revit.Elements
@@ -39,21 +40,22 @@ namespace AR_ApartmentBase.Model.Revit.Elements
       /// <summary>
       /// Создание элемента из базы
       /// </summary>      
-      public static Element CreateElementDB(Module module, string familyName, string fsn, List<Parameter> parameters, string category)
+      public static Element CreateElementDB(Module module, F_nn_Elements_Modules emEnt)
       {
          Element elem = null;
+         string category = emEnt.F_S_Elements.F_S_Categories.NAME_RUS_CATEGORY;
 
          if (category.Equals(Options.Instance.CategoryWallName, StringComparison.OrdinalIgnoreCase))
          {
-            elem = new WallElement(module, familyName, fsn, parameters, category);
+            elem = new WallElement(module, emEnt);
          }
          else if (category.Equals(Options.Instance.CategoryDoorName, StringComparison.OrdinalIgnoreCase))
          {
-            elem = new DoorElement(module, familyName, fsn, parameters, category);            
+            elem = new DoorElement(module, emEnt);            
          }
          else
          {
-            elem = new Element(module, familyName, fsn, parameters, category);
+            elem = new Element(module, emEnt);
          }         
          return elem;
       }

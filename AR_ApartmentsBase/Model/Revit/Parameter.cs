@@ -12,9 +12,17 @@ namespace AR_ApartmentBase.Model.Revit
    {
       public string Name { get;  set; }      
       public string Value { get;  set; }
+      private object objectValue;      
 
       // Константные атрибуты в блоках
       public static Dictionary<ObjectId, List<Parameter>> BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
+
+      public Parameter (string name, object value)
+      {
+         Name = name;
+         objectValue = value;
+         Value = objectValue.ToString();     
+      }      
 
       public static List<Parameter> GetParameters(BlockReference blRef)
       {         
@@ -44,7 +52,7 @@ namespace AR_ApartmentBase.Model.Revit
             foreach (DynamicBlockReferenceProperty prop in blRef.DynamicBlockReferencePropertyCollection)
             {
                Error errHasParam = new Error($"Дублирование параметра {prop.PropertyName} в блоке {blRef.Name}.", icon: SystemIcons.Error);
-               addParam(parameters, prop.PropertyName, TypeConverter.Object(prop.Value), errHasParam);
+               addParam(parameters, prop.PropertyName, prop.Value, errHasParam);
             }
          }         
       }      
@@ -83,7 +91,7 @@ namespace AR_ApartmentBase.Model.Revit
                   using (var atr = idEnt.Open( OpenMode.ForRead, false, true)as AttributeDefinition)
                   {
                      if (atr == null || !atr.Constant) continue;
-                     Parameter constAtrParam = new Parameter() { Name = atr.Tag.Trim(), Value = atr.TextString.Trim() };
+                     Parameter constAtrParam = new Parameter(atr.Tag.Trim(), atr.TextString.Trim());
                      constAtrParameters.Add(constAtrParam);
                   }
                }
@@ -93,7 +101,7 @@ namespace AR_ApartmentBase.Model.Revit
          return constAtrParameters;
       }
 
-      private static void addParam (List<Parameter> parameters, string name, string value, Error errorHasParam)
+      private static void addParam (List<Parameter> parameters, string name, object value, Error errorHasParam)
       {
          if (hasParamName(parameters, name))
          {
@@ -103,9 +111,7 @@ namespace AR_ApartmentBase.Model.Revit
          {
             if (!Options.Instance.IgnoreParamNames.Contains(name, StringComparer.OrdinalIgnoreCase))
             {
-               Parameter param = new Parameter();
-               param.Name = name;
-               param.Value = value;
+               Parameter param = new Parameter(name, value);               
                parameters.Add(param);
             }
          }
@@ -121,13 +127,37 @@ namespace AR_ApartmentBase.Model.Revit
 
          foreach (var param in parameters)
          {
-            if (paramsCategory.Any(p=>p.NAME_PARAMETER.Equals(param.Name, StringComparison.OrdinalIgnoreCase)))
+            var paramDb = paramsCategory.FirstOrDefault(p => p.NAME_PARAMETER.Equals(param.Name, StringComparison.OrdinalIgnoreCase));
+            if (paramDb != null)
             {
+               param.ConvertValueToDbType(paramDb.TYPE_PARAMETER);
                resVal.Add(param);
             }
          }
          return resVal;
       }
+
+      /// <summary>
+      /// Приведение значения параметра в соответствие с типом значения нужным для базы
+      /// </summary>      
+      public void ConvertValueToDbType(string tYPE_PARAMETER)
+      {
+         switch (tYPE_PARAMETER)
+         {
+            case "Double":
+               Value = Convert.ToDouble(objectValue).ToString("F4");
+               break;
+            case "Int":
+               Value = Convert.ToInt32(objectValue).ToString();
+               break;
+            case "Point":
+               Value = TypeConverter.Point(objectValue);
+               break;
+            default:
+               Value = objectValue.ToString();
+               break;
+         }
+      }      
 
       private static bool hasParamName(List<Parameter> parameters, string name)
       {
@@ -149,8 +179,7 @@ namespace AR_ApartmentBase.Model.Revit
       {         
          foreach (var p1 in params1)
          {
-            if (!params2.Exists(p => p.Name.Equals(p1.Name, StringComparison.OrdinalIgnoreCase) &&
-                                       p.Value.Equals(p1.Value, StringComparison.OrdinalIgnoreCase)))
+            if (!params2.Contains(p1))
             {
                return false;
             }

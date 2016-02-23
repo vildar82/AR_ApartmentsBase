@@ -40,34 +40,18 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                   module.DBObject = fmEnt;
 
                   // Елементы в модуле
-                  var elemsEnt = fmEnt.F_R_Modules.F_nn_Elements_Modules;
-                  foreach (var elemEnt in elemsEnt)
+                  var emsEnt = fmEnt.F_R_Modules.F_nn_Elements_Modules;
+                  foreach (var emEnt in emsEnt)
                   {
-                     // Параметры элемента в базе
-                     List<Parameter> parameters = new List<Parameter>();
-                     elemEnt.F_S_Elements.F_nn_ElementParam_Value.ForEach(p => parameters.Add(
-                           new Parameter()
-                           {
-                              Name = p.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER,
-                              Value = p.PARAMETER_VALUE
-                           }));
-                     parameters = Parameter.Sort(parameters);
-
                      // Создание элемента из элемента базы базы
-                     Element elem = ElementFactory.CreateElementDB(module,
-                                          elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_NAME,
-                                          elemEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_SYMBOL,
-                                          parameters, elemEnt.F_S_Elements.F_S_Categories.NAME_RUS_CATEGORY);
-                     elem.DBObject = elemEnt;                     
-                     elem.Direction = elemEnt.DIRECTION;
-                     elem.LocationPoint = elemEnt.LOCATION;
+                     Element elem = ElementFactory.CreateElementDB(module, emEnt);                     
                   }
-                  //// Для стен 
-                  //var doors = module.Elements.OfType<DoorElement>();
-                  //foreach (var door in doors)
-                  //{
-                  //   door.SearchHostWallDB();
-                  //}
+                  // Для дверей определение элемента стены
+                  var doors = module.Elements.OfType<DoorElement>();
+                  foreach (var door in doors)
+                  {
+                     door.SearchHostWallDB(fmEnt.F_R_Modules);
+                  }
                }               
             }
          }

@@ -290,14 +290,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          try
          {
             elemInBase = moduleInBase.Elements.SingleOrDefault
-                        (e =>
-                              e.CategoryElement.Equals(elem.CategoryElement, StringComparison.OrdinalIgnoreCase) &&
-                              e.FamilyName.Equals(elem.FamilyName) &&
-                              e.FamilySymbolName.Equals(elem.FamilySymbolName) &&   
-                              e.Direction.Equals (elem.Direction)                            &&
-                              e.LocationPoint.Equals(elem.LocationPoint) &&
-                              Parameter.Equal(e.Parameters, elem.Parameters)
-                        );
+                        (e => e.Equals(elem));
          }
          catch
          {
