@@ -213,8 +213,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             Module moduleInBase;
             try
             {
-               moduleInBase = modulesInBase.SingleOrDefault(m =>
-                              m.Name.Equals(module.Name, StringComparison.OrdinalIgnoreCase) &&
+               moduleInBase = modulesInBase.SingleOrDefault(m =>                              
                               m.Direction.Equals(module.Direction) &&
                               m.LocationPoint.Equals(module.LocationPoint));
             }
@@ -289,8 +288,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          Element elemInBase = null;
          try
          {
-            elemInBase = moduleInBase.Elements.SingleOrDefault
-                        (e => e.Equals(elem));
+            elemInBase = moduleInBase.Elements.SingleOrDefault(e => e.Equals(elem));
          }
          catch
          {

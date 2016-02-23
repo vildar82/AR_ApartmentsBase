@@ -110,7 +110,9 @@ namespace AR_ApartmentBase
                // Выбор квартир записываемых в базу - изменившиеся и новые
                var apartsToDb = apartments.Where(a =>
                               a.BaseStatus == EnumBaseStatus.Changed ||
-                              a.BaseStatus == EnumBaseStatus.New).ToList();
+                              a.BaseStatus == EnumBaseStatus.New ||
+                              a.Modules.Any(m=>m.BaseStatus == EnumBaseStatus.Changed ||
+                                               m.BaseStatus == EnumBaseStatus.New)).ToList();
                var apartsNotToDB = apartments.Except(apartsToDb);
                foreach (var apartNotToDB in apartsNotToDB)
                {

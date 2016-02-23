@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using AcadLib.Errors;
 using AR_ApartmentBase.Model.DB.DbServices;
+using AR_ApartmentBase.Model.DB.EntityModel;
 using AR_ApartmentBase.Model.Revit.Elements;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -87,6 +88,10 @@ namespace AR_ApartmentBase.Model.Revit
       public string LocationPoint { get; set; }
 
       public EnumBaseStatus BaseStatus { get; set; }
+
+      /// <summary>
+      /// F_nn_FlatModules
+      /// </summary>
       public object DBObject { get; set; }
 
       public Module(BlockReference blRefModule, Apartment apartment, string blName)
@@ -130,16 +135,17 @@ namespace AR_ApartmentBase.Model.Revit
       /// <summary>
       /// Конструктор для создания модуля из Базы
       /// </summary>
-      public Module (string name, Apartment apart, string direction, string locationPoint)
+      public Module (F_nn_FlatModules fmEnt, Apartment apart)
       {
-         Name = name;
+         Name = fmEnt.F_R_Modules.NAME_MODULE;
          Apartment = apart;
          _extentsAreDefined = true;
          _extentsIsNull = true;
          Elements = new List<Element>();
          apart.Modules.Add(this);
-         Direction = direction;
-         LocationPoint = locationPoint;
+         Direction = fmEnt.DIRECTION;
+         LocationPoint = fmEnt.LOCATION;
+         DBObject = fmEnt;
       }
 
       /// <summary>

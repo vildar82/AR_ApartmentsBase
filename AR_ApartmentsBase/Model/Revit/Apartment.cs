@@ -111,6 +111,9 @@ namespace AR_ApartmentBase.Model.Revit
 
       public EnumBaseStatus BaseStatus { get; set; }
 
+      /// <summary>
+      /// F_R_Flats
+      /// </summary>
       public object DBObject { get; set; }
 
       /// <summary>
@@ -136,12 +139,13 @@ namespace AR_ApartmentBase.Model.Revit
       /// <summary>
       /// Конструктор для создания квартиры из базы
       /// </summary>
-      public Apartment (string name)
+      public Apartment (F_R_Flats flatEnt)
       {
-         Name = name;
+         Name = flatEnt.WORKNAME;
          _extentsIsNull = true;
          _extentsAreDefined = true;
          Modules = new List<Module>();
+         DBObject = flatEnt;
       }
 
       /// <summary>

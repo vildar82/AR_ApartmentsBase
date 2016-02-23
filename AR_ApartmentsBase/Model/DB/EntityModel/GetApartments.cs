@@ -26,8 +26,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             var flatsLastRev = entities.F_R_Flats.Local.GroupBy(g => g.WORKNAME).Select(f => f.MaxBy(r => r.REVISION));
             foreach (var flatEnt in flatsLastRev)
             {
-               Apartment apart = new Apartment(flatEnt.WORKNAME);
-               apart.DBObject = flatsLastRev;
+               Apartment apart = new Apartment(flatEnt);               
                apartments.Add(apart);
 
                //Все модули в квартире
@@ -36,8 +35,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
                foreach (var fmEnt in fmsLastModRev)
                {
-                  Module module = new Module(fmEnt.F_R_Modules.NAME_MODULE, apart, fmEnt.DIRECTION, fmEnt.LOCATION);
-                  module.DBObject = fmEnt;
+                  Module module = new Module(fmEnt, apart);                  
 
                   // Елементы в модуле
                   var emsEnt = fmEnt.F_R_Modules.F_nn_Elements_Modules;
