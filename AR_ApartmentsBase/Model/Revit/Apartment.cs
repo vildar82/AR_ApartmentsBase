@@ -294,8 +294,7 @@ namespace AR_ApartmentBase.Model.Revit
 
       public bool Equals(Apartment other)
       {
-         return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase) && Modules.SequenceEqual(other.Modules);
-
+         return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase);
       }
    }
 }

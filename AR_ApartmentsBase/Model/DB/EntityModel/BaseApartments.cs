@@ -46,6 +46,8 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       /// </summary>      
       public static List<ExportDBInfo> Export (List<Apartment> apartments)
       {
+         TestInfoApartmentstoDb(apartments);
+
          List<ExportDBInfo> exportInfos = new List<ExportDBInfo>();
          if (apartments.Count == 0)
          {
@@ -72,8 +74,12 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
                // Модули - новые или с изменениями
                var modules = apartments.SelectMany(a => a.Modules)
-                                       .Where(m => m.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
-                                                   m.BaseStatus.HasFlag(EnumBaseStatus.New))
+                                       .Where(m => !m.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
+                                                (
+                                                   m.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
+                                                   m.BaseStatus.HasFlag(EnumBaseStatus.New)
+                                                )
+                                             )
                                        .GroupBy(g => g.Name).Select(g => g.First());
 
                foreach (var module in modules)
@@ -115,7 +121,26 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             }
          }
          return exportInfos;
-      }      
+      }
+
+      private static void TestInfoApartmentstoDb(List<Apartment> apartments)
+      {
+         StringBuilder resVal = new StringBuilder("Квартиры для записи в базу:\n");
+         foreach (var apart in apartments)
+         {
+            resVal.AppendLine("- - - - - - - -");
+            resVal.AppendLine($"Квартира - {apart.Name}, {apart.BaseStatus}");
+            foreach (var module in apart.Modules)
+            {
+               resVal.AppendLine($"Модуль - {module.Name}, {module.BaseStatus}");
+               foreach (var elem in module.Elements)
+               {
+                  resVal.AppendLine($"Элемент - {elem.Name}, {elem.BaseStatus}");
+               }
+            }
+         }
+         Logger.Log.Error(resVal.ToString());
+      }
 
       private static F_R_Flats defineFlatEnt(Apartment apart)
       {
@@ -165,7 +190,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       {
          F_R_Modules moduleEnt = null;
          int revision = 0;
-         if (module.BaseStatus==EnumBaseStatus.Changed)
+         if (module.BaseStatus.HasFlag(EnumBaseStatus.Changed))
          {
             // Новая ревизия модуля
             var lastRevision = entities.F_R_Modules.Local
@@ -182,16 +207,19 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                   
          if (moduleEnt == null)
          {
+            Logger.Log.Error($"Новая ревизия модуля {module.Name} - {revision}.");
             moduleEnt = entities.F_R_Modules.Add(new F_R_Modules() { NAME_MODULE = module.Name, REVISION = revision });
             // Добавление элементов в модуль
             addElementsToModule(module, moduleEnt);
             // Если это новая ревизия модуля, то обновление модуля во всех квартиро-модулей
             if (revision != 0)
             {
+               // Предыдущая ревизия модуля
                var modulePrevRev = entities.F_R_Modules.Local.Single(m =>
                      m.NAME_MODULE.Equals(moduleEnt.NAME_MODULE, StringComparison.OrdinalIgnoreCase) &&
                      m.REVISION == revision - 1);
-               var fmsPrevRevM = entities.F_nn_FlatModules.Local.Where(fm => fm.ID_FLAT == modulePrevRev.ID_MODULE);
+               // квартиро-модули в которых есть пред ревизия модуля
+               var fmsPrevRevM = entities.F_nn_FlatModules.Local.Where(fm => fm.ID_MODULE == modulePrevRev.ID_MODULE).ToList();
                foreach (var fmPrevRevM in fmsPrevRevM)
                {
                   entities.F_nn_FlatModules.Add(new F_nn_FlatModules()
@@ -292,7 +320,8 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             elemEnt = entities.F_S_Elements.Add(new F_S_Elements()
             {
                // Категория элемента
-               F_S_Categories = entities.F_S_Categories.Local.SingleOrDefault(c => c.NAME_RUS_CATEGORY.Equals(elem.CategoryElement, StringComparison.OrdinalIgnoreCase)),
+               F_S_Categories = entities.F_S_Categories.Local.SingleOrDefault(c => 
+                     c.NAME_RUS_CATEGORY.Equals(elem.CategoryElement, StringComparison.OrdinalIgnoreCase)),
                // Семейство
                F_S_FamilyInfos = famInfoEnt
             });

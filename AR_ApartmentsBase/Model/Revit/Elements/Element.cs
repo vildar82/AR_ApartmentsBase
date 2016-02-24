@@ -115,8 +115,8 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                   
          CategoryElement = category;
 
-         FamilyName = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilyName)).Value ?? "";
-         FamilySymbolName = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilySymbolName)).Value ?? "";
+         FamilyName = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilyName))?.Value ?? "";
+         FamilySymbolName = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilySymbolName))?.Value ?? "";
 
          Parameters = Parameter.ExceptOnlyRequiredParameters(parameters, category);
       }
@@ -167,7 +167,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                      var parameters = Parameter.GetParameters(blRefElem);
                      var categoryElement = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterCategoryName, StringComparison.OrdinalIgnoreCase));
 
-                     if (string.IsNullOrEmpty(categoryElement.Value))
+                     if (categoryElement == null || string.IsNullOrEmpty(categoryElement.Value))
                      {
                         Inspector.AddError($"Не определена категория элемента у блока {blName}",
                            blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
@@ -184,11 +184,16 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                                  blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                               continue;
                            }
-                           elements.Add(elem);
+                           // проверка элемента
+                           elem.checkElement();
+                           if (!elem.BaseStatus.HasFlag(EnumBaseStatus.Error))
+                           {
+                              elements.Add(elem);
+                           }                           
                         }
                         catch (Exception ex)
                         {
-                           Inspector.AddError($"Ошибка при создании элемента из блока '{blName}' категории '{categoryElement.Value}'. Возможно такой категории нет в базе. - {ex.Message}.",
+                           Inspector.AddError($"Ошибка при создании элемента из блока '{blName}' категории '{categoryElement.Value}'. Возможно такой категории нет в базе. - {ex.ToString()}.",
                                  blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                         }
                      }                     
@@ -213,6 +218,41 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          }
          elements.Sort((e1, e2) => e1.Name.CompareTo(e2.Name));
          return elements;
+      }
+
+      /// <summary>
+      /// Проверка элемента - есть ли все необходимые параметры
+      /// </summary>
+      private void checkElement()
+      {
+         // категорию не нужно проверять, без категории элемент не был бы создан.
+         // проверка наличия всех параметров
+         string errElem = string.Empty;
+         var paramsForCategory = Apartment.BaseCategoryParameters.Find(c => c.Key.Equals(CategoryElement, StringComparison.OrdinalIgnoreCase)).Value;
+         foreach (var paramEnt in paramsForCategory)
+         {
+            Parameter paramElem = null;
+            try
+            {
+               paramElem = Parameters.SingleOrDefault(p => p.Name.Equals(paramEnt.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
+            }
+            catch
+            {
+               // Дублирование параметров
+               errElem += $"Дублирование параметра {paramEnt.NAME_PARAMETER}. ";
+            }
+            if (paramElem == null)
+            {
+               // Нет такого параметра
+               errElem += $"Нет параметра {paramEnt.NAME_PARAMETER}. ";
+            }
+         }
+
+         if (!string.IsNullOrEmpty(errElem))
+         {            
+            BaseStatus = EnumBaseStatus.Error;
+            Inspector.AddError($"Пропущен блок элемента {Name}, ошибка - {errElem}", ExtentsInModel, IdBlRefElement, System.Drawing.SystemIcons.Error);
+         }
       }
 
       public static bool IsBlockElement(string blName)

@@ -10885,30 +10885,37 @@ FROM            F_nn_FlatModules INNER JOIN
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT        F_R_Modules.ID_MODULE, F_R_Modules.NAME_MODULE, F_R_Modules.REVISION, F_nn_Elements_Modules.ID_ELEMENT_IN_MODULE, 
-                         F_nn_Elements_Modules.LOCATION, F_nn_Elements_Modules.DIRECTION, F_S_Elements.ID_ELEMENT, F_S_FamilyInfos.FAMILY_NAME, 
-                         F_S_FamilyInfos.FAMILY_SYMBOL, F_S_Categories.NAME_RUS_CATEGORY, F_S_Parameters.NAME_PARAMETER, 
-                         F_nn_ElementParam_Value.PARAMETER_VALUE
-FROM            F_S_Categories INNER JOIN
-                         F_nn_Category_Parameters INNER JOIN
-                         F_nn_ElementParam_Value ON F_nn_Category_Parameters.ID_CAT_PARAMETER = F_nn_ElementParam_Value.ID_CAT_PARAMETER ON 
-                         F_S_Categories.ID_CATEGORY = F_nn_Category_Parameters.ID_CATEGORY INNER JOIN
-                         F_S_Elements ON F_S_Categories.ID_CATEGORY = F_S_Elements.ID_CATEGORY AND 
-                         F_nn_ElementParam_Value.ID_ELEMENT = F_S_Elements.ID_ELEMENT INNER JOIN
-                         F_R_Modules INNER JOIN
-                         F_nn_Elements_Modules ON F_R_Modules.ID_MODULE = F_nn_Elements_Modules.ID_MODULE ON 
-                         F_S_Elements.ID_ELEMENT = F_nn_Elements_Modules.ID_ELEMENT INNER JOIN
-                         F_S_FamilyInfos ON F_S_Elements.ID_FAMILY_INFO = F_S_FamilyInfos.ID_FAMILY_INFO INNER JOIN
-                         F_S_Parameters ON F_nn_Category_Parameters.ID_PARAMETER = F_S_Parameters.ID_PARAMETER";
+            this._commandCollection[0].CommandText = "SELECT        F_R_Modules.ID_MODULE, F_R_Modules.NAME_MODULE, F_R_Modules.REVISIO" +
+                "N, F_nn_Elements_Modules.ID_ELEMENT_IN_MODULE, \r\n                         F_nn_E" +
+                "lements_Modules.LOCATION, F_nn_Elements_Modules.DIRECTION, F_S_Elements.ID_ELEME" +
+                "NT, F_S_FamilyInfos.FAMILY_NAME, \r\n                         F_S_FamilyInfos.FAMI" +
+                "LY_SYMBOL, F_S_Categories.NAME_RUS_CATEGORY, F_S_Parameters.NAME_PARAMETER, \r\n  " +
+                "                       F_nn_ElementParam_Value.PARAMETER_VALUE\r\nFROM            " +
+                "F_S_Categories INNER JOIN\r\n                         F_nn_Category_Parameters INN" +
+                "ER JOIN\r\n                         F_nn_ElementParam_Value ON F_nn_Category_Param" +
+                "eters.ID_CAT_PARAMETER = F_nn_ElementParam_Value.ID_CAT_PARAMETER ON \r\n         " +
+                "                F_S_Categories.ID_CATEGORY = F_nn_Category_Parameters.ID_CATEGOR" +
+                "Y INNER JOIN\r\n                         F_S_Elements ON F_S_Categories.ID_CATEGOR" +
+                "Y = F_S_Elements.ID_CATEGORY AND \r\n                         F_nn_ElementParam_Va" +
+                "lue.ID_ELEMENT = F_S_Elements.ID_ELEMENT INNER JOIN\r\n                         F_" +
+                "R_Modules INNER JOIN\r\n                         F_nn_Elements_Modules ON F_R_Modu" +
+                "les.ID_MODULE = F_nn_Elements_Modules.ID_MODULE ON \r\n                         F_" +
+                "S_Elements.ID_ELEMENT = F_nn_Elements_Modules.ID_ELEMENT INNER JOIN\r\n           " +
+                "              F_S_FamilyInfos ON F_S_Elements.ID_FAMILY_INFO = F_S_FamilyInfos.I" +
+                "D_FAMILY_INFO INNER JOIN\r\n                         F_S_Parameters ON F_nn_Catego" +
+                "ry_Parameters.ID_PARAMETER = F_S_Parameters.ID_PARAMETER\r\nWHERE        (F_R_Modu" +
+                "les.ID_MODULE = @IDModule)";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IDModule", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet1._Параметры_элементовDataTable dataTable) {
+        public virtual int Fill(DataSet1._Параметры_элементовDataTable dataTable, int IDModule) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(IDModule));
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
             }
@@ -10920,8 +10927,9 @@ FROM            F_S_Categories INNER JOIN
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet1._Параметры_элементовDataTable GetData() {
+        public virtual DataSet1._Параметры_элементовDataTable GetData(int IDModule) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(IDModule));
             DataSet1._Параметры_элементовDataTable dataTable = new DataSet1._Параметры_элементовDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;

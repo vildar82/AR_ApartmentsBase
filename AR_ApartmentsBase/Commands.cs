@@ -108,11 +108,17 @@ namespace AR_ApartmentBase
                ed.WriteMessage($"\nЭкспортированно '{count}' квартир в отдельные файлы.");
 
                // Выбор квартир записываемых в базу - изменившиеся и новые
-               var apartsToDb = apartments.Where(a =>
-                              a.BaseStatus == EnumBaseStatus.Changed ||
-                              a.BaseStatus == EnumBaseStatus.New ||
-                              a.Modules.Any(m=>m.BaseStatus == EnumBaseStatus.Changed ||
-                                               m.BaseStatus == EnumBaseStatus.New)).ToList();
+               var apartsToDb = apartments.Where
+                        (a => !a.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
+                          (
+                                    a.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
+                                    a.BaseStatus.HasFlag(EnumBaseStatus.New) ||
+                                    a.Modules.Any(m=>!m.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
+                                                  (
+                                                      m.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
+                                                      m.BaseStatus.HasFlag( EnumBaseStatus.New)
+                                                  ))
+                         )).ToList();
                var apartsNotToDB = apartments.Except(apartsToDb);
                foreach (var apartNotToDB in apartsNotToDB)
                {
@@ -125,16 +131,16 @@ namespace AR_ApartmentBase
 
                // Запись в DB    
                // Для димана пока без записи в БД           
-#if DEBUG
+
                try
                {
-               BaseApartments.Export(apartsToDb);
+                  BaseApartments.Export(apartsToDb);
                }
                catch (System.Exception ex)
                {
                   Inspector.AddError($"Ошибка экспорта в БД - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
                }
-#endif
+
                // Запись лога экспортированных блоков      
                string logFile = Path.Combine(Path.GetDirectoryName(doc.Name), Options.Instance.LogFileName);
                ExcelLog excelLog = new ExcelLog(logFile);

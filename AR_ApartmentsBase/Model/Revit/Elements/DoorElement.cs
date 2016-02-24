@@ -19,7 +19,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             : base(blRefElem, module, blName, parameters, category)
       {
          // Добавление параметра idWall - 0 - условно
-         parameters.Add(new Parameter(Options.Instance.DoorHostWallParameter, count--.ToString()));         
+         Parameters.Add(new Parameter(Options.Instance.DoorHostWallParameter, count--.ToString()));         
       }
 
       public DoorElement(Module module, F_nn_Elements_Modules emEnt)
