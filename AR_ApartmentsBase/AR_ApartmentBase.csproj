@@ -129,6 +129,7 @@
     <Compile Include="Commands.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Model\AcadServices\LayerService.cs" />
+    <Compile Include="Model\DB\AccessUsers.cs" />
     <Compile Include="Model\DB\DbServices\TypeConverter.cs" />
     <Compile Include="Model\DB\EntityModel\CheckApartments.cs" />
     <Compile Include="Model\DB\EntityModel\BaseApartments.cs" />

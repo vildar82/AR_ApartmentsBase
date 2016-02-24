@@ -15,6 +15,7 @@ using Autodesk.AutoCAD.ApplicationServices;
 using AR_ApartmentBase.Model.DB.DbServices;
 using AR_ApartmentBase.Model.DB.EntityModel;
 using System.Data.Entity;
+using AcadLib.Blocks;
 
 namespace AR_ApartmentBase.Model.Revit
 {   
@@ -255,19 +256,26 @@ namespace AR_ApartmentBase.Model.Revit
                      string blName = blRefApart.GetEffectiveName();
                      if (IsBlockNameApartment(blName))
                      {
-                        try
+                        // Не добавлять одну и ту же квартиру в список
+                        if (!apartments.Exists(a => a.Name.Equals(blName, StringComparison.OrdinalIgnoreCase)))
                         {
-                           // Не добавлять одну и ту же квартиру в список
-                           if (!apartments.Exists(a => a.Name.Equals(blName, StringComparison.OrdinalIgnoreCase)))
+                           // Проверка масштабирования блока
+                           if (!blRefApart.CheckNaturalBlockTransform())
+                           {
+                              Inspector.AddError($"Блок квартиры масштабирован '{blName}' - {blRefApart.ScaleFactors.ToString()}.",
+                                 blRefApart, icon: SystemIcons.Error);
+                           }
+
+                           try
                            {
                               var apartment = new Apartment(blRefApart, blName);
                               apartments.Add(apartment);
                            }
-                        }
-                        catch (System.Exception ex)
-                        {
-                           Inspector.AddError($"Ошибка считывания блока квартиры {blName} - {ex.Message}.",
-                              blRefApart, icon: SystemIcons.Error);
+                           catch (System.Exception ex)
+                           {
+                              Inspector.AddError($"Ошибка считывания блока квартиры '{blName}' - {ex.Message}.",
+                                 blRefApart, icon: SystemIcons.Error);
+                           }
                         }
                      }
                      else

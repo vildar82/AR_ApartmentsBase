@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using AcadLib.Blocks;
 using AcadLib.Errors;
 using AR_ApartmentBase.Model.DB.DbServices;
 using AR_ApartmentBase.Model.DB.EntityModel;
@@ -164,6 +165,13 @@ namespace AR_ApartmentBase.Model.Revit
                   string blName = blRefModule.GetEffectiveName();
                   if (IsBlockNameModule(blName))
                   {
+                     // Проверка масштабирования блока
+                     if (!blRefModule.CheckNaturalBlockTransform())
+                     {
+                        Inspector.AddError($"Блок модуля масштабирован '{blName}' - {blRefModule.ScaleFactors.ToString()}.",
+                           blRefModule, apartment.BlockTransform,  icon: System.Drawing.SystemIcons.Error);
+                     }
+
                      Module module = new Module(blRefModule, apartment, blName);
                      modules.Add(module);
                   }

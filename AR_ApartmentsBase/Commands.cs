@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AcadLib.Errors;
 using AR_ApartmentBase.Model;
+using AR_ApartmentBase.Model.DB;
 using AR_ApartmentBase.Model.DB.EntityModel;
 using AR_ApartmentBase.Model.Export;
 using AR_ApartmentBase.Model.Revit;
@@ -45,6 +46,13 @@ namespace AR_ApartmentBase
          Document doc = Application.DocumentManager.MdiActiveDocument;
          if (doc == null) return;
 
+         // Проверка допуска пользователя
+         if (!AccessUsers.HasAccess())
+         {
+            doc.Editor.WriteMessage("\nОтказано в доступе");
+            return;
+         }
+
          Options.Show();
       }
 
@@ -54,9 +62,16 @@ namespace AR_ApartmentBase
       [CommandMethod("PIK", "AR-BaseApartmentsExport", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
       public void BaseApartmentsExport()
       {
-         Logger.Log.Info("Start command AR-BaseApartmentsExport");
+         Logger.Log.Info("Start command AR-BaseApartmentsExport");         
          Document doc = Application.DocumentManager.MdiActiveDocument;
          if (doc == null) return;
+
+         // Проверка допуска пользователя
+         if (!AccessUsers.HasAccess())
+         {
+            doc.Editor.WriteMessage("\nОтказано в доступе");
+            return;
+         }
 
          if (!File.Exists(doc.Name))
          {
@@ -172,6 +187,13 @@ namespace AR_ApartmentBase
          Logger.Log.Info("Start command AR-BaseApartmentsClear");
          Document doc = Application.DocumentManager.MdiActiveDocument;
          if (doc == null) return;
+
+         // Проверка допуска пользователя
+         if (!AccessUsers.HasAccess())
+         {
+            doc.Editor.WriteMessage("\nОтказано в доступе");
+            return;
+         }
 
          try
          {            
