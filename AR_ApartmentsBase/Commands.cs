@@ -90,6 +90,12 @@ namespace AR_ApartmentBase
 
             Parameter.BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
 
+            // Проверка дубликатов блоков
+            AcadLib.Blocks.CheckDublicateBlocks checkDublBlocks = new AcadLib.Blocks.CheckDublicateBlocks();
+            checkDublBlocks.Check();
+
+            Inspector.Clear();
+
             // Считывание блоков квартир из чертежа
             var apartments = Apartment.GetApartments(db);
             if (apartments.Count == 0)
@@ -165,7 +171,11 @@ namespace AR_ApartmentBase
          catch (System.Exception ex)
          {
             doc.Editor.WriteMessage($"\nОшибка экспорта блоков: {ex.Message}");
-            if (!ex.Message.Contains("Отменено пользователем"))
+            if (ex.Message.Contains("Отменено пользователем"))
+            {
+               return;               
+            }
+            else
             {
                Logger.Log.Error(ex, $"Command: AR-BaseApartmentsExport. {doc.Name}");
             }

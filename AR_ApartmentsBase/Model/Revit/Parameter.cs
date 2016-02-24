@@ -136,6 +136,13 @@ namespace AR_ApartmentBase.Model.Revit
                   resVal.Add(param);
                }
             }
+            if (paramsCategory.Exists(p=>p.NAME_PARAMETER.Equals ("FuckUp", StringComparison.OrdinalIgnoreCase)))
+            {
+               if (!resVal.Exists(p=>p.Name.Equals("FuckUp", StringComparison.OrdinalIgnoreCase)))
+               {
+                  resVal.Add(new Parameter("FuckUp", ""));
+               }
+            }
          }
          return resVal;
       }
