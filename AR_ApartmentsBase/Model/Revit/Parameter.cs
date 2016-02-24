@@ -122,16 +122,19 @@ namespace AR_ApartmentBase.Model.Revit
       /// </summary>      
       public static List<Parameter> ExceptOnlyRequiredParameters(List<Parameter> parameters, string category)
       {         
-         var paramsCategory = Apartment.BaseCategoryParameters.Single(c => c.Key.Equals(category)).Value;
+         var paramsCategory = Apartment.BaseCategoryParameters.SingleOrDefault(c => c.Key.Equals(category)).Value;         
          List<Parameter> resVal = new List<Parameter>();
-
-         foreach (var param in parameters)
+         
+         if (paramsCategory != null)
          {
-            var paramDb = paramsCategory.FirstOrDefault(p => p.NAME_PARAMETER.Equals(param.Name, StringComparison.OrdinalIgnoreCase));
-            if (paramDb != null)
+            foreach (var param in parameters)
             {
-               param.ConvertValueToDbType(paramDb.TYPE_PARAMETER);
-               resVal.Add(param);
+               var paramDb = paramsCategory.FirstOrDefault(p => p.NAME_PARAMETER.Equals(param.Name, StringComparison.OrdinalIgnoreCase));
+               if (paramDb != null)
+               {
+                  param.ConvertValueToDbType(paramDb.TYPE_PARAMETER);
+                  resVal.Add(param);
+               }
             }
          }
          return resVal;

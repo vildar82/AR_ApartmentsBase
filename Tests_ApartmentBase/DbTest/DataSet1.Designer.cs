@@ -4634,10 +4634,6 @@ namespace Tests_ApartmentBase.DbTest {
             
             private global::System.Data.DataColumn columnNAME_RUS_CATEGORY;
             
-            private global::System.Data.DataColumn columnNAME_PARAMETER;
-            
-            private global::System.Data.DataColumn columnPARAMETER_VALUE;
-            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public _Параметры_элементовDataTable() {
@@ -4753,22 +4749,6 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NAME_PARAMETERColumn {
-                get {
-                    return this.columnNAME_PARAMETER;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PARAMETER_VALUEColumn {
-                get {
-                    return this.columnPARAMETER_VALUE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -4804,7 +4784,7 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Параметры_элементовRow Add_Параметры_элементовRow(string NAME_MODULE, int REVISION, string LOCATION, string DIRECTION, string FAMILY_NAME, string FAMILY_SYMBOL, string NAME_RUS_CATEGORY, string NAME_PARAMETER, string PARAMETER_VALUE) {
+            public _Параметры_элементовRow Add_Параметры_элементовRow(string NAME_MODULE, int REVISION, string LOCATION, string DIRECTION, string FAMILY_NAME, string FAMILY_SYMBOL, string NAME_RUS_CATEGORY) {
                 _Параметры_элементовRow row_Параметры_элементовRow = ((_Параметры_элементовRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -4816,9 +4796,7 @@ namespace Tests_ApartmentBase.DbTest {
                         null,
                         FAMILY_NAME,
                         FAMILY_SYMBOL,
-                        NAME_RUS_CATEGORY,
-                        NAME_PARAMETER,
-                        PARAMETER_VALUE};
+                        NAME_RUS_CATEGORY};
                 row_Параметры_элементовRow.ItemArray = columnValuesArray;
                 this.Rows.Add(row_Параметры_элементовRow);
                 return row_Параметры_элементовRow;
@@ -4851,8 +4829,6 @@ namespace Tests_ApartmentBase.DbTest {
                 this.columnFAMILY_NAME = base.Columns["FAMILY_NAME"];
                 this.columnFAMILY_SYMBOL = base.Columns["FAMILY_SYMBOL"];
                 this.columnNAME_RUS_CATEGORY = base.Columns["NAME_RUS_CATEGORY"];
-                this.columnNAME_PARAMETER = base.Columns["NAME_PARAMETER"];
-                this.columnPARAMETER_VALUE = base.Columns["PARAMETER_VALUE"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4878,10 +4854,6 @@ namespace Tests_ApartmentBase.DbTest {
                 base.Columns.Add(this.columnFAMILY_SYMBOL);
                 this.columnNAME_RUS_CATEGORY = new global::System.Data.DataColumn("NAME_RUS_CATEGORY", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNAME_RUS_CATEGORY);
-                this.columnNAME_PARAMETER = new global::System.Data.DataColumn("NAME_PARAMETER", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNAME_PARAMETER);
-                this.columnPARAMETER_VALUE = new global::System.Data.DataColumn("PARAMETER_VALUE", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPARAMETER_VALUE);
                 this.columnID_MODULE.AutoIncrement = true;
                 this.columnID_MODULE.AutoIncrementSeed = -1;
                 this.columnID_MODULE.AutoIncrementStep = -1;
@@ -4908,10 +4880,6 @@ namespace Tests_ApartmentBase.DbTest {
                 this.columnFAMILY_SYMBOL.AllowDBNull = false;
                 this.columnFAMILY_SYMBOL.MaxLength = 100;
                 this.columnNAME_RUS_CATEGORY.MaxLength = 150;
-                this.columnNAME_PARAMETER.AllowDBNull = false;
-                this.columnNAME_PARAMETER.MaxLength = 150;
-                this.columnPARAMETER_VALUE.AllowDBNull = false;
-                this.columnPARAMETER_VALUE.MaxLength = 250;
                 this.ExtendedProperties.Add("Generator_TableVarName", "_tableПараметры_элементов");
                 this.ExtendedProperties.Add("Generator_UserTableName", "Параметры-элементов");
             }
@@ -6387,28 +6355,6 @@ namespace Tests_ApartmentBase.DbTest {
                 }
                 set {
                     this[this._tableПараметры_элементов.NAME_RUS_CATEGORYColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NAME_PARAMETER {
-                get {
-                    return ((string)(this[this._tableПараметры_элементов.NAME_PARAMETERColumn]));
-                }
-                set {
-                    this[this._tableПараметры_элементов.NAME_PARAMETERColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string PARAMETER_VALUE {
-                get {
-                    return ((string)(this[this._tableПараметры_элементов.PARAMETER_VALUEColumn]));
-                }
-                set {
-                    this[this._tableПараметры_элементов.PARAMETER_VALUEColumn] = value;
                 }
             }
             
@@ -10867,8 +10813,6 @@ FROM            F_nn_FlatModules INNER JOIN
             tableMapping.ColumnMappings.Add("FAMILY_NAME", "FAMILY_NAME");
             tableMapping.ColumnMappings.Add("FAMILY_SYMBOL", "FAMILY_SYMBOL");
             tableMapping.ColumnMappings.Add("NAME_RUS_CATEGORY", "NAME_RUS_CATEGORY");
-            tableMapping.ColumnMappings.Add("NAME_PARAMETER", "NAME_PARAMETER");
-            tableMapping.ColumnMappings.Add("PARAMETER_VALUE", "PARAMETER_VALUE");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -10885,26 +10829,16 @@ FROM            F_nn_FlatModules INNER JOIN
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT        F_R_Modules.ID_MODULE, F_R_Modules.NAME_MODULE, F_R_Modules.REVISIO" +
-                "N, F_nn_Elements_Modules.ID_ELEMENT_IN_MODULE, \r\n                         F_nn_E" +
-                "lements_Modules.LOCATION, F_nn_Elements_Modules.DIRECTION, F_S_Elements.ID_ELEME" +
-                "NT, F_S_FamilyInfos.FAMILY_NAME, \r\n                         F_S_FamilyInfos.FAMI" +
-                "LY_SYMBOL, F_S_Categories.NAME_RUS_CATEGORY, F_S_Parameters.NAME_PARAMETER, \r\n  " +
-                "                       F_nn_ElementParam_Value.PARAMETER_VALUE\r\nFROM            " +
-                "F_S_Categories INNER JOIN\r\n                         F_nn_Category_Parameters INN" +
-                "ER JOIN\r\n                         F_nn_ElementParam_Value ON F_nn_Category_Param" +
-                "eters.ID_CAT_PARAMETER = F_nn_ElementParam_Value.ID_CAT_PARAMETER ON \r\n         " +
-                "                F_S_Categories.ID_CATEGORY = F_nn_Category_Parameters.ID_CATEGOR" +
-                "Y INNER JOIN\r\n                         F_S_Elements ON F_S_Categories.ID_CATEGOR" +
-                "Y = F_S_Elements.ID_CATEGORY AND \r\n                         F_nn_ElementParam_Va" +
-                "lue.ID_ELEMENT = F_S_Elements.ID_ELEMENT INNER JOIN\r\n                         F_" +
-                "R_Modules INNER JOIN\r\n                         F_nn_Elements_Modules ON F_R_Modu" +
-                "les.ID_MODULE = F_nn_Elements_Modules.ID_MODULE ON \r\n                         F_" +
-                "S_Elements.ID_ELEMENT = F_nn_Elements_Modules.ID_ELEMENT INNER JOIN\r\n           " +
-                "              F_S_FamilyInfos ON F_S_Elements.ID_FAMILY_INFO = F_S_FamilyInfos.I" +
-                "D_FAMILY_INFO INNER JOIN\r\n                         F_S_Parameters ON F_nn_Catego" +
-                "ry_Parameters.ID_PARAMETER = F_S_Parameters.ID_PARAMETER\r\nWHERE        (F_R_Modu" +
-                "les.ID_MODULE = @IDModule)";
+            this._commandCollection[0].CommandText = @"SELECT        F_R_Modules.ID_MODULE, F_R_Modules.NAME_MODULE, F_R_Modules.REVISION, F_nn_Elements_Modules.ID_ELEMENT_IN_MODULE, 
+                         F_nn_Elements_Modules.LOCATION, F_nn_Elements_Modules.DIRECTION, F_S_Elements.ID_ELEMENT, F_S_FamilyInfos.FAMILY_NAME, 
+                         F_S_FamilyInfos.FAMILY_SYMBOL, F_S_Categories.NAME_RUS_CATEGORY
+FROM            F_S_Categories INNER JOIN
+                         F_S_Elements ON F_S_Categories.ID_CATEGORY = F_S_Elements.ID_CATEGORY INNER JOIN
+                         F_R_Modules INNER JOIN
+                         F_nn_Elements_Modules ON F_R_Modules.ID_MODULE = F_nn_Elements_Modules.ID_MODULE ON 
+                         F_S_Elements.ID_ELEMENT = F_nn_Elements_Modules.ID_ELEMENT INNER JOIN
+                         F_S_FamilyInfos ON F_S_Elements.ID_FAMILY_INFO = F_S_FamilyInfos.ID_FAMILY_INFO
+WHERE        (F_R_Modules.ID_MODULE = @IDModule)";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IDModule", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }

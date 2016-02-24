@@ -229,22 +229,25 @@ namespace AR_ApartmentBase.Model.Revit.Elements
          // проверка наличия всех параметров
          string errElem = string.Empty;
          var paramsForCategory = Apartment.BaseCategoryParameters.Find(c => c.Key.Equals(CategoryElement, StringComparison.OrdinalIgnoreCase)).Value;
-         foreach (var paramEnt in paramsForCategory)
+         if (paramsForCategory != null)
          {
-            Parameter paramElem = null;
-            try
+            foreach (var paramEnt in paramsForCategory)
             {
-               paramElem = Parameters.SingleOrDefault(p => p.Name.Equals(paramEnt.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
-            }
-            catch
-            {
-               // Дублирование параметров
-               errElem += $"Дублирование параметра {paramEnt.NAME_PARAMETER}. ";
-            }
-            if (paramElem == null)
-            {
-               // Нет такого параметра
-               errElem += $"Нет параметра {paramEnt.NAME_PARAMETER}. ";
+               Parameter paramElem = null;
+               try
+               {
+                  paramElem = Parameters.SingleOrDefault(p => p.Name.Equals(paramEnt.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
+               }
+               catch
+               {
+                  // Дублирование параметров
+                  errElem += $"Дублирование параметра {paramEnt.NAME_PARAMETER}. ";
+               }
+               if (paramElem == null)
+               {
+                  // Нет такого параметра
+                  errElem += $"Нет параметра {paramEnt.NAME_PARAMETER}. ";
+               }
             }
          }
 

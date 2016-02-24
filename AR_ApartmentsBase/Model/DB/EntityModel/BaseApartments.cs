@@ -207,7 +207,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                   
          if (moduleEnt == null)
          {
-            Logger.Log.Error($"Новая ревизия модуля {module.Name} - {revision}.");
+            Logger.Log.Error($"\nНовая ревизия модуля {module.Name} - {revision}.");
             moduleEnt = entities.F_R_Modules.Add(new F_R_Modules() { NAME_MODULE = module.Name, REVISION = revision });
             // Добавление элементов в модуль
             addElementsToModule(module, moduleEnt);
@@ -241,7 +241,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          if (moduleEnt.F_nn_Elements_Modules.Count!= 0)
          {
             // Непредвиденная ситуация. Не должно быть элементов в модуле
-            Logger.Log.Warn("addElementsToModule() Непредвиденная ситуация. Не должно быть элементов в модуле");
+            Logger.Log.Error("addElementsToModule() Непредвиденная ситуация. Не должно быть элементов в модуле");
             entities.F_nn_Elements_Modules.RemoveRange(moduleEnt.F_nn_Elements_Modules);
          }
          // Элементы                                  
