@@ -276,7 +276,8 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       {
          var fmEnt = flatEnt.F_nn_FlatModules.SingleOrDefault
                               (fm =>
-                                    fm.ID_FLAT == moduleEnt.ID_MODULE &&
+                                    fm.F_R_Flats == flatEnt &&
+                                    fm.F_R_Modules == moduleEnt &&
                                     fm.LOCATION.Equals(module.LocationPoint) &&
                                     fm.DIRECTION.Equals(module.Direction)                                   
                               );         

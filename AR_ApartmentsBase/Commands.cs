@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AcadLib.Blocks;
+using AcadLib.Blocks.Dublicate;
 using AcadLib.Errors;
 using AR_ApartmentBase.Model;
 using AR_ApartmentBase.Model.DB;
@@ -90,9 +92,8 @@ namespace AR_ApartmentBase
 
             Parameter.BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
 
-            // Проверка дубликатов блоков
-            AcadLib.Blocks.CheckDublicateBlocks checkDublBlocks = new AcadLib.Blocks.CheckDublicateBlocks();
-            checkDublBlocks.Check();
+            // Проверка дубликатов блоков            
+            CheckDublicateBlocks.Check();
 
             Inspector.Clear();
 
@@ -166,6 +167,12 @@ namespace AR_ApartmentBase
                string logFile = Path.Combine(Path.GetDirectoryName(doc.Name), Options.Instance.LogFileName);
                ExcelLog excelLog = new ExcelLog(logFile);
                excelLog.AddtoLog(apartments);
+
+               // Показ ошибок
+               if (Inspector.HasErrors)
+               {
+                  Inspector.Show();
+               }
             }
          }
          catch (System.Exception ex)
@@ -179,13 +186,7 @@ namespace AR_ApartmentBase
             {
                Logger.Log.Error(ex, $"Command: AR-BaseApartmentsExport. {doc.Name}");
             }
-         }
-
-         // Показ ошибок
-         if (Inspector.HasErrors)
-         {
-            Inspector.Show();
-         }
+         }         
       }
 
       /// <summary>

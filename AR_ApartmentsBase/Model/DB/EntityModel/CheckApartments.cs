@@ -23,10 +23,21 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
       /// </summary>      
       public static void Check(List<Apartment> apartments, List<Apartment> apartmentsInBase)
       {
-         if (apartments == null || apartmentsInBase == null || apartments.Count ==0 || apartmentsInBase.Count == 0)
+         if (apartments == null || apartments.Count ==0)
          {
             return;
-         }         
+         }
+
+         if (apartmentsInBase == null || apartmentsInBase.Count == 0)
+         {
+            // В базе пусто. все квариры новые
+            apartments.ForEach(a =>            
+            {
+               a.BaseStatus = EnumBaseStatus.New;
+               a.Modules.ForEach(m => m.BaseStatus = EnumBaseStatus.New);
+               });
+            return;
+         }
 
          // проверка квартир и их состава
          foreach (var apart in apartments)
