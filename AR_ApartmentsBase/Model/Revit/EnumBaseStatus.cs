@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,5 +39,39 @@ namespace AR_ApartmentBase.Model.Revit
       /// Ошибка в блоке
       /// </summary>
       Error = 0x16      
+   }
+
+   public static class BaseColor
+   {
+      public static Color GetColor(EnumBaseStatus status)
+      {
+         Color resColor = Color.Black;
+         if (status.HasFlag(EnumBaseStatus.Error))
+         {
+            // Ошибка               
+            resColor = Color.Red;
+         }
+         else if (status.HasFlag(EnumBaseStatus.New))
+         {
+            // Новый
+            resColor = Color.Lime;
+         }
+         else if (status.HasFlag(EnumBaseStatus.NotInDwg))
+         {
+            // Нет в чертеже, но есть в базе
+            resColor = Color.DarkViolet;
+         }
+         else if (status.HasFlag(EnumBaseStatus.Changed))
+         {
+            // Изменился
+            resColor = Color.Olive;
+         }
+         else if (status == EnumBaseStatus.OK)
+         {
+            // Не изменился
+            resColor = Color.Blue;
+         }
+         return resColor;
+      }
    }
 }

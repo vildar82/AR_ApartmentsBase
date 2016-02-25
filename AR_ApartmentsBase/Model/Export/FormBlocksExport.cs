@@ -72,83 +72,86 @@ namespace AR_ApartmentBase.Model.Export
          {
             TreeNode nodeApart = new TreeNode(apart.Name);
             nodeApart.Tag = (IRevitBlock)apart;
+            nodeApart.ForeColor = BaseColor.GetColor(apart.BaseStatus);            
             treeViewApartments.Nodes.Add(nodeApart);
 
             foreach (var module in apart.Modules)
             {
                TreeNode nodeModule = new TreeNode(module.Name);
                nodeApart.Nodes.Add(nodeModule);
-               nodeModule.Tag = (IRevitBlock)module;
+               nodeModule.Tag = (IRevitBlock)module;               
+               nodeModule.ForeColor = BaseColor.GetColor(module.BaseStatus);
 
                foreach (var elem in module.Elements)
                {
                   TreeNode nodeElem = new TreeNode(elem.Name);
                   nodeModule.Nodes.Add(nodeElem);
                   nodeElem.Tag = (IRevitBlock)elem;
+                  nodeElem.ForeColor = BaseColor.GetColor(elem.BaseStatus);                  
                }
             }
          }
       }
 
-      private void treeViewApartments_DrawNode(object sender, DrawTreeNodeEventArgs e)
-      {
-         Brush brush = Brushes.Black;
-         IRevitBlock rBlock = e.Node.Tag as IRevitBlock;
-         if (rBlock != null)
-         {
-            if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.Error))
-            {
-               // Ошибка               
-               brush = this.brushError;// Brushes.Red;
-            }
-            else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.New))
-            {
-               // Новый
-               brush = this.brushNotInBase;  //Brushes.Lime;
-            }
-            else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg))
-            {
-               // Нет в чертеже, но есть в базе
-               brush = this.brushNotInDwg; //Brushes.DarkViolet;
-            }
-            else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.Changed))
-            {
-               // Изменился
-               brush = this.brushChanged; //Brushes.Olive;
-            }
-            else if (rBlock.BaseStatus == EnumBaseStatus.OK)
-            {
-               // Не изменился
-               brush = this.brushOk; // Brushes.Blue;
-            }
-         }         
+      //private void treeViewApartments_DrawNode(object sender, DrawTreeNodeEventArgs e)
+      //{
+      //   Brush brush = Brushes.Black;
+      //   IRevitBlock rBlock = e.Node.Tag as IRevitBlock;
+      //   if (rBlock != null)
+      //   {
+      //      if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.Error))
+      //      {
+      //         // Ошибка               
+      //         brush = this.brushError;// Brushes.Red;
+      //      }
+      //      else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.New))
+      //      {
+      //         // Новый
+      //         brush = this.brushNotInBase;  //Brushes.Lime;
+      //      }
+      //      else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg))
+      //      {
+      //         // Нет в чертеже, но есть в базе
+      //         brush = this.brushNotInDwg; //Brushes.DarkViolet;
+      //      }
+      //      else if (rBlock.BaseStatus.HasFlag(EnumBaseStatus.Changed))
+      //      {
+      //         // Изменился
+      //         brush = this.brushChanged; //Brushes.Olive;
+      //      }
+      //      else if (rBlock.BaseStatus == EnumBaseStatus.OK)
+      //      {
+      //         // Не изменился
+      //         brush = this.brushOk; // Brushes.Blue;
+      //      }
+      //   }         
 
-         //e.Graphics.FillRectangle(brush, e.Node.Bounds);
+      //   //e.Graphics.FillRectangle(brush, e.Node.Bounds);
 
-         // Retrieve the node font. If the node font has not been set,
-         // use the TreeView font.
-         System.Drawing.Font nodeFont = e.Node.NodeFont;
-         if (nodeFont == null) nodeFont = ((TreeView)sender).Font;
+      //   // Retrieve the node font. If the node font has not been set,
+      //   // use the TreeView font.
+      //   System.Drawing.Font nodeFont = e.Node.NodeFont;
+      //   if (nodeFont == null) nodeFont = ((TreeView)sender).Font;
 
-         // Draw the node text.
-         e.Graphics.DrawString(e.Node.Text, nodeFont, brush,
-             Rectangle.Inflate(e.Bounds, 2, 0));
+      //   // Draw the node text.
+      //   e.Graphics.DrawString(e.Node.Text, nodeFont, brush,
+      //       Rectangle.Inflate(e.Bounds, 2, 0));
 
 
-         //// If the node has focus, draw the focus rectangle large, making
-         //// it large enough to include the text of the node tag, if present.
-         //if ((e.State & TreeNodeStates.Focused) != 0)
-         //{
-         //   using (Pen focusPen = new Pen(Color.Black))
-         //   {
-         //      focusPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-         //      Rectangle focusBounds = e.Node.Bounds;
-         //      focusBounds.Size = new Size(focusBounds.Width - 1,
-         //      focusBounds.Height - 1);
-         //      e.Graphics.DrawRectangle(focusPen, focusBounds);
-         //   }
-         //}
-      }
+      //   //// If the node has focus, draw the focus rectangle large, making
+      //   //// it large enough to include the text of the node tag, if present.
+      //   //if ((e.State & TreeNodeStates.Focused) != 0)
+      //   //{
+      //   //   using (Pen focusPen = new Pen(Color.Black))
+      //   //   {
+      //   //      focusPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+      //   //      Rectangle focusBounds = e.Node.Bounds;
+      //   //      focusBounds.Size = new Size(focusBounds.Width - 1,
+      //   //      focusBounds.Height - 1);
+      //   //      e.Graphics.DrawRectangle(focusPen, focusBounds);
+      //   //   }
+      //   //}
+      //}
 
       private void treeViewApartments_AfterSelect(object sender, TreeViewEventArgs e)
       {

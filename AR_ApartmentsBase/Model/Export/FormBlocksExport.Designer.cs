@@ -110,12 +110,10 @@ namespace AR_ApartmentBase.Model.Export
          this.treeViewApartments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-         this.treeViewApartments.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
          this.treeViewApartments.Location = new System.Drawing.Point(12, 12);
          this.treeViewApartments.Name = "treeViewApartments";
          this.treeViewApartments.Size = new System.Drawing.Size(553, 357);
          this.treeViewApartments.TabIndex = 5;
-         this.treeViewApartments.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeViewApartments_DrawNode);
          this.treeViewApartments.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewApartments_AfterSelect);
          this.treeViewApartments.DoubleClick += new System.EventHandler(this.treeViewApartments_DoubleClick);
          // 
@@ -134,7 +132,7 @@ namespace AR_ApartmentBase.Model.Export
          // 
          this.labelNotInBase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.labelNotInBase.AutoSize = true;
-         this.labelNotInBase.ForeColor = Color.Lime;
+         this.labelNotInBase.ForeColor = System.Drawing.Color.Lime;
          this.labelNotInBase.Location = new System.Drawing.Point(166, 457);
          this.labelNotInBase.Name = "labelNotInBase";
          this.labelNotInBase.Size = new System.Drawing.Size(41, 13);
@@ -145,7 +143,7 @@ namespace AR_ApartmentBase.Model.Export
          // 
          this.labelError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.labelError.AutoSize = true;
-         this.labelError.ForeColor = Color.Red;
+         this.labelError.ForeColor = System.Drawing.Color.Red;
          this.labelError.Location = new System.Drawing.Point(213, 457);
          this.labelError.Name = "labelError";
          this.labelError.Size = new System.Drawing.Size(47, 13);
@@ -156,7 +154,7 @@ namespace AR_ApartmentBase.Model.Export
          // 
          this.labelChanged.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.labelChanged.AutoSize = true;
-         this.labelChanged.ForeColor = Color.Olive;
+         this.labelChanged.ForeColor = System.Drawing.Color.Olive;
          this.labelChanged.Location = new System.Drawing.Point(266, 457);
          this.labelChanged.Name = "labelChanged";
          this.labelChanged.Size = new System.Drawing.Size(65, 13);
@@ -167,7 +165,7 @@ namespace AR_ApartmentBase.Model.Export
          // 
          this.labelNotInDwg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.labelNotInDwg.AutoSize = true;
-         this.labelNotInDwg.ForeColor = Color.DarkViolet;
+         this.labelNotInDwg.ForeColor = System.Drawing.Color.DarkViolet;
          this.labelNotInDwg.Location = new System.Drawing.Point(166, 473);
          this.labelNotInDwg.Name = "labelNotInDwg";
          this.labelNotInDwg.Size = new System.Drawing.Size(80, 13);
@@ -178,7 +176,7 @@ namespace AR_ApartmentBase.Model.Export
          // 
          this.labelOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
          this.labelOK.AutoSize = true;
-         this.labelOK.ForeColor = Color.Blue;
+         this.labelOK.ForeColor = System.Drawing.Color.Blue;
          this.labelOK.Location = new System.Drawing.Point(252, 473);
          this.labelOK.Name = "labelOK";
          this.labelOK.Size = new System.Drawing.Size(85, 13);
