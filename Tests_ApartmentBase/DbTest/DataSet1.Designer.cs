@@ -4234,6 +4234,8 @@ namespace Tests_ApartmentBase.DbTest {
             
             private global::System.Data.DataColumn columnRevMod;
             
+            private global::System.Data.DataColumn columnANGLE;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public _Квартиры_модулиDataTable() {
@@ -4341,6 +4343,14 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ANGLEColumn {
+                get {
+                    return this.columnANGLE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -4376,7 +4386,7 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Квартиры_модулиRow Add_Квартиры_модулиRow(string LOCATION, string DIRECTION, string WORKNAME, int RevFlat, string NAME_MODULE, int RevMod) {
+            public _Квартиры_модулиRow Add_Квартиры_модулиRow(string LOCATION, string DIRECTION, string WORKNAME, int RevFlat, string NAME_MODULE, int RevMod, double ANGLE) {
                 _Квартиры_модулиRow row_Квартиры_модулиRow = ((_Квартиры_модулиRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -4387,7 +4397,8 @@ namespace Tests_ApartmentBase.DbTest {
                         RevFlat,
                         null,
                         NAME_MODULE,
-                        RevMod};
+                        RevMod,
+                        ANGLE};
                 row_Квартиры_модулиRow.ItemArray = columnValuesArray;
                 this.Rows.Add(row_Квартиры_модулиRow);
                 return row_Квартиры_модулиRow;
@@ -4428,6 +4439,7 @@ namespace Tests_ApartmentBase.DbTest {
                 this.columnID_MODULE = base.Columns["ID_MODULE"];
                 this.columnNAME_MODULE = base.Columns["NAME_MODULE"];
                 this.columnRevMod = base.Columns["RevMod"];
+                this.columnANGLE = base.Columns["ANGLE"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4451,6 +4463,8 @@ namespace Tests_ApartmentBase.DbTest {
                 base.Columns.Add(this.columnNAME_MODULE);
                 this.columnRevMod = new global::System.Data.DataColumn("RevMod", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRevMod);
+                this.columnANGLE = new global::System.Data.DataColumn("ANGLE", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnANGLE);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_FLAT_MODULE,
                                 this.columnID_FLAT,
@@ -6201,6 +6215,22 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public double ANGLE {
+                get {
+                    try {
+                        return ((double)(this[this._tableКвартиры_модули.ANGLEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'ANGLE\' в таблице \'Квартиры-модули\' равно DBNull.", e);
+                    }
+                }
+                set {
+                    this[this._tableКвартиры_модули.ANGLEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsDIRECTIONNull() {
                 return this.IsNull(this._tableКвартиры_модули.DIRECTIONColumn);
             }
@@ -6209,6 +6239,18 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetDIRECTIONNull() {
                 this[this._tableКвартиры_модули.DIRECTIONColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsANGLENull() {
+                return this.IsNull(this._tableКвартиры_модули.ANGLEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetANGLENull() {
+                this[this._tableКвартиры_модули.ANGLEColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10633,6 +10675,7 @@ FROM            F_nn_Category_Parameters INNER JOIN
             tableMapping.ColumnMappings.Add("ID_MODULE", "ID_MODULE");
             tableMapping.ColumnMappings.Add("NAME_MODULE", "NAME_MODULE");
             tableMapping.ColumnMappings.Add("RevMod", "RevMod");
+            tableMapping.ColumnMappings.Add("ANGLE", "ANGLE");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -10650,7 +10693,7 @@ FROM            F_nn_Category_Parameters INNER JOIN
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = @"SELECT        F_nn_FlatModules.ID_FLAT_MODULE, F_nn_FlatModules.LOCATION, F_nn_FlatModules.DIRECTION, F_R_Flats.ID_FLAT, F_R_Flats.WORKNAME, 
-                         F_R_Flats.REVISION AS RevFlat, F_R_Modules.ID_MODULE, F_R_Modules.NAME_MODULE, F_R_Modules.REVISION AS RevMod
+                         F_R_Flats.REVISION AS RevFlat, F_R_Modules.ID_MODULE, F_R_Modules.NAME_MODULE, F_R_Modules.REVISION AS RevMod, F_nn_FlatModules.ANGLE
 FROM            F_nn_FlatModules INNER JOIN
                          F_R_Flats ON F_nn_FlatModules.ID_FLAT = F_R_Flats.ID_FLAT INNER JOIN
                          F_R_Modules ON F_nn_FlatModules.ID_MODULE = F_R_Modules.ID_MODULE";
