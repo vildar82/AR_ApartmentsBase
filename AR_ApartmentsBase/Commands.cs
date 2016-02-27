@@ -132,8 +132,9 @@ namespace AR_ApartmentBase
 
                // Выбор квартир записываемых в базу - изменившиеся и новые
                var apartsToDb = apartments.Where
-                        (a => !a.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
-                          (
+                        (a => !a.BaseStatus.HasFlag(EnumBaseStatus.Error) &&  
+                              !a.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg)  &&
+                          (                       
                                     a.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
                                     a.BaseStatus.HasFlag(EnumBaseStatus.New) ||
                                     a.Modules.Any(m => !m.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
@@ -141,7 +142,7 @@ namespace AR_ApartmentBase
                                                       m.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
                                                       m.BaseStatus.HasFlag(EnumBaseStatus.New)
                                                   ))
-                         )).ToList();
+                          )).ToList();
                var apartsNotToDB = apartments.Except(apartsToDb);
                foreach (var apartNotToDB in apartsNotToDB)
                {

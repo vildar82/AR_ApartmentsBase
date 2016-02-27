@@ -124,9 +124,8 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                }
             }
          }
-
-         // Проверка квартир и проверка изменений.         
-         // квартиры которых нет в чертеже
+         
+         // квартиры которых нет в чертеже, но есть в базе
          var apartmentsMissingInDwg = apartmentsInBase.Where(
             aBase => !apartments.Any(a => a.Name.Equals(aBase.Name, StringComparison.OrdinalIgnoreCase))).ToList();
          apartmentsMissingInDwg.ForEach(a =>
