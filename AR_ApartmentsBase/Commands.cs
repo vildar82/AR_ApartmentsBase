@@ -19,10 +19,11 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 
 [assembly: CommandClass(typeof(AR_ApartmentBase.Commands))]
+[assembly: ExtensionApplication(typeof(AR_ApartmentBase.Commands))]
 
 namespace AR_ApartmentBase
 {
-   public class Commands
+   public class Commands : IExtensionApplication
    {
       [CommandMethod("PIK", "AR-BaseApartmentsAbout", CommandFlags.Modal)]
       public void ExportApartmentsAbout()
@@ -64,7 +65,7 @@ namespace AR_ApartmentBase
       [CommandMethod("PIK", "AR-BaseApartmentsExport", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
       public void BaseApartmentsExport()
       {
-         Logger.Log.Info("Start command AR-BaseApartmentsExport");         
+         Logger.Log.Info("Start command AR-BaseApartmentsExport");
          Document doc = Application.DocumentManager.MdiActiveDocument;
          if (doc == null) return;
 
@@ -135,10 +136,10 @@ namespace AR_ApartmentBase
                           (
                                     a.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
                                     a.BaseStatus.HasFlag(EnumBaseStatus.New) ||
-                                    a.Modules.Any(m=>!m.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
+                                    a.Modules.Any(m => !m.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
                                                   (
                                                       m.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
-                                                      m.BaseStatus.HasFlag( EnumBaseStatus.New)
+                                                      m.BaseStatus.HasFlag(EnumBaseStatus.New)
                                                   ))
                          )).ToList();
                var apartsNotToDB = apartments.Except(apartsToDb);
@@ -180,13 +181,13 @@ namespace AR_ApartmentBase
             doc.Editor.WriteMessage($"\nОшибка экспорта блоков: {ex.Message}");
             if (ex.Message.Contains("Отменено пользователем"))
             {
-               return;               
+               return;
             }
             else
             {
                Logger.Log.Error(ex, $"Command: AR-BaseApartmentsExport. {doc.Name}");
             }
-         }         
+         }
       }
 
       /// <summary>
@@ -207,7 +208,7 @@ namespace AR_ApartmentBase
          }
 
          try
-         {            
+         {
             BaseApartments.Clear();
          }
          catch (System.Exception ex)
@@ -218,6 +219,18 @@ namespace AR_ApartmentBase
                Logger.Log.Error(ex, $"Command: AR-BaseApartmentsClear. {doc.Name}");
             }
          }
+      }
+
+      public void Initialize()
+      {
+         // Загрузка сборок EF, MoreLinq
+         AcadLib.LoadService.LoadEntityFramework();
+         AcadLib.LoadService.LoadMorelinq();
+      }
+
+      public void Terminate()
+      {
+
       }
    }
 }        
