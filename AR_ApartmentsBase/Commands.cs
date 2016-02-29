@@ -95,7 +95,6 @@ namespace AR_ApartmentBase
 
             // Проверка дубликатов блоков            
             CheckDublicateBlocks.Check();
-
             Inspector.Clear();
 
             // Считывание блоков квартир из чертежа
@@ -108,12 +107,8 @@ namespace AR_ApartmentBase
 
             if (Inspector.HasErrors)
             {
-               if (Inspector.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-               {
-                  Inspector.Clear();
-                  throw new System.Exception("Отменено пользователем");
-               }
-               Inspector.Clear();
+               Inspector.ShowDialog();
+               Inspector.Clear();             
             }
 
             // Квартиры в базе
