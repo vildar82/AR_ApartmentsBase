@@ -213,7 +213,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
          var modulesInBase = apartInBase.Modules.Where(m => m.Name.Equals(module.Name, StringComparison.OrdinalIgnoreCase));
 
          // Нет такого модуля в базе
-         if (modulesInBase.Count() == 0)
+         if (!modulesInBase.Any())
          {
             module.BaseStatus |= EnumBaseStatus.New;
             errModule += "Модуля с таким именем нет в базе. ";
