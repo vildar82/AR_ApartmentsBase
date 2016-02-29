@@ -7,6 +7,7 @@ using AcadLib.Errors;
 using AR_ApartmentBase.Model.DB.DbServices;
 using AR_ApartmentBase.Model.DB.EntityModel;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 
 namespace AR_ApartmentBase.Model.Revit.Elements
 {
@@ -61,8 +62,10 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             {
                using (var lineOrient = idEnt.Open(OpenMode.ForRead, false, true) as Line)
                {
-                  if (lineOrient == null || lineOrient.ColorIndex != Options.Instance.DoorOrientLineColorIndex) continue;
-                  Direction = TypeConverter.Point(lineOrient.Normal);
+                  if (lineOrient == null || lineOrient.ColorIndex != Options.Instance.DoorOrientLineColorIndex || !lineOrient.Visible) continue;
+                  var lineTemp = (Line)lineOrient.Clone();
+                  lineTemp.TransformBy(blRefElem.BlockTransform);
+                  Direction = Element.GetDirection(lineTemp.Angle);
                   isFinded = true;
                   break;
                }
