@@ -94,8 +94,8 @@ namespace AR_ApartmentBase
             Parameter.BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
 
             // Проверка дубликатов блоков            
-            CheckDublicateBlocks.Check();
-            Inspector.Clear();
+            //CheckDublicateBlocks.Check();
+            //Inspector.Clear();
 
             // Считывание блоков квартир из чертежа
             var apartments = Apartment.GetApartments(db);
