@@ -2,18 +2,18 @@
 {
 
 
-   partial class DataSet1
-   {
-      partial class _Квартиры_модулиDataTable
-      {
-      }
+    partial class DataSet1
+    {
+        partial class _Квартиры_модулиDataTable
+        {
+        }
 
-      partial class _Параметры_элементовDataTable
-      {
-      }
+        partial class _Параметры_элементовDataTable
+        {
+        }
 
-      partial class КатегорииDataTable
-      {
-      }
-   }
+        partial class КатегорииDataTable
+        {
+        }
+    }
 }
