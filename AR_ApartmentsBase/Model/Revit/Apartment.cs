@@ -111,11 +111,30 @@ namespace AR_ApartmentBase.Model.Revit
         public string LocationPoint { get; set; }
 
         public EnumBaseStatus BaseStatus { get; set; }
+        public int Revision { get; set; }
 
         /// <summary>
         /// F_R_Flats
         /// </summary>
         public object DBObject { get; set; }
+
+        public string NodeName
+        {
+            get
+            {
+                return "Квартира " + Name + " " + ((Revision>0) ? "Ревизия-" + Revision.ToString(): "");
+            }
+        }
+
+        public string Info
+        {
+            get
+            {
+                return "Инфо:\r\n" +
+                    "Точка вставки \t" + Position + "\r\n" +
+                    "Поворот \t" + Rotation;                    
+            }
+        }
 
         /// <summary>
         /// Создание блока для экспорта из id
@@ -131,7 +150,7 @@ namespace AR_ApartmentBase.Model.Revit
             Rotation = blRef.Rotation;
             Direction = Element.GetDirection(Rotation);
             LocationPoint = TypeConverter.Point(Position);
-            File = Path.Combine(Path.GetDirectoryName(IdBlRef.Database.Filename), Name + ".dwg");
+            File = Path.Combine(Commands.DirExportApartments, Name + ".dwg");            
 
             // Определение модулуй в квартире
             Modules = Module.GetModules(this);
@@ -147,6 +166,7 @@ namespace AR_ApartmentBase.Model.Revit
             _extentsAreDefined = true;
             Modules = new List<Module>();
             DBObject = flatEnt;
+            Revision = flatEnt.REVISION;
         }
 
         /// <summary>

@@ -102,6 +102,29 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         public EnumBaseStatus BaseStatus { get; set; }
         public object DBObject { get; set; }
 
+        public string NodeName
+        {
+            get
+            {
+                return "Элемент " + CategoryElement + " " + FamilySymbolName;
+            }
+        }
+
+        public string Info
+        {
+            get
+            {
+                return "Инфо:\r\n" +
+                    "Категория \t" + CategoryElement + "\r\n" +
+                    "Семейство \t" + FamilyName + "\r\n" +
+                    "Типоразмер \t" + FamilySymbolName + "\r\n" +
+                    "Точка вставки \t" + Position + "\r\n" +
+                    "Поворот \t" + Rotation + "\r\n" +                    
+                    "Параметры:\r\n" +
+                    string.Join ("\r\n", Parameters.Select(p=> p.Name + " = " + p.Value));                    
+            }
+        }
+
         public Element(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
         {
             Name = blName;

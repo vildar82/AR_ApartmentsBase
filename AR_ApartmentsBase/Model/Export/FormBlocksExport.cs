@@ -70,21 +70,21 @@ namespace AR_ApartmentBase.Model.Export
          treeViewApartments.Nodes.Clear();
          foreach (var apart in apartments)
          {
-            TreeNode nodeApart = new TreeNode(apart.Name);
+            TreeNode nodeApart = new TreeNode(apart.NodeName);
             nodeApart.Tag = (IRevitBlock)apart;
             nodeApart.ForeColor = BaseColor.GetColor(apart.BaseStatus);            
             treeViewApartments.Nodes.Add(nodeApart);
 
             foreach (var module in apart.Modules)
             {
-               TreeNode nodeModule = new TreeNode(module.Name);
+               TreeNode nodeModule = new TreeNode(module.NodeName);
                nodeApart.Nodes.Add(nodeModule);
                nodeModule.Tag = (IRevitBlock)module;               
                nodeModule.ForeColor = BaseColor.GetColor(module.BaseStatus);
 
                foreach (var elem in module.Elements)
                {
-                  TreeNode nodeElem = new TreeNode(elem.Name);
+                  TreeNode nodeElem = new TreeNode(elem.NodeName);
                   nodeModule.Nodes.Add(nodeElem);
                   nodeElem.Tag = (IRevitBlock)elem;
                   nodeElem.ForeColor = BaseColor.GetColor(elem.BaseStatus);                  
@@ -167,7 +167,8 @@ namespace AR_ApartmentBase.Model.Export
             {
                textBoxInfo.Text = "Элемент совпадает с базой.";
             }
+                textBoxInfo.Text += "\r\n" + rBlock.Info;
          }
       }
-   }
+    }
 }
