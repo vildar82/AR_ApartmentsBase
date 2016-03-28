@@ -34,9 +34,9 @@ namespace AR_ApartmentBase.Model.Revit
 
         public List<Element> Elements { get; set; }
 
-        public ObjectId IdBlRefModule { get; set; }
+        public ObjectId IdBlRef { get; set; }
 
-        public ObjectId IdBtrModule { get; set; }
+        public ObjectId IdBtr { get; set; }
 
         public Matrix3d BlockTransform { get; set; }
 
@@ -52,7 +52,7 @@ namespace AR_ApartmentBase.Model.Revit
                 if (!_extentsAreDefined)
                 {
                     _extentsAreDefined = true;
-                    using (var blRef = IdBlRefModule.Open(OpenMode.ForRead, false, true) as BlockReference)
+                    using (var blRef = IdBlRef.Open(OpenMode.ForRead, false, true) as BlockReference)
                     {
                         try
                         {
@@ -118,8 +118,8 @@ namespace AR_ApartmentBase.Model.Revit
         {
             Apartment = apartment;
             BlockTransform = blRefModule.BlockTransform;
-            IdBlRefModule = blRefModule.Id;
-            IdBtrModule = blRefModule.BlockTableRecord;
+            IdBlRef = blRefModule.Id;
+            IdBtr = blRefModule.BlockTableRecord;
             Position = blRefModule.Position;
             Rotation = blRefModule.Rotation;
             Direction = Element.GetDirection(Rotation);
@@ -220,6 +220,11 @@ namespace AR_ApartmentBase.Model.Revit
                    this.Direction.Equals(other.Direction) &&
                    this.LocationPoint.Equals(other.LocationPoint) &&
                    this.Elements.SequenceEqual(other.Elements);
+        }
+
+        public ObjectId[] GetSubentPath()
+        {
+            return new[] { Apartment.IdBlRef, IdBlRef };
         }
     }
 }

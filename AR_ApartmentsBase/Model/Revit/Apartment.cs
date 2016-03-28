@@ -326,5 +326,10 @@ namespace AR_ApartmentBase.Model.Revit
         {
             return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase);
         }
+
+        public ObjectId[] GetSubentPath()
+        {
+            return new[] { IdBlRef };
+        }
     }
 }

@@ -45,14 +45,14 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         /// </summary>
         public List<Parameter> Parameters { get; set; }
 
-        public ObjectId IdBlRefElement { get; set; }
+        public ObjectId IdBlRef { get; set; }
 
-        public ObjectId IdBtrElement { get; set; }
+        public ObjectId IdBtr { get; set; }
 
         public Module Module { get; set; }
 
         public Matrix3d BlockTransform { get; set; }
-        public Error Error { get; set; }
+        public Error Error { get; set; }        
 
         private bool _extentsAreDefined;
         private bool _extentsIsNull;
@@ -64,7 +64,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                 if (!_extentsAreDefined)
                 {
                     _extentsAreDefined = true;
-                    using (var blRef = IdBlRefElement.Open(OpenMode.ForRead, false, true) as BlockReference)
+                    using (var blRef = IdBlRef.Open(OpenMode.ForRead, false, true) as BlockReference)
                     {
                         try
                         {
@@ -129,8 +129,8 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         {
             Name = blName;
             Module = module;
-            IdBlRefElement = blRefElem.Id;
-            IdBtrElement = blRefElem.BlockTableRecord;
+            IdBlRef = blRefElem.Id;
+            IdBtr = blRefElem.BlockTableRecord;
             BlockTransform = blRefElem.BlockTransform;
             Position = blRefElem.Position;
             Rotation = blRefElem.Rotation;
@@ -176,7 +176,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         {
             List<Element> elements = new List<Element>();
 
-            using (var btrModule = module.IdBtrModule.Open(OpenMode.ForRead, false, true) as BlockTableRecord)
+            using (var btrModule = module.IdBtr.Open(OpenMode.ForRead, false, true) as BlockTableRecord)
             {
                 foreach (var idEnt in btrModule)
                 {
@@ -285,7 +285,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             if (!string.IsNullOrEmpty(errElem))
             {
                 BaseStatus = EnumBaseStatus.Error;
-                Inspector.AddError($"Пропущен блок элемента {Name}, ошибка - {errElem}", ExtentsInModel, IdBlRefElement, System.Drawing.SystemIcons.Error);
+                Inspector.AddError($"Пропущен блок элемента {Name}, ошибка - {errElem}", ExtentsInModel, IdBlRef, System.Drawing.SystemIcons.Error);
             }
         }
 
@@ -310,6 +310,11 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                this.FamilyName.Equals(other.FamilyName) &&
                this.FamilySymbolName.Equals(other.FamilySymbolName) &&
                Parameter.Equal(this.Parameters, other.Parameters);
+        }
+
+        public ObjectId[] GetSubentPath()
+        {            
+            return new[] { Module.Apartment.IdBlRef, Module.IdBlRef, IdBlRef };            
         }
     }
 }

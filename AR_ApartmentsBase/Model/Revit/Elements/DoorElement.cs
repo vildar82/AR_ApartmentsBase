@@ -47,7 +47,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             if (this.HostWall == null)
             {
                 Inspector.AddError($"Не определена стена для двери {this.FamilySymbolName}. ",
-                      ExtentsInModel, IdBlRefElement, System.Drawing.SystemIcons.Error);
+                      ExtentsInModel, IdBlRef, System.Drawing.SystemIcons.Error);
                 // Исключить дверь из элементов модуля - и дверь не будет записана в базк
                 elements.Remove(this);
             }
@@ -75,7 +75,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                 {
                     Inspector.AddError($"Не определено направление открывания двери {Name}. " +
                        $"Направление открывания двери определяется отрезком с цветом {Options.Instance.DoorOrientLineColorIndex} в блоке двери.",
-                       this.ExtentsInModel, this.IdBlRefElement, System.Drawing.SystemIcons.Error);
+                       this.ExtentsInModel, this.IdBlRef, System.Drawing.SystemIcons.Error);
                 }
             }
         }

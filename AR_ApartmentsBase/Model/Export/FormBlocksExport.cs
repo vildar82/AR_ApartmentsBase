@@ -11,6 +11,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using System.IO;
 using AR_ApartmentBase.Model.Revit;
+using AcadLib;
 
 namespace AR_ApartmentBase.Model.Export
 {
@@ -57,6 +58,17 @@ namespace AR_ApartmentBase.Model.Export
             if (block != null && block.ExtentsInModel.Diagonal() > 0)
             {
                 ed.Zoom(block.ExtentsInModel);
+                if (!block.IdBlRef.IsNull)
+                {
+                    if (block is Apartment)
+                    {
+                        block.IdBlRef.FlickObjectHighlight(2, 100, 100);
+                    }
+                    else
+                    {
+                        ObjectIdExt.FlickSubentityHighlight(block.GetSubentPath(), 2, 100, 100);
+                    }                    
+                }
             }
         }
 

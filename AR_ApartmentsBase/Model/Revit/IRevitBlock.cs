@@ -63,8 +63,12 @@ namespace AR_ApartmentBase.Model.Revit
         /// Соответствующая запись в базе данных
         /// </summary>
         object DBObject { get; set; }
+                
+        ObjectId IdBlRef { get; set; }
 
         string NodeName { get; }
         string Info { get; }
+
+        ObjectId[] GetSubentPath();
     }
 }

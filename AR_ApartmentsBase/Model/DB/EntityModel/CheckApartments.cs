@@ -115,7 +115,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                {
                   if (module.Error == null)
                   {
-                     module.Error = new Error(errModule, module.ExtentsInModel, module.IdBlRefModule, System.Drawing.SystemIcons.Error);
+                     module.Error = new Error(errModule, module.ExtentsInModel, module.IdBlRef, System.Drawing.SystemIcons.Error);
                   }
                   else
                   {
@@ -183,7 +183,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
                   if (!string.IsNullOrEmpty(errModule))
                   {                     
-                     module.Error = new Error(errModule, module.ExtentsInModel, module.IdBlRefModule, System.Drawing.SystemIcons.Error);                     
+                     module.Error = new Error(errModule, module.ExtentsInModel, module.IdBlRef, System.Drawing.SystemIcons.Error);                     
                   }
                   if (module.BaseStatus == EnumBaseStatus.None)
                   {
