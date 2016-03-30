@@ -78,20 +78,20 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                         }
                     }
                 }
-                if (_extentsIsNull)
-                {
-                    if (Error == null)
-                    {
-                        Error = new Error("Границы блока не определены. ");
-                    }
-                    else
-                    {
-                        if (!Error.Message.Contains("Границы блока не определены."))
-                        {
-                            Error.AdditionToMessage("Границы блока не определены. ");
-                        }
-                    }
-                }
+                //if (_extentsIsNull)
+                //{
+                //    if (Error == null)
+                //    {
+                //        Error = new Error("Границы блока не определены. ");
+                //    }
+                //    else
+                //    {
+                //        if (!Error.Message.Contains("Границы блока не определены."))
+                //        {
+                //            Error.AdditionToMessage("Границы блока не определены. ");
+                //        }
+                //    }
+                //}
                 return _extentsInModel;
             }
         }
@@ -315,6 +315,18 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         public ObjectId[] GetSubentPath()
         {            
             return new[] { Module.Apartment.IdBlRef, Module.IdBlRef, IdBlRef };            
+        }
+
+        public void AddErrMsg(string errElem)
+        {
+            if (Error == null)
+            {
+                Error = new Error(errElem);
+            }
+            else
+            {
+                Error.AdditionToMessage(errElem);
+            }
         }
     }
 }

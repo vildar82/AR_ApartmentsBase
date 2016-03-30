@@ -95,9 +95,9 @@ namespace AR_ApartmentBase
 
                 Parameter.BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
 
-                // Проверка дубликатов блоков            
-                //CheckDublicateBlocks.Check();
-                //Inspector.Clear();
+                // Проверка дубликатов блоков    
+                CheckDublicateBlocks.Tolerance = new Autodesk.AutoCAD.Geometry.Tolerance(0.02, 15);                
+                CheckDublicateBlocks.Check(new HashSet<string>() { "RV_EL_BS_Базовая стена", "RV_EL_BS_Вентиляционный блок" });                
 
                 // Создание папки для экспорта подложек квуартир
                 DirExportApartments = Path.Combine(Path.GetDirectoryName(db.Filename), @"Квартиры_" + Path.GetFileNameWithoutExtension(db.Filename));
@@ -144,11 +144,11 @@ namespace AR_ApartmentBase
                                                            m.BaseStatus.HasFlag(EnumBaseStatus.New)
                                                        ))
                                )).ToList();
-                    var apartsNotToDB = apartments.Except(apartsToDb);
-                    foreach (var apartNotToDB in apartsNotToDB)
-                    {
-                        ed.WriteMessage($"\nКвартира не будет записана в базу, статус '{apartNotToDB.BaseStatus}' - '{apartNotToDB.Name}'.");
-                    }
+                    //var apartsNotToDB = apartments.Except(apartsToDb);
+                    //foreach (var apartNotToDB in apartsNotToDB)
+                    //{
+                    //    ed.WriteMessage($"\nКвартира не будет записана в базу, статус '{apartNotToDB.BaseStatus}' - '{apartNotToDB.Name}'.");
+                    //}
 
                     //// Запись квартир в xml
                     //string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");               

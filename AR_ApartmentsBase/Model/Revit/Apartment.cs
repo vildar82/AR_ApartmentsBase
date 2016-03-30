@@ -86,20 +86,20 @@ namespace AR_ApartmentBase.Model.Revit
                         }
                     }
                 }
-                if (_extentsIsNull)
-                {
-                    if (Error == null)
-                    {
-                        Error = new Error("Границы блока не определены. ");
-                    }
-                    else
-                    {
-                        if (!Error.Message.Contains("Границы блока не определены."))
-                        {
-                            Error.AdditionToMessage("Границы блока не определены. ");
-                        }
-                    }
-                }
+                //if (_extentsIsNull)
+                //{
+                //    if (Error == null)
+                //    {
+                //        Error = new Error("Границы блока не определены. ");
+                //    }
+                //    else
+                //    {
+                //        if (!Error.Message.Contains("Границы блока не определены."))
+                //        {
+                //            Error.AdditionToMessage("Границы блока не определены. ");
+                //        }
+                //    }
+                //}
                 return _extentsInModel;
             }
         }
@@ -202,7 +202,7 @@ namespace AR_ApartmentBase.Model.Revit
             var apartsToFile = apartments.Where(a => !a.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg));
 
             foreach (var apart in apartsToFile)
-         {
+            {
                 try
                 {
                     apart.ExportToFile();
