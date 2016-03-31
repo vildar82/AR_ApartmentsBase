@@ -23,7 +23,7 @@ namespace AR_ApartmentBase.Model.Revit
     /// Квартира или МОП - блок в автокаде
     /// </summary>
     public class Apartment : IRevitBlock, IEquatable<Apartment>
-    {
+    {        
         private static List<ObjectId> layersOff;
         public static List<KeyValuePair<string, List<F_S_Parameters>>> BaseCategoryParameters;
 
@@ -257,7 +257,7 @@ namespace AR_ApartmentBase.Model.Revit
         /// </summary>      
         public static List<Apartment> GetApartments(Autodesk.AutoCAD.DatabaseServices.Database db)
         {
-            List<Apartment> apartments = new List<Apartment>();
+            List<Apartment> apartments = new List<Apartment>();            
 
             // Импользование базы для проверки категории элементов и их параметров
             using (var entities = BaseApartments.ConnectEntities())
@@ -306,6 +306,58 @@ namespace AR_ApartmentBase.Model.Revit
                                    $"'{Options.Instance.BlockApartmentNameMatch}",
                                    blRefApart, icon: System.Drawing.SystemIcons.Information);
                             }
+                        }
+                    }
+                }
+            }
+            apartments.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));
+            return apartments;
+        }
+
+        /// <summary>
+        /// Поиск квартир в вфбранных блоках
+        /// </summary>      
+        public static List<Apartment> GetApartments(IEnumerable<ObjectId> idsBlRef)
+        {            
+            List<Apartment> apartments = new List<Apartment>();
+
+            // Импользование базы для проверки категории элементов и их параметров
+            using (var entities = BaseApartments.ConnectEntities())
+            {
+                entities.F_nn_Category_Parameters.Load();
+                BaseCategoryParameters = entities.F_nn_Category_Parameters.Local.GroupBy(cp => cp.F_S_Categories).Select(p =>
+                              new KeyValuePair<string, List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
+            }
+
+            foreach (ObjectId idEnt in idsBlRef)
+            {
+                using (var blRefApart = idEnt.Open(OpenMode.ForRead, false, true) as BlockReference)
+                {
+                    if (blRefApart != null)
+                    {
+                        string blName = blRefApart.GetEffectiveName();
+                        if (IsBlockNameApartment(blName))
+                        {
+                            // Не добавлять одну и ту же квартиру в список
+                            if (!apartments.Exists(a => a.Name.Equals(blName, StringComparison.OrdinalIgnoreCase)))
+                            {
+                                try
+                                {
+                                    var apartment = new Apartment(blRefApart, blName);
+                                    apartments.Add(apartment);
+                                }
+                                catch (System.Exception ex)
+                                {
+                                    Inspector.AddError($"Ошибка считывания блока квартиры '{blName}' - {ex.Message}.",
+                                       blRefApart, icon: SystemIcons.Error);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Inspector.AddError($"Отфильтрован блок квартиры '{blName}', имя не соответствует " +
+                               $"'{Options.Instance.BlockApartmentNameMatch}",
+                               blRefApart, icon: System.Drawing.SystemIcons.Information);
                         }
                     }
                 }

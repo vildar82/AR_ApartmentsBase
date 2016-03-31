@@ -25,7 +25,20 @@ namespace AR_ApartmentBase
 {
     public class Commands : IExtensionApplication
     {
-        public static string DirExportApartments;        
+        public static string DirExportApartments = string.Empty;
+
+        public void Initialize()
+        {
+            // Загрузка сборок EF, MoreLinq
+            AcadLib.LoadService.LoadEntityFramework();
+            AcadLib.LoadService.LoadMorelinq();
+            AcadLib.LoadService.LoadNetTopologySuite();
+        }
+
+        public void Terminate()
+        {
+
+        }
 
         [CommandMethod("PIK", "AR-BaseApartmentsAbout", CommandFlags.Modal)]
         public void ExportApartmentsAbout()
@@ -103,7 +116,7 @@ namespace AR_ApartmentBase
                 DirExportApartments = Path.Combine(Path.GetDirectoryName(db.Filename), @"Квартиры_" + Path.GetFileNameWithoutExtension(db.Filename));
                 Directory.CreateDirectory(DirExportApartments);
 
-                // Считывание блоков квартир из чертежа
+                // Считывание блоков квартир из чертежа                
                 var apartments = Apartment.GetApartments(db);
                 if (apartments.Count == 0)
                 {
@@ -223,16 +236,33 @@ namespace AR_ApartmentBase
             }
         }
 
-        public void Initialize()
+        /// <summary>
+        /// Контур квартир
+        /// </summary>
+        [CommandMethod("PIK", "AR-BaseApartmentsContour", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
+        public void BaseApartmentsContour()
         {
-            // Загрузка сборок EF, MoreLinq
-            AcadLib.LoadService.LoadEntityFramework();
-            AcadLib.LoadService.LoadMorelinq();
-        }
+            Logger.Log.Info("Start command AR-BaseApartmentsContour");
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            if (doc == null) return;
+            Editor ed = doc.Editor;
+            try
+            {
+                Inspector.Clear();
+                var sel = ed.SelectBlRefs("Выбери квартиры");
+                var apartments = Apartment.GetApartments(sel);
+                Model.AcadServices.ConvexHullHelper.CreateContours(apartments);
 
-        public void Terminate()
-        {
-
+                Inspector.Show();
+            }
+            catch (System.Exception ex)
+            {
+                doc.Editor.WriteMessage($"\nОшибка : {ex.Message}");
+                if (!ex.Message.Contains("Отменено пользователем"))
+                {
+                    Logger.Log.Error(ex, $"Command: AR-BaseApartmentsContour. {doc.Name}");
+                }
+            }
         }
     }
 }        
