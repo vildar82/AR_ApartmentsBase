@@ -13,6 +13,7 @@ using AR_ApartmentBase.Model.DB;
 using AR_ApartmentBase.Model.DB.EntityModel;
 using AR_ApartmentBase.Model.Export;
 using AR_ApartmentBase.Model.Revit;
+using AR_ApartmentBase.Model.Utils;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
@@ -261,6 +262,62 @@ namespace AR_ApartmentBase
                 if (!ex.Message.Contains("Отменено пользователем"))
                 {
                     Logger.Log.Error(ex, $"Command: AR-BaseApartmentsContour. {doc.Name}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Сохранение дин параметра и восстановление
+        /// </summary>
+        [CommandMethod("PIK", "AR-BaseApartmentsDynPropSave", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
+        public void BaseApartmentsDynPropSave()
+        {
+            Logger.Log.Info("Start command AR-BaseApartmentsSaveDynProp");
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            if (doc == null) return;
+            Editor ed = doc.Editor;
+            Database db = doc.Database;
+            try
+            {
+                Inspector.Clear();                
+                var count = SaveDynPropsHelper.Save();
+                ed.WriteMessage($"\nСохранено параметров из {count} блоков.");
+                Inspector.Show();
+            }
+            catch (System.Exception ex)
+            {
+                doc.Editor.WriteMessage($"\nОшибка : {ex.Message}");
+                if (!ex.Message.Contains("Отменено пользователем"))
+                {
+                    Logger.Log.Error(ex, $"Command: AR-BaseApartmentsDynPropSave. {doc.Name}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Сохранение дин параметра и восстановление
+        /// </summary>
+        [CommandMethod("PIK", "AR-BaseApartmentsDynPropLoad", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
+        public void BaseApartmentsDynPropLoad()
+        {
+            Logger.Log.Info("Start command AR-BaseApartmentsDynPropLoad");
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            if (doc == null) return;
+            Editor ed = doc.Editor;
+            Database db = doc.Database;
+            try
+            {
+                Inspector.Clear();
+                var count = SaveDynPropsHelper.Load();
+                ed.WriteMessage($"\nВосстановлено параметров в {count} блоков.");
+                Inspector.Show();
+            }
+            catch (System.Exception ex)
+            {
+                doc.Editor.WriteMessage($"\nОшибка : {ex.Message}");
+                if (!ex.Message.Contains("Отменено пользователем"))
+                {
+                    Logger.Log.Error(ex, $"Command: AR-BaseApartmentsDynPropLoad. {doc.Name}");
                 }
             }
         }
