@@ -11,6 +11,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
+using AcadLib;
 
 namespace AR_ApartmentBase.Model.AcadServices
 {
@@ -42,9 +43,11 @@ namespace AR_ApartmentBase.Model.AcadServices
             Database db = HostApplicationServices.WorkingDatabase;
             using (var t = db.TransactionManager.StartTransaction())
             {
-                var layerContourInfo = new AcadLib.Layers.LayerInfo("АР_Квартиры_Штриховка");
-                layerContourInfo.Color = Color.FromColor(System.Drawing.Color.Aqua);                
-                var layerContourId = AcadLib.Layers.LayerExt.GetLayerOrCreateNew(layerContourInfo);
+                //var layerContourInfo = new AcadLib.Layers.LayerInfo("АР_Квартиры_Штриховка");
+                //layerContourInfo.Color = Color.FromColor(System.Drawing.Color.Aqua);                
+                //var layerContourId = AcadLib.Layers.LayerExt.GetLayerOrCreateNew(layerContourInfo);
+
+                db.RegApp(Commands.RegAppApartBase);
 
                 foreach (var apart in apartments)
                 {
@@ -63,44 +66,67 @@ namespace AR_ApartmentBase.Model.AcadServices
                         }
                     }
                     Point2d centroid;
-                    var contour = GetConvexHull(pts, out centroid);                    
+                    var contour = GetConvexHull(pts, out centroid);
+
+                    var blRefApart = apart.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
+                    var layerApartInfo = new AcadLib.Layers.LayerInfo(blRefApart.Layer);
+                    AcadLib.Layers.LayerExt.CheckLayerState(layerApartInfo);
 
                     Polyline pl = new Polyline();
+                    pl.SetXData(Commands.RegAppApartBase, 1);
                     pl.SetDatabaseDefaults();
-                    pl.LayerId = layerContourId;
+                    pl.LayerId = blRefApart.LayerId;
                     for (int i = 0; i < contour.Count; i++)
                     {
                         pl.AddVertexAt(i, contour[i], 0, 0, 0);
                     }
                     RectanglePolyline(pl, centroid);
                     var btrApart = apart.IdBtr.GetObject(OpenMode.ForWrite) as BlockTableRecord;
+
+                    ClearOldContour(btrApart);                    
+
                     btrApart.AppendEntity(pl);
-                    t.AddNewlyCreatedDBObject(pl, true);
+                    t.AddNewlyCreatedDBObject(pl, true);                    
 
                     Hatch h = new Hatch();
+                    h.SetXData(Commands.RegAppApartBase, 1);
                     h.SetDatabaseDefaults();
-                    h.LayerId = layerContourId;
-                    h.SetHatchPattern(HatchPatternType.PreDefined, "Solid");
+                    h.LayerId = blRefApart.LayerId;
+                    h.SetHatchPattern(HatchPatternType.PreDefined, "Solid");                    
 
                     btrApart.AppendEntity(h);
-                    t.AddNewlyCreatedDBObject(h, true);
+                    t.AddNewlyCreatedDBObject(h, true);                   
 
                     h.Associative = true;
                     var idsH = new ObjectIdCollection(new[] { pl.Id });
                     h.AppendLoop(HatchLoopTypes.Default, idsH);
+                    h.EvaluateHatch(true);
 
                     var btrDrawOrder = btrApart.DrawOrderTableId.GetObject(OpenMode.ForWrite) as DrawOrderTable;
-                    btrDrawOrder.MoveToBottom(new ObjectIdCollection(new[] { h.Id }));
-                               
+                    btrDrawOrder.MoveToBottom(new ObjectIdCollection(new[] { h.Id }));                               
 
                     var idsBlRefApart = btrApart.GetBlockReferenceIds(true, false);
                     foreach (ObjectId idBlRefApart in idsBlRefApart)
                     {
-                        var blRefApart = idBlRefApart.GetObject(OpenMode.ForWrite, false, true) as BlockReference;
-                        blRefApart.RecordGraphicsModified(true);
+                        var blRefApartItem = idBlRefApart.GetObject(OpenMode.ForWrite, false, true) as BlockReference;
+                        blRefApartItem.RecordGraphicsModified(true);
                     }
                 }
                 t.Commit();
+            }
+        }
+
+        public static void ClearOldContour(BlockTableRecord btr)
+        {
+            foreach (var item in btr)
+            {
+                var ent = item.GetObject(OpenMode.ForRead, false, true) as Entity;
+                var xdValue = ent.GetXData(Commands.RegAppApartBase);
+                if (xdValue==1)
+                {
+                    ent.UpgradeOpen();
+                    ent.Erase();
+                }
             }
         }
 

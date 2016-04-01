@@ -26,6 +26,7 @@ namespace AR_ApartmentBase
     public class Commands : IExtensionApplication
     {
         public static string DirExportApartments = string.Empty;
+        public static string RegAppApartBase = "BaseApartment";
 
         public void Initialize()
         {
