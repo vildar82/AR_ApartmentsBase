@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AcadLib.Comparers;
 using AR_ApartmentBase.Model.Revit;
 using AR_ApartmentBase.Model.Revit.Elements;
 using Autodesk.AutoCAD.Colors;
@@ -13,9 +14,11 @@ using NetTopologySuite.Geometries;
 
 namespace AR_ApartmentBase.Model.AcadServices
 {
-    public static class ConvexHullHelper
+    public static class ContourHelper
     {
-        public static List<Point2d> GetContour(List<Point2d> pts)
+        private static DoubleEqualityComparer angleComparer = new DoubleEqualityComparer();
+
+        public static List<Point2d> GetConvexHull(List<Point2d> pts, out Point2d centroid)
         {
             List<Point2d> resVal = new List<Point2d>();
             List<Coordinate> coordinates = new List<Coordinate>();
@@ -25,8 +28,8 @@ namespace AR_ApartmentBase.Model.AcadServices
             }
             var multiPoint = Geometry.DefaultFactory.CreateMultiPoint(coordinates.ToArray());
             multiPoint.Normalize();
-            var hullGeom = multiPoint.ConvexHull();
-
+            centroid = new Point2d(multiPoint.Centroid.X, multiPoint.Centroid.Y);
+            var hullGeom = multiPoint.ConvexHull();            
             foreach (var c in hullGeom.Coordinates)
             {
                 resVal.Add(new Point2d(c.X, c.Y));
@@ -54,10 +57,13 @@ namespace AR_ApartmentBase.Model.AcadServices
                             var extWall = wall.ExtentsClean;
                             extWall.TransformBy(blRefModule.BlockTransform);
                             pts.Add(extWall.MinPoint.Convert2d());
+                            pts.Add(new Point2d (extWall.MinPoint.X, extWall.MaxPoint.Y));
                             pts.Add(extWall.MaxPoint.Convert2d());
+                            pts.Add(new Point2d(extWall.MaxPoint.X, extWall.MinPoint.Y));
                         }
                     }
-                    var contour = GetContour(pts);
+                    Point2d centroid;
+                    var contour = GetConvexHull(pts, out centroid);                    
 
                     Polyline pl = new Polyline();
                     pl.SetDatabaseDefaults();
@@ -66,6 +72,7 @@ namespace AR_ApartmentBase.Model.AcadServices
                     {
                         pl.AddVertexAt(i, contour[i], 0, 0, 0);
                     }
+                    RectanglePolyline(pl, centroid);
                     var btrApart = apart.IdBtr.GetObject(OpenMode.ForWrite) as BlockTableRecord;
                     btrApart.AppendEntity(pl);
                     t.AddNewlyCreatedDBObject(pl, true);
@@ -82,6 +89,10 @@ namespace AR_ApartmentBase.Model.AcadServices
                     var idsH = new ObjectIdCollection(new[] { pl.Id });
                     h.AppendLoop(HatchLoopTypes.Default, idsH);
 
+                    var btrDrawOrder = btrApart.DrawOrderTableId.GetObject(OpenMode.ForWrite) as DrawOrderTable;
+                    btrDrawOrder.MoveToBottom(new ObjectIdCollection(new[] { h.Id }));
+                               
+
                     var idsBlRefApart = btrApart.GetBlockReferenceIds(true, false);
                     foreach (ObjectId idBlRefApart in idsBlRefApart)
                     {
@@ -91,6 +102,44 @@ namespace AR_ApartmentBase.Model.AcadServices
                 }
                 t.Commit();
             }
+        }
+
+        public static void RectanglePolyline(Polyline pl, Point2d centroid)
+        {            
+            // Замена диагональных сегменов на прямоугольные            
+            Plane plane = new Plane();
+            var numVertex = pl.NumberOfVertices;
+            int curIindex = 0;
+            for (int i = 0; i < numVertex-1; i++)
+            {
+                var bulge = pl.GetBulgeAt(curIindex);
+                var segment = pl.GetLineSegmentAt(curIindex);
+                var angleRad = segment.Direction.AngleOnPlane(plane);
+                var angleDeg = AcadLib.MathExt.ToDegrees(angleRad);
+                if (!IsOrtho(angleDeg))
+                {
+                    // Поделить дуговой сегмент на два прямоугольных
+                    var pt1 = pl.GetPoint2dAt(curIindex);
+                    var pt2 = pl.GetPoint2dAt(curIindex + 1);
+                    var ptC1 = new Point2d(pt1.X, pt2.Y);
+                    var ptC2 = new Point2d(pt2.X, pt1.Y);
+                    var dist1 = (centroid - ptC1).Length;
+                    var dist2 = (centroid - ptC2).Length;
+                    Point2d ptC = (dist1 <= dist2) ? ptC1 : ptC2;                    
+                    pl.AddVertexAt(curIindex+1, ptC, bulge, 0, 0);
+                    curIindex++;
+                }
+                curIindex++;
+            }
+        }
+
+        private static bool IsOrtho(double angleDeg)
+        {
+            return angleComparer.Equals(angleDeg, 0) ||
+                   angleComparer.Equals(angleDeg, 90) ||
+                   angleComparer.Equals(angleDeg, 180) ||
+                   angleComparer.Equals(angleDeg, 270) ||
+                   angleComparer.Equals(angleDeg, 360);
         }
     }
 }

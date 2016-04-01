@@ -144,7 +144,7 @@
   <ItemGroup>
     <Compile Include="Commands.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Model\AcadServices\ConvexHullHelper.cs" />
+    <Compile Include="Model\AcadServices\ContourHelper.cs" />
     <Compile Include="Model\AcadServices\LayerService.cs" />
     <Compile Include="Model\DB\AccessUsers.cs" />
     <Compile Include="Model\DB\DbServices\TypeConverter.cs" />

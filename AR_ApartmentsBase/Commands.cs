@@ -251,9 +251,8 @@ namespace AR_ApartmentBase
                 Inspector.Clear();
                 var sel = ed.SelectBlRefs("Выбери квартиры");
                 var apartments = Apartment.GetApartments(sel);
-                Model.AcadServices.ConvexHullHelper.CreateContours(apartments);
-
-                Inspector.Show();
+                Model.AcadServices.ContourHelper.CreateContours(apartments);
+                //Inspector.Show();
             }
             catch (System.Exception ex)
             {
