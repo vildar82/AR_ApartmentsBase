@@ -267,48 +267,48 @@ namespace AR_ApartmentBase.Model.Revit
                               new KeyValuePair<string, List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
             }
 
-            using (var ms = SymbolUtilityServices.GetBlockModelSpaceId(db).Open(OpenMode.ForRead) as BlockTableRecord)
+            using (var t = db.TransactionManager.StartTransaction())
             {
+                var ms = SymbolUtilityServices.GetBlockModelSpaceId(db).GetObject(OpenMode.ForRead) as BlockTableRecord;
                 foreach (ObjectId idEnt in ms)
                 {
-                    using (var blRefApart = idEnt.Open(OpenMode.ForRead, false, true) as BlockReference)
+                    var blRefApart = idEnt.GetObject(OpenMode.ForRead, false, true) as BlockReference;
+                    if (blRefApart != null)
                     {
-                        if (blRefApart != null)
+                        string blName = blRefApart.GetEffectiveName();
+                        if (IsBlockNameApartment(blName))
                         {
-                            string blName = blRefApart.GetEffectiveName();
-                            if (IsBlockNameApartment(blName))
+                            // Не добавлять одну и ту же квартиру в список
+                            if (!apartments.Exists(a => a.Name.Equals(blName, StringComparison.OrdinalIgnoreCase)))
                             {
-                                // Не добавлять одну и ту же квартиру в список
-                                if (!apartments.Exists(a => a.Name.Equals(blName, StringComparison.OrdinalIgnoreCase)))
+                                // Проверка масштабирования блока
+                                if (!blRefApart.CheckNaturalBlockTransform())
                                 {
-                                    // Проверка масштабирования блока
-                                    if (!blRefApart.CheckNaturalBlockTransform())
-                                    {
-                                        Inspector.AddError($"Блок квартиры масштабирован '{blName}' - {blRefApart.ScaleFactors.ToString()}.",
-                                           blRefApart, icon: SystemIcons.Error);
-                                    }
+                                    Inspector.AddError($"Блок квартиры масштабирован '{blName}' - {blRefApart.ScaleFactors.ToString()}.",
+                                       blRefApart, icon: SystemIcons.Error);
+                                }
 
-                                    try
-                                    {
-                                        var apartment = new Apartment(blRefApart, blName);
-                                        apartments.Add(apartment);
-                                    }
-                                    catch (System.Exception ex)
-                                    {
-                                        Inspector.AddError($"Ошибка считывания блока квартиры '{blName}' - {ex.Message}.",
-                                           blRefApart, icon: SystemIcons.Error);
-                                    }
+                                try
+                                {
+                                    var apartment = new Apartment(blRefApart, blName);
+                                    apartments.Add(apartment);
+                                }
+                                catch (System.Exception ex)
+                                {
+                                    Inspector.AddError($"Ошибка считывания блока квартиры '{blName}' - {ex.Message}.",
+                                       blRefApart, icon: SystemIcons.Error);
                                 }
                             }
-                            else
-                            {
-                                Inspector.AddError($"Отфильтрован блок квартиры '{blName}', имя не соответствует " +
-                                   $"'{Options.Instance.BlockApartmentNameMatch}",
-                                   blRefApart, icon: System.Drawing.SystemIcons.Information);
-                            }
+                        }
+                        else
+                        {
+                            Inspector.AddError($"Отфильтрован блок квартиры '{blName}', имя не соответствует " +
+                               $"'{Options.Instance.BlockApartmentNameMatch}",
+                               blRefApart, icon: System.Drawing.SystemIcons.Information);
                         }
                     }
                 }
+                t.Commit();
             }
             apartments.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));
             return apartments;
@@ -329,10 +329,12 @@ namespace AR_ApartmentBase.Model.Revit
                               new KeyValuePair<string, List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
             }
 
-            foreach (ObjectId idEnt in idsBlRef)
+            Autodesk.AutoCAD.DatabaseServices.Database db = HostApplicationServices.WorkingDatabase;
+            using (var t = db.TransactionManager.StartTransaction())
             {
-                using (var blRefApart = idEnt.Open(OpenMode.ForRead, false, true) as BlockReference)
+                foreach (ObjectId idEnt in idsBlRef)
                 {
+                    var blRefApart = idEnt.GetObject(OpenMode.ForRead, false, true) as BlockReference;
                     if (blRefApart != null)
                     {
                         string blName = blRefApart.GetEffectiveName();
@@ -361,6 +363,7 @@ namespace AR_ApartmentBase.Model.Revit
                         }
                     }
                 }
+                t.Commit();
             }
             apartments.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));
             return apartments;

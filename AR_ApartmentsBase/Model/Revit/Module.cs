@@ -175,34 +175,32 @@ namespace AR_ApartmentBase.Model.Revit
         public static List<Module> GetModules(Apartment apartment)
         {
             List<Module> modules = new List<Module>();
-            using (var btrApartment = apartment.IdBtr.Open(OpenMode.ForRead) as BlockTableRecord)
-            {
-                foreach (var idEnt in btrApartment)
-                {
-                    using (var blRefModule = idEnt.Open(OpenMode.ForRead, false, true) as BlockReference)
-                    {
-                        if (blRefModule == null || !blRefModule.Visible) continue;
-                        string blName = blRefModule.GetEffectiveName();
-                        if (IsBlockNameModule(blName))
-                        {
-                            // Проверка масштабирования блока
-                            if (!blRefModule.CheckNaturalBlockTransform())
-                            {
-                                Inspector.AddError($"Блок модуля масштабирован '{blName}' - {blRefModule.ScaleFactors.ToString()}.",
-                                   blRefModule, apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
-                            }
+            var btrApartment = apartment.IdBtr.GetObject(OpenMode.ForRead) as BlockTableRecord;
 
-                            Module module = new Module(blRefModule, apartment, blName);
-                            modules.Add(module);
-                        }
-                        else
-                        {
-                            Inspector.AddError($"Отфильтрован блок модуля '{blName}' в блоке квартиры {apartment.Name}, имя не соответствует " +
-                               $"'{Options.Instance.BlockModuleNameMatch}",
-                               blRefModule, apartment.BlockTransform,
-                               icon: System.Drawing.SystemIcons.Information);
-                        }
+            foreach (var idEnt in btrApartment)
+            {
+                var blRefModule = idEnt.GetObject(OpenMode.ForRead, false, true) as BlockReference;
+
+                if (blRefModule == null || !blRefModule.Visible) continue;
+                string blName = blRefModule.GetEffectiveName();
+                if (IsBlockNameModule(blName))
+                {
+                    // Проверка масштабирования блока
+                    if (!blRefModule.CheckNaturalBlockTransform())
+                    {
+                        Inspector.AddError($"Блок модуля масштабирован '{blName}' - {blRefModule.ScaleFactors.ToString()}.",
+                           blRefModule, apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                     }
+
+                    Module module = new Module(blRefModule, apartment, blName);
+                    modules.Add(module);
+                }
+                else
+                {
+                    Inspector.AddError($"Отфильтрован блок модуля '{blName}' в блоке квартиры {apartment.Name}, имя не соответствует " +
+                       $"'{Options.Instance.BlockModuleNameMatch}",
+                       blRefModule, apartment.BlockTransform,
+                       icon: System.Drawing.SystemIcons.Information);
                 }
             }
             modules.Sort((m1, m2) => m1.Name.CompareTo(m2.Name));

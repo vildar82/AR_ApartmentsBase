@@ -176,76 +176,74 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         {
             List<Element> elements = new List<Element>();
 
-            using (var btrModule = module.IdBtr.Open(OpenMode.ForRead, false, true) as BlockTableRecord)
+            var btrModule = module.IdBtr.GetObject(OpenMode.ForRead, false, true) as BlockTableRecord;
+            foreach (var idEnt in btrModule)
             {
-                foreach (var idEnt in btrModule)
+                using (var blRefElem = idEnt.GetObject(OpenMode.ForRead, false, true) as BlockReference)
                 {
-                    using (var blRefElem = idEnt.Open(OpenMode.ForRead, false, true) as BlockReference)
+                    if (blRefElem == null || !blRefElem.Visible) continue;
+
+                    string blName = blRefElem.GetEffectiveName();
+
+                    if (IsBlockElement(blName))
                     {
-                        if (blRefElem == null || !blRefElem.Visible) continue;
-
-                        string blName = blRefElem.GetEffectiveName();
-
-                        if (IsBlockElement(blName))
+                        // Проверка масштабирования блока
+                        if (!blRefElem.CheckNaturalBlockTransform())
                         {
-                            // Проверка масштабирования блока
-                            if (!blRefElem.CheckNaturalBlockTransform())
-                            {
-                                Inspector.AddError($"Блок элемента масштабирован '{blName}' - {blRefElem.ScaleFactors.ToString()}.",
-                                   blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
-                            }
+                            Inspector.AddError($"Блок элемента масштабирован '{blName}' - {blRefElem.ScaleFactors.ToString()}.",
+                               blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                        }
 
-                            var parameters = Parameter.GetParameters(blRefElem);
-                            var categoryElement = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterCategoryName, StringComparison.OrdinalIgnoreCase));
+                        var parameters = Parameter.GetParameters(blRefElem);
+                        var categoryElement = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterCategoryName, StringComparison.OrdinalIgnoreCase));
 
-                            if (categoryElement == null || string.IsNullOrEmpty(categoryElement.Value))
-                            {
-                                Inspector.AddError($"Не определена категория элемента у блока {blName}",
-                                   blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    // Попытка создать элемент. Если такой категории нет в базе, то будет ошибка
-                                    Element elem = ElementFactory.CreateElementDWG(blRefElem, module, blName, parameters, categoryElement.Value);
-                                    if (elem == null)
-                                    {
-                                        Inspector.AddError($"Не удалось создать элемент из блока '{blName}', категории '{categoryElement.Value}'.",
-                                           blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
-                                        continue;
-                                    }
-                                    // проверка элемента
-                                    elem.checkElement();
-                                    if (!elem.BaseStatus.HasFlag(EnumBaseStatus.Error))
-                                    {
-                                        elements.Add(elem);
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    Inspector.AddError($"Ошибка при создании элемента из блока '{blName}' категории '{categoryElement.Value}'. Возможно такой категории нет в базе. - {ex.ToString()}.",
-                                          blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
-                                }
-                            }
+                        if (categoryElement == null || string.IsNullOrEmpty(categoryElement.Value))
+                        {
+                            Inspector.AddError($"Не определена категория элемента у блока {blName}",
+                               blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                         }
                         else
                         {
-                            var extInModel = blRefElem.GeometricExtents;
-                            extInModel.TransformBy(module.BlockTransform * module.Apartment.BlockTransform);
-
-                            Inspector.AddError($"Отфильтрован блок элемента '{blName}' имя не соответствует блоку элемента - {Options.Instance.BlockElementNameMatch}.",
-                               extInModel, idEnt, icon: System.Drawing.SystemIcons.Information);
+                            try
+                            {
+                                // Попытка создать элемент. Если такой категории нет в базе, то будет ошибка
+                                Element elem = ElementFactory.CreateElementDWG(blRefElem, module, blName, parameters, categoryElement.Value);
+                                if (elem == null)
+                                {
+                                    Inspector.AddError($"Не удалось создать элемент из блока '{blName}', категории '{categoryElement.Value}'.",
+                                       blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                                    continue;
+                                }
+                                // проверка элемента
+                                elem.checkElement();
+                                if (!elem.BaseStatus.HasFlag(EnumBaseStatus.Error))
+                                {
+                                    elements.Add(elem);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Inspector.AddError($"Ошибка при создании элемента из блока '{blName}' категории '{categoryElement.Value}'. Возможно такой категории нет в базе. - {ex.ToString()}.",
+                                      blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                            }
                         }
                     }
-                }
+                    else
+                    {
+                        var extInModel = blRefElem.GeometricExtents;
+                        extInModel.TransformBy(module.BlockTransform * module.Apartment.BlockTransform);
 
-                // Для дверей поиск их стен
-                var doors = elements.OfType<DoorElement>().ToList();
-                foreach (var door in doors)
-                {
-                    door.SearchHostWallDwg(elements);
+                        Inspector.AddError($"Отфильтрован блок элемента '{blName}' имя не соответствует блоку элемента - {Options.Instance.BlockElementNameMatch}.",
+                           extInModel, idEnt, icon: System.Drawing.SystemIcons.Information);
+                    }
                 }
+            }
+
+            // Для дверей поиск их стен
+            var doors = elements.OfType<DoorElement>().ToList();
+            foreach (var door in doors)
+            {
+                door.SearchHostWallDwg(elements);
             }
             elements.Sort((e1, e2) => e1.Name.CompareTo(e2.Name));
             return elements;

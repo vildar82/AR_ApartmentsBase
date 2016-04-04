@@ -56,27 +56,23 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         public void DefineOrientation(BlockReference blRefElem)
         {
             // Определение направления
-            using (var btr = blRefElem.BlockTableRecord.Open(OpenMode.ForRead) as BlockTableRecord)
+            var btr = blRefElem.BlockTableRecord.GetObject(OpenMode.ForRead) as BlockTableRecord;
+            bool isFinded = false;
+            foreach (var idEnt in btr)
             {
-                bool isFinded = false;
-                foreach (var idEnt in btr)
-                {
-                    using (var lineOrient = idEnt.Open(OpenMode.ForRead, false, true) as Line)
-                    {
-                        if (lineOrient == null || lineOrient.ColorIndex != Options.Instance.DoorOrientLineColorIndex || !lineOrient.Visible) continue;
-                        var lineTemp = (Line)lineOrient.Clone();
-                        lineTemp.TransformBy(blRefElem.BlockTransform);
-                        Direction = Element.GetDirection(lineTemp.Angle);
-                        isFinded = true;
-                        break;
-                    }
-                }
-                if (!isFinded)
-                {
-                    Inspector.AddError($"Не определено направление открывания двери {Name}. " +
-                       $"Направление открывания двери определяется отрезком с цветом {Options.Instance.DoorOrientLineColorIndex} в блоке двери.",
-                       this.ExtentsInModel, this.IdBlRef, System.Drawing.SystemIcons.Error);
-                }
+                var lineOrient = idEnt.GetObject(OpenMode.ForRead, false, true) as Line;
+                if (lineOrient == null || lineOrient.ColorIndex != Options.Instance.DoorOrientLineColorIndex || !lineOrient.Visible) continue;
+                var lineTemp = (Line)lineOrient.Clone();
+                lineTemp.TransformBy(blRefElem.BlockTransform);
+                Direction = Element.GetDirection(lineTemp.Angle);
+                isFinded = true;
+                break;
+            }
+            if (!isFinded)
+            {
+                Inspector.AddError($"Не определено направление открывания двери {Name}. " +
+                   $"Направление открывания двери определяется отрезком с цветом {Options.Instance.DoorOrientLineColorIndex} в блоке двери.",
+                   this.ExtentsInModel, this.IdBlRef, System.Drawing.SystemIcons.Error);
             }
         }
 
