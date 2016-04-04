@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AcadLib.Errors;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 
 namespace AR_ApartmentBase.Model.Utils
 {
@@ -14,10 +15,10 @@ namespace AR_ApartmentBase.Model.Utils
         private static Dictionary<string, string> TranslatorValues = new Dictionary<string, string>
         {
             { "1", "1" },
-            { "2-15/2-15_2-25/2-10", "15_2-15#25_2-10" },
-            { "2-15/2-15_2-25/11-25", "15_2-15#25_11-25" },
-            { "2-15/0_2-25/2-25", "15_0#25_2-25" },
-            { "2-15/2-15_2-25/0", "15_2-15#25_0" }            
+            { "15_2-15#25_2-10", "9_1*15_1*18_6-18*25_11-25" },
+            { "15_2-15#25_11-25", "9_1*15_1*18_6-18*25_11-25" },
+            { "15_0#25_2-25", "9_0*15_0*18_2-5*25_2-10" },
+            { "15_2-15#25_0", "9_0*15_0*18_2-5*25_2-10" }            
         };
 
         public static int Save()
@@ -51,7 +52,7 @@ namespace AR_ApartmentBase.Model.Utils
                 if (db.TryGetObjectId(h, out idBlRef))
                 {
                     using (var t = db.TransactionManager.StartTransaction())
-                    {
+                    {                        
                         var blRef = idBlRef.GetObject(OpenMode.ForWrite, false, true) as BlockReference;
                         if (blRef == null) continue;
                         foreach (DynamicBlockReferenceProperty prop in blRef.DynamicBlockReferencePropertyCollection)
@@ -65,9 +66,9 @@ namespace AR_ApartmentBase.Model.Utils
                                     resCount++;
                                 }
                                 else
-                                {
+                                {                                    
                                     Inspector.AddError($"Не найдено соответствие для параметра {savedProp.FloorValue}",
-                                        idBlRef, System.Drawing.SystemIcons.Error);
+                                        System.Drawing.SystemIcons.Error);
                                 }
                                 break;
                             }
@@ -77,7 +78,7 @@ namespace AR_ApartmentBase.Model.Utils
                 }
             }
             return resCount;
-        }
+        }        
 
         public static void GetPropsToSave(string blName, BlockTable bt, ref List<SaveDynProp> propsToSave)
         {            
