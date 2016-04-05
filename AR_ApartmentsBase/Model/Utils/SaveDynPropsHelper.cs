@@ -62,12 +62,16 @@ namespace AR_ApartmentBase.Model.Utils
                                 string newValue;
                                 if (TranslatorValues.TryGetValue(savedProp.FloorValue, out newValue))
                                 {
-                                    prop.Value = newValue;
+                                    if (!prop.Value.ToString().Equals(newValue))
+                                    {
+                                        prop.Value = newValue;
+                                    }
                                     resCount++;
                                 }
                                 else
-                                {                                    
-                                    Inspector.AddError($"Не найдено соответствие для параметра {savedProp.FloorValue}",
+                                {
+                                    string blName = blRef.GetEffectiveName();           
+                                    Inspector.AddError($"В блоке '{blName}' не найдено соответствие для параметра {savedProp.FloorValue}",
                                         System.Drawing.SystemIcons.Error);
                                 }
                                 break;
@@ -126,6 +130,17 @@ namespace AR_ApartmentBase.Model.Utils
         {
             AcadLib.Files.SerializerXml ser = new AcadLib.Files.SerializerXml(fileXmlToSave);
             return ser.DeserializeXmlFile<List<SaveDynProp>>();
+        }
+
+        public static void GetDyns()
+        {
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (var t = db.TransactionManager.StartTransaction())
+            {
+                var ms = db.CurrentSpaceId.GetObject(OpenMode.ForRead) as BlockTableRecord;
+
+                t.Commit();
+            }
         }
     }
 }
