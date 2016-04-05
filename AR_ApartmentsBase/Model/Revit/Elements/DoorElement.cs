@@ -13,7 +13,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
 {
     public class DoorElement : Element
     {
-        public WallElement HostWall { get; set; }
+        public List<WallElement> HostWall { get; set; }
         public int count = -1;
 
         public DoorElement(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
@@ -34,13 +34,14 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         /// </summary>
         public void SearchHostWallDwg(List<Element> elements)
         {
+            HostWall = new List<WallElement>();
             var walls = elements.OfType<WallElement>();
             foreach (var wall in walls)
             {
                 // Попадает ли точка вствавки блока двери в границы стены
                 if (wall.ExtentsClean.IsPointInBounds(this.Position, 100))
                 {
-                    this.HostWall = wall;
+                    this.HostWall.Add(wall);
                 }
             }
             // Ошибка если не найдена стена
@@ -81,12 +82,17 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         /// </summary>
         public void SearchHostWallDB(F_R_Modules moduleEnt)
         {
+            HostWall = new List<WallElement>();
             // найти стену по id в параметре двери
             var paramIdWall = Parameters.Single(p => p.Name.Equals(Options.Instance.DoorHostWallParameter, StringComparison.OrdinalIgnoreCase));
-            int idWall = Convert.ToInt32(paramIdWall.Value);
-            // найти стену в элементах модуля         
-            var wall = this.Module.Elements.SingleOrDefault(e => ((F_nn_Elements_Modules)e.DBObject).ID_ELEMENT_IN_MODULE == idWall);
-            HostWall = (WallElement)wall;
+            var idsWall = paramIdWall.Value.Split(';');
+            foreach (var item in idsWall)
+            {
+                int idWall = Convert.ToInt32(item);
+                // найти стену в элементах модуля         
+                var wall = this.Module.Elements.SingleOrDefault(e => ((F_nn_Elements_Modules)e.DBObject).ID_ELEMENT_IN_MODULE == idWall);
+                HostWall.Add((WallElement)wall);
+            }            
         }
 
         public override bool Equals(Element other)

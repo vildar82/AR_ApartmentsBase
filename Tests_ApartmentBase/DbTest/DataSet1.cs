@@ -8,7 +8,7 @@
         {
         }
 
-        partial class _Параметры_элементовDataTable
+        partial class МодульЭлементыDataTable
         {
         }
 

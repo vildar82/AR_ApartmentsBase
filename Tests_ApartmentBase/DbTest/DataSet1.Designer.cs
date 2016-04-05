@@ -48,7 +48,7 @@ namespace Tests_ApartmentBase.DbTest {
         
         private _Квартиры_модулиDataTable _tableКвартиры_модули;
         
-        private _Параметры_элементовDataTable _tableПараметры_элементов;
+        private МодульЭлементыDataTable tableМодульЭлементы;
         
         private ПараметрыЭлементаDataTable tableПараметрыЭлемента;
         
@@ -146,8 +146,8 @@ namespace Tests_ApartmentBase.DbTest {
                 if ((ds.Tables["Квартиры-модули"] != null)) {
                     base.Tables.Add(new _Квартиры_модулиDataTable(ds.Tables["Квартиры-модули"]));
                 }
-                if ((ds.Tables["Параметры-элементов"] != null)) {
-                    base.Tables.Add(new _Параметры_элементовDataTable(ds.Tables["Параметры-элементов"]));
+                if ((ds.Tables["МодульЭлементы"] != null)) {
+                    base.Tables.Add(new МодульЭлементыDataTable(ds.Tables["МодульЭлементы"]));
                 }
                 if ((ds.Tables["ПараметрыЭлемента"] != null)) {
                     base.Tables.Add(new ПараметрыЭлементаDataTable(ds.Tables["ПараметрыЭлемента"]));
@@ -294,9 +294,9 @@ namespace Tests_ApartmentBase.DbTest {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public _Параметры_элементовDataTable _Параметры_элементов {
+        public МодульЭлементыDataTable МодульЭлементы {
             get {
-                return this._tableПараметры_элементов;
+                return this.tableМодульЭлементы;
             }
         }
         
@@ -413,8 +413,8 @@ namespace Tests_ApartmentBase.DbTest {
                 if ((ds.Tables["Квартиры-модули"] != null)) {
                     base.Tables.Add(new _Квартиры_модулиDataTable(ds.Tables["Квартиры-модули"]));
                 }
-                if ((ds.Tables["Параметры-элементов"] != null)) {
-                    base.Tables.Add(new _Параметры_элементовDataTable(ds.Tables["Параметры-элементов"]));
+                if ((ds.Tables["МодульЭлементы"] != null)) {
+                    base.Tables.Add(new МодульЭлементыDataTable(ds.Tables["МодульЭлементы"]));
                 }
                 if ((ds.Tables["ПараметрыЭлемента"] != null)) {
                     base.Tables.Add(new ПараметрыЭлементаDataTable(ds.Tables["ПараметрыЭлемента"]));
@@ -524,10 +524,10 @@ namespace Tests_ApartmentBase.DbTest {
                     this._tableКвартиры_модули.InitVars();
                 }
             }
-            this._tableПараметры_элементов = ((_Параметры_элементовDataTable)(base.Tables["Параметры-элементов"]));
+            this.tableМодульЭлементы = ((МодульЭлементыDataTable)(base.Tables["МодульЭлементы"]));
             if ((initTable == true)) {
-                if ((this._tableПараметры_элементов != null)) {
-                    this._tableПараметры_элементов.InitVars();
+                if ((this.tableМодульЭлементы != null)) {
+                    this.tableМодульЭлементы.InitVars();
                 }
             }
             this.tableПараметрыЭлемента = ((ПараметрыЭлементаDataTable)(base.Tables["ПараметрыЭлемента"]));
@@ -585,8 +585,8 @@ namespace Tests_ApartmentBase.DbTest {
             base.Tables.Add(this.tableКатегории);
             this._tableКвартиры_модули = new _Квартиры_модулиDataTable();
             base.Tables.Add(this._tableКвартиры_модули);
-            this._tableПараметры_элементов = new _Параметры_элементовDataTable();
-            base.Tables.Add(this._tableПараметры_элементов);
+            this.tableМодульЭлементы = new МодульЭлементыDataTable();
+            base.Tables.Add(this.tableМодульЭлементы);
             this.tableПараметрыЭлемента = new ПараметрыЭлементаDataTable();
             base.Tables.Add(this.tableПараметрыЭлемента);
             this.relationFK_F_nn_Category_Parameters_F_S_Categories = new global::System.Data.DataRelation("FK_F_nn_Category_Parameters_F_S_Categories", new global::System.Data.DataColumn[] {
@@ -642,11 +642,11 @@ namespace Tests_ApartmentBase.DbTest {
                         this.tableF_nn_FlatModules.ID_FLATColumn}, false);
             this.Relations.Add(this.relationFK_F_R_FlatModules_F_R_Flats11);
             this.relationFK_F_nn_Elements_FlatModules_F_R_Modules1 = new global::System.Data.DataRelation("FK_F_nn_Elements_FlatModules_F_R_Modules1", new global::System.Data.DataColumn[] {
-                        this._tableПараметры_элементов.ID_MODULEColumn}, new global::System.Data.DataColumn[] {
+                        this.tableМодульЭлементы.ID_MODULEColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_Elements_Modules.ID_MODULEColumn}, false);
             this.Relations.Add(this.relationFK_F_nn_Elements_FlatModules_F_R_Modules1);
             this.relationFK_F_R_FlatModules_F_R_Modules1 = new global::System.Data.DataRelation("FK_F_R_FlatModules_F_R_Modules1", new global::System.Data.DataColumn[] {
-                        this._tableПараметры_элементов.ID_MODULEColumn}, new global::System.Data.DataColumn[] {
+                        this.tableМодульЭлементы.ID_MODULEColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_FlatModules.ID_MODULEColumn}, false);
             this.Relations.Add(this.relationFK_F_R_FlatModules_F_R_Modules1);
         }
@@ -725,7 +725,7 @@ namespace Tests_ApartmentBase.DbTest {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerialize_Параметры_элементов() {
+        private bool ShouldSerializeМодульЭлементы() {
             return false;
         }
         
@@ -827,7 +827,7 @@ namespace Tests_ApartmentBase.DbTest {
         public delegate void _Квартиры_модулиRowChangeEventHandler(object sender, _Квартиры_модулиRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void _Параметры_элементовRowChangeEventHandler(object sender, _Параметры_элементовRowChangeEvent e);
+        public delegate void МодульЭлементыRowChangeEventHandler(object sender, МодульЭлементыRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void ПараметрыЭлементаRowChangeEventHandler(object sender, ПараметрыЭлементаRowChangeEvent e);
@@ -4661,7 +4661,7 @@ namespace Tests_ApartmentBase.DbTest {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class _Параметры_элементовDataTable : global::System.Data.TypedTableBase<_Параметры_элементовRow> {
+        public partial class МодульЭлементыDataTable : global::System.Data.TypedTableBase<МодульЭлементыRow> {
             
             private global::System.Data.DataColumn columnID_MODULE;
             
@@ -4685,8 +4685,8 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Параметры_элементовDataTable() {
-                this.TableName = "Параметры-элементов";
+            public МодульЭлементыDataTable() {
+                this.TableName = "МодульЭлементы";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -4694,7 +4694,7 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal _Параметры_элементовDataTable(global::System.Data.DataTable table) {
+            internal МодульЭлементыDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -4711,7 +4711,7 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected _Параметры_элементовDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected МодульЭлементыDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -4807,34 +4807,34 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Параметры_элементовRow this[int index] {
+            public МодульЭлементыRow this[int index] {
                 get {
-                    return ((_Параметры_элементовRow)(this.Rows[index]));
+                    return ((МодульЭлементыRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event _Параметры_элементовRowChangeEventHandler _Параметры_элементовRowChanging;
+            public event МодульЭлементыRowChangeEventHandler МодульЭлементыRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event _Параметры_элементовRowChangeEventHandler _Параметры_элементовRowChanged;
+            public event МодульЭлементыRowChangeEventHandler МодульЭлементыRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event _Параметры_элементовRowChangeEventHandler _Параметры_элементовRowDeleting;
+            public event МодульЭлементыRowChangeEventHandler МодульЭлементыRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event _Параметры_элементовRowChangeEventHandler _Параметры_элементовRowDeleted;
+            public event МодульЭлементыRowChangeEventHandler МодульЭлементыRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void Add_Параметры_элементовRow(_Параметры_элементовRow row) {
+            public void AddМодульЭлементыRow(МодульЭлементыRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Параметры_элементовRow Add_Параметры_элементовRow(string NAME_MODULE, int REVISION, string LOCATION, string DIRECTION, string FAMILY_NAME, string FAMILY_SYMBOL, string NAME_RUS_CATEGORY) {
-                _Параметры_элементовRow row_Параметры_элементовRow = ((_Параметры_элементовRow)(this.NewRow()));
+            public МодульЭлементыRow AddМодульЭлементыRow(string NAME_MODULE, int REVISION, string LOCATION, string DIRECTION, string FAMILY_NAME, string FAMILY_SYMBOL, string NAME_RUS_CATEGORY) {
+                МодульЭлементыRow rowМодульЭлементыRow = ((МодульЭлементыRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         NAME_MODULE,
@@ -4846,15 +4846,15 @@ namespace Tests_ApartmentBase.DbTest {
                         FAMILY_NAME,
                         FAMILY_SYMBOL,
                         NAME_RUS_CATEGORY};
-                row_Параметры_элементовRow.ItemArray = columnValuesArray;
-                this.Rows.Add(row_Параметры_элементовRow);
-                return row_Параметры_элементовRow;
+                rowМодульЭлементыRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowМодульЭлементыRow);
+                return rowМодульЭлементыRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                _Параметры_элементовDataTable cln = ((_Параметры_элементовDataTable)(base.Clone()));
+                МодульЭлементыDataTable cln = ((МодульЭлементыDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -4862,7 +4862,7 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new _Параметры_элементовDataTable();
+                return new МодульЭлементыDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4929,34 +4929,32 @@ namespace Tests_ApartmentBase.DbTest {
                 this.columnFAMILY_SYMBOL.AllowDBNull = false;
                 this.columnFAMILY_SYMBOL.MaxLength = 100;
                 this.columnNAME_RUS_CATEGORY.MaxLength = 150;
-                this.ExtendedProperties.Add("Generator_TableVarName", "_tableПараметры_элементов");
-                this.ExtendedProperties.Add("Generator_UserTableName", "Параметры-элементов");
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Параметры_элементовRow New_Параметры_элементовRow() {
-                return ((_Параметры_элементовRow)(this.NewRow()));
+            public МодульЭлементыRow NewМодульЭлементыRow() {
+                return ((МодульЭлементыRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new _Параметры_элементовRow(builder);
+                return new МодульЭлементыRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(_Параметры_элементовRow);
+                return typeof(МодульЭлементыRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this._Параметры_элементовRowChanged != null)) {
-                    this._Параметры_элементовRowChanged(this, new _Параметры_элементовRowChangeEvent(((_Параметры_элементовRow)(e.Row)), e.Action));
+                if ((this.МодульЭлементыRowChanged != null)) {
+                    this.МодульЭлементыRowChanged(this, new МодульЭлементыRowChangeEvent(((МодульЭлементыRow)(e.Row)), e.Action));
                 }
             }
             
@@ -4964,8 +4962,8 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this._Параметры_элементовRowChanging != null)) {
-                    this._Параметры_элементовRowChanging(this, new _Параметры_элементовRowChangeEvent(((_Параметры_элементовRow)(e.Row)), e.Action));
+                if ((this.МодульЭлементыRowChanging != null)) {
+                    this.МодульЭлементыRowChanging(this, new МодульЭлементыRowChangeEvent(((МодульЭлементыRow)(e.Row)), e.Action));
                 }
             }
             
@@ -4973,8 +4971,8 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this._Параметры_элементовRowDeleted != null)) {
-                    this._Параметры_элементовRowDeleted(this, new _Параметры_элементовRowChangeEvent(((_Параметры_элементовRow)(e.Row)), e.Action));
+                if ((this.МодульЭлементыRowDeleted != null)) {
+                    this.МодульЭлементыRowDeleted(this, new МодульЭлементыRowChangeEvent(((МодульЭлементыRow)(e.Row)), e.Action));
                 }
             }
             
@@ -4982,14 +4980,14 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this._Параметры_элементовRowDeleting != null)) {
-                    this._Параметры_элементовRowDeleting(this, new _Параметры_элементовRowChangeEvent(((_Параметры_элементовRow)(e.Row)), e.Action));
+                if ((this.МодульЭлементыRowDeleting != null)) {
+                    this.МодульЭлементыRowDeleting(this, new МодульЭлементыRowChangeEvent(((МодульЭлементыRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void Remove_Параметры_элементовRow(_Параметры_элементовRow row) {
+            public void RemoveМодульЭлементыRow(МодульЭлементыRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -5016,7 +5014,7 @@ namespace Tests_ApartmentBase.DbTest {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "_Параметры_элементовDataTable";
+                attribute2.FixedValue = "МодульЭлементыDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -5729,9 +5727,9 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Параметры_элементовRow _Параметры_элементовRow {
+            public МодульЭлементыRow МодульЭлементыRow {
                 get {
-                    return ((_Параметры_элементовRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_R_Modules1"])));
+                    return ((МодульЭлементыRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_R_Modules1"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_R_Modules1"]);
@@ -5876,9 +5874,9 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Параметры_элементовRow _Параметры_элементовRow {
+            public МодульЭлементыRow МодульЭлементыRow {
                 get {
-                    return ((_Параметры_элементовRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Modules1"])));
+                    return ((МодульЭлементыRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Modules1"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Modules1"]);
@@ -6628,25 +6626,25 @@ namespace Tests_ApartmentBase.DbTest {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class _Параметры_элементовRow : global::System.Data.DataRow {
+        public partial class МодульЭлементыRow : global::System.Data.DataRow {
             
-            private _Параметры_элементовDataTable _tableПараметры_элементов;
+            private МодульЭлементыDataTable tableМодульЭлементы;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal _Параметры_элементовRow(global::System.Data.DataRowBuilder rb) : 
+            internal МодульЭлементыRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this._tableПараметры_элементов = ((_Параметры_элементовDataTable)(this.Table));
+                this.tableМодульЭлементы = ((МодульЭлементыDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int ID_MODULE {
                 get {
-                    return ((int)(this[this._tableПараметры_элементов.ID_MODULEColumn]));
+                    return ((int)(this[this.tableМодульЭлементы.ID_MODULEColumn]));
                 }
                 set {
-                    this[this._tableПараметры_элементов.ID_MODULEColumn] = value;
+                    this[this.tableМодульЭлементы.ID_MODULEColumn] = value;
                 }
             }
             
@@ -6654,10 +6652,10 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string NAME_MODULE {
                 get {
-                    return ((string)(this[this._tableПараметры_элементов.NAME_MODULEColumn]));
+                    return ((string)(this[this.tableМодульЭлементы.NAME_MODULEColumn]));
                 }
                 set {
-                    this[this._tableПараметры_элементов.NAME_MODULEColumn] = value;
+                    this[this.tableМодульЭлементы.NAME_MODULEColumn] = value;
                 }
             }
             
@@ -6665,10 +6663,10 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int REVISION {
                 get {
-                    return ((int)(this[this._tableПараметры_элементов.REVISIONColumn]));
+                    return ((int)(this[this.tableМодульЭлементы.REVISIONColumn]));
                 }
                 set {
-                    this[this._tableПараметры_элементов.REVISIONColumn] = value;
+                    this[this.tableМодульЭлементы.REVISIONColumn] = value;
                 }
             }
             
@@ -6676,10 +6674,10 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int ID_ELEMENT_IN_MODULE {
                 get {
-                    return ((int)(this[this._tableПараметры_элементов.ID_ELEMENT_IN_MODULEColumn]));
+                    return ((int)(this[this.tableМодульЭлементы.ID_ELEMENT_IN_MODULEColumn]));
                 }
                 set {
-                    this[this._tableПараметры_элементов.ID_ELEMENT_IN_MODULEColumn] = value;
+                    this[this.tableМодульЭлементы.ID_ELEMENT_IN_MODULEColumn] = value;
                 }
             }
             
@@ -6687,10 +6685,10 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string LOCATION {
                 get {
-                    return ((string)(this[this._tableПараметры_элементов.LOCATIONColumn]));
+                    return ((string)(this[this.tableМодульЭлементы.LOCATIONColumn]));
                 }
                 set {
-                    this[this._tableПараметры_элементов.LOCATIONColumn] = value;
+                    this[this.tableМодульЭлементы.LOCATIONColumn] = value;
                 }
             }
             
@@ -6699,14 +6697,14 @@ namespace Tests_ApartmentBase.DbTest {
             public string DIRECTION {
                 get {
                     try {
-                        return ((string)(this[this._tableПараметры_элементов.DIRECTIONColumn]));
+                        return ((string)(this[this.tableМодульЭлементы.DIRECTIONColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'DIRECTION\' в таблице \'Параметры-элементов\' равно DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'DIRECTION\' в таблице \'МодульЭлементы\' равно DBNull.", e);
                     }
                 }
                 set {
-                    this[this._tableПараметры_элементов.DIRECTIONColumn] = value;
+                    this[this.tableМодульЭлементы.DIRECTIONColumn] = value;
                 }
             }
             
@@ -6714,10 +6712,10 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int ID_ELEMENT {
                 get {
-                    return ((int)(this[this._tableПараметры_элементов.ID_ELEMENTColumn]));
+                    return ((int)(this[this.tableМодульЭлементы.ID_ELEMENTColumn]));
                 }
                 set {
-                    this[this._tableПараметры_элементов.ID_ELEMENTColumn] = value;
+                    this[this.tableМодульЭлементы.ID_ELEMENTColumn] = value;
                 }
             }
             
@@ -6725,10 +6723,10 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string FAMILY_NAME {
                 get {
-                    return ((string)(this[this._tableПараметры_элементов.FAMILY_NAMEColumn]));
+                    return ((string)(this[this.tableМодульЭлементы.FAMILY_NAMEColumn]));
                 }
                 set {
-                    this[this._tableПараметры_элементов.FAMILY_NAMEColumn] = value;
+                    this[this.tableМодульЭлементы.FAMILY_NAMEColumn] = value;
                 }
             }
             
@@ -6736,10 +6734,10 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string FAMILY_SYMBOL {
                 get {
-                    return ((string)(this[this._tableПараметры_элементов.FAMILY_SYMBOLColumn]));
+                    return ((string)(this[this.tableМодульЭлементы.FAMILY_SYMBOLColumn]));
                 }
                 set {
-                    this[this._tableПараметры_элементов.FAMILY_SYMBOLColumn] = value;
+                    this[this.tableМодульЭлементы.FAMILY_SYMBOLColumn] = value;
                 }
             }
             
@@ -6748,40 +6746,40 @@ namespace Tests_ApartmentBase.DbTest {
             public string NAME_RUS_CATEGORY {
                 get {
                     try {
-                        return ((string)(this[this._tableПараметры_элементов.NAME_RUS_CATEGORYColumn]));
+                        return ((string)(this[this.tableМодульЭлементы.NAME_RUS_CATEGORYColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'NAME_RUS_CATEGORY\' в таблице \'Параметры-элементов\' равно DB" +
-                                "Null.", e);
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'NAME_RUS_CATEGORY\' в таблице \'МодульЭлементы\' равно DBNull." +
+                                "", e);
                     }
                 }
                 set {
-                    this[this._tableПараметры_элементов.NAME_RUS_CATEGORYColumn] = value;
+                    this[this.tableМодульЭлементы.NAME_RUS_CATEGORYColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsDIRECTIONNull() {
-                return this.IsNull(this._tableПараметры_элементов.DIRECTIONColumn);
+                return this.IsNull(this.tableМодульЭлементы.DIRECTIONColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetDIRECTIONNull() {
-                this[this._tableПараметры_элементов.DIRECTIONColumn] = global::System.Convert.DBNull;
+                this[this.tableМодульЭлементы.DIRECTIONColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsNAME_RUS_CATEGORYNull() {
-                return this.IsNull(this._tableПараметры_элементов.NAME_RUS_CATEGORYColumn);
+                return this.IsNull(this.tableМодульЭлементы.NAME_RUS_CATEGORYColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetNAME_RUS_CATEGORYNull() {
-                this[this._tableПараметры_элементов.NAME_RUS_CATEGORYColumn] = global::System.Convert.DBNull;
+                this[this.tableМодульЭлементы.NAME_RUS_CATEGORYColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7307,22 +7305,22 @@ namespace Tests_ApartmentBase.DbTest {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class _Параметры_элементовRowChangeEvent : global::System.EventArgs {
+        public class МодульЭлементыRowChangeEvent : global::System.EventArgs {
             
-            private _Параметры_элементовRow eventRow;
+            private МодульЭлементыRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Параметры_элементовRowChangeEvent(_Параметры_элементовRow row, global::System.Data.DataRowAction action) {
+            public МодульЭлементыRowChangeEvent(МодульЭлементыRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Параметры_элементовRow Row {
+            public МодульЭлементыRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -11216,7 +11214,7 @@ FROM            F_nn_FlatModules INNER JOIN
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class Параметры_элементовTableAdapter : global::System.ComponentModel.Component {
+    public partial class МодульЭлементыTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -11230,7 +11228,7 @@ FROM            F_nn_FlatModules INNER JOIN
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public Параметры_элементовTableAdapter() {
+        public МодульЭлементыTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -11327,7 +11325,7 @@ FROM            F_nn_FlatModules INNER JOIN
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "Параметры-элементов";
+            tableMapping.DataSetTable = "МодульЭлементы";
             tableMapping.ColumnMappings.Add("ID_MODULE", "ID_MODULE");
             tableMapping.ColumnMappings.Add("NAME_MODULE", "NAME_MODULE");
             tableMapping.ColumnMappings.Add("REVISION", "REVISION");
@@ -11372,7 +11370,7 @@ WHERE        (F_R_Modules.ID_MODULE = @IDModule)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet1._Параметры_элементовDataTable dataTable, int IDModule) {
+        public virtual int Fill(DataSet1.МодульЭлементыDataTable dataTable, int IDModule) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(IDModule));
             if ((this.ClearBeforeFill == true)) {
@@ -11386,10 +11384,10 @@ WHERE        (F_R_Modules.ID_MODULE = @IDModule)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet1._Параметры_элементовDataTable GetData(int IDModule) {
+        public virtual DataSet1.МодульЭлементыDataTable GetData(int IDModule) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(IDModule));
-            DataSet1._Параметры_элементовDataTable dataTable = new DataSet1._Параметры_элементовDataTable();
+            DataSet1.МодульЭлементыDataTable dataTable = new DataSet1.МодульЭлементыDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
