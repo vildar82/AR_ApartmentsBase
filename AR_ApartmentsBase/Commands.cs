@@ -170,8 +170,6 @@ namespace AR_ApartmentBase
                     //Apartment.ExportToXML(fileXml, apartmentsToExport);               
 
                     // Запись в DB    
-                    // Для димана пока без записи в БД           
-
                     try
                     {
                         BaseApartments.Export(apartsToDb);
