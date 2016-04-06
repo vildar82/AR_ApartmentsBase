@@ -106,7 +106,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         {
             get
             {
-                return "Элемент " + CategoryElement + " " + FamilySymbolName;
+                return CategoryElement + " " + FamilySymbolName;
             }
         }
 
@@ -115,11 +115,12 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             get
             {
                 return "Инфо:\r\n" +
+                    NodeName + "\r\n" +
                     "Категория \t" + CategoryElement + "\r\n" +
                     "Семейство \t" + FamilyName + "\r\n" +
                     "Типоразмер \t" + FamilySymbolName + "\r\n" +
-                    "Точка вставки \t" + Position + "\r\n" +
-                    "Поворот \t" + Rotation + "\r\n" +                    
+                    "Точка вставки \t" + LocationPoint + "\r\n" +
+                    "Направление \t" + Direction + "\r\n" +                    
                     "Параметры:\r\n" +
                     string.Join ("\r\n", Parameters.Select(p=> p.Name + " = " + p.Value));                    
             }

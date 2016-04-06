@@ -131,7 +131,8 @@ namespace AR_ApartmentBase.Model.Revit
             get
             {
                 return "Инфо:\r\n" +
-                    "Точка вставки \t" + Position + "\r\n" +
+                    NodeName + "\r\n" +
+                    "Точка вставки \t" + LocationPoint + "\r\n" +
                     "Поворот \t" + Rotation;                    
             }
         }

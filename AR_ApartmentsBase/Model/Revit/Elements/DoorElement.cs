@@ -34,7 +34,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         /// </summary>
         public void SearchHostWallDwg(List<Element> elements)
         {
-            HostWall = new List<WallElement>();
+            this.HostWall = new List<WallElement>();
             var walls = elements.OfType<WallElement>();
             foreach (var wall in walls)
             {
@@ -45,7 +45,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                 }
             }
             // Ошибка если не найдена стена
-            if (this.HostWall == null)
+            if (this.HostWall.Count == 0)
             {
                 Inspector.AddError($"Не определена стена для двери {this.FamilySymbolName}. ",
                       ExtentsInModel, IdBlRef, System.Drawing.SystemIcons.Error);
@@ -108,7 +108,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                    FamilySymbolName.Equals(door2.FamilySymbolName, StringComparison.OrdinalIgnoreCase) &&
                    Direction.Equals(door2.Direction) &&
                    LocationPoint.Equals(door2.LocationPoint) &&
-                   //(HostWall != null && HostWall.Equals(door2.HostWall)) &&
+                   (HostWall != null && HostWall.Count==door2.HostWall.Count) &&
                    Parameter.Equal(param1, param2);
         }
     }
