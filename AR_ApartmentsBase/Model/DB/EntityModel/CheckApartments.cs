@@ -309,9 +309,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             }
             catch
             {
-                // Несколько одинаковых элементов            
-                errElem += "Несколько одинаковых элементов в базе. ";
-                elem.BaseStatus = EnumBaseStatus.Error;                
+                //// Несколько одинаковых элементов            
+                //errElem += "Несколько одинаковых элементов в базе. ";
+                //elem.BaseStatus = EnumBaseStatus.Error;                
             }            
             if (!string.IsNullOrEmpty(errElem))
             {

@@ -102,6 +102,7 @@ namespace AR_ApartmentBase.Model.Export
                         nodeElem.ForeColor = BaseColor.GetColor(elem.BaseStatus);
                     }
                 }
+                nodeApart.Expand();
             }
         }
 

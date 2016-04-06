@@ -303,11 +303,12 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         {
             if (other == null) return false;
             if (object.ReferenceEquals(this, other)) return true;
-            return this.Direction.Equals(other.Direction) &&
+            var res = this.Direction.Equals(other.Direction) &&
                this.LocationPoint.Equals(other.LocationPoint) &&
                this.FamilyName.Equals(other.FamilyName) &&
                this.FamilySymbolName.Equals(other.FamilySymbolName) &&
                Parameter.Equal(this.Parameters, other.Parameters);
+            return res;
         }
 
         public ObjectId[] GetSubentPath()

@@ -9,51 +9,51 @@ using AR_ApartmentBase.Model.Revit.Elements;
 using MoreLinq;
 
 namespace AR_ApartmentBase.Model.DB.EntityModel
-{   
-   public static class GetBaseApartments
-   {
-      /// <summary>
-      /// Получение списка квартир в базе
-      /// </summary>
-      public static List<Apartment> GetAll()
-      {
-         // Преобразование квартир в базе в объекты Apartment
-         List<Apartment> apartments = new List<Apartment>();
-         using (var entities = BaseApartments.ConnectEntities())
-         {
-            entities.F_R_Flats.Load();            
-
-            var flatsLastRev = entities.F_R_Flats.Local.GroupBy(g => g.WORKNAME).Select(f => f.MaxBy(r => r.REVISION));
-            foreach (var flatEnt in flatsLastRev)
+{
+    public static class GetBaseApartments
+    {
+        /// <summary>
+        /// Получение списка квартир в базе
+        /// </summary>
+        public static List<Apartment> GetAll()
+        {
+            // Преобразование квартир в базе в объекты Apartment
+            List<Apartment> apartments = new List<Apartment>();
+            using (var entities = BaseApartments.ConnectEntities())
             {
-               Apartment apart = new Apartment(flatEnt);               
-               apartments.Add(apart);
+                entities.F_R_Flats.Load();
 
-               //Все модули в квартире
-               var fmsLastModRev = flatEnt.F_nn_FlatModules.GroupBy(fm => fm.F_R_Modules.NAME_MODULE)
-                                    .Select(m => m.MaxBy(r => r.F_R_Modules.REVISION));
+                var flatsLastRev = entities.F_R_Flats.Local.GroupBy(g => g.WORKNAME).Select(f => f.MaxBy(r => r.REVISION));
+                foreach (var flatEnt in flatsLastRev)
+                {
+                    Apartment apart = new Apartment(flatEnt);
+                    apartments.Add(apart);
 
-               foreach (var fmEnt in fmsLastModRev)
-               {
-                  Module module = new Module(fmEnt, apart);                  
+                    //Все модули в квартире
+                    var fmsLastModRev = flatEnt.F_nn_FlatModules.GroupBy(fm => fm.F_R_Modules.NAME_MODULE)
+                                         .Select(m => m.MaxBy(r => r.F_R_Modules.REVISION));
 
-                  // Елементы в модуле
-                  var emsEnt = fmEnt.F_R_Modules.F_nn_Elements_Modules;
-                  foreach (var emEnt in emsEnt)
-                  {
-                     // Создание элемента из элемента базы базы
-                     Element elem = ElementFactory.CreateElementDB(module, emEnt);                     
-                  }
-                  // Для дверей определение элемента стены
-                  var doors = module.Elements.OfType<DoorElement>();
-                  foreach (var door in doors)
-                  {
-                     door.SearchHostWallDB(fmEnt.F_R_Modules);
-                  }
-               }               
+                    foreach (var fmEnt in fmsLastModRev)
+                    {
+                        Module module = new Module(fmEnt, apart);
+
+                        // Елементы в модуле
+                        var emsEnt = fmEnt.F_R_Modules.F_nn_Elements_Modules;
+                        foreach (var emEnt in emsEnt)
+                        {
+                            // Создание элемента из элемента базы базы
+                            Element elem = ElementFactory.CreateElementDB(module, emEnt);
+                        }
+                        // Для дверей определение элемента стены
+                        var doors = module.Elements.OfType<DoorElement>();
+                        foreach (var door in doors)
+                        {
+                            door.SearchHostWallDB(fmEnt.F_R_Modules);
+                        }
+                    }
+                }
             }
-         }
-         return apartments;
-      }
-   }
+            return apartments;
+        }
+    }
 }

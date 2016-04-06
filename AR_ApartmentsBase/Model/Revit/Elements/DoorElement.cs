@@ -14,13 +14,13 @@ namespace AR_ApartmentBase.Model.Revit.Elements
     public class DoorElement : Element
     {
         public List<WallElement> HostWall { get; set; }
-        public int count = -1;
+        //public int count = -1;
 
         public DoorElement(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
               : base(blRefElem, module, blName, parameters, category)
         {
             // Добавление параметра idWall - 0 - условно
-            Parameters.Add(new Parameter(Options.Instance.DoorHostWallParameter, count--.ToString()));
+            Parameters.Add(new Parameter(Options.Instance.DoorHostWallParameter, "0"));
         }
 
         public DoorElement(Module module, F_nn_Elements_Modules emEnt)
@@ -108,7 +108,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                    FamilySymbolName.Equals(door2.FamilySymbolName, StringComparison.OrdinalIgnoreCase) &&
                    Direction.Equals(door2.Direction) &&
                    LocationPoint.Equals(door2.LocationPoint) &&
-                   (HostWall != null && HostWall.Equals(door2.HostWall)) &&
+                   //(HostWall != null && HostWall.Equals(door2.HostWall)) &&
                    Parameter.Equal(param1, param2);
         }
     }
