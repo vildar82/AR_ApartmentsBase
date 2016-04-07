@@ -271,20 +271,25 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                     catch
                     {
                         // Дублирование параметров
-                        errElem += $"Дублирование параметра {paramEnt.NAME_PARAMETER}. ";
+                        errElem += $"Дублирование параметра '{paramEnt.NAME_PARAMETER}'. ";
                     }
                     if (paramElem == null)
                     {
                         // Нет такого параметра
-                        errElem += $"Нет параметра {paramEnt.NAME_PARAMETER}. ";
+                        errElem += $"Нет параметра '{paramEnt.NAME_PARAMETER}'. ";
                     }
                 }
+            }
+            else
+            {
+                // Неизвестная категория элемента
+                errElem += $"Неизвестная категория '{CategoryElement}'. ";                
             }
 
             if (!string.IsNullOrEmpty(errElem))
             {
                 BaseStatus = EnumBaseStatus.Error;
-                Inspector.AddError($"Пропущен блок элемента {Name}, ошибка - {errElem}", ExtentsInModel, IdBlRef, System.Drawing.SystemIcons.Error);
+                Inspector.AddError($"Пропущен блок элемента '{Name}', ошибка - {errElem}", ExtentsInModel, IdBlRef, System.Drawing.SystemIcons.Error);
             }
         }
 
