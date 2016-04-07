@@ -10,6 +10,7 @@ using AcadLib.Errors;
 using AR_ApartmentBase.Model.Revit;
 using AR_ApartmentBase.Model.Revit.Elements;
 using AR_ApartmentBase.Properties;
+using Autodesk.AutoCAD.Runtime;
 using MoreLinq;
 
 namespace AR_ApartmentBase.Model.DB.EntityModel
@@ -82,17 +83,33 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                                                   )
                                             .GroupBy(g => g.Name).Select(g => g.First());
 
-                    foreach (var module in modules)
+                    using (var progress = new ProgressMeter())
                     {
-                        // поиск модуля
-                        var moduleEnt = defineModuleEnt(module);
+                        progress.SetLimit(modules.Count());
+                        progress.Start("Запись модулей в базу...");
+
+                        foreach (var module in modules)
+                        {
+                            progress.MeterProgress();
+                            // поиск модуля
+                            var moduleEnt = defineModuleEnt(module);
+                        }
+                        progress.Stop();
                     }
 
-                    // Определение квартир и привязка модулей
-                    foreach (Apartment apart in apartments)
+                    using (var progress = new ProgressMeter())
                     {
-                        // Определение квартиры
-                        var flatEnt = defineFlatEnt(apart);
+                        progress.SetLimit(modules.Count());
+                        progress.Start("Запись квартир в базу...");
+
+                        // Определение квартир и привязка модулей
+                        foreach (Apartment apart in apartments)
+                        {
+                            progress.MeterProgress();
+                            // Определение квартиры
+                            var flatEnt = defineFlatEnt(apart);
+                        }
+                        progress.Stop();
                     }
 
                     // Сохранение изменений
@@ -115,7 +132,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                     }
                     entities.SaveChanges();
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
                     Inspector.AddError(ex.Message, icon: System.Drawing.SystemIcons.Error);
                 }

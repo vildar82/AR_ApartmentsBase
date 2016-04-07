@@ -106,6 +106,13 @@ namespace AR_ApartmentBase.Model.Export
             }
         }
 
+        public void SetModaless()
+        {
+            buttonOk.Visible = false;
+            buttonBreak.Visible = false;
+            buttonCancel.Visible = false;
+        }
+
         //private void treeViewApartments_DrawNode(object sender, DrawTreeNodeEventArgs e)
         //{
         //   Brush brush = Brushes.Black;
@@ -181,6 +188,24 @@ namespace AR_ApartmentBase.Model.Export
                     textBoxInfo.Text = "Элемент совпадает с базой.";
                 }
                 textBoxInfo.Text += "\r\n" + rBlock.Info;
+            }
+        }
+
+        private void ToolStripMenuItemExpandAll_Click(object sender, EventArgs e)
+        {
+            treeViewApartments.ExpandAll();
+        }
+
+        private void свернутьВсеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            treeViewApartments.CollapseAll();
+        }
+
+        private void ToolStripMenuItemExpandApart_Click(object sender, EventArgs e)
+        {
+            foreach (TreeNode nodeApart in treeViewApartments.Nodes)
+            {
+                nodeApart.Expand();
             }
         }
     }

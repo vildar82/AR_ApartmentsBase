@@ -126,11 +126,8 @@ namespace AR_ApartmentBase
                 }
                 ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир.");
 
-                if (Inspector.HasErrors)
-                {
-                    Inspector.ShowDialog();
-                    Inspector.Clear();
-                }
+                Inspector.ShowDialog();
+                Inspector.Clear();                
 
                 // Квартиры в базе
                 var apartmentsInBase = GetBaseApartments.GetAll();
@@ -138,9 +135,28 @@ namespace AR_ApartmentBase
                 //Проверка всех элементов квартир в базе - категории, параметры.
                 CheckApartments.Check(apartments, apartmentsInBase);
 
+                // Сортировка квартир, модулей и элементов                
+                var alphaComparer = AcadLib.Comparers.AlphanumComparator.New;
+                apartments.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));
+                apartments.ForEach(a =>
+                    {
+                        a.Modules.Sort((m1, m2) => m1.Name.CompareTo(m2.Name));
+                        a.Modules.ForEach(m => m.Elements.Sort((e1, e2) => alphaComparer.Compare(e1.NodeName, e2.NodeName)));
+                    });
+
                 // Форма предпросмотра экспорта блоков
                 FormBlocksExport formExport = new FormBlocksExport(apartments);
-                if (Application.ShowModalDialog(formExport) == System.Windows.Forms.DialogResult.OK)
+                var dlgRes = Application.ShowModalDialog(formExport);
+
+                // Прервать
+                if (dlgRes == System.Windows.Forms.DialogResult.Abort)
+                {
+                    formExport.SetModaless();
+                    Application.ShowModelessDialog(formExport);
+                    throw new System.Exception(AcadLib.General.CanceledByUser);
+                }
+
+                if (dlgRes == System.Windows.Forms.DialogResult.OK)
                 {
                     // Экспорт блоков в файлы
                     var count = Apartment.ExportToFiles(apartments);
@@ -184,22 +200,15 @@ namespace AR_ApartmentBase
                     ExcelLog excelLog = new ExcelLog(logFile);
                     excelLog.AddtoLog(apartments);
 
-                    // Показ ошибок
-                    if (Inspector.HasErrors)
-                    {
-                        Inspector.Show();
-                    }
+                    // Показ ошибок                    
+                    Inspector.Show();                    
                 }
             }
             catch (System.Exception ex)
             {
                 doc.Editor.WriteMessage($"\nОшибка экспорта блоков: {ex.Message}");
-                if (ex.Message.Contains("Отменено пользователем"))
-                {
-                    return;
-                }
-                else
-                {
+                if (!ex.Message.Contains(AcadLib.General.CanceledByUser))
+                {                    
                     Logger.Log.Error(ex, $"Command: AR-BaseApartmentsExport. {doc.Name}");
                 }
             }

@@ -202,18 +202,27 @@ namespace AR_ApartmentBase.Model.Revit
 
             var apartsToFile = apartments.Where(a => !a.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg));
 
-            foreach (var apart in apartsToFile)
+            using (var progress = new ProgressMeter())
             {
-                try
+                progress.SetLimit(apartsToFile.Count());
+                progress.Start("Экспорт квартир в файлы...");
+
+                foreach (var apart in apartsToFile)
                 {
-                    apart.ExportToFile();
-                    apart.ExportDate = now;
-                    count++;
+                    progress.MeterProgress();
+                    try
+                    {
+                        apart.ExportToFile();
+                        apart.ExportDate = now;
+                        count++;
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Inspector.AddError($"Ошибка при экспорте блока '{apart.Name}' - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
+                    }
                 }
-                catch (System.Exception ex)
-                {
-                    Inspector.AddError($"Ошибка при экспорте блока '{apart.Name}' - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
-                }
+
+                progress.Stop();
             }
 
             // Восстановление слоев
@@ -258,7 +267,7 @@ namespace AR_ApartmentBase.Model.Revit
         /// </summary>      
         public static List<Apartment> GetApartments(Autodesk.AutoCAD.DatabaseServices.Database db)
         {
-            List<Apartment> apartments = new List<Apartment>();            
+            List<Apartment> apartments = new List<Apartment>();
 
             // Импользование базы для проверки категории элементов и их параметров
             using (var entities = BaseApartments.ConnectEntities())
@@ -266,13 +275,19 @@ namespace AR_ApartmentBase.Model.Revit
                 entities.F_nn_Category_Parameters.Load();
                 BaseCategoryParameters = entities.F_nn_Category_Parameters.Local.GroupBy(cp => cp.F_S_Categories).Select(p =>
                               new KeyValuePair<string, List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
-            }
+            }            
 
             using (var t = db.TransactionManager.StartTransaction())
             {
+                ProgressMeter progress = new ProgressMeter();
+                progress.SetLimit(1000);
+                progress.Start("Считывание квартир с чертежа...");
+
                 var ms = SymbolUtilityServices.GetBlockModelSpaceId(db).GetObject(OpenMode.ForRead) as BlockTableRecord;
                 foreach (ObjectId idEnt in ms)
                 {
+                    progress.MeterProgress();                    
+
                     var blRefApart = idEnt.GetObject(OpenMode.ForRead, false, true) as BlockReference;
                     if (blRefApart != null)
                     {
@@ -309,6 +324,7 @@ namespace AR_ApartmentBase.Model.Revit
                         }
                     }
                 }
+                progress.Stop();
                 t.Commit();
             }
             apartments.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));

@@ -285,6 +285,8 @@
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
     <Content Include="Model\DB\EntityModel\ModelCopy.edmx.sql" />
+    <None Include="Resources\expand.png" />
+    <None Include="Resources\collapse.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
