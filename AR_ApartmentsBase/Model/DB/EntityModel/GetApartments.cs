@@ -29,7 +29,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                     progress.SetLimit(entities.F_R_Flats.Local.Count);
                     progress.Start("Считывание квартир из базы...");
 
-                    var flatsLastRev = entities.F_R_Flats.Local.GroupBy(g => g.WORKNAME).Select(f => f.MaxBy(r => r.REVISION));
+                    var flatsLastRev = entities.F_R_Flats.Local.GroupBy(g => g.WORKNAME).Select(f => f.MaxBy(r => r.REVISION)).ToList();
                     foreach (var flatEnt in flatsLastRev)
                     {
                         progress.MeterProgress();
@@ -39,14 +39,14 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
                         //Все модули в квартире
                         var fmsLastModRev = flatEnt.F_nn_FlatModules.GroupBy(fm => fm.F_R_Modules.NAME_MODULE)
-                                             .Select(m => m.MaxBy(r => r.F_R_Modules.REVISION));
+                                             .Select(m => m.MaxBy(r => r.F_R_Modules.REVISION)).ToList();
 
                         foreach (var fmEnt in fmsLastModRev)
                         {
                             Module module = new Module(fmEnt, apart);
 
                             // Елементы в модуле
-                            var emsEnt = fmEnt.F_R_Modules.F_nn_Elements_Modules;
+                            var emsEnt = fmEnt.F_R_Modules.F_nn_Elements_Modules.ToList();
                             foreach (var emEnt in emsEnt)
                             {
                                 // Создание элемента из элемента базы базы

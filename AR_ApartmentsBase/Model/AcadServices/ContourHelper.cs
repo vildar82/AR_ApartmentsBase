@@ -12,41 +12,87 @@ using Autodesk.AutoCAD.Geometry;
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using AcadLib;
+using Autodesk.AutoCAD.ApplicationServices;
 
 namespace AR_ApartmentBase.Model.AcadServices
 {
     public static class ContourHelper
     {
-        private static DoubleEqualityComparer angleComparer = new DoubleEqualityComparer();
-
-        public static List<Point2d> GetConvexHull(List<Point2d> pts, out Point2d centroid)
+        public static void CreateContours2(List<Apartment> apartments)
         {
-            List<Point2d> resVal = new List<Point2d>();
-            List<Coordinate> coordinates = new List<Coordinate>();
-            foreach (var P in pts)
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (var t = db.TransactionManager.StartTransaction())
             {
-                coordinates.Add(new Coordinate(P.X, P.Y));
-            }
-            var multiPoint = Geometry.DefaultFactory.CreateMultiPoint(coordinates.ToArray());
-            multiPoint.Normalize();
-            centroid = new Point2d(multiPoint.Centroid.X, multiPoint.Centroid.Y);
-            var hullGeom = multiPoint.ConvexHull();            
-            foreach (var c in hullGeom.Coordinates)
-            {
-                resVal.Add(new Point2d(c.X, c.Y));
-            }
-            return resVal;
-        }
+                db.RegApp(Commands.RegAppApartBase);
 
+                foreach (var apart in apartments)
+                {
+                    List<Polyline> colPl = new List<Polyline>();
+                    Point3dCollection pts = new Point3dCollection();
+                    foreach (var module in apart.Modules)
+                    {
+                        var blRefModule = module.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
+                        foreach (var wall in module.Elements.OfType<WallElement>())
+                        {
+                            var pl = new Polyline();                            
+                            var extWall = wall.ExtentsClean;
+                            extWall.TransformBy(blRefModule.BlockTransform);
+
+                            pl.AddVertexAt(0, extWall.MinPoint.Convert2d(), 0,0,0);
+                            pl.AddVertexAt(1, new Point2d(extWall.MinPoint.X, extWall.MaxPoint.Y), 0, 0, 0);
+                            pl.AddVertexAt(2, extWall.MaxPoint.Convert2d(), 0, 0, 0);
+                            pl.AddVertexAt(3, new Point2d(extWall.MaxPoint.X, extWall.MinPoint.Y),0, 0, 0);
+                            pl.Closed = true;
+                            colPl.Add(pl);
+                        }
+                    }
+
+                    var plContour = colPl.GetExteriorContour();
+
+                    var btrApart = apart.IdBtr.GetObject(OpenMode.ForWrite) as BlockTableRecord;
+                    var blRefApart = apart.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
+
+                    var layerApartInfo = new AcadLib.Layers.LayerInfo(blRefApart.Layer);
+                    AcadLib.Layers.LayerExt.CheckLayerState(layerApartInfo);
+                                        
+                    plContour.SetXData(Commands.RegAppApartBase, 1);
+                    plContour.SetDatabaseDefaults();
+                    plContour.LayerId = blRefApart.LayerId;
+
+                    ClearOldContour(btrApart);
+
+                    btrApart.AppendEntity(plContour);
+                    t.AddNewlyCreatedDBObject(plContour, true);
+
+                    Hatch h = new Hatch();
+                    h.SetXData(Commands.RegAppApartBase, 1);
+                    h.SetDatabaseDefaults();
+                    h.LayerId = blRefApart.LayerId;
+                    h.SetHatchPattern(HatchPatternType.PreDefined, "Solid");
+
+                    btrApart.AppendEntity(h);
+                    t.AddNewlyCreatedDBObject(h, true);
+
+                    h.Associative = true;
+                    var idsH = new ObjectIdCollection(new[] { plContour.Id });
+                    h.AppendLoop(HatchLoopTypes.Default, idsH);
+                    h.EvaluateHatch(true);
+
+                    var btrDrawOrder = btrApart.DrawOrderTableId.GetObject(OpenMode.ForWrite) as DrawOrderTable;
+                    btrDrawOrder.MoveToBottom(new ObjectIdCollection(new[] { h.Id }));
+
+                    btrApart.SetBlRefsRecordGraphicsModified();                    
+                }
+                t.Commit();
+            }
+        }
+        
+        [Obsolete("Старый - используй CreateContours2")]
         public static void CreateContours(List<Apartment> apartments)
         {
             Database db = HostApplicationServices.WorkingDatabase;
             using (var t = db.TransactionManager.StartTransaction())
             {
-                //var layerContourInfo = new AcadLib.Layers.LayerInfo("АР_Квартиры_Штриховка");
-                //layerContourInfo.Color = Color.FromColor(System.Drawing.Color.Aqua);                
-                //var layerContourId = AcadLib.Layers.LayerExt.GetLayerOrCreateNew(layerContourInfo);
-
                 db.RegApp(Commands.RegAppApartBase);
 
                 foreach (var apart in apartments)
@@ -103,32 +149,32 @@ namespace AR_ApartmentBase.Model.AcadServices
                     h.EvaluateHatch(true);
 
                     var btrDrawOrder = btrApart.DrawOrderTableId.GetObject(OpenMode.ForWrite) as DrawOrderTable;
-                    btrDrawOrder.MoveToBottom(new ObjectIdCollection(new[] { h.Id }));                               
+                    btrDrawOrder.MoveToBottom(new ObjectIdCollection(new[] { h.Id }));
 
-                    var idsBlRefApart = btrApart.GetBlockReferenceIds(true, false);
-                    foreach (ObjectId idBlRefApart in idsBlRefApart)
-                    {
-                        var blRefApartItem = idBlRefApart.GetObject(OpenMode.ForWrite, false, true) as BlockReference;
-                        blRefApartItem.RecordGraphicsModified(true);
-                    }
+                    btrApart.SetBlRefsRecordGraphicsModified();
                 }
                 t.Commit();
             }
         }
 
-        public static void ClearOldContour(BlockTableRecord btr)
+        public static List<Point2d> GetConvexHull(List<Point2d> pts, out Point2d centroid)
         {
-            foreach (var item in btr)
+            List<Point2d> resVal = new List<Point2d>();
+            List<Coordinate> coordinates = new List<Coordinate>();
+            foreach (var P in pts)
             {
-                var ent = item.GetObject(OpenMode.ForRead, false, true) as Entity;
-                var xdValue = ent.GetXData(Commands.RegAppApartBase);
-                if (xdValue==1)
-                {
-                    ent.UpgradeOpen();
-                    ent.Erase();
-                }
+                coordinates.Add(new Coordinate(P.X, P.Y));
             }
-        }
+            var multiPoint = Geometry.DefaultFactory.CreateMultiPoint(coordinates.ToArray());
+            multiPoint.Normalize();
+            centroid = new Point2d(multiPoint.Centroid.X, multiPoint.Centroid.Y);
+            var hullGeom = multiPoint.ConvexHull();
+            foreach (var c in hullGeom.Coordinates)
+            {
+                resVal.Add(new Point2d(c.X, c.Y));
+            }
+            return resVal;
+        }        
 
         public static void RectanglePolyline(Polyline pl, Point2d centroid)
         {            
@@ -141,8 +187,8 @@ namespace AR_ApartmentBase.Model.AcadServices
                 var bulge = pl.GetBulgeAt(curIindex);
                 var segment = pl.GetLineSegmentAt(curIindex);
                 var angleRad = segment.Direction.AngleOnPlane(plane);
-                var angleDeg = AcadLib.MathExt.ToDegrees(angleRad);
-                if (!IsOrtho(angleDeg))
+                var angleDeg = angleRad.ToDegrees();
+                if (!angleDeg.IsOrthoAngle())
                 {
                     // Поделить дуговой сегмент на два прямоугольных
                     var pt1 = pl.GetPoint2dAt(curIindex);
@@ -157,15 +203,37 @@ namespace AR_ApartmentBase.Model.AcadServices
                 }
                 curIindex++;
             }
+        }       
+
+        public static void ClearOldContour(BlockTableRecord btr)
+        {
+            foreach (var item in btr)
+            {
+                var ent = item.GetObject(OpenMode.ForRead, false, true) as Entity;
+                var xdValue = ent.GetXData(Commands.RegAppApartBase);
+                if (xdValue == 1)
+                {
+                    ent.UpgradeOpen();
+                    ent.Erase();
+                }
+            }
         }
 
-        private static bool IsOrtho(double angleDeg)
+        public static void ClearOldContourAll(List<Apartment> apartments)
         {
-            return angleComparer.Equals(angleDeg, 0) ||
-                   angleComparer.Equals(angleDeg, 90) ||
-                   angleComparer.Equals(angleDeg, 180) ||
-                   angleComparer.Equals(angleDeg, 270) ||
-                   angleComparer.Equals(angleDeg, 360);
-        }
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            using (var t = db.TransactionManager.StartTransaction())
+            {
+                foreach (var apart in apartments)
+                {
+                    var btrApart = apart.IdBtr.GetObject(OpenMode.ForRead) as BlockTableRecord;
+                    ClearOldContour(btrApart);
+                    btrApart.SetBlRefsRecordGraphicsModified();
+                }
+
+                t.Commit();
+            }
+        }        
     }
 }

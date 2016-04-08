@@ -75,6 +75,7 @@
     <None Include="DbTest\DataSet1.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet11.Designer.cs</LastGenOutput>
     </None>
     <None Include="DbTest\DataSet1.xss">
       <DependentUpon>DataSet1.xsd</DependentUpon>

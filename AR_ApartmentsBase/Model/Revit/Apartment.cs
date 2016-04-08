@@ -280,7 +280,7 @@ namespace AR_ApartmentBase.Model.Revit
             using (var t = db.TransactionManager.StartTransaction())
             {
                 ProgressMeter progress = new ProgressMeter();
-                progress.SetLimit(1000);
+                progress.SetLimit(1000);// попробовать без установки лимита!?
                 progress.Start("Считывание квартир с чертежа...");
 
                 var ms = SymbolUtilityServices.GetBlockModelSpaceId(db).GetObject(OpenMode.ForRead) as BlockTableRecord;

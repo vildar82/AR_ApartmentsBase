@@ -57,6 +57,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
             using (entities = ConnectEntities())
             {
+                //entities.Configuration.AutoDetectChangesEnabled = false;
+                //entities.Configuration.ValidateOnSaveEnabled = false;
+
                 // Загрузка таблиц
                 entities.F_R_Flats.Load();
                 entities.F_R_Modules.Load();
@@ -352,7 +355,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 // Заполнение параметров элемента
                 var paramsElemEnt = entities.F_nn_Category_Parameters.Local
                       .Where(c => c.F_S_Categories.NAME_RUS_CATEGORY.Equals(elem.CategoryElement, StringComparison.OrdinalIgnoreCase))
-                      .Select(p => p);
+                      .Select(p => p).ToList();
                 foreach (var paramElemEnt in paramsElemEnt)
                 {
                     var elemParam = elem.Parameters.Single(p => p.Name.Equals(paramElemEnt.F_S_Parameters.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));

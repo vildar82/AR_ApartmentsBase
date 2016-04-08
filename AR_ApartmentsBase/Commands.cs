@@ -260,7 +260,7 @@ namespace AR_ApartmentBase
                 Inspector.Clear();
                 var sel = ed.SelectBlRefs("Выбери квартиры");
                 var apartments = Apartment.GetApartments(sel);
-                Model.AcadServices.ContourHelper.CreateContours(apartments);
+                Model.AcadServices.ContourHelper.CreateContours2(apartments);
                 //Inspector.Show();
             }
             catch (System.Exception ex)
@@ -269,6 +269,33 @@ namespace AR_ApartmentBase
                 if (!ex.Message.Contains("Отменено пользователем"))
                 {
                     Logger.Log.Error(ex, $"Command: AR-BaseApartmentsContour. {doc.Name}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Контур квартир
+        /// </summary>
+        [CommandMethod("PIK", "AR-BaseApartmentsContourRemove", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
+        public void BaseApartmentsContourRemove()
+        {
+            Logger.Log.Info("Start command AR-BaseApartmentsContourRemove");
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            if (doc == null) return;
+            Editor ed = doc.Editor;
+            try
+            {
+                Inspector.Clear();
+                var sel = ed.SelectBlRefs("Выбери квартиры");
+                var apartments = Apartment.GetApartments(sel);
+                Model.AcadServices.ContourHelper.ClearOldContourAll(apartments);                
+            }
+            catch (System.Exception ex)
+            {
+                doc.Editor.WriteMessage($"\nОшибка : {ex.Message}");
+                if (!ex.Message.Contains(AcadLib.General.CanceledByUser))
+                {
+                    Logger.Log.Error(ex, $"Command: AR-BaseApartmentsContourRemove. {doc.Name}");
                 }
             }
         }
