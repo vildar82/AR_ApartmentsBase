@@ -279,8 +279,7 @@ namespace AR_ApartmentBase.Model.Revit
 
             using (var t = db.TransactionManager.StartTransaction())
             {
-                ProgressMeter progress = new ProgressMeter();
-                progress.SetLimit(1000);// попробовать без установки лимита!?
+                ProgressMeter progress = new ProgressMeter();                
                 progress.Start("Считывание квартир с чертежа...");
 
                 var ms = SymbolUtilityServices.GetBlockModelSpaceId(db).GetObject(OpenMode.ForRead) as BlockTableRecord;
@@ -349,8 +348,13 @@ namespace AR_ApartmentBase.Model.Revit
             Autodesk.AutoCAD.DatabaseServices.Database db = HostApplicationServices.WorkingDatabase;
             using (var t = db.TransactionManager.StartTransaction())
             {
+                ProgressMeter progress = new ProgressMeter();                
+                progress.Start("Считывание квартир с чертежа...");
+
                 foreach (ObjectId idEnt in idsBlRef)
                 {
+                    progress.MeterProgress();
+
                     var blRefApart = idEnt.GetObject(OpenMode.ForRead, false, true) as BlockReference;
                     if (blRefApart != null)
                     {
@@ -380,6 +384,7 @@ namespace AR_ApartmentBase.Model.Revit
                         }
                     }
                 }
+                progress.Stop();
                 t.Commit();
             }
             apartments.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));

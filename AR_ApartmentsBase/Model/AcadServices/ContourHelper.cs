@@ -13,6 +13,8 @@ using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using AcadLib;
 using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.Runtime;
+using AcadLib.Errors;
 
 namespace AR_ApartmentBase.Model.AcadServices
 {
@@ -25,8 +27,13 @@ namespace AR_ApartmentBase.Model.AcadServices
             {
                 db.RegApp(Commands.RegAppApartBase);
 
+                ProgressMeter progress = new ProgressMeter();
+                progress.SetLimit(apartments.Count);
+                progress.Start("Построение контуров квартир...");
+
                 foreach (var apart in apartments)
                 {
+                    progress.MeterProgress();
                     try
                     {
                         List<Polyline> colPl = new List<Polyline>();
@@ -37,7 +44,10 @@ namespace AR_ApartmentBase.Model.AcadServices
                             foreach (var wall in module.Elements.OfType<WallElement>())
                             {
                                 var pl = wall.Contour?.Clone() as Polyline;
-                                if (pl == null) continue;
+                                if (pl == null)
+                                {
+                                    pl = wall.ExtentsClean.GetPolyline();
+                                }                                    
                                 pl.TransformBy(blRefModule.BlockTransform);
                                 colPl.Add(pl);
                             }
@@ -79,8 +89,13 @@ namespace AR_ApartmentBase.Model.AcadServices
 
                         btrApart.SetBlRefsRecordGraphicsModified();
                     }
-                    catch { }                  
+                    catch (System.Exception ex)
+                    {
+                        Inspector.AddError($"Ошибка при построении контура или штриховки в квартире {apart.Name} - {ex.Message}",
+                            apart.IdBlRef, System.Drawing.SystemIcons.Error);
+                    }                  
                 }
+                progress.Stop();
                 t.Commit();
             }
         }
