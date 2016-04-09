@@ -27,56 +27,59 @@ namespace AR_ApartmentBase.Model.AcadServices
 
                 foreach (var apart in apartments)
                 {
-                    List<Polyline> colPl = new List<Polyline>();
-                    Point3dCollection pts = new Point3dCollection();
-                    foreach (var module in apart.Modules)
+                    try
                     {
-                        var blRefModule = module.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
-                        foreach (var wall in module.Elements.OfType<WallElement>())
+                        List<Polyline> colPl = new List<Polyline>();
+                        Point3dCollection pts = new Point3dCollection();
+                        foreach (var module in apart.Modules)
                         {
-                            var pl = new Polyline();                            
-                            var extWall = wall.ExtentsClean;
-                            extWall.TransformBy(blRefModule.BlockTransform);
-                            pl = extWall.GetPolyline();                            
-                            colPl.Add(pl);
+                            var blRefModule = module.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
+                            foreach (var wall in module.Elements.OfType<WallElement>())
+                            {
+                                var pl = wall.Contour?.Clone() as Polyline;
+                                if (pl == null) continue;
+                                pl.TransformBy(blRefModule.BlockTransform);
+                                colPl.Add(pl);
+                            }
                         }
+
+                        var plContour = colPl.GetExteriorContour();
+
+                        var btrApart = apart.IdBtr.GetObject(OpenMode.ForWrite) as BlockTableRecord;
+                        var blRefApart = apart.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
+
+                        var layerApartInfo = new AcadLib.Layers.LayerInfo(blRefApart.Layer);
+                        AcadLib.Layers.LayerExt.CheckLayerState(layerApartInfo);
+
+                        plContour.SetXData(Commands.RegAppApartBase, 1);
+                        plContour.SetDatabaseDefaults();
+                        plContour.LayerId = blRefApart.LayerId;
+
+                        ClearOldContour(btrApart);
+
+                        btrApart.AppendEntity(plContour);
+                        t.AddNewlyCreatedDBObject(plContour, true);
+
+                        Hatch h = new Hatch();
+                        h.SetXData(Commands.RegAppApartBase, 1);
+                        h.SetDatabaseDefaults();
+                        h.LayerId = blRefApart.LayerId;
+                        h.SetHatchPattern(HatchPatternType.PreDefined, "Solid");
+
+                        btrApart.AppendEntity(h);
+                        t.AddNewlyCreatedDBObject(h, true);
+
+                        h.Associative = true;
+                        var idsH = new ObjectIdCollection(new[] { plContour.Id });
+                        h.AppendLoop(HatchLoopTypes.Default, idsH);
+                        h.EvaluateHatch(true);
+
+                        var btrDrawOrder = btrApart.DrawOrderTableId.GetObject(OpenMode.ForWrite) as DrawOrderTable;
+                        btrDrawOrder.MoveToBottom(new ObjectIdCollection(new[] { h.Id }));
+
+                        btrApart.SetBlRefsRecordGraphicsModified();
                     }
-
-                    var plContour = colPl.GetExteriorContour();
-
-                    var btrApart = apart.IdBtr.GetObject(OpenMode.ForWrite) as BlockTableRecord;
-                    var blRefApart = apart.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
-
-                    var layerApartInfo = new AcadLib.Layers.LayerInfo(blRefApart.Layer);
-                    AcadLib.Layers.LayerExt.CheckLayerState(layerApartInfo);
-                                        
-                    plContour.SetXData(Commands.RegAppApartBase, 1);
-                    plContour.SetDatabaseDefaults();
-                    plContour.LayerId = blRefApart.LayerId;
-
-                    ClearOldContour(btrApart);
-
-                    btrApart.AppendEntity(plContour);
-                    t.AddNewlyCreatedDBObject(plContour, true);
-
-                    Hatch h = new Hatch();
-                    h.SetXData(Commands.RegAppApartBase, 1);
-                    h.SetDatabaseDefaults();
-                    h.LayerId = blRefApart.LayerId;
-                    h.SetHatchPattern(HatchPatternType.PreDefined, "Solid");
-
-                    btrApart.AppendEntity(h);
-                    t.AddNewlyCreatedDBObject(h, true);
-
-                    h.Associative = true;
-                    var idsH = new ObjectIdCollection(new[] { plContour.Id });
-                    h.AppendLoop(HatchLoopTypes.Default, idsH);
-                    h.EvaluateHatch(true);
-
-                    var btrDrawOrder = btrApart.DrawOrderTableId.GetObject(OpenMode.ForWrite) as DrawOrderTable;
-                    btrDrawOrder.MoveToBottom(new ObjectIdCollection(new[] { h.Id }));
-
-                    btrApart.SetBlRefsRecordGraphicsModified();                    
+                    catch { }                  
                 }
                 t.Commit();
             }
@@ -98,12 +101,12 @@ namespace AR_ApartmentBase.Model.AcadServices
                         var blRefModule = module.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
                         foreach (var wall in module.Elements.OfType<WallElement>())
                         {
-                            var extWall = wall.ExtentsClean;
-                            extWall.TransformBy(blRefModule.BlockTransform);
-                            pts.Add(extWall.MinPoint.Convert2d());
-                            pts.Add(new Point2d (extWall.MinPoint.X, extWall.MaxPoint.Y));
-                            pts.Add(extWall.MaxPoint.Convert2d());
-                            pts.Add(new Point2d(extWall.MaxPoint.X, extWall.MinPoint.Y));
+                            //var extWall = wall.ExtentsClean;
+                            //extWall.TransformBy(blRefModule.BlockTransform);
+                            //pts.Add(extWall.MinPoint.Convert2d());
+                            //pts.Add(new Point2d (extWall.MinPoint.X, extWall.MaxPoint.Y));
+                            //pts.Add(extWall.MaxPoint.Convert2d());
+                            //pts.Add(new Point2d(extWall.MaxPoint.X, extWall.MinPoint.Y));
                         }
                     }
                     Point2d centroid;

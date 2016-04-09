@@ -8,6 +8,7 @@ using AR_ApartmentBase.Model.DB.DbServices;
 using AR_ApartmentBase.Model.DB.EntityModel;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using AcadLib.Geometry;
 
 namespace AR_ApartmentBase.Model.Revit.Elements
 {
@@ -39,15 +40,25 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             foreach (var wall in walls)
             {
                 // Попадает ли точка вствавки блока двери в границы стены
-                if (wall.ExtentsClean.IsPointInBounds(this.Position, 100))
+                if (wall.Contour == null)
                 {
-                    this.HostWall.Add(wall);
+                    if (wall.ExtentsClean.IsPointInBounds(Position))
+                    {
+                        HostWall.Add(wall);
+                    }
                 }
+                else
+                {
+                    if (wall.Contour.IsPointInsidePolygon(Position))
+                    {
+                        HostWall.Add(wall);
+                    }
+                }                
             }
             // Ошибка если не найдена стена
             if (this.HostWall.Count == 0)
             {
-                Inspector.AddError($"Не определена стена для двери {this.FamilySymbolName}. ",
+                Inspector.AddError($"Не определена стена для двери {FamilySymbolName}. ",
                       ExtentsInModel, IdBlRef, System.Drawing.SystemIcons.Error);
                 // Исключить дверь из элементов модуля - и дверь не будет записана в базк
                 elements.Remove(this);
