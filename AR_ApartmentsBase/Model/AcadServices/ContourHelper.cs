@@ -37,12 +37,7 @@ namespace AR_ApartmentBase.Model.AcadServices
                             var pl = new Polyline();                            
                             var extWall = wall.ExtentsClean;
                             extWall.TransformBy(blRefModule.BlockTransform);
-
-                            pl.AddVertexAt(0, extWall.MinPoint.Convert2d(), 0,0,0);
-                            pl.AddVertexAt(1, new Point2d(extWall.MinPoint.X, extWall.MaxPoint.Y), 0, 0, 0);
-                            pl.AddVertexAt(2, extWall.MaxPoint.Convert2d(), 0, 0, 0);
-                            pl.AddVertexAt(3, new Point2d(extWall.MaxPoint.X, extWall.MinPoint.Y),0, 0, 0);
-                            pl.Closed = true;
+                            pl = extWall.GetPolyline();                            
                             colPl.Add(pl);
                         }
                     }
