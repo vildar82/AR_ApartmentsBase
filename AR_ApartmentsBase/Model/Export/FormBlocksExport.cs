@@ -55,19 +55,16 @@ namespace AR_ApartmentBase.Model.Export
         {
             // TreeView         
             var block = treeViewApartments.SelectedNode?.Tag as IRevitBlock;
-            if (block != null && block.ExtentsInModel.Diagonal() > 0)
+            if (block != null && !block.IdBlRef.IsNull)
             {
                 ed.Zoom(block.ExtentsInModel);
-                if (!block.IdBlRef.IsNull)
+                if (block is Apartment)
                 {
-                    if (block is Apartment)
-                    {
-                        block.IdBlRef.FlickObjectHighlight(2, 100, 100);
-                    }
-                    else
-                    {
-                        ObjectIdExt.FlickSubentityHighlight(block.GetSubentPath(), 2, 100, 100);
-                    }                    
+                    block.IdBlRef.FlickObjectHighlight(2, 100, 100);
+                }
+                else
+                {
+                    ObjectIdExt.FlickSubentityHighlight(block.GetSubentPath(), 2, 100, 100);
                 }
             }
         }

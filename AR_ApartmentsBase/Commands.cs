@@ -57,6 +57,10 @@ namespace AR_ApartmentBase
                              $"Имя блока квартиры должно соответствовать {Options.Instance.BlockApartmentNameMatch}");
             ed.WriteMessage("\nAR-BaseApartmentsOptions - настройки программы.");
             ed.WriteMessage("\nAR-BaseApartmentsAbout - описание программы.");
+            ed.WriteMessage("\nAR-BaseApartmentsClear - очистка базы.");
+            ed.WriteMessage("\nAR-BaseApartmentsContour - построение контура квартир с заливкой.");
+            ed.WriteMessage("\nAR-BaseApartmentsContourRemove - удаление контура и заливки из квартир.");
+            ed.WriteMessage("\nAR-BaseApartmentsSetTypeRooms - установка параметра типа квартиры в помещения по слою квартиры.");
         }
 
         [CommandMethod("PIK", "AR-BaseApartmentsOptions", CommandFlags.Modal)]
@@ -352,6 +356,36 @@ namespace AR_ApartmentBase
                 if (!ex.Message.Contains("Отменено пользователем"))
                 {
                     Logger.Log.Error(ex, $"Command: AR-BaseApartmentsDynPropLoad. {doc.Name}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Запись параметра имени квартиры в помещения
+        /// </summary>
+        [CommandMethod("PIK", "AR-BaseApartmentsSetTypeRooms", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
+        public void BaseApartmentsSetTypeRooms()
+        {
+            Logger.Log.Info("Start command AR-BaseApartmentsSetTypeRooms");
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            if (doc == null) return;
+            Editor ed = doc.Editor;
+            Database db = doc.Database;
+            try
+            {
+                Inspector.Clear();
+                var sel = ed.SelectBlRefs("Выбери квартиры");
+                var apartments = Apartment.GetApartments(sel);
+                var count = RoomsTypeEditor.SetRoomsType(apartments);
+                ed.WriteMessage($"\nЗаписаны параметры типа квартиры в {count} помещений.");
+                Inspector.Show();
+            }
+            catch (System.Exception ex)
+            {
+                doc.Editor.WriteMessage($"\nОшибка : {ex.Message}");
+                if (!ex.Message.Contains(AcadLib.General.CanceledByUser))
+                {
+                    Logger.Log.Error(ex, $"Command: AR-BaseApartmentsSetTypeRooms. {doc.Name}");
                 }
             }
         }

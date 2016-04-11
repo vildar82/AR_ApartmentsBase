@@ -165,7 +165,20 @@ namespace AR_ApartmentBase.Model
       [Description("Номер цвета для отрезка определяющего направление открывания двери.")]
       public int DoorOrientLineColorIndex { get; set; } = 111;
 
-      public static Options Load()
+        //
+        // Помещения
+        //
+
+        /// <summary>
+        /// Имя параметра для типа квартиры
+        /// /// </summary>
+        [Category("Помещения")]
+        [DefaultValue("TYPE_FLAT")]
+        [Description("Тип квартиры.")]
+        public string RoomTypeFlatParameter { get; set; } = "TYPE_FLAT";
+
+
+        public static Options Load()
       {
          Options options = null;
          // загрузка из файла настроек

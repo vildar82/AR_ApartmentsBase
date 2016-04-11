@@ -220,6 +220,7 @@
     <Compile Include="Model\Revit\Module.cs" />
     <Compile Include="Model\Revit\Parameter.cs" />
     <Compile Include="Model\Options.cs" />
+    <Compile Include="Model\Utils\RoomsTypeEditor.cs" />
     <Compile Include="Model\Utils\SaveDynProp.cs" />
     <Compile Include="Model\Utils\SaveDynPropsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

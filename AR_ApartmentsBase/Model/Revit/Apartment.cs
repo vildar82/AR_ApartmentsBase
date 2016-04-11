@@ -33,6 +33,7 @@ namespace AR_ApartmentBase.Model.Revit
         public string Name { get; set; }
 
         public ObjectId IdBlRef { get; set; }
+        public string Layer { get; set; }
 
         public ObjectId IdBtr { get; set; }
 
@@ -145,6 +146,7 @@ namespace AR_ApartmentBase.Model.Revit
         {
             Name = blName;
             IdBlRef = blRef.Id;
+            Layer = blRef.Layer;
             IdBtr = blRef.BlockTableRecord;
             BlockTransform = blRef.BlockTransform;
             Position = blRef.Position;

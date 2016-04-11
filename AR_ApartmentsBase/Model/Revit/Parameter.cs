@@ -12,7 +12,7 @@ namespace AR_ApartmentBase.Model.Revit
     {
         public string Name { get; set; }
         public string Value { get; set; }
-        private object objectValue;
+        private object objectValue;        
 
         // Константные атрибуты в блоках
         public static Dictionary<ObjectId, List<Parameter>> BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();

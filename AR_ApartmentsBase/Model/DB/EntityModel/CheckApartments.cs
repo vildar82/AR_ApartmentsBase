@@ -33,7 +33,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             {
                 // В базе пусто. все квариры новые
                 apartments.ForEach(a =>
-                {
+                {                    
                     a.BaseStatus = EnumBaseStatus.New;
                     a.Modules.ForEach(m => m.BaseStatus = EnumBaseStatus.New);
                 });
@@ -60,7 +60,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                     }
                     if (apart.BaseStatus == EnumBaseStatus.None)
                     {
-                        apart.BaseStatus = EnumBaseStatus.OK;
+                        apart.BaseStatus = EnumBaseStatus.OK;                        
                     }
                 }
 
@@ -103,6 +103,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                             // Не совпадают количества элементов в модуле в базе и в двг файле
                             errModule = $"Изменилось количество элементов в модуле, было (по базе) '{moduleInBase.Elements.Count}' стало (по блоку) '{module.Elements.Count}'. ";
                             module.BaseStatus |= EnumBaseStatus.Changed;
+                            module.Revision = moduleInBase.Revision + 1;
                         }
 
                         // Проверка каждого элемента
@@ -124,6 +125,12 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                         {
                             errModule += "Есть изменившиеся елементы. ";
                             module.BaseStatus = EnumBaseStatus.Changed;
+                            module.Revision = moduleInBase.Revision + 1;
+                        }
+
+                        if (module.BaseStatus == EnumBaseStatus.None || module.BaseStatus == EnumBaseStatus.OK)
+                        {
+                            module.Revision = moduleInBase.Revision;
                         }
 
                         // добавление строки сообщения в модуль если есть
@@ -190,6 +197,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                         // Не совпадают количества модулей в базе и в двг файле
                         errApart += $"Не совпадает количество модулей в базе '{apartInBase.Modules.Count}' и в чертеже '{apart.Modules.Count}'. ";
                         apart.BaseStatus = EnumBaseStatus.Changed;
+                        apart.Revision = apartInBase.Revision + 1;
                     }
 
                     foreach (var module in apart.Modules)
@@ -220,6 +228,12 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                     {
                         errApart += "Есть изменившиеся модули. ";
                         apart.BaseStatus |= EnumBaseStatus.Changed;
+                        apart.Revision = apartInBase.Revision + 1;
+                    }
+
+                    if (apart.BaseStatus == EnumBaseStatus.None || apart.BaseStatus == EnumBaseStatus.OK)
+                    {
+                        apart.Revision = apartInBase.Revision;
                     }
                 }
             }
@@ -233,7 +247,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             // Нет такого модуля в базе
             if (!modulesInBase.Any())
             {
-                module.BaseStatus |= EnumBaseStatus.New;
+                module.BaseStatus = EnumBaseStatus.New;
                 errModule += "Модуля с таким именем нет в базе. ";
             }
             else
@@ -256,7 +270,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 if (moduleInBase == null)
                 {
                     // Не найден модуль с такими параметрами - изменился
-                    module.BaseStatus |= EnumBaseStatus.New;
+                    module.BaseStatus = EnumBaseStatus.New;
                     errModule += "Параметры модуля в квартире изменились или это новый модуль в квартире. ";
                 }
                 // Модуль с такими параметрами найден в базе квартир
