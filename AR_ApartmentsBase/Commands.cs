@@ -61,6 +61,7 @@ namespace AR_ApartmentBase
             ed.WriteMessage("\nAR-BaseApartmentsContour - построение контура квартир с заливкой.");
             ed.WriteMessage("\nAR-BaseApartmentsContourRemove - удаление контура и заливки из квартир.");
             ed.WriteMessage("\nAR-BaseApartmentsSetTypeRooms - установка параметра типа квартиры в помещения по слою квартиры.");
+            ed.WriteMessage("\nAR-BaseApartmentsPlacement - расстановка квартир из папки с подложками.");            
         }
 
         [CommandMethod("PIK", "AR-BaseApartmentsOptions", CommandFlags.Modal)]
@@ -386,6 +387,34 @@ namespace AR_ApartmentBase
                 if (!ex.Message.Contains(AcadLib.General.CanceledByUser))
                 {
                     Logger.Log.Error(ex, $"Command: AR-BaseApartmentsSetTypeRooms. {doc.Name}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Расстановка квартир из папки с подложками
+        /// </summary>
+        [CommandMethod("PIK", "AR-BaseApartmentsPlacement", CommandFlags.Modal 
+            | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor | CommandFlags.Session)]
+        public void BaseApartmentsPlacement()
+        {
+            Logger.Log.Info("Start command AR-BaseApartmentsPlacement");
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            if (doc == null) return;
+            Editor ed = doc.Editor;
+            Database db = doc.Database;
+            try
+            {
+                Inspector.Clear();                
+                ApartmentPlacement.Placement();                
+                Inspector.Show();
+            }
+            catch (System.Exception ex)
+            {
+                doc.Editor.WriteMessage($"\nОшибка : {ex.Message}");
+                if (!ex.Message.Contains(AcadLib.General.CanceledByUser))
+                {
+                    Logger.Log.Error(ex, $"Command: AR-BaseApartmentsPlacement. {doc.Name}");
                 }
             }
         }

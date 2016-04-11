@@ -30,6 +30,7 @@ namespace AR_ApartmentBase.Model.Utils
                     foreach (var room in rooms)
                     {
                         var blRef = room.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
+                        bool isFind = false;
                         if(blRef.AttributeCollection != null)
                         {
                             foreach (ObjectId idAtr in blRef.AttributeCollection)
@@ -40,9 +41,16 @@ namespace AR_ApartmentBase.Model.Utils
                                     atr.UpgradeOpen();
                                     atr.TextString = typeRoom.Trim();
                                     resCount++;
+                                    isFind = true;
                                     break;
                                 }
                             }
+                        }
+                        if (!isFind)
+                        {
+                            var roomName = room.Parameters.Find(p => p.Name.Equals("Name", StringComparison.OrdinalIgnoreCase));
+                            Inspector.AddError($"В помещении '{(roomName==null? "": roomName.Value)}' не определен атрибут типа квартиры {Options.Instance.RoomTypeFlatParameter}",
+                                room.ExtentsInModel, room.IdBlRef, System.Drawing.SystemIcons.Error);
                         }
                     }
                 }
