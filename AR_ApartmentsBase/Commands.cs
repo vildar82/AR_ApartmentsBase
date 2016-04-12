@@ -403,18 +403,21 @@ namespace AR_ApartmentBase
             if (doc == null) return;
             Editor ed = doc.Editor;
             Database db = doc.Database;
-            try
+            using (doc.LockDocument())
             {
-                Inspector.Clear();                
-                ApartmentPlacement.Placement();                
-                Inspector.Show();
-            }
-            catch (System.Exception ex)
-            {
-                doc.Editor.WriteMessage($"\nОшибка : {ex.Message}");
-                if (!ex.Message.Contains(AcadLib.General.CanceledByUser))
+                try
                 {
-                    Logger.Log.Error(ex, $"Command: AR-BaseApartmentsPlacement. {doc.Name}");
+                    Inspector.Clear();
+                    ApartmentPlacement.Placement();                    
+                    Inspector.Show();
+                }
+                catch (System.Exception ex)
+                {
+                    doc.Editor.WriteMessage($"\nОшибка : {ex.Message}");
+                    if (!ex.Message.Contains(AcadLib.General.CanceledByUser))
+                    {
+                        Logger.Log.Error(ex, $"Command: AR-BaseApartmentsPlacement. {doc.Name}");
+                    }
                 }
             }
         }

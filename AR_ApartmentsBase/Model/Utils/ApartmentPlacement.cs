@@ -9,12 +9,17 @@ using System.Windows.Forms;
 using AcadLib.Errors;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Runtime;
 
 namespace AR_ApartmentBase.Model.Utils
 {
     public static class ApartmentPlacement
     {
+        static double placeWidth = 17000;
+        static double placeHeight = 21000;
+
         public static void Placement()
         {
             Document curDoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
@@ -22,13 +27,13 @@ namespace AR_ApartmentBase.Model.Utils
             var folderFlats = getFolderFlats(Path.GetDirectoryName(curDoc.Name));
             if (!Directory.Exists(folderFlats))
             {
-                throw new Exception($"Выбранной папки не существует - {folderFlats}.");
+                throw new System.Exception($"Выбранной папки не существует - {folderFlats}.");
             }
             // Список файлов dwg квартир
             var fileFlats = Directory.GetFiles(folderFlats, "*.dwg", SearchOption.TopDirectoryOnly);
             if (fileFlats.Length == 0)
             {
-                throw new Exception($"Не найдены файлы dwg в папке {folderFlats}.");
+                throw new System.Exception($"Не найдены файлы dwg в папке {folderFlats}.");
             }
 
             // Создание нового файла
@@ -40,23 +45,33 @@ namespace AR_ApartmentBase.Model.Utils
                 copyFlats(fileFlats, docFlats);
                 // Расстановка блоков
                 placementAparts(docFlats.Database);
+
+                docFlats.Editor.ZoomExtents();
             }
         }       
 
         private static void copyFlats(string[] fileFlats, Document docFlats)
         {
-            foreach (var fileFlat in fileFlats)
+            using (var progress = new ProgressMeter())
             {
-                // Копирование блока квартиры из файла подложки
-                try
+                progress.SetLimit(fileFlats.Length);
+                progress.Start("Копирование квартир из файлов подложек...");
+
+                foreach (var fileFlat in fileFlats)
                 {
-                    copyFlat(fileFlat, docFlats.Database.BlockTableId);
+                    progress.MeterProgress();
+                    // Копирование блока квартиры из файла подложки
+                    try
+                    {
+                        copyFlat(fileFlat, docFlats.Database.BlockTableId);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Inspector.AddError($"Ошибка копирования квартиры из файла {fileFlat} - {ex.ToString()}.",
+                            System.Drawing.SystemIcons.Error);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Inspector.AddError($"Ошибка копирования квартиры из файла {fileFlat} - {ex.ToString()}.",
-                        System.Drawing.SystemIcons.Error);
-                }
+                progress.Stop();
             }
         }
 
@@ -94,7 +109,7 @@ namespace AR_ApartmentBase.Model.Utils
             folderDlg.SelectedPath = startFolder;
             if (folderDlg.ShowDialog() != DialogResult.OK)
             {
-                throw new Exception(AcadLib.General.CanceledByUser);
+                throw new System.Exception(AcadLib.General.CanceledByUser);
             }
             return folderDlg.SelectedPath;
         }
@@ -103,30 +118,91 @@ namespace AR_ApartmentBase.Model.Utils
         {
             using (var t = db.TransactionManager.StartTransaction())
             {
+                ObjectId idTextStylePik = db.GetTextStylePIK();
+
                 var bt = db.BlockTableId.GetObject(OpenMode.ForRead) as BlockTable;
                 var ms = bt[BlockTableRecord.ModelSpace].GetObject(OpenMode.ForWrite) as BlockTableRecord;
-                var btrApartGroups = getGroupedAparts(bt);
+                int countAparts;
+                var btrApartGroups = getGroupedAparts(bt, out countAparts);
                 Point3d pt = Point3d.Origin;
-                foreach (var btrApartGroup in btrApartGroups)
+                Point3d ptCenterPlace;                
+
+                using (var progress = new ProgressMeter())
                 {
-                    foreach (var idBtrApart in btrApartGroup)
+                    progress.SetLimit(countAparts);
+                    progress.Start("Расстановка квартир...");
+
+                    foreach (var btrApartGroup in btrApartGroups)
                     {
-                        var blRefApart = new BlockReference(pt, idBtrApart);
-                        blRefApart.SetDatabaseDefaults(db);
+                        progress.MeterProgress();                     
 
-                        ms.AppendEntity(blRefApart);
-                        t.AddNewlyCreatedDBObject(blRefApart, true);
+                        foreach (var idBtrApart in btrApartGroup)
+                        {
+                            var curPlaceWidth = placeWidth;                            
 
-                        pt = new Point3d(pt.X+17000, pt.Y, 0);
+                            var blRefApart = new BlockReference(pt, idBtrApart);
+                            blRefApart.SetDatabaseDefaults(db);
+                            var extApart = blRefApart.GeometricExtents;
+                            var lenApart = extApart.MaxPoint.X - extApart.MinPoint.X;
+                            if (lenApart > placeWidth)
+                            {
+                                curPlaceWidth = lenApart + 1000;
+                            }
+
+                            ptCenterPlace = new Point3d(pt.X + curPlaceWidth*0.5, pt.Y - placeHeight*0.5, 0);
+
+                            
+                            var ptBlCenter = extApart.Center();
+                            // Перемещение блока в центр прямоугольной области
+                            Matrix3d displace = Matrix3d.Displacement(ptCenterPlace - ptBlCenter);
+                            blRefApart.TransformBy(displace);
+                            ms.AppendEntity(blRefApart);
+                            t.AddNewlyCreatedDBObject(blRefApart, true);
+
+                            // Подпись квартиры
+                            DBText text = new DBText();                            
+                            text.SetDatabaseDefaults();
+                            text.TextStyleId = idTextStylePik;
+                            text.Height = 900;
+                            text.TextString = getApartName(blRefApart.Name);
+                            text.Position = new Point3d (pt.X+300, pt.Y+300,0);
+                            ms.AppendEntity(text);
+                            t.AddNewlyCreatedDBObject(text, true);
+
+                            // Прямоугольник расположения квартиры
+                            Polyline pl = new Polyline(4);
+                            pl.AddVertexAt(0, pt.Convert2d(), 0, 0, 0);
+                            pl.AddVertexAt(1, new Point2d (pt.X+ curPlaceWidth, pt.Y), 0, 0, 0);
+                            pl.AddVertexAt(2, new Point2d(pt.X + curPlaceWidth, pt.Y-placeHeight), 0, 0, 0);
+                            pl.AddVertexAt(3, new Point2d(pt.X, pt.Y - placeHeight), 0, 0, 0);
+                            pl.Closed = true;
+                            pl.SetDatabaseDefaults();
+                            ms.AppendEntity(pl);
+                            t.AddNewlyCreatedDBObject(pl, true);                                
+
+                            pt = new Point3d(pt.X + curPlaceWidth, pt.Y, 0);
+                        }
+                        pt = new Point3d(0, pt.Y - placeHeight - 8000, 0);
                     }
-                    pt = new Point3d(0, pt.Y - 21000, 0);
+                    progress.Stop();
                 }
                 t.Commit();
             }
         }
 
-        private static IEnumerable<IGrouping<int, ObjectId>> getGroupedAparts(BlockTable bt)
+        private static string getApartName(string name)
         {
+            var splits = name.Split(new[] { '_' },4);
+            if (splits.Length>3)
+            {
+                return splits[3];
+            }
+            return name;
+        }
+
+        private static IEnumerable<IGrouping<int, ObjectId>> getGroupedAparts(BlockTable bt, out int count)
+        {
+            count = 0;
             List<Tuple<int, ObjectId>> btrAparts = new List<Tuple<int, ObjectId>>();
             foreach (var idBtr in bt)
             {
@@ -135,6 +211,7 @@ namespace AR_ApartmentBase.Model.Utils
                 {
                     int group = getGroup(btr.Name);
                     btrAparts.Add(new Tuple<int, ObjectId>(group, btr.Id));
+                    count++;
                 }
             }
             // группировка 
