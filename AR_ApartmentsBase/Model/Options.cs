@@ -166,16 +166,16 @@ namespace AR_ApartmentBase.Model
       public int DoorOrientLineColorIndex { get; set; } = 111;
 
         //
-        // Помещения
+        // Квартры
         //
 
         /// <summary>
         /// Имя параметра для типа квартиры
         /// /// </summary>
-        [Category("Помещения")]
+        [Category("Квсартиры")]
         [DefaultValue("TYPE_FLAT")]
-        [Description("Тип квартиры.")]
-        public string RoomTypeFlatParameter { get; set; } = "TYPE_FLAT";
+        [Description("Параметр типа квартиры.")]
+        public string ApartmentTypeFlatParameter { get; set; } = "TYPE_FLAT";
 
 
         public static Options Load()

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище SAPRModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище SAPRModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="F_nn_Category_Parameters">
           <Key>
             <PropertyRef Name="ID_CAT_PARAMETER" />
@@ -51,6 +51,7 @@
           <Property Name="COMMERCIAL_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="WORKNAME" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="REVISION" Type="int" Nullable="false" />
+          <Property Name="TYPE_FLAT" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="F_R_Modules">
           <Key>
@@ -176,18 +177,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_F_nn_Elements_Modules_F_nn_Elements_Modules1">
-          <End Role="F_nn_Elements_Modules" Type="Self.F_nn_Elements_Modules" Multiplicity="1" />
-          <End Role="F_nn_Elements_Modules1" Type="Self.F_nn_Elements_Modules" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="F_nn_Elements_Modules">
-              <PropertyRef Name="ID_ELEMENT_IN_MODULE" />
-            </Principal>
-            <Dependent Role="F_nn_Elements_Modules1">
-              <PropertyRef Name="ID_ELEMENT_IN_MODULE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_F_R_FlatModules_F_R_Flats1">
           <End Role="F_R_Flats" Type="Self.F_R_Flats" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -277,10 +266,6 @@
             <End Role="F_S_Elements" EntitySet="F_S_Elements" />
             <End Role="F_nn_Elements_Modules" EntitySet="F_nn_Elements_Modules" />
           </AssociationSet>
-          <AssociationSet Name="FK_F_nn_Elements_Modules_F_nn_Elements_Modules1" Association="Self.FK_F_nn_Elements_Modules_F_nn_Elements_Modules1">
-            <End Role="F_nn_Elements_Modules" EntitySet="F_nn_Elements_Modules" />
-            <End Role="F_nn_Elements_Modules1" EntitySet="F_nn_Elements_Modules" />
-          </AssociationSet>
           <AssociationSet Name="FK_F_R_FlatModules_F_R_Flats1" Association="Self.FK_F_R_FlatModules_F_R_Flats1">
             <End Role="F_R_Flats" EntitySet="F_R_Flats" />
             <End Role="F_nn_FlatModules" EntitySet="F_nn_FlatModules" />
@@ -298,8 +283,7 @@
             <End Role="F_S_Elements" EntitySet="F_S_Elements" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SAPRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -359,6 +343,7 @@
           <Property Name="WORKNAME" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="REVISION" Type="Int32" Nullable="false" />
           <NavigationProperty Name="F_nn_FlatModules" Relationship="Self.FK_F_R_FlatModules_F_R_Flats1" FromRole="F_R_Flats" ToRole="F_nn_FlatModules" />
+          <Property Name="TYPE_FLAT" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="F_R_Modules">
           <Key>
@@ -651,6 +636,7 @@
           <EntitySetMapping Name="F_R_Flats">
             <EntityTypeMapping TypeName="SAPRModel.F_R_Flats">
               <MappingFragment StoreEntitySet="F_R_Flats">
+                <ScalarProperty Name="TYPE_FLAT" ColumnName="TYPE_FLAT" />
                 <ScalarProperty Name="ID_FLAT" ColumnName="ID_FLAT" />
                 <ScalarProperty Name="COMMERCIAL_NAME" ColumnName="COMMERCIAL_NAME" />
                 <ScalarProperty Name="WORKNAME" ColumnName="WORKNAME" />

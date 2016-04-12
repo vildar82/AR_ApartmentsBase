@@ -32,6 +32,12 @@ namespace AR_ApartmentBase.Model.Revit
         /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Параметр типа квартиры - Студия, 1комн, и т.д.
+        /// </summary>
+        public string TypeFlat { get; set; }
+        public AttributeInfo TypeFlatAttr { get; set; }
+
         public ObjectId IdBlRef { get; set; }
         public string Layer { get; set; }
 
@@ -153,10 +159,23 @@ namespace AR_ApartmentBase.Model.Revit
             Rotation = blRef.Rotation;
             Direction = Element.GetDirection(Rotation);
             LocationPoint = TypeConverter.Point(Position);
-            File = Path.Combine(Commands.DirExportApartments, Name + ".dwg");            
+            File = Path.Combine(Commands.DirExportApartments, Name + ".dwg");
+
+            defineAttrs(blRef);
 
             // Определение модулуй в квартире
             Modules = Module.GetModules(this);
+        }
+
+        private void defineAttrs(BlockReference blRef)
+        {
+            var attrs = AttributeInfo.GetAttrRefs(blRef);
+            // Поиск атрибута типа квартиры
+            TypeFlatAttr = attrs.Find(a => a.Tag.Equals(Options.Instance.ApartmentTypeFlatParameter, StringComparison.OrdinalIgnoreCase));
+            if (TypeFlatAttr != null)
+            {
+                TypeFlat = TypeFlatAttr.Text.Trim();
+            }
         }
 
         /// <summary>
@@ -170,6 +189,7 @@ namespace AR_ApartmentBase.Model.Revit
             Modules = new List<Module>();
             DBObject = flatEnt;
             Revision = flatEnt.REVISION;
+            TypeFlat = flatEnt.TYPE_FLAT;
         }
 
         /// <summary>

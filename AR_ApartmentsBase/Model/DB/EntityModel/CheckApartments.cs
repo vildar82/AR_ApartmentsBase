@@ -200,6 +200,13 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                         apart.Revision = apartInBase.Revision + 1;
                     }
 
+                    if (!apart.TypeFlat.Equals(apartInBase.TypeFlat, StringComparison.OrdinalIgnoreCase))
+                    {
+                        errApart += $"Изменился тип квартиры, в базе '{apartInBase.TypeFlat}', в блоке '{apart.TypeFlat}'. ";
+                        apart.BaseStatus = EnumBaseStatus.Changed;
+                        apart.Revision = apartInBase.Revision + 1;
+                    }
+
                     foreach (var module in apart.Modules)
                     {
                         string errModule = string.Empty;

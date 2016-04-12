@@ -364,10 +364,10 @@ namespace AR_ApartmentBase
         /// <summary>
         /// Запись параметра имени квартиры в помещения
         /// </summary>
-        [CommandMethod("PIK", "AR-BaseApartmentsSetTypeRooms", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
-        public void BaseApartmentsSetTypeRooms()
+        [CommandMethod("PIK", "AR-BaseApartmentsSetTypeFlats", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
+        public void BaseApartmentsSetTypeFlats()
         {
-            Logger.Log.Info("Start command AR-BaseApartmentsSetTypeRooms");
+            Logger.Log.Info("Start command AR-BaseApartmentsSetTypeFlats");
             Document doc = Application.DocumentManager.MdiActiveDocument;
             if (doc == null) return;
             Editor ed = doc.Editor;
@@ -386,7 +386,7 @@ namespace AR_ApartmentBase
                 doc.Editor.WriteMessage($"\nОшибка : {ex.Message}");
                 if (!ex.Message.Contains(AcadLib.General.CanceledByUser))
                 {
-                    Logger.Log.Error(ex, $"Command: AR-BaseApartmentsSetTypeRooms. {doc.Name}");
+                    Logger.Log.Error(ex, $"Command: AR-BaseApartmentsSetTypeFlats. {doc.Name}");
                 }
             }
         }

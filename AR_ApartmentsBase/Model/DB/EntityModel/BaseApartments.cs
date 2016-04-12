@@ -184,7 +184,8 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
             if (flatEnt == null)
             {
-                flatEnt = entities.F_R_Flats.Add(new F_R_Flats() { WORKNAME = apart.Name, COMMERCIAL_NAME = "", REVISION = revision });
+                flatEnt = entities.F_R_Flats.Add(new F_R_Flats() { WORKNAME = apart.Name, COMMERCIAL_NAME = "",
+                    REVISION = revision, TYPE_FLAT = apart.TypeFlat });
                 // Привязка модулей
                 attachModulesToFlat(flatEnt, apart);
             }
