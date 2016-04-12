@@ -273,9 +273,11 @@ namespace AR_ApartmentBase.Model.Revit
                     var idBlRefMap = map[IdBlRef].Value;
                     if (!idBlRefMap.IsNull)
                     {
-                        using (var blRef = idBlRefMap.Open(OpenMode.ForWrite, false, true) as BlockReference)
+                        using (var t = db.TransactionManager.StartTransaction())
                         {
+                            var blRef = idBlRefMap.GetObject(OpenMode.ForWrite, false, true) as BlockReference;
                             blRef.Position = Point3d.Origin;
+                            t.Commit();
                         }
                         db.SaveAs(File, DwgVersion.Current);
                     }

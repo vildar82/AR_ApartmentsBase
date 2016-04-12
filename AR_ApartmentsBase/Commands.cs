@@ -377,8 +377,8 @@ namespace AR_ApartmentBase
                 Inspector.Clear();
                 var sel = ed.SelectBlRefs("Выбери квартиры");
                 var apartments = Apartment.GetApartments(sel);
-                var count = RoomsTypeEditor.SetRoomsType(apartments);
-                ed.WriteMessage($"\nЗаписаны параметры типа квартиры в {count} помещений.");
+                RoomsTypeEditor.SetRoomsType(apartments);
+                ed.WriteMessage($"\nПараметры записаны.");
                 Inspector.Show();
             }
             catch (System.Exception ex)

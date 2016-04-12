@@ -12,9 +12,8 @@ namespace AR_ApartmentBase.Model.Utils
 {
     public static class RoomsTypeEditor
     {
-        public static int SetRoomsType(List<Apartment> apartments)
-        {
-            int resCount = 0;
+        public static void SetRoomsType(List<Apartment> apartments)
+        {            
             Database db = HostApplicationServices.WorkingDatabase;
             using (var t = db.TransactionManager.StartTransaction())
             {
@@ -27,15 +26,11 @@ namespace AR_ApartmentBase.Model.Utils
                             apart.IdBlRef, System.Drawing.SystemIcons.Error);
                         continue;
                     }
-                    if (apart.TypeFlatAttr==null || !apart.TypeFlat.Equals(typeFlatValue, StringComparison.OrdinalIgnoreCase))
-                    {
-                        // Добавление атрибута в блок квартиры и во все вхождения
-                        addAttrTypeFlat(apart, typeFlatValue);
-                    }
+                    // Добавление атрибута в блок квартиры и во все вхождения
+                    addAttrTypeFlat(apart, typeFlatValue);
                 }
                 t.Commit();
-            }
-            return resCount;
+            }            
         }        
 
         private static string getRoomType(string layer)
@@ -52,44 +47,45 @@ namespace AR_ApartmentBase.Model.Utils
         {
             var btrApart = apart.IdBtr.GetObject(OpenMode.ForRead) as BlockTableRecord;
 
-            if (apart.TypeFlatAttr != null)
-            {
-                using (var atr = apart.TypeFlatAttr.IdAtr.GetObject(OpenMode.ForRead, false, true) as AttributeReference)
-                {
-                    if (!atr.TextString.Equals(typeFlatValue, StringComparison.OrdinalIgnoreCase))
-                    {
-                        atr.UpgradeOpen();
-                        atr.TextString = typeFlatValue;
-                    }
-                }
-            }
-
-            var atrDeftypeFlat = defineAtrDefTypeFlat(btrApart, typeFlatValue);
+            var atrDeftypeFlat = defineAtrDefTypeFlat(btrApart, typeFlatValue);           
+            
             if (atrDeftypeFlat.Constant) return;
+
             var idsBlRef = btrApart.GetBlockReferenceIds(true, true);
             foreach (ObjectId idBlRef in idsBlRef)
             {
                 using (var blRef = idBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference)
                 {
+                    bool isFind = false;
                     if (blRef.AttributeCollection != null)
                     {
                         foreach (ObjectId idAtr in blRef.AttributeCollection)
                         {
-                            var atr = idAtr.GetObject(OpenMode.ForRead, false, true) as AttributeReference;
-                            if (atr == null || !atr.Tag.Equals(Options.Instance.ApartmentTypeFlatParameter, StringComparison.OrdinalIgnoreCase))
+                            using (var atr = idAtr.GetObject(OpenMode.ForRead, false, true) as AttributeReference)
                             {
+                                if (atr == null || !atr.Tag.Equals(Options.Instance.ApartmentTypeFlatParameter, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    continue;
+                                }
+                                atr.UpgradeOpen();
                                 atr.TextString = typeFlatValue;
+                                atr.Invisible = true;
+                                atr.LockPositionInBlock = true;
+                                isFind = true;
                                 break;
                             }
                         }
                     }
-                    // Добавление атрибута к вхождению блока
-                    AttributeReference atrRef = new AttributeReference();
-                    atrRef.SetAttributeFromBlock(atrDeftypeFlat, blRef.BlockTransform);
-                    atrRef.TextString = typeFlatValue;
-                    blRef.UpgradeOpen();
-                    blRef.AttributeCollection.AppendAttribute(atrRef);
-                    blRef.Database.TransactionManager.TopTransaction.AddNewlyCreatedDBObject(atrRef, true);                    
+                    if (!isFind)
+                    {
+                        // Добавление атрибута к вхождению блока
+                        AttributeReference atrRef = new AttributeReference();
+                        atrRef.SetAttributeFromBlock(atrDeftypeFlat, blRef.BlockTransform);
+                        atrRef.TextString = typeFlatValue;
+                        blRef.UpgradeOpen();
+                        blRef.AttributeCollection.AppendAttribute(atrRef);
+                        blRef.Database.TransactionManager.TopTransaction.AddNewlyCreatedDBObject(atrRef, true);
+                    }
                 }
             }
         }
@@ -104,12 +100,11 @@ namespace AR_ApartmentBase.Model.Utils
                     if (idEnt.ObjectClass.Name != "AcDbAttributeDefinition") continue;
                     var atrDef = idEnt.GetObject(OpenMode.ForRead, false, true) as AttributeDefinition;
                     if (atrDef == null || !atrDef.Tag.Equals(Options.Instance.ApartmentTypeFlatParameter)) continue;
-                    if(!atrDef.TextString.Equals(typeFlatValue, StringComparison.OrdinalIgnoreCase))
-                    {
-                        atrDef.UpgradeOpen();
-                        atrDef.TextString = typeFlatValue;
-                        atrDef.DowngradeOpen();
-                    }
+                    atrDef.UpgradeOpen();
+                    atrDef.TextString = typeFlatValue;
+                    atrDef.Invisible = true;
+                    atrDef.LockPositionInBlock = true;
+                    atrDef.DowngradeOpen();
                     return atrDef;
                 }
             }
@@ -117,6 +112,8 @@ namespace AR_ApartmentBase.Model.Utils
             AttributeDefinition atrDefTypeFlat = new AttributeDefinition(Point3d.Origin, typeFlatValue,
                 Options.Instance.ApartmentTypeFlatParameter, 
                 "Параметр типа квартиры - Студия, 1комн, и т.д.", btrApart.Database.GetTextStylePIK());
+            atrDefTypeFlat.Invisible = true;
+            atrDefTypeFlat.LockPositionInBlock = true;
             btrApart.UpgradeOpen();
             btrApart.AppendEntity(atrDefTypeFlat);
             btrApart.Database.TransactionManager.TopTransaction.AddNewlyCreatedDBObject(atrDefTypeFlat, true);

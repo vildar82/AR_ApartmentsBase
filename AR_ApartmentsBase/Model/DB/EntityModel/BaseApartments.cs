@@ -45,14 +45,12 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         /// <summary>
         /// Экспорт квартир в базу.
         /// </summary>      
-        public static List<ExportDBInfo> Export(List<Apartment> apartments)
+        public static void Export(List<Apartment> apartments)
         {
-            //TestInfoApartmentstoDb(apartments);
-
-            List<ExportDBInfo> exportInfos = new List<ExportDBInfo>();
+            //TestInfoApartmentstoDb(apartments);            
             if (apartments.Count == 0)
             {
-                return exportInfos;
+                return;
             }
 
             using (entities = ConnectEntities())
@@ -140,7 +138,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                     Inspector.AddError(ex.Message, icon: System.Drawing.SystemIcons.Error);
                 }
             }
-            return exportInfos;
+            return;
         }
 
         private static void TestInfoApartmentstoDb(List<Apartment> apartments)

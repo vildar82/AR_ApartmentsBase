@@ -172,7 +172,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\DB\ExportDBInfo.cs" />
     <Compile Include="Model\FormOptions.cs">
       <SubType>Form</SubType>
     </Compile>
