@@ -243,7 +243,6 @@ namespace AR_ApartmentBase.Model.Revit
                         Inspector.AddError($"Ошибка при экспорте блока '{apart.Name}' - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
                     }
                 }
-
                 progress.Stop();
             }
 
