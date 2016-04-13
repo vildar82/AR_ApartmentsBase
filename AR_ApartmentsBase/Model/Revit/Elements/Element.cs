@@ -195,7 +195,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                                blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                         }
 
-                        var parameters = Parameter.GetParameters(blRefElem);
+                        var parameters = Parameter.GetParameters(blRefElem, blName);
                         var categoryElement = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterCategoryName, StringComparison.OrdinalIgnoreCase));
 
                         if (categoryElement == null || string.IsNullOrEmpty(categoryElement.Value))

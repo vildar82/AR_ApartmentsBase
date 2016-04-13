@@ -126,7 +126,7 @@ namespace AR_ApartmentBase.Model.Revit
             Direction = Element.GetDirection(Rotation);
             LocationPoint = TypeConverter.Point(Position);
 
-            Parameters = Parameter.GetParameters(blRefModule);
+            Parameters = Parameter.GetParameters(blRefModule, blName);
 
             Name = getModuleName(blRefModule, blName);
 

@@ -24,15 +24,15 @@ namespace AR_ApartmentBase.Model.Revit
             Value = objectValue.ToString();
         }
 
-        public static List<Parameter> GetParameters(BlockReference blRef)
+        public static List<Parameter> GetParameters(BlockReference blRef, string blName)
         {
             List<Parameter> parameters = new List<Parameter>();
 
             // считывание дин параметров
-            defineDynParams(blRef, parameters);
+            defineDynParams(blRef, parameters, blName);
 
             // считывание атрибутов
-            defineAttributesParam(blRef, parameters);
+            defineAttributesParam(blRef, parameters, blName);
 
             // Сортировка параметров по имени
             parameters = Sort(parameters);
@@ -45,19 +45,19 @@ namespace AR_ApartmentBase.Model.Revit
             return parameters.OrderBy(p => p.Name).ToList();
         }
 
-        private static void defineDynParams(BlockReference blRef, List<Parameter> parameters)
+        private static void defineDynParams(BlockReference blRef, List<Parameter> parameters, string blName)
         {
             if (blRef.IsDynamicBlock)
             {
                 foreach (DynamicBlockReferenceProperty prop in blRef.DynamicBlockReferencePropertyCollection)
                 {
-                    Error errHasParam = new Error($"Дублирование параметра {prop.PropertyName} в блоке {blRef.Name}.", icon: SystemIcons.Error);
+                    Error errHasParam = new Error($"Дублирование параметра {prop.PropertyName} в блоке {blName}.", icon: SystemIcons.Error);
                     addParam(parameters, prop.PropertyName, prop.Value, errHasParam);
                 }
             }
         }
 
-        private static void defineAttributesParam(BlockReference blRef, List<Parameter> parameters)
+        private static void defineAttributesParam(BlockReference blRef, List<Parameter> parameters, string blName)
         {
             if (blRef.AttributeCollection != null)
             {
@@ -67,7 +67,7 @@ namespace AR_ApartmentBase.Model.Revit
 
                     if (atrRef != null)
                     {
-                        Error errHasParam = new Error($"Дублирование параметра {atrRef.Tag} в блоке {blRef.Name}.", icon: SystemIcons.Error);
+                        Error errHasParam = new Error($"Дублирование параметра {atrRef.Tag} в блоке {blName}.", icon: SystemIcons.Error);
                         addParam(parameters, atrRef.Tag, atrRef.TextString, errHasParam);
                     }
                 }
