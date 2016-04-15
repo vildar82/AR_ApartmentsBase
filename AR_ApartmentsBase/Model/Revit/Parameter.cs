@@ -5,6 +5,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using AcadLib.Errors;
 using System.Drawing;
 using AR_ApartmentBase.Model.DB.DbServices;
+using Autodesk.AutoCAD.Geometry;
 
 namespace AR_ApartmentBase.Model.Revit
 {
@@ -24,15 +25,15 @@ namespace AR_ApartmentBase.Model.Revit
             Value = objectValue.ToString();
         }
 
-        public static List<Parameter> GetParameters(BlockReference blRef, string blName)
+        public static List<Parameter> GetParameters(BlockReference blRef, string blName, Matrix3d transToModel)
         {
             List<Parameter> parameters = new List<Parameter>();
 
             // считывание дин параметров
-            defineDynParams(blRef, parameters, blName);
+            defineDynParams(blRef, parameters, blName, transToModel);
 
             // считывание атрибутов
-            defineAttributesParam(blRef, parameters, blName);
+            defineAttributesParam(blRef, parameters, blName, transToModel);
 
             // Сортировка параметров по имени
             parameters = Sort(parameters);
@@ -45,19 +46,20 @@ namespace AR_ApartmentBase.Model.Revit
             return parameters.OrderBy(p => p.Name).ToList();
         }
 
-        private static void defineDynParams(BlockReference blRef, List<Parameter> parameters, string blName)
+        private static void defineDynParams(BlockReference blRef, List<Parameter> parameters, string blName, Matrix3d transToModel)
         {
             if (blRef.IsDynamicBlock)
             {
                 foreach (DynamicBlockReferenceProperty prop in blRef.DynamicBlockReferencePropertyCollection)
                 {
-                    Error errHasParam = new Error($"Дублирование параметра {prop.PropertyName} в блоке {blName}.", icon: SystemIcons.Error);
+                    Error errHasParam = new Error($"Дублирование параметра {prop.PropertyName} в блоке {blName}.",
+                       blRef, transToModel ,icon: SystemIcons.Error);
                     addParam(parameters, prop.PropertyName, prop.Value, errHasParam);
                 }
             }
         }
 
-        private static void defineAttributesParam(BlockReference blRef, List<Parameter> parameters, string blName)
+        private static void defineAttributesParam(BlockReference blRef, List<Parameter> parameters, string blName, Matrix3d transToModel)
         {
             if (blRef.AttributeCollection != null)
             {
@@ -67,7 +69,8 @@ namespace AR_ApartmentBase.Model.Revit
 
                     if (atrRef != null)
                     {
-                        Error errHasParam = new Error($"Дублирование параметра {atrRef.Tag} в блоке {blName}.", icon: SystemIcons.Error);
+                        Error errHasParam = new Error($"Дублирование параметра {atrRef.Tag} в блоке {blName}.",
+                           blRef, transToModel, icon: SystemIcons.Error);
                         addParam(parameters, atrRef.Tag, atrRef.TextString, errHasParam);
                     }
                 }

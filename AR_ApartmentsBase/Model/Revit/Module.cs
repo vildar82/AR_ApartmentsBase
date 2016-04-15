@@ -38,7 +38,7 @@ namespace AR_ApartmentBase.Model.Revit
 
         public ObjectId IdBtr { get; set; }
 
-        public Matrix3d BlockTransform { get; set; }
+        public Matrix3d BlockTransform { get; set; }        
 
         public List<Parameter> Parameters { get; set; }
 
@@ -126,7 +126,7 @@ namespace AR_ApartmentBase.Model.Revit
             Direction = Element.GetDirection(Rotation);
             LocationPoint = TypeConverter.Point(Position);
 
-            Parameters = Parameter.GetParameters(blRefModule, blName);
+            Parameters = Parameter.GetParameters(blRefModule, blName, apartment.BlockTransform);
 
             Name = getModuleName(blRefModule, blName);
 
