@@ -61,7 +61,8 @@ namespace AR_ApartmentBase
             ed.WriteMessage("\nAR-BaseApartmentsContour - построение контура квартир с заливкой.");
             ed.WriteMessage("\nAR-BaseApartmentsContourRemove - удаление контура и заливки из квартир.");
             ed.WriteMessage("\nAR-BaseApartmentsSetTypeFlats - установка атрибута типа квартиры по слою квартиры.");
-            ed.WriteMessage("\nAR-BaseApartmentsPlacement - расстановка квартир из папки с подложками.");            
+            ed.WriteMessage("\nAR-BaseApartmentsPlacement - расстановка квартир из папки с подложками.");
+            ed.WriteMessage("\nAR-BaseApartmentsremoveDublicateAttributes - удаление звдублированных атрибутов.");            
         }
 
         [CommandMethod("PIK", "AR-BaseApartmentsOptions", CommandFlags.Modal)]
