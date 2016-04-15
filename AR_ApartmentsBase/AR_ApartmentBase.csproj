@@ -196,6 +196,7 @@
     <Compile Include="Model\Revit\Parameter.cs" />
     <Compile Include="Model\Options.cs" />
     <Compile Include="Model\Utils\ApartmentPlacement.cs" />
+    <Compile Include="Model\Utils\RemoveDublicateAttributes.cs" />
     <Compile Include="Model\Utils\RoomsTypeEditor.cs" />
     <Compile Include="Model\Utils\SaveDynProp.cs" />
     <Compile Include="Model\Utils\SaveDynPropsHelper.cs" />

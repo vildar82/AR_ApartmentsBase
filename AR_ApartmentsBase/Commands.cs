@@ -421,5 +421,37 @@ namespace AR_ApartmentBase
                 }
             }
         }
+
+        /// <summary>
+        /// Расстановка квартир из папки с подложками
+        /// </summary>
+        [CommandMethod("PIK", "AR-BaseApartmentsremoveDublicateAttributes", CommandFlags.Modal
+            | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
+        public void BaseApartmentsremoveDublicateAttributes()
+        {
+            Logger.Log.Info("Start command AR-BaseApartmentsremoveDublicateAttributes");
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            if (doc == null) return;
+            Editor ed = doc.Editor;
+            Database db = doc.Database;
+            using (doc.LockDocument())
+            {
+                try
+                {
+                    Inspector.Clear();
+                    int count = RemoveDublicateAttributes.Remove();
+                    ed.WriteMessage($"Удалено {count} дублирующихся атрибутов.");
+                    Inspector.Show();
+                }
+                catch (System.Exception ex)
+                {
+                    doc.Editor.WriteMessage($"\nОшибка : {ex.Message}");
+                    if (!ex.Message.Contains(AcadLib.General.CanceledByUser))
+                    {
+                        Logger.Log.Error(ex, $"Command: AR-BaseApartmentsremoveDublicateAttributes. {doc.Name}");
+                    }
+                }
+            }
+        }
     }
 }        
