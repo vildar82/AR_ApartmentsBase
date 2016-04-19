@@ -276,12 +276,70 @@ namespace AR_ApartmentBase.Model.Revit
                         {
                             var blRef = idBlRefMap.GetObject(OpenMode.ForWrite, false, true) as BlockReference;
                             blRef.Position = Point3d.Origin;
+
+                            // Изменение вида
+                            if (blRef.Bounds.HasValue)
+                            {
+                                try
+                                {
+                                    zoomDb(db, blRef.Bounds.Value);
+                                    // Перенос штриховки на задний план
+                                    var btrApart = blRef.BlockTableRecord.GetObject(OpenMode.ForRead) as BlockTableRecord;
+                                    var orders = btrApart.DrawOrderTableId.GetObject(OpenMode.ForWrite) as DrawOrderTable;
+                                    var idsHatch = new ObjectIdCollection();
+                                    foreach (var idEnt in btrApart)
+                                        if (idEnt.ObjectClass == RXClass.GetClass(typeof(Hatch)))
+                                            idsHatch.Add(idEnt);
+                                    if (idsHatch.Count > 0)
+                                        orders.MoveToBottom(idsHatch);                                    
+                                    // Превью чертежа из блока квартиры
+                                    db.ThumbnailBitmap = new Bitmap(btrApart.PreviewIcon, new Size(320, 270));                                    
+                                }
+                                catch { }
+                            }
                             t.Commit();
                         }
                         db.SaveAs(File, DwgVersion.Current);
                     }
                 }
                 //Inspector.AddError($"Экспортирован блок {Name} в файл {File}", IdBlRef, icon: System.Drawing.SystemIcons.Information);
+            }
+        }
+
+        private void zoomDb(Autodesk.AutoCAD.DatabaseServices.Database db, Extents3d ext)
+        {
+            using (var switcher = new AcadLib.WorkingDatabaseSwitcher(db))
+            {
+                //db.UpdateExt(true);
+                using (ViewportTable vTab = db.ViewportTableId.GetObject(OpenMode.ForRead) as ViewportTable)
+                {
+                    ObjectId acVptId = vTab["*Active"];
+                    using (ViewportTableRecord vpTabRec = acVptId.GetObject(OpenMode.ForWrite) as ViewportTableRecord)
+                    {
+                        double scrRatio = (vpTabRec.Width / vpTabRec.Height);
+                        //Matrix3d matWCS2DCS = Matrix3d.PlaneToWorld(vpTabRec.ViewDirection);
+                        //matWCS2DCS = Matrix3d.Displacement(vpTabRec.Target - Point3d.Origin) * matWCS2DCS;
+                        //matWCS2DCS = Matrix3d.Rotation(-vpTabRec.ViewTwist,
+                        //                                vpTabRec.ViewDirection,
+                        //                                vpTabRec.Target)
+                        //                                * matWCS2DCS;
+                        //matWCS2DCS = matWCS2DCS.Inverse();
+                        //Extents3d extents = new Extents3d(db.Extmin, db.Extmax);
+                        //extents.TransformBy(matWCS2DCS);
+                        //double width = (extents.MaxPoint.X - extents.MinPoint.X);
+                        //double height = (extents.MaxPoint.Y - extents.MinPoint.Y);
+                        //Point2d center = new Point2d((extents.MaxPoint.X + extents.MinPoint.X) * 0.5,
+                        //                             (extents.MaxPoint.Y + extents.MinPoint.Y) * 0.5);
+
+                        double width = (ext.MaxPoint.X - ext.MinPoint.X);
+                        double height = (ext.MaxPoint.Y - ext.MinPoint.Y);
+                        if (width > (height * scrRatio))
+                            height = width / scrRatio;
+                        vpTabRec.Height = ext.MaxPoint.Y-ext.MinPoint.Y;
+                        vpTabRec.Width = height * scrRatio;
+                        vpTabRec.CenterPoint = ext.Center().Convert2d();
+                    }
+                }
             }
         }
 
