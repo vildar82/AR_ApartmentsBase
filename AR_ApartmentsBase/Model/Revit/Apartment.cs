@@ -219,6 +219,9 @@ namespace AR_ApartmentBase.Model.Revit
             int count = 0;
             DateTime now = DateTime.Now;
 
+            // Бекап старых подложек            
+            BackupOldApartmentsFile();            
+
             // Выключение слоев штриховки
             layersOff = LayerService.LayersOff(Options.Instance.LayersOffMatch);
 
@@ -250,6 +253,32 @@ namespace AR_ApartmentBase.Model.Revit
             LayerService.LayersOn(layersOff);
 
             return count;
+        }
+
+        private static void BackupOldApartmentsFile()
+        {
+            try
+            {
+                var files = Directory.GetFiles(Commands.DirExportApartments, "*.dwg");
+                if (files.Length > 0)
+                {
+                    // Куда архивировать
+                    var dirBak = Path.Combine(Commands.DirExportApartments, @"Архив\Квартиры_" + DateTime.Now.ToString("dd-MM-yyyy"));
+                    if (!Directory.Exists(dirBak))
+                    {
+                        Directory.CreateDirectory(dirBak);
+                    }
+                    foreach (var fileOldApart in files)
+                    {
+                        var dest = Path.Combine(dirBak, Path.GetFileName(fileOldApart));
+                        System.IO.File.Move(fileOldApart, dest);
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Logger.Log.Error(ex, $"BackupOldApartmentsFile - {Commands.DirExportApartments}");
+            }
         }
 
         /// <summary>

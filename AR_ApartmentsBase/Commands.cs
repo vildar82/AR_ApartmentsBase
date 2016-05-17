@@ -118,11 +118,10 @@ namespace AR_ApartmentBase
 
                 // Проверка дубликатов блоков    
                 CheckDublicateBlocks.Tolerance = new Autodesk.AutoCAD.Geometry.Tolerance(0.02, 15);                
-                CheckDublicateBlocks.Check(new HashSet<string>() { "RV_EL_BS_Базовая стена", "RV_EL_BS_Вентиляционный блок" });                
+                CheckDublicateBlocks.Check(new HashSet<string>() { "RV_EL_BS_Базовая стена", "RV_EL_BS_Вентиляционный блок" });
 
-                // Создание папки для экспорта подложек квуартир
-                DirExportApartments = Path.Combine(Path.GetDirectoryName(db.Filename), @"Квартиры_" + Path.GetFileNameWithoutExtension(db.Filename));
-                Directory.CreateDirectory(DirExportApartments);
+                // Создание папки для экспорта подложек квуартир                
+                DefineDirExportFilesApartments(db);                
 
                 // Считывание блоков квартир из чертежа                
                 var apartments = Apartment.GetApartments(db);
@@ -218,6 +217,21 @@ namespace AR_ApartmentBase
                     Logger.Log.Error(ex, $"Command: AR-BaseApartmentsExport. {doc.Name}");
                 }
             }
+        }
+
+        private void DefineDirExportFilesApartments(Database db)
+        {
+            string dirExport = @"Z:\Revit_server\01. Libraries\Revit 2015\#Группы_квартиры & МОПы\Квартиры_PIK1_PIK1У_База квартир и МОПы";            
+            if (!Directory.Exists(dirExport))
+            {
+                dirExport = dirExport.Replace("Z:", @"\\dsk2.picompany.ru\project\CAD_Settings");
+                if (!Directory.Exists(dirExport))
+                {
+                    dirExport = Path.Combine(Path.GetDirectoryName(db.Filename), @"Квартиры_" + Path.GetFileNameWithoutExtension(db.Filename));
+                    Directory.CreateDirectory(dirExport);
+                }
+            }            
+            DirExportApartments = dirExport;            
         }
 
         /// <summary>
