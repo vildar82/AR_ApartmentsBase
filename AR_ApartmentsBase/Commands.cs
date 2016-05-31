@@ -221,16 +221,12 @@ namespace AR_ApartmentBase
 
         private void DefineDirExportFilesApartments(Database db)
         {
-            string dirExport = @"Z:\Revit_server\01. Libraries\Revit 2015\#Группы_квартиры & МОПы\Квартиры_PIK1_PIK1У_База квартир и МОПы";            
+            string dirExport = Options.Instance.FolderExportApartments; //@"Z:\Revit_server\01. Libraries\Revit 2015\#Группы_квартиры & МОПы\Квартиры_PIK1_PIK1У_База квартир и МОПы";
             if (!Directory.Exists(dirExport))
             {
-                dirExport = dirExport.Replace("Z:", @"\\dsk2.picompany.ru\project\CAD_Settings");
-                if (!Directory.Exists(dirExport))
-                {
-                    dirExport = Path.Combine(Path.GetDirectoryName(db.Filename), @"Квартиры_" + Path.GetFileNameWithoutExtension(db.Filename));
-                    Directory.CreateDirectory(dirExport);
-                }
-            }            
+                dirExport = Path.Combine(Path.GetDirectoryName(db.Filename), @"Квартиры_" + Path.GetFileNameWithoutExtension(db.Filename));
+                Directory.CreateDirectory(dirExport);
+            }
             DirExportApartments = dirExport;            
         }
 
