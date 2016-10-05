@@ -138,10 +138,10 @@ namespace AR_ApartmentBase.Model
         /// <summary>
         /// Имя параметра для имени модуля
         /// </summary>
-        [Category("Двери")]
+        [Category("Стены")]
         [DefaultValue("IdWall")]
         [Description("Имя параметра принадлежности стене.")]
-        public string DoorHostWallParameter { get; set; } = "IdWall";
+        public string HostWallParameter { get; set; } = "IdWall";
 
         /// <summary>
         /// Номер цвета для отрезка определяющего направление открывания двери

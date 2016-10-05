@@ -4,28 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcadLib.Errors;
-using AR_ApartmentBase.Model.DB.DbServices;
+using AcadLib.Geometry;
 using AR_ApartmentBase.Model.DB.EntityModel;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
-using AcadLib.Geometry;
 
 namespace AR_ApartmentBase.Model.Revit.Elements
 {
-    public class DoorElement : Element
+    public class WallHostBase : Element, IWallHost
     {
         public List<WallElement> HostWall { get; set; }
-        //public int count = -1;
 
-        public DoorElement(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
+        public WallHostBase (BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
               : base(blRefElem, module, blName, parameters, category)
         {
             // Добавление параметра idWall - 0 - условно
-            Parameters.Add(new Parameter(Options.Instance.DoorHostWallParameter, "0"));
+            Parameters.Add(new Parameter(Options.Instance.HostWallParameter, "0"));
             DefineOrientation(blRefElem);
         }
 
-        public DoorElement(Module module, F_nn_Elements_Modules emEnt)
+        public WallHostBase (Module module, F_nn_Elements_Modules emEnt)
            : base(module, emEnt)
         {
 
@@ -34,7 +31,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         /// <summary>
         ///  Поиск блока стены по границам стен и точке вставки блока двери
         /// </summary>
-        public void SearchHostWallDwg(List<Element> elements)
+        public void SearchHostWallDwg (List<Element> elements)
         {
             this.HostWall = new List<WallElement>();
             var walls = elements.OfType<WallElement>();
@@ -54,12 +51,12 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                     {
                         HostWall.Add(wall);
                     }
-                }                
+                }
             }
             // Ошибка если не найдена стена
             if (this.HostWall.Count == 0)
             {
-                Inspector.AddError($"Не определена стена для двери {FamilySymbolName}. ",
+                Inspector.AddError($"Не определена стена для элемента {FamilySymbolName}. ",
                       ExtentsInModel, IdBlRef, System.Drawing.SystemIcons.Error);
                 // Исключить дверь из элементов модуля - и дверь не будет записана в базк
                 elements.Remove(this);
@@ -69,11 +66,11 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         /// <summary>
         /// Определение стены для двери в объектах созданных не из чертежа, а из базы
         /// </summary>
-        public void SearchHostWallDB(F_R_Modules moduleEnt)
+        public void SearchHostWallDB (F_R_Modules moduleEnt)
         {
             HostWall = new List<WallElement>();
             // найти стену по id в параметре двери
-            var paramIdWall = Parameters.Single(p => p.Name.Equals(Options.Instance.DoorHostWallParameter, StringComparison.OrdinalIgnoreCase));
+            var paramIdWall = Parameters.Single(p => p.Name.Equals(Options.Instance.HostWallParameter, StringComparison.OrdinalIgnoreCase));
             var idsWall = paramIdWall.Value.Split(';');
             foreach (var item in idsWall)
             {
@@ -81,23 +78,23 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                 // найти стену в элементах модуля         
                 var wall = this.Module.Elements.SingleOrDefault(e => ((F_nn_Elements_Modules)e.DBObject).ID_ELEMENT_IN_MODULE == idWall);
                 HostWall.Add((WallElement)wall);
-            }            
+            }
         }
 
-        public override bool Equals(Element other)
+        public override bool Equals (Element other)
         {
-            DoorElement door2 = other as DoorElement;
-            if (door2 == null) return false;
-            if (ReferenceEquals(this, door2)) return true;
+            WallHostBase elemHost2 = other as WallHostBase;
+            if (elemHost2 == null) return false;
+            if (ReferenceEquals(this, elemHost2)) return true;
 
-            var param1 = Parameters.Where(p => !p.Name.Equals(Options.Instance.DoorHostWallParameter, StringComparison.OrdinalIgnoreCase)).ToList();
-            var param2 = door2.Parameters.Where(p => !p.Name.Equals(Options.Instance.DoorHostWallParameter, StringComparison.OrdinalIgnoreCase)).ToList();
+            var param1 = Parameters.Where(p => !p.Name.Equals(Options.Instance.HostWallParameter, StringComparison.OrdinalIgnoreCase)).ToList();
+            var param2 = elemHost2.Parameters.Where(p => !p.Name.Equals(Options.Instance.HostWallParameter, StringComparison.OrdinalIgnoreCase)).ToList();
 
-            return FamilyName.Equals(door2.FamilyName, StringComparison.OrdinalIgnoreCase) &&
-                   FamilySymbolName.Equals(door2.FamilySymbolName, StringComparison.OrdinalIgnoreCase) &&
-                   Direction.Equals(door2.Direction) &&
-                   LocationPoint.Equals(door2.LocationPoint) &&
-                   (HostWall != null && HostWall.Count==door2.HostWall.Count) &&
+            return FamilyName.Equals(elemHost2.FamilyName, StringComparison.OrdinalIgnoreCase) &&
+                   FamilySymbolName.Equals(elemHost2.FamilySymbolName, StringComparison.OrdinalIgnoreCase) &&
+                   Direction.Equals(elemHost2.Direction) &&
+                   LocationPoint.Equals(elemHost2.LocationPoint) &&
+                   (HostWall != null && HostWall.Count == elemHost2.HostWall.Count) &&
                    Parameter.Equal(param1, param2);
         }
     }

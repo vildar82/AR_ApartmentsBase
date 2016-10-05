@@ -190,11 +190,13 @@
     <Compile Include="Model\Export\FormBlocksExport.Designer.cs">
       <DependentUpon>FormBlocksExport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Revit\Elements\DoorElement.cs" />
+    <Compile Include="Model\Revit\Elements\HostWall\DoorElement.cs" />
     <Compile Include="Model\Revit\Elements\Element.cs" />
     <Compile Include="Model\Revit\Elements\ElementFactory.cs" />
+    <Compile Include="Model\Revit\Elements\HostWall\IWallHost.cs" />
     <Compile Include="Model\Revit\Elements\WallElement.cs" />
-    <Compile Include="Model\Revit\Elements\WindowElement.cs" />
+    <Compile Include="Model\Revit\Elements\HostWall\WallHostBase.cs" />
+    <Compile Include="Model\Revit\Elements\HostWall\WindowElement.cs" />
     <Compile Include="Model\Revit\EnumBaseStatus.cs" />
     <Compile Include="Model\Revit\IRevitBlock.cs" />
     <Compile Include="Model\Revit\Module.cs" />

@@ -17,7 +17,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 {
     public static class BaseApartments
     {
-        private static List<Tuple<F_nn_Elements_Modules, List<F_nn_Elements_Modules>>> doorsAndHostWall;
+        private static List<Tuple<F_nn_Elements_Modules, List<F_nn_Elements_Modules>>> elemsAndHostWall;
 
         private static SAPREntities entities;
 
@@ -72,7 +72,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 try
                 {
                     // Элементы дверей и их стены - для обновления параметрв idWall
-                    doorsAndHostWall = new List<Tuple<F_nn_Elements_Modules, List<F_nn_Elements_Modules>>>();
+                    elemsAndHostWall = new List<Tuple<F_nn_Elements_Modules, List<F_nn_Elements_Modules>>>();
 
                     // Модули - новые или с изменениями
                     var modules = apartments.SelectMany(a => a.Modules)
@@ -117,9 +117,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                     entities.SaveChanges();
 
                     // обновление параметра стен для дверей
-                    if (doorsAndHostWall.Count > 0)
+                    if (elemsAndHostWall.Count > 0)
                     {
-                        foreach (var doorAndHostWall in doorsAndHostWall)
+                        foreach (var doorAndHostWall in elemsAndHostWall)
                         {
                             F_nn_Elements_Modules doorEmEnt = doorAndHostWall.Item1;
                             string hostWallsValue = string.Join(";", doorAndHostWall.Item2.Select(w => w.ID_ELEMENT_IN_MODULE.ToString()));                            
@@ -127,7 +127,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                             // Поиск параметра IdWall для заполнения
                             var paramHostWall = doorEmEnt.F_S_Elements.F_nn_ElementParam_Value.Single(p =>
                                   p.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER
-                                     .Equals(Options.Instance.DoorHostWallParameter, StringComparison.OrdinalIgnoreCase));
+                                     .Equals(Options.Instance.HostWallParameter, StringComparison.OrdinalIgnoreCase));
                             paramHostWall.PARAMETER_VALUE = hostWallsValue;// wallEmEnt.ID_ELEMENT_IN_MODULE.ToString();
                         }
                     }
@@ -272,17 +272,17 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 var elemInModEnt = addElemToModule(elemEnt, moduleEnt, elem);
             }
             // Для дверей - найти стену в базе и сохранить в список doorsAndHostWall для записи реального idWall после первого обновления базы.
-            var doors = module.Elements.OfType<DoorElement>();
-            foreach (var door in doors)
+            var hostsWallElems = module.Elements.OfType<IWallHost>();
+            foreach (var host in hostsWallElems)
             {
-                F_nn_Elements_Modules doorEmEnt = (F_nn_Elements_Modules)door.DBObject;
+                F_nn_Elements_Modules hostEmEnt = (F_nn_Elements_Modules)host.DBObject;
                 List<F_nn_Elements_Modules> wallsHost = new List<F_nn_Elements_Modules>();
-                foreach (var item in door.HostWall)
+                foreach (var item in host.HostWall)
                 {
                     F_nn_Elements_Modules wallEmEnt = (F_nn_Elements_Modules)item.DBObject;
                     wallsHost.Add(wallEmEnt);
                 }
-                doorsAndHostWall.Add(new Tuple<F_nn_Elements_Modules, List<F_nn_Elements_Modules>>(item1: doorEmEnt, item2: wallsHost));
+                elemsAndHostWall.Add(new Tuple<F_nn_Elements_Modules, List<F_nn_Elements_Modules>>(item1: hostEmEnt, item2: wallsHost));
             }
         }
 

@@ -241,11 +241,11 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                 }
             }
 
-            // Для дверей поиск их стен
-            var doors = elements.OfType<DoorElement>().ToList();
-            foreach (var door in doors)
+            // Для элементов стены (которые должны принадлежать стене)
+            var hostsWallElems = elements.OfType<IWallHost>().ToList();
+            foreach (var hostWall in hostsWallElems)
             {
-                door.SearchHostWallDwg(elements);
+                hostWall.SearchHostWallDwg(elements);
             }
             elements.Sort((e1, e2) => e1.Name.CompareTo(e2.Name));
             return elements;
