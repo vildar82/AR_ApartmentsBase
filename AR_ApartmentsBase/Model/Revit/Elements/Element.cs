@@ -64,18 +64,19 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                 if (!_extentsAreDefined)
                 {
                     _extentsAreDefined = true;
-                    using (var blRef = IdBlRef.Open(OpenMode.ForRead, false, true) as BlockReference)
+                    using (var t = IdBlRef.Database.TransactionManager.StartTransaction())
                     {
+                        var blRef = IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;                    
                         try
                         {
                             _extentsInModel = blRef.GeometricExtents;
                             _extentsInModel.TransformBy(Module.BlockTransform * Module.Apartment.BlockTransform);
-
                         }
                         catch
                         {
                             _extentsIsNull = true;
                         }
+                        t.Commit();
                     }
                 }
                 //if (_extentsIsNull)
@@ -309,7 +310,8 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         {
             if (other == null) return false;
             if (object.ReferenceEquals(this, other)) return true;
-            var res = this.Direction.Equals(other.Direction) &&
+            var res = this.CategoryElement.Equals(other.CategoryElement) &&
+                this.Direction.Equals(other.Direction) &&
                this.LocationPoint.Equals(other.LocationPoint) &&
                this.FamilyName.Equals(other.FamilyName) &&
                this.FamilySymbolName.Equals(other.FamilySymbolName) &&
@@ -332,6 +334,34 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             {
                 Error.AdditionToMessage(errElem);
             }
+        }
+
+        public void DefineOrientation (BlockReference blRefElem)
+        {
+            // Определение направления
+            var btr = blRefElem.BlockTableRecord.GetObject(OpenMode.ForRead) as BlockTableRecord;
+            bool isFinded = false;
+            foreach (var idEnt in btr)
+            {
+                var lineOrient = idEnt.GetObject(OpenMode.ForRead, false, true) as Line;
+                if (lineOrient == null || lineOrient.ColorIndex != Options.Instance.DirectionLineColorIndex || !lineOrient.Visible) continue;
+                var lineTemp = (Line)lineOrient.Clone();
+                lineTemp.TransformBy(blRefElem.BlockTransform);
+                Direction = Element.GetDirection(lineTemp.Angle);
+                isFinded = true;
+                break;
+            }
+            if (!isFinded)
+            {
+                Inspector.AddError($"Не определено направление открывания в блоке - {Name}. " +
+                   $"Направление открывания определяется отрезком с цветом {Options.Instance.DirectionLineColorIndex} - вектор от стартовой точки отрезка.",
+                   this.ExtentsInModel, this.IdBlRef, System.Drawing.SystemIcons.Error);
+            }
+        }
+
+        public override int GetHashCode ()
+        {
+            return CategoryElement.GetHashCode() ^ FamilyName.GetHashCode() ^ FamilySymbolName.GetHashCode();
         }
     }
 }

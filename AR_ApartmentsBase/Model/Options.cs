@@ -132,26 +132,6 @@ namespace AR_ApartmentBase.Model
         public string ParameterModuleName { get; set; } = "Тип";
 
         //
-        // Категории элементов
-        //
-
-        /// <summary>
-        /// Категория стен
-        /// </summary>
-        [Category("Категории")]
-        [DefaultValue("Стены")]
-        [Description("Имя категории для стен.")]
-        public string CategoryWallName { get; set; } = "Стены";
-
-        /// <summary>
-        /// Категория стен
-        /// </summary>
-        [Category("Категории")]
-        [DefaultValue("Двери")]
-        [Description("Имя категории для дверей.")]
-        public string CategoryDoorName { get; set; } = "Двери";
-
-        //
         // двери
         //
 
@@ -166,10 +146,10 @@ namespace AR_ApartmentBase.Model
         /// <summary>
         /// Номер цвета для отрезка определяющего направление открывания двери
         /// </summary>
-        [Category("Двери")]
+        [Category("Направление")]
         [DefaultValue(111)]
-        [Description("Номер цвета для отрезка определяющего направление открывания двери.")]
-        public int DoorOrientLineColorIndex { get; set; } = 111;
+        [Description("Номер цвета для отрезка определяющего направление.")]
+        public int DirectionLineColorIndex { get; set; } = 111;
 
         //
         // Квартры

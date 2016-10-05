@@ -194,6 +194,7 @@
     <Compile Include="Model\Revit\Elements\Element.cs" />
     <Compile Include="Model\Revit\Elements\ElementFactory.cs" />
     <Compile Include="Model\Revit\Elements\WallElement.cs" />
+    <Compile Include="Model\Revit\Elements\WindowElement.cs" />
     <Compile Include="Model\Revit\EnumBaseStatus.cs" />
     <Compile Include="Model\Revit\IRevitBlock.cs" />
     <Compile Include="Model\Revit\Module.cs" />

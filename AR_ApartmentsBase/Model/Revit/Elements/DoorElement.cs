@@ -22,6 +22,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         {
             // Добавление параметра idWall - 0 - условно
             Parameters.Add(new Parameter(Options.Instance.DoorHostWallParameter, "0"));
+            DefineOrientation(blRefElem);
         }
 
         public DoorElement(Module module, F_nn_Elements_Modules emEnt)
@@ -62,29 +63,6 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                       ExtentsInModel, IdBlRef, System.Drawing.SystemIcons.Error);
                 // Исключить дверь из элементов модуля - и дверь не будет записана в базк
                 elements.Remove(this);
-            }
-        }
-
-        public void DefineOrientation(BlockReference blRefElem)
-        {
-            // Определение направления
-            var btr = blRefElem.BlockTableRecord.GetObject(OpenMode.ForRead) as BlockTableRecord;
-            bool isFinded = false;
-            foreach (var idEnt in btr)
-            {
-                var lineOrient = idEnt.GetObject(OpenMode.ForRead, false, true) as Line;
-                if (lineOrient == null || lineOrient.ColorIndex != Options.Instance.DoorOrientLineColorIndex || !lineOrient.Visible) continue;
-                var lineTemp = (Line)lineOrient.Clone();
-                lineTemp.TransformBy(blRefElem.BlockTransform);
-                Direction = Element.GetDirection(lineTemp.Angle);
-                isFinded = true;
-                break;
-            }
-            if (!isFinded)
-            {
-                Inspector.AddError($"Не определено направление открывания двери {Name}. " +
-                   $"Направление открывания двери определяется отрезком с цветом {Options.Instance.DoorOrientLineColorIndex} в блоке двери.",
-                   this.ExtentsInModel, this.IdBlRef, System.Drawing.SystemIcons.Error);
             }
         }
 
