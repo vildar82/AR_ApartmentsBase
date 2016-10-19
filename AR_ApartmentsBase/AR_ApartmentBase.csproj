@@ -51,30 +51,6 @@
     <AssemblyVersionSettings>None.None.DayOfYearStamp.Increment</AssemblyVersionSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AcadLib">
-      <HintPath>..\..\..\AcadLib\AcadLib\bin\Release\AcadLib.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AcCoreMgd, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoCAD.NET.Core.20.0.1\lib\45\AcCoreMgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AcDbMgd, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoCAD.NET.Model.20.0.1\lib\45\AcDbMgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="acdbmgdbrep, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoCAD.NET.Model.20.0.1\lib\45\acdbmgdbrep.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AcMgd, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoCAD.NET.20.0.1\lib\45\AcMgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AutoCAD_PIK_Manager">
-      <HintPath>..\..\..\AutoCAD_PIK_Manager\AutoCAD_PIK_Manager\bin\Release\AutoCAD_PIK_Manager.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -84,27 +60,6 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="EPPlus">
-      <HintPath>..\..\..\Package\Excel\EPPlus.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="GeoAPI, Version=1.7.4.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
-      <HintPath>..\packages\GeoAPI.1.7.4\lib\net45\GeoAPI.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
-      <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="NetTopologySuite, Version=1.14.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NetTopologySuite.1.14\lib\net45\NetTopologySuite.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="PowerCollections, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2573bf8a1bdddcd5, processorArchitecture=MSIL">
-      <HintPath>..\packages\NetTopologySuite.1.14\lib\net45\PowerCollections.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -122,13 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="Model\AcadServices\ContourHelper.cs" />
-    <Compile Include="Model\AcadServices\LayerService.cs" />
     <Compile Include="Model\DB\AccessUsers.cs" />
-    <Compile Include="Model\DB\DbServices\TypeConverter.cs" />
-    <Compile Include="Model\DB\EntityModel\CheckApartments.cs" />
     <Compile Include="Model\DB\EntityModel\BaseApartments.cs" />
     <Compile Include="Model\DB\EntityModel\F_nn_Category_Parameters.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -160,7 +109,6 @@
     <Compile Include="Model\DB\EntityModel\F_S_Parameters.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\DB\EntityModel\GetApartments.cs" />
     <Compile Include="Model\DB\EntityModel\Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -176,43 +124,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\FormOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Model\FormOptions.Designer.cs">
-      <DependentUpon>FormOptions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Revit\Apartment.cs" />
-    <Compile Include="Model\Export\ExcelLog.cs" />
-    <Compile Include="Model\Export\FormBlocksExport.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Model\Export\FormBlocksExport.Designer.cs">
-      <DependentUpon>FormBlocksExport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Revit\Elements\HostWall\DoorElement.cs" />
-    <Compile Include="Model\Revit\Elements\Element.cs" />
-    <Compile Include="Model\Revit\Elements\ElementFactory.cs" />
-    <Compile Include="Model\Revit\Elements\HostWall\IWallHost.cs" />
-    <Compile Include="Model\Revit\Elements\WallElement.cs" />
-    <Compile Include="Model\Revit\Elements\HostWall\WallHostBase.cs" />
-    <Compile Include="Model\Revit\Elements\HostWall\WindowElement.cs" />
-    <Compile Include="Model\Revit\EnumBaseStatus.cs" />
-    <Compile Include="Model\Revit\IRevitBlock.cs" />
-    <Compile Include="Model\Revit\Module.cs" />
-    <Compile Include="Model\Revit\Parameter.cs" />
+    <Compile Include="Model\Apartment.cs" />
+    <Compile Include="Model\Elements\Element.cs" />
+    <Compile Include="Model\Elements\IElement.cs" />
+    <Compile Include="Model\Elements\IWallHost.cs" />
+    <Compile Include="Model\Module.cs" />
     <Compile Include="Model\Options.cs" />
-    <Compile Include="Model\Utils\ApartmentPlacement.cs" />
-    <Compile Include="Model\Utils\RemoveDublicateAttributes.cs" />
-    <Compile Include="Model\Utils\RoomsTypeEditor.cs" />
-    <Compile Include="Model\Utils\SaveDynProp.cs" />
-    <Compile Include="Model\Utils\SaveDynPropsHelper.cs" />
+    <Compile Include="Model\Parameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -221,7 +140,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="AutoCADNetLoad.scr" />
     <EntityDeploy Include="Model\DB\EntityModel\Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
@@ -229,31 +147,13 @@
     <None Include="Model\DB\EntityModel\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </None>
-    <None Include="Model\Revit\Schemas\ClassDiagramRevit.cd" />
-    <None Include="Model\Revit\Schemas\Graph1.dgml" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Model\Export\FormBlocksExport.resx">
-      <DependentUpon>FormBlocksExport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Model\FormOptions.resx">
-      <DependentUpon>FormOptions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Resources\Show.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\options.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -270,8 +170,6 @@
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
     <Content Include="Model\DB\EntityModel\ModelCopy.edmx.sql" />
-    <None Include="Resources\expand.png" />
-    <None Include="Resources\collapse.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
