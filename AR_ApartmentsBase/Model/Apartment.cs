@@ -16,8 +16,6 @@ namespace AR_ApartmentBase.Model
     /// </summary>
     public class Apartment : IEquatable<Apartment>
     {   
-        public static List<KeyValuePair<string, List<F_S_Parameters>>> BaseCategoryParameters;
-
         /// <summary>
         /// Имя блока
         /// </summary>

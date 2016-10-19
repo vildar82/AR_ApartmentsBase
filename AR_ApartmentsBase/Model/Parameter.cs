@@ -41,7 +41,7 @@ namespace AR_ApartmentBase.Model
         /// </summary>      
         public static List<Parameter> ExceptOnlyRequiredParameters(List<Parameter> parameters, string category)
         {
-            var paramsCategory = Apartment.BaseCategoryParameters.SingleOrDefault(c => c.Key.Equals(category)).Value;
+            var paramsCategory = DB.EntityModel.BaseApartments.GetBaseCategoryParameters().SingleOrDefault(c => c.Key.Equals(category)).Value;
             List<Parameter> resVal = new List<Parameter>();
 
             if (paramsCategory != null)

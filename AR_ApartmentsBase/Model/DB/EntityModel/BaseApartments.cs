@@ -14,6 +14,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 {
     public static class BaseApartments
     {
+        private static List<KeyValuePair<string, List<F_S_Parameters>>> baseCategoryParameters;
         private static List<Tuple<F_nn_Elements_Modules, List<F_nn_Elements_Modules>>> elemsAndHostWall;
         private static SAPREntities entities;
 
@@ -37,6 +38,23 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 entities.SaveChanges();
             }
         }
+
+        /// <summary>
+        /// Список параметров по категориям
+        /// </summary>        
+        public static List<KeyValuePair<string, List<F_S_Parameters>>> GetBaseCategoryParameters ()
+        {
+            if (baseCategoryParameters == null)
+            {
+                using (var entities = ConnectEntities())
+                {
+                    entities.F_nn_Category_Parameters.Load();
+                    baseCategoryParameters = entities.F_nn_Category_Parameters.Local.GroupBy(cp => cp.F_S_Categories).Select(p =>
+                                  new KeyValuePair<string, List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
+                }
+            }
+            return baseCategoryParameters;
+        }             
 
         /// <summary>
         /// Экспорт квартир в базу.
