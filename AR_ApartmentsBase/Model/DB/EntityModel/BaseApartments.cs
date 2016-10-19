@@ -18,7 +18,6 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
     public static class BaseApartments
     {
         private static List<Tuple<F_nn_Elements_Modules, List<F_nn_Elements_Modules>>> elemsAndHostWall;
-
         private static SAPREntities entities;
 
         public static SAPREntities ConnectEntities()
@@ -81,8 +80,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                                                         m.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
                                                         m.BaseStatus.HasFlag(EnumBaseStatus.New)
                                                      )
-                                                  )
-                                            .GroupBy(g => g.Name).Select(g => g.First());
+                                                  );                                            
 
                     using (var progress = new ProgressMeter())
                     {
@@ -163,27 +161,23 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         private static F_R_Flats defineFlatEnt(Apartment apart)
         {
             // Определение квартиры - для новой записи квартиры выполняется привязка модулей.
-            F_R_Flats flatEnt = null;
-            int revision = 0;
+            F_R_Flats flatEnt = null;            
             if (apart.BaseStatus == EnumBaseStatus.Changed)
             {
                 // Новая ревизия квартиры
                 var lastRevision = entities.F_R_Flats.Local
-                                  .Where(f => f.WORKNAME.Equals(apart.Name, StringComparison.OrdinalIgnoreCase))
-                                  .Max(r => r.REVISION);
-                revision = lastRevision + 1;
+                                  .Where(f => f.WORKNAME.Equals(apart.Name, StringComparison.OrdinalIgnoreCase));
             }
             else
             {
                 flatEnt = entities.F_R_Flats.Local
                                   .Where(f => f.WORKNAME.Equals(apart.Name, StringComparison.OrdinalIgnoreCase))
-                                  .OrderByDescending(r => r.REVISION).FirstOrDefault();
+                                  .FirstOrDefault();
             }
 
             if (flatEnt == null)
             {
-                flatEnt = entities.F_R_Flats.Add(new F_R_Flats() { WORKNAME = apart.Name, COMMERCIAL_NAME = "",
-                    REVISION = revision, TYPE_FLAT = apart.TypeFlat });
+                flatEnt = entities.F_R_Flats.Add(new F_R_Flats() { WORKNAME = apart.Name, COMMERCIAL_NAME = "", REVISION=1});
                 // Привязка модулей
                 attachModulesToFlat(flatEnt, apart);
             }
@@ -207,50 +201,47 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         /// </summary>      
         private static F_R_Modules defineModuleEnt(Module module)
         {
-            F_R_Modules moduleEnt = null;
-            int revision = 0;
+            F_R_Modules moduleEnt = null;            
             if (module.BaseStatus.HasFlag(EnumBaseStatus.Changed))
             {
                 // Новая ревизия модуля
                 var lastRevision = entities.F_R_Modules.Local
-                                     .Where(m => m.NAME_MODULE.Equals(module.Name, StringComparison.OrdinalIgnoreCase))
-                                     .Max(r => r.REVISION);
-                revision = lastRevision + 1;
+                                     .Where(m => m.NAME_MODULE.Equals(module.Name, StringComparison.OrdinalIgnoreCase));                
             }
             else
             {
                 moduleEnt = entities.F_R_Modules.Local
                                      .Where(m => m.NAME_MODULE.Equals(module.Name, StringComparison.OrdinalIgnoreCase))
-                                     .OrderByDescending(r => r.REVISION).FirstOrDefault();
+                                     .FirstOrDefault();
             }
 
             if (moduleEnt == null)
             {
                 //Logger.Log.Error($"\nНовая ревизия модуля {module.Name} - {revision}.");
-                moduleEnt = entities.F_R_Modules.Add(new F_R_Modules() { NAME_MODULE = module.Name, REVISION = revision });
+                moduleEnt = entities.F_R_Modules.Add(new F_R_Modules() { NAME_MODULE = module.Name, REVISION = 1 });
                 // Добавление элементов в модуль
                 addElementsToModule(module, moduleEnt);
-                // Если это новая ревизия модуля, то обновление модуля во всех квартиро-модулей
-                if (revision != 0)
-                {
-                    // Предыдущая ревизия модуля
-                    var modulePrevRev = entities.F_R_Modules.Local.Single(m =>
-                          m.NAME_MODULE.Equals(moduleEnt.NAME_MODULE, StringComparison.OrdinalIgnoreCase) &&
-                          m.REVISION == revision - 1);
-                    // квартиро-модули в которых есть пред ревизия модуля
-                    var fmsPrevRevM = entities.F_nn_FlatModules.Local.Where(fm => fm.ID_MODULE == modulePrevRev.ID_MODULE).ToList();
-                    foreach (var fmPrevRevM in fmsPrevRevM)
-                    {
-                        entities.F_nn_FlatModules.Add(new F_nn_FlatModules()
-                        {
-                            F_R_Flats = fmPrevRevM.F_R_Flats,
-                            F_R_Modules = moduleEnt,
-                            LOCATION = fmPrevRevM.LOCATION,
-                            DIRECTION = fmPrevRevM.DIRECTION,
-                            ANGLE = fmPrevRevM.ANGLE
-                        });
-                    }
-                }
+                //// Если это новая ревизия модуля, то обновление модуля во всех квартиро-модулей
+                //if (revision != 0)
+                //{
+                //    // Предыдущая ревизия модуля
+                //    var modulePrevRev = entities.F_R_Modules.Local.Single(m =>
+                //          m.NAME_MODULE.Equals(moduleEnt.NAME_MODULE, StringComparison.OrdinalIgnoreCase) &&
+                //          m.REVISION == revision - 1);
+                //    // квартиро-модули в которых есть пред ревизия модуля
+                //    var fmsPrevRevM = entities.F_nn_FlatModules.Local.Where(fm => fm.ID_MODULE == modulePrevRev.ID_MODULE).ToList();
+                //    foreach (var fmPrevRevM in fmsPrevRevM)
+                //    {
+                //        entities.F_nn_FlatModules.Add(new F_nn_FlatModules()
+                //        {
+                //            F_R_Flats = fmPrevRevM.F_R_Flats,
+                //            F_R_Modules = moduleEnt,
+                //            LOCATION = fmPrevRevM.LOCATION,
+                //            DIRECTION = fmPrevRevM.DIRECTION,
+                //            ANGLE = fmPrevRevM.ANGLE
+                //        });
+                //    }
+                //}
             }
             return moduleEnt;
         }
