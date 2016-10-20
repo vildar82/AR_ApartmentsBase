@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AR_ApartmentBase.Model.Revit
+namespace AR_ApartmentBase.AutoCAD
 {
    [Flags]
    public enum EnumBaseStatus

@@ -5,11 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcadLib.Errors;
-using AR_ApartmentBase;
-using AR_ApartmentBase.Model.Revit;
 using OfficeOpenXml;
 
-namespace AR_ApartmentBase.Model.Export
+namespace AR_ApartmentBase.AutoCAD.Export
 {
    public class ExcelLog
    {
@@ -20,7 +18,7 @@ namespace AR_ApartmentBase.Model.Export
          this.logFile = fileLog;
       }
 
-      public void AddtoLog(List<Apartment> bllocksToExport)
+      public void AddtoLog(List<ApartmentAC> bllocksToExport)
       {
          try
          {

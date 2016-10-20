@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcadLib.Blocks;
-using AR_ApartmentBase.Model.Revit;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace AR_ApartmentBase.Model.Utils
+namespace AR_ApartmentBase.AutoCAD.Utils
 {
     public static class RemoveDublicateAttributes
     {

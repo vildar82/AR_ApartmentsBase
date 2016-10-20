@@ -16,8 +16,7 @@ namespace AR_ApartmentBase.Model
     public class Module : IEquatable<Module>
     {
         public Apartment Apartment { get; set; }
-        public string Name { get; set; }
-        public double Rotation { get; set; }
+        public string Name { get; set; }        
         public List<Element> Elements { get; set; }        
         public List<Parameter> Parameters { get; set; }
         public string Direction { get; set; }

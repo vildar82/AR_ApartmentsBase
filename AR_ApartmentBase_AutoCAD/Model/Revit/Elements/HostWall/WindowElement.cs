@@ -6,18 +6,13 @@ using System.Threading.Tasks;
 using AR_ApartmentBase.Model.DB.EntityModel;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace AR_ApartmentBase.Model.Revit.Elements
+namespace AR_ApartmentBase.AutoCAD
 {
     public class WindowElement : WallHostBase
     {
-        public WindowElement (BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
+        public WindowElement (BlockReference blRefElem, ModuleAC module, string blName, List<ParameterAC> parameters, string category)
               : base(blRefElem, module, blName, parameters, category)
         {
-        }
-
-        public WindowElement (Module module, F_nn_Elements_Modules emEnt)
-           : base(module, emEnt)
-        {
-        }
+        }        
     }
 }

@@ -69,22 +69,28 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
             using (entities = ConnectEntities())
             {
-                //entities.Configuration.AutoDetectChangesEnabled = false;
-                //entities.Configuration.ValidateOnSaveEnabled = false;
+                entities.Configuration.AutoDetectChangesEnabled = false;
+                entities.Configuration.ValidateOnSaveEnabled = false;
 
                 // Загрузка таблиц
-                entities.F_R_Flats.Load();
-                entities.F_R_Modules.Load();
-                entities.F_nn_FlatModules.Load();
-                entities.F_nn_ElementParam_Value.Load();
-                entities.F_nn_Elements_Modules.Load();
-                entities.F_S_Elements.Load();
-                entities.F_S_FamilyInfos.Load();
-                entities.F_S_Categories.Load();
-                entities.F_nn_Category_Parameters.Load();
+                //entities.F_R_Flats.Load();
+                //entities.F_R_Modules.Load();
+                //entities.F_nn_FlatModules.Load();
+                //entities.F_nn_ElementParam_Value.Load();
+                //entities.F_nn_Elements_Modules.Load();
+                //entities.F_S_Elements.Load();
+                //entities.F_S_FamilyInfos.Load();
+                //entities.F_S_Categories.Load();
+                //entities.F_nn_Category_Parameters.Load();
 
                 // Элементы дверей и их стены - для обновления параметрв idWall
                 elemsAndHostWall = new List<Tuple<F_nn_Elements_Modules, List<F_nn_Elements_Modules>>>();
+
+                // Запись квартир (с удалением старых модулей)
+                FillApartments(apartments);
+
+                // Перезапись модулей во всех переданных квартирах - удаление старых модулей (вместе с элементами)
+                FillModules(apartments);
 
                 // Модули - новые или с изменениями
                 var modules = apartments.SelectMany(a => a.Modules);                                        
@@ -123,6 +129,35 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 entities.SaveChanges();
             }         
         }
+
+        /// <summary>
+        /// Запись новых квартир, и очистка модулей у существующих - из переданного списка квартир
+        /// </summary>        
+        private static void FillApartments (List<Apartment> apartments)
+        {   
+            foreach (var apart in apartments)
+            {
+                var apartDB = entities.F_R_Flats.FirstOrDefault(f => f.WORKNAME.Equals(apart.Name, StringComparison.OrdinalIgnoreCase));
+                if (apartDB == null)
+                {
+                    // Новая квартира
+                    entities.F_R_Flats.Add(new F_R_Flats() { WORKNAME = apart.Name, COMMERCIAL_NAME = "", REVISION = 1 });
+                }
+                else
+                {
+                    // Удаление модулей (Удалятся ли Модули и Элементы?)
+                    apartDB.F_nn_FlatModules.Clear();
+                }                
+            }
+            entities.SaveChanges();
+        }
+
+        private static void FillModules (List<Apartment> apartments)
+        {
+            foreach (var item in apartments)
+            {   
+            }
+        }        
 
         private static F_R_Flats defineFlatEnt (Apartment apart)
         {

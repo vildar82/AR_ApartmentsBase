@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AR_ApartmentBase.Model
+namespace AR_ApartmentBase.AutoCAD
 {
    public partial class FormOptions : Form
    {
-      public Options Options { get; set; }
+      public OptionsAC Options { get; set; }
 
-      public FormOptions(Options options)
+      public FormOptions(OptionsAC options)
       {
          InitializeComponent();
 

@@ -8,7 +8,7 @@ using AcadLib.Errors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
-namespace AR_ApartmentBase.Model.Utils
+namespace AR_ApartmentBase.AutoCAD.Utils
 {
     public static class SaveDynPropsHelper
     {

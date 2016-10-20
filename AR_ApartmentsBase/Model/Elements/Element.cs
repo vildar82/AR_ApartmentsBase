@@ -17,8 +17,7 @@ namespace AR_ApartmentBase.Model.Elements
         public string FamilyName { get; set; }
         public string FamilySymbolName { get; set; }
         public string CategoryElement { get; set; }
-        public string Name { get; set; }
-        public double Rotation { get; set; }        
+        public string Name { get; set; }        
         public List<Parameter> Parameters { get; set; }        
         public Module Module { get; set; }                
         public string Direction { get; set; }

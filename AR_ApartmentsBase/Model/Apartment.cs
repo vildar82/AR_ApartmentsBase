@@ -27,14 +27,7 @@ namespace AR_ApartmentBase.Model
         /// <summary>
         /// Модули в квартире.
         /// </summary>
-        public List<Module> Modules { get; set; }                      
-        /// <summary>
-        /// Угол поворота блока квартиры.
-        /// </summary>
-        public double Rotation { get; set; }
-        public List<Parameter> Parameters { get; set; }
-        public string Direction { get; set; }
-        public string LocationPoint { get; set; }        
+        public List<Module> Modules { get; set; }  
         public int Revision { get; set; }
         /// <summary>
         /// F_R_Flats

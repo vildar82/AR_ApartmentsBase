@@ -4,30 +4,23 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using AcadLib.Errors;
 using System.Drawing;
-using AR_ApartmentBase.Model.DB.DbServices;
 using Autodesk.AutoCAD.Geometry;
+using AR_ApartmentBase.Model;
 
-namespace AR_ApartmentBase.Model.Revit
+namespace AR_ApartmentBase.AutoCAD
 {
-    public class Parameter : IEquatable<Parameter>
+    public class ParameterAC : Parameter
     {
-        public string Name { get; set; }
-        public string Value { get; set; }
-        private object objectValue;        
-
         // Константные атрибуты в блоках
-        public static Dictionary<ObjectId, List<Parameter>> BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
+        public static Dictionary<ObjectId, List<ParameterAC>> BlocksConstantAtrs = new Dictionary<ObjectId, List<ParameterAC>>();
 
-        public Parameter(string name, object value)
-        {
-            Name = name;
-            objectValue = value;
-            Value = objectValue.ToString();
+        public ParameterAC (string name, object value) : base(name, value)
+        {            
         }
 
-        public static List<Parameter> GetParameters(BlockReference blRef, string blName, Matrix3d transToModel)
+        public static List<ParameterAC> GetParameters(BlockReference blRef, string blName, Matrix3d transToModel)
         {
-            List<Parameter> parameters = new List<Parameter>();
+            List<ParameterAC> parameters = new List<ParameterAC>();
 
             // считывание дин параметров
             defineDynParams(blRef, parameters, blName, transToModel);
@@ -36,17 +29,12 @@ namespace AR_ApartmentBase.Model.Revit
             defineAttributesParam(blRef, parameters, blName, transToModel);
 
             // Сортировка параметров по имени
-            parameters = Sort(parameters);
+            parameters.Sort((p1, p2) => p1.Name.CompareTo(p2.Name));
 
             return parameters;
         }
 
-        public static List<Parameter> Sort(List<Parameter> parameters)
-        {
-            return parameters.OrderBy(p => p.Name).ToList();
-        }
-
-        private static void defineDynParams(BlockReference blRef, List<Parameter> parameters, string blName, Matrix3d transToModel)
+        private static void defineDynParams(BlockReference blRef, List<ParameterAC> parameters, string blName, Matrix3d transToModel)
         {
             if (blRef.IsDynamicBlock)
             {
@@ -59,7 +47,7 @@ namespace AR_ApartmentBase.Model.Revit
             }
         }
 
-        private static void defineAttributesParam(BlockReference blRef, List<Parameter> parameters, string blName, Matrix3d transToModel)
+        private static void defineAttributesParam(BlockReference blRef, List<ParameterAC> parameters, string blName, Matrix3d transToModel)
         {
             if (blRef.AttributeCollection != null)
             {
@@ -79,19 +67,19 @@ namespace AR_ApartmentBase.Model.Revit
             parameters.AddRange(getConstAtrParameters(blRef));
         }
 
-        private static List<Parameter> getConstAtrParameters(BlockReference blRef)
+        private static List<ParameterAC> getConstAtrParameters(BlockReference blRef)
         {
-            List<Parameter> constAtrParameters;
+            List<ParameterAC> constAtrParameters;
             ObjectId idBtr = blRef.DynamicBlockTableRecord;
             if (!BlocksConstantAtrs.TryGetValue(idBtr, out constAtrParameters))
             {
-                constAtrParameters = new List<Parameter>();
+                constAtrParameters = new List<ParameterAC>();
                 var btr = idBtr.GetObject(OpenMode.ForRead) as BlockTableRecord;
                 foreach (var idEnt in btr)
                 {
                     var atr = idEnt.GetObject(OpenMode.ForRead, false, true) as AttributeDefinition;
                     if (atr == null || !atr.Constant) continue;
-                    Parameter constAtrParam = new Parameter(atr.Tag.Trim(), atr.TextString.Trim());
+                    ParameterAC constAtrParam = new ParameterAC(atr.Tag.Trim(), atr.TextString.Trim());
                     constAtrParameters.Add(constAtrParam);
                 }
                 BlocksConstantAtrs.Add(idBtr, constAtrParameters);
@@ -99,7 +87,7 @@ namespace AR_ApartmentBase.Model.Revit
             return constAtrParameters;
         }
 
-        private static void addParam(List<Parameter> parameters, string name, object value, Error errorHasParam)
+        private static void addParam(List<ParameterAC> parameters, string name, object value, Error errorHasParam)
         {
             if (hasParamName(parameters, name))
             {
@@ -107,9 +95,9 @@ namespace AR_ApartmentBase.Model.Revit
             }
             else
             {
-                if (!Options.Instance.IgnoreParamNames.Contains(name, StringComparer.OrdinalIgnoreCase))
+                if (!OptionsAC.Instance.IgnoreParamNames.Contains(name, StringComparer.OrdinalIgnoreCase))
                 {
-                    Parameter param = new Parameter(name, value);
+                    ParameterAC param = new ParameterAC(name, value);
                     parameters.Add(param);
                 }
             }
@@ -118,10 +106,10 @@ namespace AR_ApartmentBase.Model.Revit
         /// <summary>
         /// Оставить только нужные для базы параметры
         /// </summary>      
-        public static List<Parameter> ExceptOnlyRequiredParameters(List<Parameter> parameters, string category)
+        public static List<ParameterAC> ExceptOnlyRequiredParameters(List<ParameterAC> parameters, string category)
         {
-            var paramsCategory = Apartment.BaseCategoryParameters.SingleOrDefault(c => c.Key.Equals(category)).Value;
-            List<Parameter> resVal = new List<Parameter>();
+            var paramsCategory = ApartmentAC.BaseCategoryParameters.SingleOrDefault(c => c.Key.Equals(category)).Value;
+            List<ParameterAC> resVal = new List<ParameterAC>();
 
             if (paramsCategory != null)
             {
@@ -138,7 +126,7 @@ namespace AR_ApartmentBase.Model.Revit
                 {
                     if (!resVal.Exists(p => p.Name.Equals("FuckUp", StringComparison.OrdinalIgnoreCase)))
                     {
-                        resVal.Add(new Parameter("FuckUp", ""));
+                        resVal.Add(new ParameterAC("FuckUp", ""));
                     }
                 }
             }
@@ -167,12 +155,12 @@ namespace AR_ApartmentBase.Model.Revit
             }
         }
 
-        private static bool hasParamName(List<Parameter> parameters, string name)
+        private static bool hasParamName(List<ParameterAC> parameters, string name)
         {
             return parameters.Exists(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
-        public bool Equals(Parameter other)
+        public bool Equals(ParameterAC other)
         {
             return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase) &&
                this.Value.Equals(other.Value, StringComparison.OrdinalIgnoreCase);
@@ -183,7 +171,7 @@ namespace AR_ApartmentBase.Model.Revit
         /// Все элементы из второго списка обязательно должны соответствовать первому списку, 
         /// второй список может содержать лишние параметры
         /// </summary>      
-        public static bool Equal(List<Parameter> params1, List<Parameter> params2)
+        public static bool Equal(List<ParameterAC> params1, List<ParameterAC> params2)
         {
             foreach (var p1 in params1)
             {

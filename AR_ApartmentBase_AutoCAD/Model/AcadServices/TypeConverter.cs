@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autodesk.AutoCAD.Geometry;
 
-namespace AR_ApartmentBase.Model.DB.DbServices
+namespace AR_ApartmentBase.AutoCAD
 {
    public static class TypeConverter
    {

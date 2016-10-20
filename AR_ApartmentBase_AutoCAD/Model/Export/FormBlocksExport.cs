@@ -10,10 +10,9 @@ using System.Windows.Forms;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using System.IO;
-using AR_ApartmentBase.Model.Revit;
 using AcadLib;
 
-namespace AR_ApartmentBase.Model.Export
+namespace AR_ApartmentBase.AutoCAD.Export
 {
     public partial class FormBlocksExport : Form
     {
@@ -31,7 +30,7 @@ namespace AR_ApartmentBase.Model.Export
         private Color colorChanged = Color.Olive;
         private Color colorOk = Color.Blue;
 
-        public FormBlocksExport(List<Apartment> apartments)
+        public FormBlocksExport(List<ApartmentAC> apartments)
         {
             InitializeComponent();
 
@@ -58,7 +57,7 @@ namespace AR_ApartmentBase.Model.Export
             if (block != null && !block.IdBlRef.IsNull)
             {
                 ed.Zoom(block.ExtentsInModel);
-                if (block is Apartment)
+                if (block is ApartmentAC)
                 {
                     block.IdBlRef.FlickObjectHighlight(2, 100, 100);
                 }
@@ -71,10 +70,10 @@ namespace AR_ApartmentBase.Model.Export
 
         private void buttonOptions_Click(object sender, EventArgs e)
         {
-            Options.Show();
+            OptionsAC.Show();
         }
 
-        private void fillTreeView(List<Apartment> apartments)
+        private void fillTreeView(List<ApartmentAC> apartments)
         {
             treeViewApartments.Nodes.Clear();
             foreach (var apart in apartments)

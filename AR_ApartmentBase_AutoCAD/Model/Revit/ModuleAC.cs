@@ -7,23 +7,20 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using AcadLib.Blocks;
 using AcadLib.Errors;
-using AR_ApartmentBase.Model.DB.DbServices;
+using AR_ApartmentBase.Model;
 using AR_ApartmentBase.Model.DB.EntityModel;
-using AR_ApartmentBase.Model.Revit.Elements;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
-namespace AR_ApartmentBase.Model.Revit
+namespace AR_ApartmentBase.AutoCAD
 {
     /// <summary>
     /// Модуль - блок помещения в автокаде
     /// </summary>
-    public class Module : IRevitBlock, IEquatable<Module>
+    public class ModuleAC : Module, IRevitBlock
     {
-        public Apartment Apartment { get; set; }
-
-        public string Name { get; set; }
+        public ApartmentAC ApartmentAC { get; set; }
 
         /// <summary>
         /// Точка вставки модуля
@@ -32,7 +29,7 @@ namespace AR_ApartmentBase.Model.Revit
 
         public double Rotation { get; set; }
 
-        public List<Element> Elements { get; set; }
+        public List<ElementAC> ElementsAC { get; set; }
 
         public ObjectId IdBlRef { get; set; }
 
@@ -40,7 +37,7 @@ namespace AR_ApartmentBase.Model.Revit
 
         public Matrix3d BlockTransform { get; set; }        
 
-        public List<Parameter> Parameters { get; set; }
+        public List<ParameterAC> ParametersAC { get; set; }
 
         private bool _extentsAreDefined;
         private bool _extentsIsNull;
@@ -57,7 +54,7 @@ namespace AR_ApartmentBase.Model.Revit
                         try
                         {
                             _extentsInModel = blRef.GeometricExtents;
-                            _extentsInModel.TransformBy(Apartment.BlockTransform);
+                            _extentsInModel.TransformBy(ApartmentAC.BlockTransform);
                         }
                         catch
                         {
@@ -85,11 +82,7 @@ namespace AR_ApartmentBase.Model.Revit
 
         public Error Error { get; set; }
 
-        public string Direction { get; set; }
-        public string LocationPoint { get; set; }
-
-        public EnumBaseStatus BaseStatus { get; set; }
-        public int Revision { get; set; }
+        public EnumBaseStatus BaseStatus { get; set; }        
 
         /// <summary>
         /// F_nn_FlatModules
@@ -115,7 +108,7 @@ namespace AR_ApartmentBase.Model.Revit
             }
         }
 
-        public Module(BlockReference blRefModule, Apartment apartment, string blName)
+        public ModuleAC(BlockReference blRefModule, ApartmentAC apartment, string blName)
         {
             Apartment = apartment;
             BlockTransform = blRefModule.BlockTransform;
@@ -123,14 +116,14 @@ namespace AR_ApartmentBase.Model.Revit
             IdBtr = blRefModule.BlockTableRecord;
             Position = blRefModule.Position;
             Rotation = blRefModule.Rotation;
-            Direction = Element.GetDirection(Rotation);
+            Direction = ElementAC.GetDirection(Rotation);
             LocationPoint = TypeConverter.Point(Position);
 
-            Parameters = Parameter.GetParameters(blRefModule, blName, apartment.BlockTransform);
+            ParametersAC = ParameterAC.GetParameters(blRefModule, blName, apartment.BlockTransform);
 
             Name = getModuleName(blRefModule, blName);
 
-            Elements = Element.GetElements(this);
+            ElementsAC = ElementAC.GetElements(this);
         }
 
         private string getModuleName(BlockReference blRefModule, string blName)
@@ -139,11 +132,11 @@ namespace AR_ApartmentBase.Model.Revit
             if (blRefModule.IsDynamicBlock)
             {
                 name = Parameters.SingleOrDefault(p =>
-                            p.Name.Equals(Options.Instance.ParameterModuleName, StringComparison.OrdinalIgnoreCase))?.Value;
+                            p.Name.Equals(OptionsAC.Instance.ParameterModuleName, StringComparison.OrdinalIgnoreCase))?.Value;
                 if (string.IsNullOrEmpty(name))
                 {
-                    Inspector.AddError($"Для дин.блока модуля '{blName}' не определен параметр имени модуля '{Options.Instance.ParameterModuleName}'.",
-                       blRefModule, Apartment.BlockTransform, System.Drawing.SystemIcons.Error);
+                    Inspector.AddError($"Для дин.блока модуля '{blName}' не определен параметр имени модуля '{OptionsAC.Instance.ParameterModuleName}'.",
+                       blRefModule, ApartmentAC.BlockTransform, System.Drawing.SystemIcons.Error);
                 }
             }
             else
@@ -151,29 +144,12 @@ namespace AR_ApartmentBase.Model.Revit
                 name = blName;
             }
             return name;
-        }
-
-        /// <summary>
-        /// Конструктор для создания модуля из Базы
-        /// </summary>
-        public Module(F_nn_FlatModules fmEnt, Apartment apart)
-        {
-            Name = fmEnt.F_R_Modules.NAME_MODULE;
-            Apartment = apart;
-            _extentsAreDefined = true;
-            _extentsIsNull = true;
-            Elements = new List<Element>();
-            apart.Modules.Add(this);
-            Direction = fmEnt.DIRECTION;
-            LocationPoint = fmEnt.LOCATION;
-            DBObject = fmEnt;
-            Revision = fmEnt.F_R_Modules.REVISION;
-        }
+        }        
 
         /// <summary>
         /// Поиск модулей в квартире
         /// </summary>      
-        public static List<Module> GetModules(Apartment apartment)
+        public static List<Module> GetModules(ApartmentAC apartment)
         {
             List<Module> modules = new List<Module>();
             var btrApartment = apartment.IdBtr.GetObject(OpenMode.ForRead) as BlockTableRecord;
@@ -193,13 +169,13 @@ namespace AR_ApartmentBase.Model.Revit
                            blRefModule, apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                     }
 
-                    Module module = new Module(blRefModule, apartment, blName);
+                    Module module = new ModuleAC(blRefModule, apartment, blName);
                     modules.Add(module);
                 }
                 else
                 {
                     Inspector.AddError($"Отфильтрован блок модуля '{blName}' в блоке квартиры {apartment.Name}, имя не соответствует " +
-                       $"'{Options.Instance.BlockModuleNameMatch}",
+                       $"'{OptionsAC.Instance.BlockModuleNameMatch}",
                        blRefModule, apartment.BlockTransform,
                        icon: System.Drawing.SystemIcons.Information);
                 }
@@ -210,7 +186,7 @@ namespace AR_ApartmentBase.Model.Revit
 
         public static bool IsBlockNameModule(string blName)
         {
-            return Regex.IsMatch(blName, Options.Instance.BlockModuleNameMatch, RegexOptions.IgnoreCase);
+            return Regex.IsMatch(blName, OptionsAC.Instance.BlockModuleNameMatch, RegexOptions.IgnoreCase);
         }
 
         public bool Equals(Module other)
@@ -223,7 +199,7 @@ namespace AR_ApartmentBase.Model.Revit
 
         public ObjectId[] GetSubentPath()
         {
-            return new[] { Apartment.IdBlRef, IdBlRef };
+            return new[] { ApartmentAC.IdBlRef, IdBlRef };
         }
     }
 }

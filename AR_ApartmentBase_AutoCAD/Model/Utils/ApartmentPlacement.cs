@@ -13,7 +13,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 
-namespace AR_ApartmentBase.Model.Utils
+namespace AR_ApartmentBase.AutoCAD.Utils
 {
     public static class ApartmentPlacement
     {
@@ -87,7 +87,7 @@ namespace AR_ApartmentBase.Model.Utils
                     {
                         using (var btr = idBtr.Open( OpenMode.ForRead) as BlockTableRecord)
                         {
-                            if (Revit.Apartment.IsBlockNameApartment(btr.Name))
+                            if (ApartmentAC.IsBlockNameApartment(btr.Name))
                             {
                                 using (var map = new IdMapping())
                                 {
@@ -207,7 +207,7 @@ namespace AR_ApartmentBase.Model.Utils
             foreach (var idBtr in bt)
             {
                 var btr = idBtr.GetObject(OpenMode.ForRead) as BlockTableRecord;
-                if (Revit.Apartment.IsBlockNameApartment(btr.Name))
+                if (ApartmentAC.IsBlockNameApartment(btr.Name))
                 {
                     int group = getGroup(btr.Name);
                     btrAparts.Add(new Tuple<int, ObjectId>(group, btr.Id));

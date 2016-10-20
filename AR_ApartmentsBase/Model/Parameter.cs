@@ -9,7 +9,7 @@ namespace AR_ApartmentBase.Model
     {
         public string Name { get; set; }
         public string Value { get; set; }
-        private object objectValue;  
+        protected object objectValue;  
 
         public Parameter(string name, object value)
         {

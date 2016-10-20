@@ -4,28 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcadLib.Comparers;
-using AR_ApartmentBase.Model.Revit;
-using AR_ApartmentBase.Model.Revit.Elements;
 using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
-using GeoAPI.Geometries;
-using NetTopologySuite.Geometries;
 using AcadLib;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.Runtime;
 using AcadLib.Errors;
 
-namespace AR_ApartmentBase.Model.AcadServices
+namespace AR_ApartmentBase.AutoCAD.AcadServices
 {
     public static class ContourHelper
     {
-        public static void CreateContours2(List<Apartment> apartments)
+        public static void CreateContours2(List<ApartmentAC> apartments)
         {
             Database db = HostApplicationServices.WorkingDatabase;
             using (var t = db.TransactionManager.StartTransaction())
             {
-                db.RegApp(Commands.RegAppApartBase);
+                db.RegApp(AR_ApartmentBase.AutoCAD.Commands.RegAppApartBase);
 
                 ProgressMeter progress = new ProgressMeter();
                 progress.SetLimit(apartments.Count);
@@ -61,7 +57,7 @@ namespace AR_ApartmentBase.Model.AcadServices
                         var layerApartInfo = new AcadLib.Layers.LayerInfo(blRefApart.Layer);
                         AcadLib.Layers.LayerExt.CheckLayerState(layerApartInfo);
 
-                        plContour.SetXData(Commands.RegAppApartBase, 1);
+                        plContour.SetXData(AR_ApartmentBase.AutoCAD.Commands.RegAppApartBase, 1);
                         plContour.SetDatabaseDefaults();
                         plContour.LayerId = blRefApart.LayerId;
 
@@ -71,7 +67,7 @@ namespace AR_ApartmentBase.Model.AcadServices
                         t.AddNewlyCreatedDBObject(plContour, true);
 
                         Hatch h = new Hatch();
-                        h.SetXData(Commands.RegAppApartBase, 1);
+                        h.SetXData(AR_ApartmentBase.AutoCAD.Commands.RegAppApartBase, 1);
                         h.SetDatabaseDefaults();
                         h.LayerId = blRefApart.LayerId;
                         h.SetHatchPattern(HatchPatternType.PreDefined, "Solid");
@@ -100,94 +96,94 @@ namespace AR_ApartmentBase.Model.AcadServices
             }
         }
         
-        [Obsolete("Старый - используй CreateContours2")]
-        public static void CreateContours(List<Apartment> apartments)
-        {
-            Database db = HostApplicationServices.WorkingDatabase;
-            using (var t = db.TransactionManager.StartTransaction())
-            {
-                db.RegApp(Commands.RegAppApartBase);
+        //[Obsolete("Старый - используй CreateContours2")]
+        //public static void CreateContours(List<ApartmentAC> apartments)
+        //{
+        //    Database db = HostApplicationServices.WorkingDatabase;
+        //    using (var t = db.TransactionManager.StartTransaction())
+        //    {
+        //        db.RegApp(Commands.RegAppApartBase);
 
-                foreach (var apart in apartments)
-                {
-                    List<Point2d> pts = new List<Point2d>();
-                    foreach (var module in apart.Modules)
-                    {
-                        var blRefModule = module.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
-                        foreach (var wall in module.Elements.OfType<WallElement>())
-                        {
-                            //var extWall = wall.ExtentsClean;
-                            //extWall.TransformBy(blRefModule.BlockTransform);
-                            //pts.Add(extWall.MinPoint.Convert2d());
-                            //pts.Add(new Point2d (extWall.MinPoint.X, extWall.MaxPoint.Y));
-                            //pts.Add(extWall.MaxPoint.Convert2d());
-                            //pts.Add(new Point2d(extWall.MaxPoint.X, extWall.MinPoint.Y));
-                        }
-                    }
-                    Point2d centroid;
-                    var contour = GetConvexHull(pts, out centroid);
+        //        foreach (var apart in apartments)
+        //        {
+        //            List<Point2d> pts = new List<Point2d>();
+        //            foreach (var module in apart.Modules)
+        //            {
+        //                var blRefModule = module.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
+        //                foreach (var wall in module.Elements.OfType<WallElement>())
+        //                {
+        //                    //var extWall = wall.ExtentsClean;
+        //                    //extWall.TransformBy(blRefModule.BlockTransform);
+        //                    //pts.Add(extWall.MinPoint.Convert2d());
+        //                    //pts.Add(new Point2d (extWall.MinPoint.X, extWall.MaxPoint.Y));
+        //                    //pts.Add(extWall.MaxPoint.Convert2d());
+        //                    //pts.Add(new Point2d(extWall.MaxPoint.X, extWall.MinPoint.Y));
+        //                }
+        //            }
+        //            Point2d centroid;
+        //            var contour = GetConvexHull(pts, out centroid);
 
-                    var blRefApart = apart.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
-                    var layerApartInfo = new AcadLib.Layers.LayerInfo(blRefApart.Layer);
-                    AcadLib.Layers.LayerExt.CheckLayerState(layerApartInfo);
+        //            var blRefApart = apart.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
+        //            var layerApartInfo = new AcadLib.Layers.LayerInfo(blRefApart.Layer);
+        //            AcadLib.Layers.LayerExt.CheckLayerState(layerApartInfo);
 
-                    Polyline pl = new Polyline();
-                    pl.SetXData(Commands.RegAppApartBase, 1);
-                    pl.SetDatabaseDefaults();
-                    pl.LayerId = blRefApart.LayerId;
-                    for (int i = 0; i < contour.Count; i++)
-                    {
-                        pl.AddVertexAt(i, contour[i], 0, 0, 0);
-                    }
-                    RectanglePolyline(pl, centroid);
-                    var btrApart = apart.IdBtr.GetObject(OpenMode.ForWrite) as BlockTableRecord;
+        //            Polyline pl = new Polyline();
+        //            pl.SetXData(Commands.RegAppApartBase, 1);
+        //            pl.SetDatabaseDefaults();
+        //            pl.LayerId = blRefApart.LayerId;
+        //            for (int i = 0; i < contour.Count; i++)
+        //            {
+        //                pl.AddVertexAt(i, contour[i], 0, 0, 0);
+        //            }
+        //            RectanglePolyline(pl, centroid);
+        //            var btrApart = apart.IdBtr.GetObject(OpenMode.ForWrite) as BlockTableRecord;
 
-                    ClearOldContour(btrApart);                    
+        //            ClearOldContour(btrApart);                    
 
-                    btrApart.AppendEntity(pl);
-                    t.AddNewlyCreatedDBObject(pl, true);                    
+        //            btrApart.AppendEntity(pl);
+        //            t.AddNewlyCreatedDBObject(pl, true);                    
 
-                    Hatch h = new Hatch();
-                    h.SetXData(Commands.RegAppApartBase, 1);
-                    h.SetDatabaseDefaults();
-                    h.LayerId = blRefApart.LayerId;
-                    h.SetHatchPattern(HatchPatternType.PreDefined, "Solid");                    
+        //            Hatch h = new Hatch();
+        //            h.SetXData(Commands.RegAppApartBase, 1);
+        //            h.SetDatabaseDefaults();
+        //            h.LayerId = blRefApart.LayerId;
+        //            h.SetHatchPattern(HatchPatternType.PreDefined, "Solid");                    
 
-                    btrApart.AppendEntity(h);
-                    t.AddNewlyCreatedDBObject(h, true);                   
+        //            btrApart.AppendEntity(h);
+        //            t.AddNewlyCreatedDBObject(h, true);                   
 
-                    h.Associative = true;
-                    var idsH = new ObjectIdCollection(new[] { pl.Id });
-                    h.AppendLoop(HatchLoopTypes.Default, idsH);
-                    h.EvaluateHatch(true);
+        //            h.Associative = true;
+        //            var idsH = new ObjectIdCollection(new[] { pl.Id });
+        //            h.AppendLoop(HatchLoopTypes.Default, idsH);
+        //            h.EvaluateHatch(true);
 
-                    var btrDrawOrder = btrApart.DrawOrderTableId.GetObject(OpenMode.ForWrite) as DrawOrderTable;
-                    btrDrawOrder.MoveToBottom(new ObjectIdCollection(new[] { h.Id }));
+        //            var btrDrawOrder = btrApart.DrawOrderTableId.GetObject(OpenMode.ForWrite) as DrawOrderTable;
+        //            btrDrawOrder.MoveToBottom(new ObjectIdCollection(new[] { h.Id }));
 
-                    btrApart.SetBlRefsRecordGraphicsModified();
-                }
-                t.Commit();
-            }
-        }
+        //            btrApart.SetBlRefsRecordGraphicsModified();
+        //        }
+        //        t.Commit();
+        //    }
+        //}
 
-        public static List<Point2d> GetConvexHull(List<Point2d> pts, out Point2d centroid)
-        {
-            List<Point2d> resVal = new List<Point2d>();
-            List<Coordinate> coordinates = new List<Coordinate>();
-            foreach (var P in pts)
-            {
-                coordinates.Add(new Coordinate(P.X, P.Y));
-            }
-            var multiPoint = Geometry.DefaultFactory.CreateMultiPoint(coordinates.ToArray());
-            multiPoint.Normalize();
-            centroid = new Point2d(multiPoint.Centroid.X, multiPoint.Centroid.Y);
-            var hullGeom = multiPoint.ConvexHull();
-            foreach (var c in hullGeom.Coordinates)
-            {
-                resVal.Add(new Point2d(c.X, c.Y));
-            }
-            return resVal;
-        }        
+        //public static List<Point2d> GetConvexHull(List<Point2d> pts, out Point2d centroid)
+        //{
+        //    List<Point2d> resVal = new List<Point2d>();
+        //    List<Coordinate> coordinates = new List<Coordinate>();
+        //    foreach (var P in pts)
+        //    {
+        //        coordinates.Add(new Coordinate(P.X, P.Y));
+        //    }
+        //    var multiPoint = Geometry.DefaultFactory.CreateMultiPoint(coordinates.ToArray());
+        //    multiPoint.Normalize();
+        //    centroid = new Point2d(multiPoint.Centroid.X, multiPoint.Centroid.Y);
+        //    var hullGeom = multiPoint.ConvexHull();
+        //    foreach (var c in hullGeom.Coordinates)
+        //    {
+        //        resVal.Add(new Point2d(c.X, c.Y));
+        //    }
+        //    return resVal;
+        //}        
 
         public static void RectanglePolyline(Polyline pl, Point2d centroid)
         {            
@@ -232,7 +228,7 @@ namespace AR_ApartmentBase.Model.AcadServices
             }
         }
 
-        public static void ClearOldContourAll(List<Apartment> apartments)
+        public static void ClearOldContourAll(List<ApartmentAC> apartments)
         {
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;

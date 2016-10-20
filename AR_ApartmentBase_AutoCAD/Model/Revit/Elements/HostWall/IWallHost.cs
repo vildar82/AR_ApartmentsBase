@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AR_ApartmentBase.Model.DB.EntityModel;
 
-namespace AR_ApartmentBase.Model.Revit.Elements
+namespace AR_ApartmentBase.AutoCAD
 {
     /// <summary>
     /// Элемент принадлежащий стене (окно, дверь)
@@ -13,7 +13,6 @@ namespace AR_ApartmentBase.Model.Revit.Elements
     public interface IWallHost : IRevitBlock
     {
         List<WallElement> HostWall { get; set; }
-        void SearchHostWallDwg (List<Element> elements);
-        void SearchHostWallDB (F_R_Modules moduleEnt);
+        void SearchHostWallDwg (List<ElementAC> elements);        
     }
 }

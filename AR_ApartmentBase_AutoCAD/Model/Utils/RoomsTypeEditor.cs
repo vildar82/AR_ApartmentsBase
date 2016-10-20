@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcadLib.Errors;
-using AR_ApartmentBase.Model.Revit;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
-namespace AR_ApartmentBase.Model.Utils
+namespace AR_ApartmentBase.AutoCAD.Utils
 {
     public static class RoomsTypeEditor
     {
-        public static void SetRoomsType(List<Apartment> apartments)
+        public static void SetRoomsType(List<ApartmentAC> apartments)
         {            
             Database db = HostApplicationServices.WorkingDatabase;
             using (var t = db.TransactionManager.StartTransaction())
@@ -22,7 +21,7 @@ namespace AR_ApartmentBase.Model.Utils
                     string typeFlatValue = getRoomType(apart.Layer);
                     if (string.IsNullOrEmpty(typeFlatValue))
                     {
-                        Inspector.AddError($"Не определен параметр типа квартиры '{Options.Instance.ApartmentTypeFlatParameter}' по слою {apart.Layer} блока квартиры {apart.Name}",
+                        Inspector.AddError($"Не определен параметр типа квартиры '{OptionsAC.Instance.ApartmentTypeFlatParameter}' по слою {apart.Layer} блока квартиры {apart.Name}",
                             apart.IdBlRef, System.Drawing.SystemIcons.Error);
                         continue;
                     }
@@ -43,7 +42,7 @@ namespace AR_ApartmentBase.Model.Utils
             return null;
         }
 
-        private static void addAttrTypeFlat(Apartment apart, string typeFlatValue)
+        private static void addAttrTypeFlat(ApartmentAC apart, string typeFlatValue)
         {
             var btrApart = apart.IdBtr.GetObject(OpenMode.ForRead) as BlockTableRecord;
 
@@ -63,7 +62,7 @@ namespace AR_ApartmentBase.Model.Utils
                         {
                             using (var atr = idAtr.GetObject(OpenMode.ForRead, false, true) as AttributeReference)
                             {
-                                if (atr == null || !atr.Tag.Equals(Options.Instance.ApartmentTypeFlatParameter, StringComparison.OrdinalIgnoreCase))
+                                if (atr == null || !atr.Tag.Equals(OptionsAC.Instance.ApartmentTypeFlatParameter, StringComparison.OrdinalIgnoreCase))
                                 {
                                     continue;
                                 }
@@ -99,7 +98,7 @@ namespace AR_ApartmentBase.Model.Utils
                 {
                     if (idEnt.ObjectClass.Name != "AcDbAttributeDefinition") continue;
                     var atrDef = idEnt.GetObject(OpenMode.ForRead, false, true) as AttributeDefinition;
-                    if (atrDef == null || !atrDef.Tag.Equals(Options.Instance.ApartmentTypeFlatParameter)) continue;
+                    if (atrDef == null || !atrDef.Tag.Equals(OptionsAC.Instance.ApartmentTypeFlatParameter)) continue;
                     atrDef.UpgradeOpen();
                     atrDef.TextString = typeFlatValue;
                     atrDef.Invisible = true;
@@ -110,7 +109,7 @@ namespace AR_ApartmentBase.Model.Utils
             }
             // Создание определения атрибута и добавление в блок
             AttributeDefinition atrDefTypeFlat = new AttributeDefinition(Point3d.Origin, typeFlatValue,
-                Options.Instance.ApartmentTypeFlatParameter, 
+                OptionsAC.Instance.ApartmentTypeFlatParameter, 
                 "Параметр типа квартиры - Студия, 1комн, и т.д.", btrApart.Database.GetTextStylePIK());
             atrDefTypeFlat.Invisible = true;
             atrDefTypeFlat.LockPositionInBlock = true;

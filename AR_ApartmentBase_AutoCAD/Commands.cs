@@ -11,18 +11,15 @@ using AcadLib.Errors;
 using AR_ApartmentBase.Model;
 using AR_ApartmentBase.Model.DB;
 using AR_ApartmentBase.Model.DB.EntityModel;
-using AR_ApartmentBase.Model.Export;
-using AR_ApartmentBase.Model.Revit;
-using AR_ApartmentBase.Model.Utils;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 
-[assembly: CommandClass(typeof(AR_ApartmentBase.Commands))]
-[assembly: ExtensionApplication(typeof(AR_ApartmentBase.Commands))]
+[assembly: CommandClass(typeof(AR_ApartmentBase.AutoCAD.Commands))]
+[assembly: ExtensionApplication(typeof(AR_ApartmentBase.AutoCAD.Commands))]
 
-namespace AR_ApartmentBase
+namespace AR_ApartmentBase.AutoCAD
 {
     public class Commands : IExtensionApplication
     {
@@ -54,7 +51,7 @@ namespace AR_ApartmentBase
             ed.WriteMessage($"\nПрограмма экспорта блоков квартир. Версия {Assembly.GetExecutingAssembly().GetName().Version}");
             ed.WriteMessage("\nКоманды:");
             ed.WriteMessage("\nAR-BaseApartmentsExport - экспорт блоков квартир найденных в Модели в отдельные файлы и в базу.\n" +
-                             $"Имя блока квартиры должно соответствовать {Options.Instance.BlockApartmentNameMatch}");
+                             $"Имя блока квартиры должно соответствовать {OptionsAC.Instance.BlockApartmentNameMatch}");
             ed.WriteMessage("\nAR-BaseApartmentsOptions - настройки программы.");
             ed.WriteMessage("\nAR-BaseApartmentsAbout - описание программы.");
             ed.WriteMessage("\nAR-BaseApartmentsClear - очистка базы.");
@@ -79,7 +76,7 @@ namespace AR_ApartmentBase
                 return;
             }
 
-            Options.Show();
+            OptionsAC.Show();
         }
 
         /// <summary>
@@ -114,7 +111,7 @@ namespace AR_ApartmentBase
 
                 ExportApartmentsAbout();
 
-                Parameter.BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
+                ParameterAC.BlocksConstantAtrs = new Dictionary<ObjectId, List<ParameterAC>>();
 
                 // Проверка дубликатов блоков    
                 CheckDublicateBlocks.Tolerance = new Autodesk.AutoCAD.Geometry.Tolerance(0.02, 15);                

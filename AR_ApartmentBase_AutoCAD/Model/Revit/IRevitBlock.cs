@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
-namespace AR_ApartmentBase.Model.Revit
+namespace AR_ApartmentBase.AutoCAD
 {
     /// <summary>
     /// Блок ревитовского элемента
@@ -37,7 +37,7 @@ namespace AR_ApartmentBase.Model.Revit
         /// <summary>
         /// Параметры элемента
         /// </summary>
-        List<Parameter> Parameters { get; }
+        List<ParameterAC> ParametersAC { get; }
 
         /// <summary>
         /// Границы блока в Модели

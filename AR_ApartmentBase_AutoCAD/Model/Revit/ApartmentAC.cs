@@ -7,35 +7,23 @@ using AcadLib.Errors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
-using AR_ApartmentBase.Model.AcadServices;
 using System.Xml.Serialization;
 using System.Drawing;
-using AR_ApartmentBase.Model.Revit.Elements;
 using Autodesk.AutoCAD.ApplicationServices;
-using AR_ApartmentBase.Model.DB.DbServices;
 using AR_ApartmentBase.Model.DB.EntityModel;
-using System.Data.Entity;
 using AcadLib.Blocks;
+using AR_ApartmentBase.Model;
+using AR_ApartmentBase.AutoCAD.AcadServices;
 
-namespace AR_ApartmentBase.Model.Revit
+namespace AR_ApartmentBase.AutoCAD
 {
     /// <summary>
     /// Квартира или МОП - блок в автокаде
     /// </summary>
-    public class Apartment : IRevitBlock, IEquatable<Apartment>
+    public class ApartmentAC : Apartment, IRevitBlock
     {        
-        private static List<ObjectId> layersOff;
-        public static List<KeyValuePair<string, List<F_S_Parameters>>> BaseCategoryParameters;
-
-        /// <summary>
-        /// Имя блока
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Параметр типа квартиры - Студия, 1комн, и т.д.
-        /// </summary>
-        public string TypeFlat { get; set; }
+        private static List<ObjectId> layersOff;        
+       
         public AttributeInfo TypeFlatAttr { get; set; }
 
         public ObjectId IdBlRef { get; set; }
@@ -46,7 +34,8 @@ namespace AR_ApartmentBase.Model.Revit
         /// <summary>
         /// Модули в квартире.
         /// </summary>
-        public List<Module> Modules { get; set; }
+        public List<ModuleAC> ModulesAC { get; set; }
+        public List<ParameterAC> ParametersAC { get; set; }
 
         /// <summary>
         /// Дата экспорта
@@ -68,7 +57,7 @@ namespace AR_ApartmentBase.Model.Revit
         /// </summary>
         public double Rotation { get; set; }
 
-        public List<Parameter> Parameters { get; set; }
+        public List<ParameterAC> Parameters { get; set; }
 
         private bool _extentsAreDefined;
         private bool _extentsIsNull;
@@ -148,7 +137,7 @@ namespace AR_ApartmentBase.Model.Revit
         /// Создание блока для экспорта из id
         /// Если id не блока, то Exception
         /// </summary>      
-        public Apartment(BlockReference blRef, string blName)
+        public ApartmentAC(BlockReference blRef, string blName)
         {
             Name = blName;
             IdBlRef = blRef.Id;
@@ -157,21 +146,21 @@ namespace AR_ApartmentBase.Model.Revit
             BlockTransform = blRef.BlockTransform;
             Position = blRef.Position;
             Rotation = blRef.Rotation;
-            Direction = Element.GetDirection(Rotation);
+            Direction = ElementAC.GetDirection(Rotation);
             LocationPoint = TypeConverter.Point(Position);
             File = Path.Combine(Commands.DirExportApartments, Name + ".dwg");
 
             defineAttrs(blRef);
 
             // Определение модулуй в квартире
-            Modules = Module.GetModules(this);
+            Modules = ModuleAC.GetModules(this);
         }
 
         private void defineAttrs(BlockReference blRef)
         {
             var attrs = AttributeInfo.GetAttrRefs(blRef);
             // Поиск атрибута типа квартиры
-            TypeFlatAttr = attrs.Find(a => a.Tag.Equals(Options.Instance.ApartmentTypeFlatParameter, StringComparison.OrdinalIgnoreCase));
+            TypeFlatAttr = attrs.Find(a => a.Tag.Equals(OptionsAC.Instance.ApartmentTypeFlatParameter, StringComparison.OrdinalIgnoreCase));
             if (TypeFlatAttr != null)
             {
                 TypeFlat = TypeFlatAttr.Text.Trim();
@@ -181,7 +170,7 @@ namespace AR_ApartmentBase.Model.Revit
         /// <summary>
         /// Конструктор для создания квартиры из базы
         /// </summary>
-        public Apartment(F_R_Flats flatEnt)
+        public ApartmentAC (F_R_Flats flatEnt)
         {
             Name = flatEnt.WORKNAME;
             _extentsIsNull = true;
@@ -214,7 +203,7 @@ namespace AR_ApartmentBase.Model.Revit
         /// Экспорт блоков квартир в отдельные файлы dwg квартир.
         /// </summary>      
         /// <returns>Количество экспортированных квартир.</returns>
-        public static int ExportToFiles(List<Apartment> apartments)
+        public static int ExportToFiles(List<ApartmentAC> apartments)
         {
             int count = 0;
             DateTime now = DateTime.Now;
@@ -223,7 +212,7 @@ namespace AR_ApartmentBase.Model.Revit
             BackupOldApartmentsFile();            
 
             // Выключение слоев штриховки
-            layersOff = LayerService.LayersOff(Options.Instance.LayersOffMatch);
+            layersOff = LayerService.LayersOff(OptionsAC.Instance.LayersOffMatch);
 
             var apartsToFile = apartments.Where(a => !a.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg));
 
@@ -377,15 +366,7 @@ namespace AR_ApartmentBase.Model.Revit
         /// </summary>      
         public static List<Apartment> GetApartments(Autodesk.AutoCAD.DatabaseServices.Database db)
         {
-            List<Apartment> apartments = new List<Apartment>();
-
-            // Импользование базы для проверки категории элементов и их параметров
-            using (var entities = BaseApartments.ConnectEntities())
-            {
-                entities.F_nn_Category_Parameters.Load();
-                BaseCategoryParameters = entities.F_nn_Category_Parameters.Local.GroupBy(cp => cp.F_S_Categories).Select(p =>
-                              new KeyValuePair<string, List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
-            }            
+            List<Apartment> apartments = new List<Apartment>();            
 
             using (var t = db.TransactionManager.StartTransaction())
             {
@@ -415,7 +396,7 @@ namespace AR_ApartmentBase.Model.Revit
 
                                 try
                                 {
-                                    var apartment = new Apartment(blRefApart, blName);
+                                    var apartment = new ApartmentAC(blRefApart, blName);
                                     apartments.Add(apartment);
                                 }
                                 catch (System.Exception ex)
@@ -428,7 +409,7 @@ namespace AR_ApartmentBase.Model.Revit
                         else
                         {
                             Inspector.AddError($"Отфильтрован блок квартиры '{blName}', имя не соответствует " +
-                               $"'{Options.Instance.BlockApartmentNameMatch}",
+                               $"'{OptionsAC.Instance.BlockApartmentNameMatch}",
                                blRefApart, icon: System.Drawing.SystemIcons.Information);
                         }
                     }
@@ -445,17 +426,9 @@ namespace AR_ApartmentBase.Model.Revit
         /// </summary>      
         public static List<Apartment> GetApartments(IEnumerable<ObjectId> idsBlRef)
         {            
-            List<Apartment> apartments = new List<Apartment>();
+            List<Apartment> apartments = new List<Apartment>();            
 
-            // Импользование базы для проверки категории элементов и их параметров
-            using (var entities = BaseApartments.ConnectEntities())
-            {
-                entities.F_nn_Category_Parameters.Load();
-                BaseCategoryParameters = entities.F_nn_Category_Parameters.Local.GroupBy(cp => cp.F_S_Categories).Select(p =>
-                              new KeyValuePair<string, List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
-            }
-
-            Autodesk.AutoCAD.DatabaseServices.Database db = HostApplicationServices.WorkingDatabase;
+            Database db = HostApplicationServices.WorkingDatabase;
             using (var t = db.TransactionManager.StartTransaction())
             {
                 ProgressMeter progress = new ProgressMeter();                
@@ -476,7 +449,7 @@ namespace AR_ApartmentBase.Model.Revit
                             {
                                 try
                                 {
-                                    var apartment = new Apartment(blRefApart, blName);
+                                    var apartment = new ApartmentAC(blRefApart, blName);
                                     apartments.Add(apartment);
                                 }
                                 catch (System.Exception ex)
@@ -489,7 +462,7 @@ namespace AR_ApartmentBase.Model.Revit
                         else
                         {
                             Inspector.AddError($"Отфильтрован блок квартиры '{blName}', имя не соответствует " +
-                               $"'{Options.Instance.BlockApartmentNameMatch}",
+                               $"'{OptionsAC.Instance.BlockApartmentNameMatch}",
                                blRefApart, icon: System.Drawing.SystemIcons.Information);
                         }
                     }
@@ -506,7 +479,7 @@ namespace AR_ApartmentBase.Model.Revit
         /// </summary>      
         public static bool IsBlockNameApartment(string blName)
         {
-            return Regex.IsMatch(blName, Options.Instance.BlockApartmentNameMatch, RegexOptions.IgnoreCase);
+            return Regex.IsMatch(blName, OptionsAC.Instance.BlockApartmentNameMatch, RegexOptions.IgnoreCase);
         }
 
         public bool Equals(Apartment other)

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using AR_ApartmentBase.Model.DB.EntityModel;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace AR_ApartmentBase.Model.Revit.Elements
+namespace AR_ApartmentBase.AutoCAD
 {
-    public class WallElement : Element
+    public class WallElement : ElementAC
     {
         /// <summary>
         /// Контур стены
@@ -16,7 +16,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         public Polyline Contour { get; set; }
         public Extents3d ExtentsClean { get; set; }
 
-        public WallElement(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
+        public WallElement(BlockReference blRefElem, ModuleAC module, string blName, List<ParameterAC> parameters, string category)
               : base(blRefElem, module, blName, parameters, category)
         {
             ExtentsClean = blRefElem.GeometricExtentsСlean();
@@ -28,13 +28,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                 Contour.TransformBy(blRefElem.BlockTransform);
                 //Contour.DowngradeOpen();
             }
-        }        
-
-        public WallElement(Module module, F_nn_Elements_Modules emEnt)
-           : base(module, emEnt)
-        {
-
-        }
+        }                
 
         private Polyline getWallContour(BlockReference blRefElem)
         {

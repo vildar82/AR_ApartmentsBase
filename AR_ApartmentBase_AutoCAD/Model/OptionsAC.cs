@@ -6,16 +6,16 @@ using System.Xml.Serialization;
 using AcadLib.Files;
 using Autodesk.AutoCAD.ApplicationServices;
 
-namespace AR_ApartmentBase.Model
+namespace AR_ApartmentBase.AutoCAD
 {
     [Serializable]
-    public class Options
+    public class OptionsAC
     {
         private static readonly string fileOptions = Path.Combine(
                        AutoCAD_PIK_Manager.Settings.PikSettings.ServerShareSettingsFolder,
                        "АР\\ApartmentBase\\AR_ExportApartment_Options.xml");
-        private static Options _instance;
-        public static Options Instance
+        private static OptionsAC _instance;
+        public static OptionsAC Instance
         {
             get
             {
@@ -27,7 +27,7 @@ namespace AR_ApartmentBase.Model
             }
         }
 
-        private Options() { }
+        private OptionsAC () { }
 
         //
         // Экспорт в файлы dwg
@@ -164,16 +164,16 @@ namespace AR_ApartmentBase.Model
         public string ApartmentTypeFlatParameter { get; set; } = "TYPE_FLAT";
 
 
-        public static Options Load()
+        public static OptionsAC Load ()
         {
-            Options options = null;
+            OptionsAC options = null;
             // загрузка из файла настроек
             if (File.Exists(fileOptions))
             {
                 SerializerXml xmlSer = new SerializerXml(fileOptions);
                 try
                 {
-                    options = xmlSer.DeserializeXmlFile<Options>();
+                    options = xmlSer.DeserializeXmlFile<OptionsAC>();
                     if (options != null)
                     {
                         return options;
@@ -184,7 +184,7 @@ namespace AR_ApartmentBase.Model
                     Logger.Log.Error(ex, $"Не удалось десериализовать настройки из файла {fileOptions}");
                 }
             }
-            options = new Options();
+            options = new OptionsAC();
             options.Save();
             return options;
         }
@@ -218,7 +218,7 @@ namespace AR_ApartmentBase.Model
 
         public static void Show()
         {
-            FormOptions formOpt = new FormOptions((Options)Instance.MemberwiseClone());
+            FormOptions formOpt = new FormOptions((OptionsAC)Instance.MemberwiseClone());
             if (Application.ShowModalDialog(formOpt) == System.Windows.Forms.DialogResult.OK)
             {
                 _instance = formOpt.Options;

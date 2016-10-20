@@ -12,7 +12,6 @@ namespace AR_ApartmentBase.Model.Elements
         string LocationPoint { get; set; }
         Module Module { get; set; }
         string Name { get; set; }
-        List<Parameter> Parameters { get; set; }
-        double Rotation { get; set; }
+        List<Parameter> Parameters { get; set; }        
     }
 }

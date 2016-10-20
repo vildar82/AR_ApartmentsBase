@@ -7,28 +7,20 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using AcadLib.Blocks;
 using AcadLib.Errors;
-using AR_ApartmentBase.Model.DB.DbServices;
 using AR_ApartmentBase.Model.DB.EntityModel;
+using AR_ApartmentBase.Model.Elements;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
-using MoreLinq;
 
-namespace AR_ApartmentBase.Model.Revit.Elements
+namespace AR_ApartmentBase.AutoCAD
 {
     /// <summary>
     /// Элемент - блок в автокаде из которых состоит модуль - стены, окна, двери, мебель и т.п.
     /// </summary>      
-    public class Element : IRevitBlock, IEquatable<Element>
+    public class ElementAC : Element, IRevitBlock 
     {
-        public Element() { }
-
-        public string FamilyName { get; set; }
-        public string FamilySymbolName { get; set; }
-
-        public string CategoryElement { get; set; }
-
-        public string Name { get; set; }
+        public ElementAC () { }       
 
         /// <summary>
         /// Точка вставки относительно базовой точки квартиры
@@ -43,13 +35,13 @@ namespace AR_ApartmentBase.Model.Revit.Elements
         /// <summary>
         /// Параметры элемента
         /// </summary>
-        public List<Parameter> Parameters { get; set; }
+        public List<ParameterAC> ParametersAC { get; set; }
 
         public ObjectId IdBlRef { get; set; }
 
         public ObjectId IdBtr { get; set; }
 
-        public Module Module { get; set; }
+        public ModuleAC ModuleAC { get; set; }
 
         public Matrix3d BlockTransform { get; set; }
         public Error Error { get; set; }        
@@ -70,7 +62,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                         try
                         {
                             _extentsInModel = blRef.GeometricExtents;
-                            _extentsInModel.TransformBy(Module.BlockTransform * Module.Apartment.BlockTransform);
+                            _extentsInModel.TransformBy(ModuleAC.BlockTransform * ModuleAC.ApartmentAC.BlockTransform);
                         }
                         catch
                         {
@@ -97,11 +89,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             }
         }
 
-        public string Direction { get; set; }
-        public string LocationPoint { get; set; }
-
         public EnumBaseStatus BaseStatus { get; set; }
-        public object DBObject { get; set; }
 
         public string NodeName
         {
@@ -127,7 +115,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             }
         }
 
-        public Element(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
+        public ElementAC(BlockReference blRefElem, ModuleAC module, string blName, List<ParameterAC> parameters, string category)
         {
             Name = blName;
             Module = module;
@@ -136,47 +124,23 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             BlockTransform = blRefElem.BlockTransform;
             Position = blRefElem.Position;
             Rotation = blRefElem.Rotation;
-            Direction = Element.GetDirection(Rotation);
+            Direction = ElementAC.GetDirection(Rotation);
             LocationPoint = TypeConverter.Point(Position);
 
             CategoryElement = category;
 
-            FamilyName = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilyName))?.Value ?? "";
-            FamilySymbolName = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterFamilySymbolName))?.Value ?? "";
+            FamilyName = parameters.SingleOrDefault(p => p.Name.Equals(OptionsAC.Instance.ParameterFamilyName))?.Value ?? "";
+            FamilySymbolName = parameters.SingleOrDefault(p => p.Name.Equals(OptionsAC.Instance.ParameterFamilySymbolName))?.Value ?? "";
 
-            Parameters = Parameter.ExceptOnlyRequiredParameters(parameters, category);
-        }
-
-        /// <summary>
-        /// Конструктор создания элемента из базы
-        /// </summary>
-        public Element(Module module, F_nn_Elements_Modules emEnt)
-        {
-            CategoryElement = emEnt.F_S_Elements.F_S_Categories.NAME_RUS_CATEGORY;
-            Direction = emEnt.DIRECTION;
-            LocationPoint = emEnt.LOCATION;
-            FamilyName = emEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_NAME;
-            FamilySymbolName = emEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_SYMBOL;
-            Module = module;
-            DBObject = emEnt;
-
-            // Параметры элемента в базе
-            List<Parameter> parameters = new List<Parameter>();
-            emEnt.F_S_Elements.F_nn_ElementParam_Value.ForEach(p =>
-                                    parameters.Add(new Parameter(
-                                       p.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER,
-                                       p.PARAMETER_VALUE)));
-            Parameters = Parameter.Sort(parameters);
-
-            module.Elements.Add(this);
+            ParametersAC = ParameterAC.ExceptOnlyRequiredParameters(parameters, category);
         }
 
         /// <summary>
         /// Поиск элементов в блоке модуля
         /// </summary>      
-        public static List<Element> GetElements(Module module)
+        public static List<ElementAC> GetElements(ModuleAC module)
         {
-            List<Element> elements = new List<Element>();
+            List<ElementAC> elements = new List<ElementAC>();
 
             var btrModule = module.IdBtr.GetObject(OpenMode.ForRead, false, true) as BlockTableRecord;
             foreach (var idEnt in btrModule)
@@ -193,27 +157,27 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                         if (!blRefElem.CheckNaturalBlockTransform())
                         {
                             Inspector.AddError($"Блок элемента масштабирован '{blName}' - {blRefElem.ScaleFactors.ToString()}.",
-                               blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                               blRefElem, module.BlockTransform * module.ApartmentAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                         }
 
-                        var parameters = Parameter.GetParameters(blRefElem, blName, module.BlockTransform*module.Apartment.BlockTransform);
-                        var categoryElement = parameters.SingleOrDefault(p => p.Name.Equals(Options.Instance.ParameterCategoryName, StringComparison.OrdinalIgnoreCase));
+                        var parameters = ParameterAC.GetParameters(blRefElem, blName, module.BlockTransform*module.ApartmentAC.BlockTransform);
+                        var categoryElement = parameters.SingleOrDefault(p => p.Name.Equals(OptionsAC.Instance.ParameterCategoryName, StringComparison.OrdinalIgnoreCase));
 
                         if (categoryElement == null || string.IsNullOrEmpty(categoryElement.Value))
                         {
                             Inspector.AddError($"Не определена категория элемента у блока {blName}",
-                               blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                               blRefElem, module.BlockTransform * module.ApartmentAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                         }
                         else
                         {
                             try
                             {
                                 // Попытка создать элемент. Если такой категории нет в базе, то будет ошибка
-                                Element elem = ElementFactory.CreateElementDWG(blRefElem, module, blName, parameters, categoryElement.Value);
+                                ElementAC elem = ElementFactory.CreateElementDWG(blRefElem, module, blName, parameters, categoryElement.Value);
                                 if (elem == null)
                                 {
                                     Inspector.AddError($"Не удалось создать элемент из блока '{blName}', категории '{categoryElement.Value}'.",
-                                       blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                                       blRefElem, module.BlockTransform * module.ApartmentAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                                     continue;
                                 }
                                 // проверка элемента
@@ -226,16 +190,16 @@ namespace AR_ApartmentBase.Model.Revit.Elements
                             catch (Exception ex)
                             {
                                 Inspector.AddError($"Ошибка при создании элемента из блока '{blName}' категории '{categoryElement.Value}'. Возможно такой категории нет в базе. - {ex.ToString()}.",
-                                      blRefElem, module.BlockTransform * module.Apartment.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                                      blRefElem, module.BlockTransform * module.ApartmentAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                             }
                         }
                     }
                     else
                     {
                         var extInModel = blRefElem.GeometricExtents;
-                        extInModel.TransformBy(module.BlockTransform * module.Apartment.BlockTransform);
+                        extInModel.TransformBy(module.BlockTransform * module.ApartmentAC.BlockTransform);
 
-                        Inspector.AddError($"Отфильтрован блок элемента '{blName}' имя не соответствует блоку элемента - {Options.Instance.BlockElementNameMatch}.",
+                        Inspector.AddError($"Отфильтрован блок элемента '{blName}' имя не соответствует блоку элемента - {OptionsAC.Instance.BlockElementNameMatch}.",
                            extInModel, idEnt, icon: System.Drawing.SystemIcons.Information);
                     }
                 }
@@ -259,15 +223,15 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             // категорию не нужно проверять, без категории элемент не был бы создан.
             // проверка наличия всех параметров
             string errElem = string.Empty;
-            var paramsForCategory = Apartment.BaseCategoryParameters.Find(c => c.Key.Equals(CategoryElement, StringComparison.OrdinalIgnoreCase)).Value;
+            var paramsForCategory = ApartmentAC.BaseCategoryParameters.Find(c => c.Key.Equals(CategoryElement, StringComparison.OrdinalIgnoreCase)).Value;
             if (paramsForCategory != null)
             {
                 foreach (var paramEnt in paramsForCategory)
                 {
-                    Parameter paramElem = null;
+                    ParameterAC paramElem = null;
                     try
                     {
-                        paramElem = Parameters.SingleOrDefault(p => p.Name.Equals(paramEnt.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
+                        paramElem = ParametersAC.SingleOrDefault(p => p.Name.Equals(paramEnt.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
                     }
                     catch
                     {
@@ -296,7 +260,7 @@ namespace AR_ApartmentBase.Model.Revit.Elements
 
         public static bool IsBlockElement(string blName)
         {
-            return Regex.IsMatch(blName, Options.Instance.BlockElementNameMatch, RegexOptions.IgnoreCase);
+            return Regex.IsMatch(blName, OptionsAC.Instance.BlockElementNameMatch, RegexOptions.IgnoreCase);
         }
 
         public static string GetDirection(double rotation)
@@ -305,23 +269,11 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             direction = direction.RotateBy(rotation, Vector3d.ZAxis);
             return TypeConverter.Point(direction);
         }
-
-        public virtual bool Equals(Element other)
-        {
-            if (other == null) return false;
-            if (object.ReferenceEquals(this, other)) return true;
-            var res = this.CategoryElement.Equals(other.CategoryElement) &&
-                this.Direction.Equals(other.Direction) &&
-               this.LocationPoint.Equals(other.LocationPoint) &&
-               this.FamilyName.Equals(other.FamilyName) &&
-               this.FamilySymbolName.Equals(other.FamilySymbolName) &&
-               Parameter.Equal(this.Parameters, other.Parameters);
-            return res;
-        }
+        
 
         public ObjectId[] GetSubentPath()
         {            
-            return new[] { Module.Apartment.IdBlRef, Module.IdBlRef, IdBlRef };            
+            return new[] { ModuleAC.ApartmentAC.IdBlRef, ModuleAC.IdBlRef, IdBlRef };            
         }
 
         public void AddErrMsg(string errElem)
@@ -344,17 +296,17 @@ namespace AR_ApartmentBase.Model.Revit.Elements
             foreach (var idEnt in btr)
             {
                 var lineOrient = idEnt.GetObject(OpenMode.ForRead, false, true) as Line;
-                if (lineOrient == null || lineOrient.ColorIndex != Options.Instance.DirectionLineColorIndex || !lineOrient.Visible) continue;
+                if (lineOrient == null || lineOrient.ColorIndex != OptionsAC.Instance.DirectionLineColorIndex || !lineOrient.Visible) continue;
                 var lineTemp = (Line)lineOrient.Clone();
                 lineTemp.TransformBy(blRefElem.BlockTransform);
-                Direction = Element.GetDirection(lineTemp.Angle);
+                Direction = ElementAC.GetDirection(lineTemp.Angle);
                 isFinded = true;
                 break;
             }
             if (!isFinded)
             {
                 Inspector.AddError($"Не определено направление открывания в блоке - {Name}. " +
-                   $"Направление открывания определяется отрезком с цветом {Options.Instance.DirectionLineColorIndex} - вектор от стартовой точки отрезка.",
+                   $"Направление открывания определяется отрезком с цветом {OptionsAC.Instance.DirectionLineColorIndex} - вектор от стартовой точки отрезка.",
                    this.ExtentsInModel, this.IdBlRef, System.Drawing.SystemIcons.Error);
             }
         }

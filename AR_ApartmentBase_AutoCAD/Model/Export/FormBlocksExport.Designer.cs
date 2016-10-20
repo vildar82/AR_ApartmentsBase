@@ -1,35 +1,35 @@
 ﻿using System.Drawing;
 
-namespace AR_ApartmentBase.Model.Export
+namespace AR_ApartmentBase.AutoCAD.Export
 {
-   partial class FormBlocksExport
-   {
-      /// <summary>
-      /// Required designer variable.
-      /// </summary>
-      private System.ComponentModel.IContainer components = null;
+    partial class FormBlocksExport
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-      /// <summary>
-      /// Clean up any resources being used.
-      /// </summary>
-      /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-      protected override void Dispose(bool disposing)
-      {
-         if (disposing && (components != null))
-         {
-            components.Dispose();
-         }
-         base.Dispose(disposing);
-      }
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose (bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-      #region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-      /// <summary>
-      /// Required method for Designer support - do not modify
-      /// the contents of this method with the code editor.
-      /// </summary>
-      private void InitializeComponent()
-      {
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent ()
+        {
             this.components = new System.ComponentModel.Container();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOk = new System.Windows.Forms.Button();
@@ -170,8 +170,8 @@ namespace AR_ApartmentBase.Model.Export
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.Location = new System.Drawing.Point(12, 12);
             this.splitContainer1.Name = "splitContainer1";
@@ -199,7 +199,7 @@ namespace AR_ApartmentBase.Model.Export
             // 
             // ToolStripMenuItemExpandAll
             // 
-            this.ToolStripMenuItemExpandAll.Image = global::AR_ApartmentBase.Properties.Resources.expand;
+            this.ToolStripMenuItemExpandAll.Image = global::AR_ApartmentBase_AutoCAD.Properties.Resources.expand;
             this.ToolStripMenuItemExpandAll.Name = "ToolStripMenuItemExpandAll";
             this.ToolStripMenuItemExpandAll.Size = new System.Drawing.Size(182, 22);
             this.ToolStripMenuItemExpandAll.Text = "Раскрыть все";
@@ -207,7 +207,7 @@ namespace AR_ApartmentBase.Model.Export
             // 
             // свернутьВсеToolStripMenuItem
             // 
-            this.свернутьВсеToolStripMenuItem.Image = global::AR_ApartmentBase.Properties.Resources.collapse;
+            this.свернутьВсеToolStripMenuItem.Image = global::AR_ApartmentBase_AutoCAD.Properties.Resources.collapse;
             this.свернутьВсеToolStripMenuItem.Name = "свернутьВсеToolStripMenuItem";
             this.свернутьВсеToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.свернутьВсеToolStripMenuItem.Text = "Свернуть все";
@@ -216,7 +216,7 @@ namespace AR_ApartmentBase.Model.Export
             // buttonOptions
             // 
             this.buttonOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonOptions.BackgroundImage = global::AR_ApartmentBase.Properties.Resources.options;
+            this.buttonOptions.BackgroundImage = global::AR_ApartmentBase_AutoCAD.Properties.Resources.options;
             this.buttonOptions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonOptions.Location = new System.Drawing.Point(117, 649);
             this.buttonOptions.Name = "buttonOptions";
@@ -229,7 +229,7 @@ namespace AR_ApartmentBase.Model.Export
             // buttonShow
             // 
             this.buttonShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonShow.BackgroundImage = global::AR_ApartmentBase.Properties.Resources.Show;
+            this.buttonShow.BackgroundImage = global::AR_ApartmentBase_AutoCAD.Properties.Resources.Show;
             this.buttonShow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonShow.Location = new System.Drawing.Point(60, 647);
             this.buttonShow.Name = "buttonShow";
@@ -288,22 +288,22 @@ namespace AR_ApartmentBase.Model.Export
             this.ResumeLayout(false);
             this.PerformLayout();
 
-      }
+        }
 
-      #endregion
-      private System.Windows.Forms.Button buttonCancel;
-      private System.Windows.Forms.Button buttonOk;
-      private System.Windows.Forms.Button buttonShow;
-      private System.Windows.Forms.ToolTip toolTip1;
-      private System.Windows.Forms.Label labelCount;
-      private System.Windows.Forms.Button buttonOptions;
-      private System.Windows.Forms.TreeView treeViewApartments;
-      private System.Windows.Forms.TextBox textBoxInfo;
-      private System.Windows.Forms.Label labelNotInBase;
-      private System.Windows.Forms.Label labelError;
-      private System.Windows.Forms.Label labelChanged;
-      private System.Windows.Forms.Label labelNotInDwg;
-      private System.Windows.Forms.Label labelOK;
+        #endregion
+        private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.Button buttonOk;
+        private System.Windows.Forms.Button buttonShow;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label labelCount;
+        private System.Windows.Forms.Button buttonOptions;
+        private System.Windows.Forms.TreeView treeViewApartments;
+        private System.Windows.Forms.TextBox textBoxInfo;
+        private System.Windows.Forms.Label labelNotInBase;
+        private System.Windows.Forms.Label labelError;
+        private System.Windows.Forms.Label labelChanged;
+        private System.Windows.Forms.Label labelNotInDwg;
+        private System.Windows.Forms.Label labelOK;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripTreeView;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemExpandAll;
