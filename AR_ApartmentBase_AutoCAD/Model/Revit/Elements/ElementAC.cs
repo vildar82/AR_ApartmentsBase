@@ -223,7 +223,7 @@ namespace AR_ApartmentBase.AutoCAD
             // категорию не нужно проверять, без категории элемент не был бы создан.
             // проверка наличия всех параметров
             string errElem = string.Empty;
-            var paramsForCategory = ApartmentAC.BaseCategoryParameters.Find(c => c.Key.Equals(CategoryElement, StringComparison.OrdinalIgnoreCase)).Value;
+            var paramsForCategory = BaseApartments.GetBaseCategoryParameters().Find(c => c.Key.Equals(CategoryElement, StringComparison.OrdinalIgnoreCase)).Value;
             if (paramsForCategory != null)
             {
                 foreach (var paramEnt in paramsForCategory)

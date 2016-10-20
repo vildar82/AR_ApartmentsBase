@@ -6,6 +6,7 @@ using AcadLib.Errors;
 using System.Drawing;
 using Autodesk.AutoCAD.Geometry;
 using AR_ApartmentBase.Model;
+using AR_ApartmentBase.Model.DB.EntityModel;
 
 namespace AR_ApartmentBase.AutoCAD
 {
@@ -108,7 +109,7 @@ namespace AR_ApartmentBase.AutoCAD
         /// </summary>      
         public static List<ParameterAC> ExceptOnlyRequiredParameters(List<ParameterAC> parameters, string category)
         {
-            var paramsCategory = ApartmentAC.BaseCategoryParameters.SingleOrDefault(c => c.Key.Equals(category)).Value;
+            var paramsCategory = BaseApartments.GetBaseCategoryParameters().SingleOrDefault(c => c.Key.Equals(category)).Value;
             List<ParameterAC> resVal = new List<ParameterAC>();
 
             if (paramsCategory != null)

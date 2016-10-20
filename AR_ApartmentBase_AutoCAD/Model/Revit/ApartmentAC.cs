@@ -364,9 +364,9 @@ namespace AR_ApartmentBase.AutoCAD
         /// <summary>
         /// Поиск квартир в чертеже.
         /// </summary>      
-        public static List<Apartment> GetApartments(Autodesk.AutoCAD.DatabaseServices.Database db)
+        public static List<ApartmentAC> GetApartments(Autodesk.AutoCAD.DatabaseServices.Database db)
         {
-            List<Apartment> apartments = new List<Apartment>();            
+            List<ApartmentAC> apartments = new List<ApartmentAC>();            
 
             using (var t = db.TransactionManager.StartTransaction())
             {
@@ -424,9 +424,9 @@ namespace AR_ApartmentBase.AutoCAD
         /// <summary>
         /// Поиск квартир в вфбранных блоках
         /// </summary>      
-        public static List<Apartment> GetApartments(IEnumerable<ObjectId> idsBlRef)
+        public static List<ApartmentAC> GetApartments(IEnumerable<ObjectId> idsBlRef)
         {            
-            List<Apartment> apartments = new List<Apartment>();            
+            List<ApartmentAC> apartments = new List<ApartmentAC>();            
 
             Database db = HostApplicationServices.WorkingDatabase;
             using (var t = db.TransactionManager.StartTransaction())

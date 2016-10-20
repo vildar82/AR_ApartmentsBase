@@ -109,6 +109,7 @@
     <Compile Include="Model\DB\EntityModel\F_S_Parameters.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\DB\EntityModel\GetApartments.cs" />
     <Compile Include="Model\DB\EntityModel\Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -83,14 +83,14 @@ namespace AR_ApartmentBase.AutoCAD.Export
                 nodeApart.ForeColor = BaseColor.GetColor(apart.BaseStatus);
                 treeViewApartments.Nodes.Add(nodeApart);
 
-                foreach (var module in apart.Modules)
+                foreach (var module in apart.ModulesAC)
                 {
                     TreeNode nodeModule = new TreeNode(module.NodeName);
                     nodeApart.Nodes.Add(nodeModule);
                     nodeModule.Tag = (IRevitBlock)module;
                     nodeModule.ForeColor = BaseColor.GetColor(module.BaseStatus);
 
-                    foreach (var elem in module.Elements)
+                    foreach (var elem in module.ElementsAC)
                     {
                         TreeNode nodeElem = new TreeNode(elem.NodeName);
                         nodeModule.Nodes.Add(nodeElem);

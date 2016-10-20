@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using AcadLib.Blocks;
 using AcadLib.Blocks.Dublicate;
 using AcadLib.Errors;
+using AR_ApartmentBase.AutoCAD.Export;
+using AR_ApartmentBase.AutoCAD.Utils;
 using AR_ApartmentBase.Model;
 using AR_ApartmentBase.Model.DB;
 using AR_ApartmentBase.Model.DB.EntityModel;
@@ -121,10 +123,10 @@ namespace AR_ApartmentBase.AutoCAD
                 DefineDirExportFilesApartments(db);                
 
                 // Считывание блоков квартир из чертежа                
-                var apartments = Apartment.GetApartments(db);
+                var apartments = ApartmentAC.GetApartments(db);
                 if (apartments.Count == 0)
                 {
-                    throw new System.Exception($"Блоки квартир не найдены. Имя блока квартиры должно соответствовать условию Match = '{Options.Instance.BlockApartmentNameMatch}'");
+                    throw new System.Exception($"Блоки квартир не найдены. Имя блока квартиры должно соответствовать условию Match = '{OptionsAC.Instance.BlockApartmentNameMatch}'");
                 }
                 ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир.");
 
@@ -135,15 +137,15 @@ namespace AR_ApartmentBase.AutoCAD
                 var apartmentsInBase = GetBaseApartments.GetAll();
 
                 //Проверка всех элементов квартир в базе - категории, параметры.
-                CheckApartments.Check(apartments, apartmentsInBase);
+                //CheckApartments.Check(apartments, apartmentsInBase);
 
                 // Сортировка квартир, модулей и элементов                
                 var alphaComparer = AcadLib.Comparers.AlphanumComparator.New;
                 apartments.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));
                 apartments.ForEach(a =>
                     {
-                        a.Modules.Sort((m1, m2) => m1.Name.CompareTo(m2.Name));
-                        a.Modules.ForEach(m => m.Elements.Sort((e1, e2) => alphaComparer.Compare(e1.NodeName, e2.NodeName)));
+                        a.ModulesAC.Sort((m1, m2) => m1.Name.CompareTo(m2.Name));
+                        a.ModulesAC.ForEach(m => m.ElementsAC.Sort((e1, e2) => alphaComparer.Compare(e1.NodeName, e2.NodeName)));
                     });
 
                 // Форма предпросмотра экспорта блоков
@@ -161,22 +163,22 @@ namespace AR_ApartmentBase.AutoCAD
                 if (dlgRes == System.Windows.Forms.DialogResult.OK)
                 {
                     // Экспорт блоков в файлы
-                    var count = Apartment.ExportToFiles(apartments);
+                    var count = ApartmentAC.ExportToFiles(apartments);
                     ed.WriteMessage($"\nЭкспортированно '{count}' квартир в отдельные файлы.");
 
-                    // Выбор квартир записываемых в базу - изменившиеся и новые
-                    var apartsToDb = apartments.Where
-                             (a => !a.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
-                                   !a.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg) &&
-                               (
-                                         a.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
-                                         a.BaseStatus.HasFlag(EnumBaseStatus.New) ||
-                                         a.Modules.Any(m => !m.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
-                                                       (
-                                                           m.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
-                                                           m.BaseStatus.HasFlag(EnumBaseStatus.New)
-                                                       ))
-                               )).ToList();
+                    //// Выбор квартир записываемых в базу - изменившиеся и новые
+                    //var apartsToDb = apartments.Where
+                    //         (a => !a.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
+                    //               !a.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg) &&
+                    //           (
+                    //                     a.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
+                    //                     a.BaseStatus.HasFlag(EnumBaseStatus.New) ||
+                    //                     a.Modules.Any(m => !m.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
+                    //                                   (
+                    //                                       m.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
+                    //                                       m.BaseStatus.HasFlag(EnumBaseStatus.New)
+                    //                                   ))
+                    //           )).ToList();
                     //var apartsNotToDB = apartments.Except(apartsToDb);
                     //foreach (var apartNotToDB in apartsNotToDB)
                     //{
@@ -190,7 +192,8 @@ namespace AR_ApartmentBase.AutoCAD
                     // Запись в DB    
                     try
                     {
-                        BaseApartments.Export(apartsToDb);
+                        // Преобразовать из ApartmentAC в Apartment
+                        //BaseApartments.Export(apartments);
                     }
                     catch (System.Exception ex)
                     {
@@ -198,7 +201,7 @@ namespace AR_ApartmentBase.AutoCAD
                     }
 
                     // Запись лога экспортированных блоков      
-                    string logFile = Path.Combine(Path.GetDirectoryName(doc.Name), Options.Instance.LogFileName);
+                    string logFile = Path.Combine(Path.GetDirectoryName(doc.Name), OptionsAC.Instance.LogFileName);
                     ExcelLog excelLog = new ExcelLog(logFile);
                     excelLog.AddtoLog(apartments);
 
@@ -218,7 +221,7 @@ namespace AR_ApartmentBase.AutoCAD
 
         private void DefineDirExportFilesApartments(Database db)
         {
-            string dirExport = Options.Instance.FolderExportApartments; //@"Z:\Revit_server\01. Libraries\Revit 2015\#Группы_квартиры & МОПы\Квартиры_PIK1_PIK1У_База квартир и МОПы";
+            string dirExport = OptionsAC.Instance.FolderExportApartments; //@"Z:\Revit_server\01. Libraries\Revit 2015\#Группы_квартиры & МОПы\Квартиры_PIK1_PIK1У_База квартир и МОПы";
             if (!Directory.Exists(dirExport))
             {
                 dirExport = Path.Combine(Path.GetDirectoryName(db.Filename), @"Квартиры_" + Path.GetFileNameWithoutExtension(db.Filename));
@@ -272,8 +275,8 @@ namespace AR_ApartmentBase.AutoCAD
             {
                 Inspector.Clear();
                 var sel = ed.SelectBlRefs("Выбери квартиры");
-                var apartments = Apartment.GetApartments(sel);
-                Model.AcadServices.ContourHelper.CreateContours2(apartments);
+                var apartments = ApartmentAC.GetApartments(sel);
+                AcadServices.ContourHelper.CreateContours2(apartments);
                 Inspector.Show();
             }
             catch (System.Exception ex)
@@ -300,8 +303,8 @@ namespace AR_ApartmentBase.AutoCAD
             {
                 Inspector.Clear();
                 var sel = ed.SelectBlRefs("Выбери квартиры");
-                var apartments = Apartment.GetApartments(sel);
-                Model.AcadServices.ContourHelper.ClearOldContourAll(apartments);                
+                var apartments = ApartmentAC.GetApartments(sel);
+                AcadServices.ContourHelper.ClearOldContourAll(apartments);                
             }
             catch (System.Exception ex)
             {
@@ -384,7 +387,7 @@ namespace AR_ApartmentBase.AutoCAD
             {
                 Inspector.Clear();
                 var sel = ed.SelectBlRefs("Выбери квартиры");
-                var apartments = Apartment.GetApartments(sel);
+                var apartments = ApartmentAC.GetApartments(sel);
                 RoomsTypeEditor.SetRoomsType(apartments);
                 ed.WriteMessage($"\nПараметры записаны.");
                 Inspector.Show();

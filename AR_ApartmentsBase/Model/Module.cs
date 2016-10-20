@@ -20,7 +20,8 @@ namespace AR_ApartmentBase.Model
         public List<Element> Elements { get; set; }        
         public List<Parameter> Parameters { get; set; }
         public string Direction { get; set; }
-        public string LocationPoint { get; set; }        
+        public string LocationPoint { get; set; }
+        public double Rotation { get; set; }
         public int Revision { get; set; }
 
         public Module ()

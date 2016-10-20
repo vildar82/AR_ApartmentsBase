@@ -34,7 +34,7 @@ namespace AR_ApartmentBase.AutoCAD.AcadServices
                     {
                         List<Polyline> colPl = new List<Polyline>();
                         Point3dCollection pts = new Point3dCollection();
-                        foreach (var module in apart.Modules)
+                        foreach (var module in apart.ModulesAC)
                         {
                             var blRefModule = module.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
                             foreach (var wall in module.Elements.OfType<WallElement>())
