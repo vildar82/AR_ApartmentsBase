@@ -20,8 +20,7 @@ namespace AR_ApartmentBase_AutoCAD
     /// Модуль - блок помещения в автокаде
     /// </summary>
     public class ModuleAC : Module, IRevitBlock
-    {
-        public ApartmentAC ApartmentAC { get; set; }
+    {        
         /// <summary>
         /// Точка вставки модуля
         /// </summary>      
@@ -46,7 +45,7 @@ namespace AR_ApartmentBase_AutoCAD
                         try
                         {
                             _extentsInModel = blRef.GeometricExtents;
-                            _extentsInModel.TransformBy(ApartmentAC.BlockTransform);
+                            _extentsInModel.TransformBy(((ApartmentAC)Apartment).BlockTransform);
                         }
                         catch
                         {
@@ -114,7 +113,7 @@ namespace AR_ApartmentBase_AutoCAD
                 if (string.IsNullOrEmpty(name))
                 {
                     Inspector.AddError($"Для дин.блока модуля '{blName}' не определен параметр имени модуля '{OptionsAC.Instance.ParameterModuleName}'.",
-                       blRefModule, ApartmentAC.BlockTransform, System.Drawing.SystemIcons.Error);
+                       blRefModule, ((ApartmentAC)Apartment).BlockTransform, System.Drawing.SystemIcons.Error);
                 }
             }
             else
@@ -177,7 +176,7 @@ namespace AR_ApartmentBase_AutoCAD
 
         public ObjectId[] GetSubentPath()
         {
-            return new[] { ApartmentAC.IdBlRef, IdBlRef };
+            return new[] { ((ApartmentAC)Apartment).IdBlRef, IdBlRef };
         }
     }
 }

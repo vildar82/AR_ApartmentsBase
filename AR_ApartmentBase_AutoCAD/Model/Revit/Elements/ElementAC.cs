@@ -19,7 +19,7 @@ namespace AR_ApartmentBase_AutoCAD
     /// <summary>
     /// Элемент - блок в автокаде из которых состоит модуль - стены, окна, двери, мебель и т.п.
     /// </summary>      
-    public class ElementAC : Element, IRevitBlock 
+    public class ElementAC : Element, IRevitBlock, IEquatable<ElementAC>
     {
         public ElementAC () { }       
 
@@ -53,7 +53,7 @@ namespace AR_ApartmentBase_AutoCAD
                         {
                             _extentsInModel = blRef.GeometricExtents;
                             var moduleAC = (ModuleAC)Module;
-                            _extentsInModel.TransformBy(moduleAC.BlockTransform* moduleAC.ApartmentAC.BlockTransform);
+                            _extentsInModel.TransformBy(moduleAC.BlockTransform* ((ApartmentAC)moduleAC.Apartment).BlockTransform);
                         }
                         catch
                         {
@@ -109,7 +109,7 @@ namespace AR_ApartmentBase_AutoCAD
             FamilyName = parameters.SingleOrDefault(p => p.Name.Equals(OptionsAC.Instance.ParameterFamilyName))?.Value ?? "";
             FamilySymbolName = parameters.SingleOrDefault(p => p.Name.Equals(OptionsAC.Instance.ParameterFamilySymbolName))?.Value ?? "";
 
-            Parameters = Parameter.ExceptOnlyRequiredParameters(parameters, category);
+            Parameters = ParameterAC.ExceptOnlyRequiredParameters(parameters, category);
         }
 
         /// <summary>
@@ -128,22 +128,24 @@ namespace AR_ApartmentBase_AutoCAD
 
                     string blName = blRefElem.GetEffectiveName();
 
+                    var apartAC = (ApartmentAC)module.Apartment;
+
                     if (IsBlockElement(blName))
-                    {
+                    {                        
                         // Проверка масштабирования блока
                         if (!blRefElem.CheckNaturalBlockTransform())
                         {
                             Inspector.AddError($"Блок элемента масштабирован '{blName}' - {blRefElem.ScaleFactors.ToString()}.",
-                               blRefElem, module.BlockTransform * module.ApartmentAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                               blRefElem, module.BlockTransform * apartAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                         }
-
-                        var parameters = ParameterAC.GetParameters(blRefElem, blName, module.BlockTransform*module.ApartmentAC.BlockTransform);
+                        
+                        var parameters = ParameterAC.GetParameters(blRefElem, blName, module.BlockTransform* apartAC.BlockTransform);
                         var categoryElement = parameters.SingleOrDefault(p => p.Name.Equals(OptionsAC.Instance.ParameterCategoryName, StringComparison.OrdinalIgnoreCase));
 
                         if (categoryElement == null || string.IsNullOrEmpty(categoryElement.Value))
                         {
                             Inspector.AddError($"Не определена категория элемента у блока {blName}",
-                               blRefElem, module.BlockTransform * module.ApartmentAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                               blRefElem, module.BlockTransform * apartAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                         }
                         else
                         {
@@ -154,7 +156,7 @@ namespace AR_ApartmentBase_AutoCAD
                                 if (elem == null)
                                 {
                                     Inspector.AddError($"Не удалось создать элемент из блока '{blName}', категории '{categoryElement.Value}'.",
-                                       blRefElem, module.BlockTransform * module.ApartmentAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                                       blRefElem, module.BlockTransform * apartAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                                     continue;
                                 }
                                 // проверка элемента
@@ -167,14 +169,14 @@ namespace AR_ApartmentBase_AutoCAD
                             catch (Exception ex)
                             {
                                 Inspector.AddError($"Ошибка при создании элемента из блока '{blName}' категории '{categoryElement.Value}'. Возможно такой категории нет в базе. - {ex.ToString()}.",
-                                      blRefElem, module.BlockTransform * module.ApartmentAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                                      blRefElem, module.BlockTransform * apartAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                             }
                         }
                     }
                     else
                     {
                         var extInModel = blRefElem.GeometricExtents;
-                        extInModel.TransformBy(module.BlockTransform * module.ApartmentAC.BlockTransform);
+                        extInModel.TransformBy(module.BlockTransform * apartAC.BlockTransform);
 
                         Inspector.AddError($"Отфильтрован блок элемента '{blName}' имя не соответствует блоку элемента - {OptionsAC.Instance.BlockElementNameMatch}.",
                            extInModel, idEnt, icon: System.Drawing.SystemIcons.Information);
@@ -288,9 +290,17 @@ namespace AR_ApartmentBase_AutoCAD
             }
         }
 
-        public override int GetHashCode ()
+        public virtual bool Equals (ElementAC other)
         {
-            return CategoryElement.GetHashCode() ^ FamilyName.GetHashCode() ^ FamilySymbolName.GetHashCode();
-        }
+            if (other == null) return false;
+            if (object.ReferenceEquals(this, other)) return true;
+            var res = this.CategoryElement.Equals(other.CategoryElement) &&
+               this.Direction.Equals(other.Direction) &&
+               this.LocationPoint.Equals(other.LocationPoint) &&
+               this.FamilyName.Equals(other.FamilyName) &&
+               this.FamilySymbolName.Equals(other.FamilySymbolName) &&
+               Parameter.Equal(this.Parameters, other.Parameters);
+            return res;
+        }        
     }
 }

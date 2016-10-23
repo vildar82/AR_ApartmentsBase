@@ -17,6 +17,7 @@ namespace AR_ApartmentBase_AutoCAD
 
         public ParameterAC (string name, object value) : base(name, value)
         {            
+
         }
 
         public static List<Parameter> GetParameters(BlockReference blRef, string blName, Matrix3d transToModel)
@@ -107,10 +108,10 @@ namespace AR_ApartmentBase_AutoCAD
         /// <summary>
         /// Оставить только нужные для базы параметры
         /// </summary>      
-        public static List<ParameterAC> ExceptOnlyRequiredParameters(List<ParameterAC> parameters, string category)
+        public static List<Parameter> ExceptOnlyRequiredParameters(List<Parameter> parameters, string category)
         {
             var paramsCategory = BaseApartments.GetBaseCategoryParameters().SingleOrDefault(c => c.Key.Equals(category)).Value;
-            List<ParameterAC> resVal = new List<ParameterAC>();
+            List<Parameter> resVal = new List<Parameter>();
 
             if (paramsCategory != null)
             {
@@ -119,7 +120,7 @@ namespace AR_ApartmentBase_AutoCAD
                     var paramDb = paramsCategory.FirstOrDefault(p => p.NAME_PARAMETER.Equals(param.Name, StringComparison.OrdinalIgnoreCase));
                     if (paramDb != null)
                     {
-                        param.ConvertValueToDbType(paramDb.TYPE_PARAMETER);
+                        ((ParameterAC)param).ConvertValueToDbType(paramDb.TYPE_PARAMETER);
                         resVal.Add(param);
                     }
                 }

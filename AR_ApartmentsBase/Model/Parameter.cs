@@ -21,51 +21,38 @@ namespace AR_ApartmentBase.Model
         public static List<Parameter> Sort(List<Parameter> parameters)
         {
             return parameters.OrderBy(p => p.Name).ToList();
-        }
+        }        
 
-        private static void addParam (List<Parameter> parameters, string name, object value)
-        {
-            if (hasParamName(parameters, name))
-            {
+        ///// <summary>
+        ///// Оставить только нужные для базы параметры
+        ///// </summary>      
+        //public static List<Parameter> ExceptOnlyRequiredParameters(List<Parameter> parameters, string category)
+        //{
+        //    var paramsCategory = DB.EntityModel.BaseApartments.GetBaseCategoryParameters().SingleOrDefault(c => c.Key.Equals(category)).Value;
+        //    List<Parameter> resVal = new List<Parameter>();
 
-            }
-            else
-            {
-                Parameter param = new Parameter(name, value);
-                parameters.Add(param);
-            }
-        }
+        //    if (paramsCategory != null)
+        //    {
+        //        foreach (var param in parameters)
+        //        {
+        //            var paramDb = paramsCategory.FirstOrDefault(p => p.NAME_PARAMETER.Equals(param.Name, StringComparison.OrdinalIgnoreCase));
+        //            if (paramDb != null)
+        //            {                        
+        //                resVal.Add(param);
+        //            }
+        //        }
+        //        if (paramsCategory.Exists(p => p.NAME_PARAMETER.Equals("FuckUp", StringComparison.OrdinalIgnoreCase)))
+        //        {
+        //            if (!resVal.Exists(p => p.Name.Equals("FuckUp", StringComparison.OrdinalIgnoreCase)))
+        //            {
+        //                resVal.Add(new Parameter("FuckUp", ""));
+        //            }
+        //        }
+        //    }
+        //    return resVal;
+        //}
 
-        /// <summary>
-        /// Оставить только нужные для базы параметры
-        /// </summary>      
-        public static List<Parameter> ExceptOnlyRequiredParameters(List<Parameter> parameters, string category)
-        {
-            var paramsCategory = DB.EntityModel.BaseApartments.GetBaseCategoryParameters().SingleOrDefault(c => c.Key.Equals(category)).Value;
-            List<Parameter> resVal = new List<Parameter>();
-
-            if (paramsCategory != null)
-            {
-                foreach (var param in parameters)
-                {
-                    var paramDb = paramsCategory.FirstOrDefault(p => p.NAME_PARAMETER.Equals(param.Name, StringComparison.OrdinalIgnoreCase));
-                    if (paramDb != null)
-                    {                        
-                        resVal.Add(param);
-                    }
-                }
-                if (paramsCategory.Exists(p => p.NAME_PARAMETER.Equals("FuckUp", StringComparison.OrdinalIgnoreCase)))
-                {
-                    if (!resVal.Exists(p => p.Name.Equals("FuckUp", StringComparison.OrdinalIgnoreCase)))
-                    {
-                        resVal.Add(new Parameter("FuckUp", ""));
-                    }
-                }
-            }
-            return resVal;
-        }
-
-        private static bool hasParamName(List<Parameter> parameters, string name)
+        public static bool HasParamName(List<Parameter> parameters, string name)
         {
             return parameters.Exists(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }

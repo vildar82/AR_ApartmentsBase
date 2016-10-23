@@ -14,14 +14,12 @@ namespace AR_ApartmentBase.Model.Elements
     /// </summary>      
     public class Element : IElement, IEquatable<IElement>
     {
-        private F_nn_Elements_Modules emEnt;
-
         public string FamilyName { get; set; }
         public string FamilySymbolName { get; set; }
         public string CategoryElement { get; set; }
         public string Name { get; set; }        
         public List<Parameter> Parameters { get; set; }        
-        public Module Module { get; set; }                
+        public Module Module { get; set; }
         public string Direction { get; set; }
         public string LocationPoint { get; set; }
         public object DBObject { get; set; }
@@ -34,11 +32,10 @@ namespace AR_ApartmentBase.Model.Elements
         public Element(F_S_Elements emEnt)
         {
             CategoryElement = emEnt.F_S_Categories.NAME_RUS_CATEGORY;
-            //Direction = emEnt.DIRECTION;
-            //LocationPoint = emEnt.LOCATION;
+            Direction = "";
+            LocationPoint = "";
             FamilyName = emEnt.F_S_FamilyInfos.FAMILY_NAME;
-            FamilySymbolName = emEnt.F_S_FamilyInfos.FAMILY_SYMBOL;
-            //Module = module;
+            FamilySymbolName = emEnt.F_S_FamilyInfos.FAMILY_SYMBOL;            
             DBObject = emEnt;
 
             // Параметры элемента в базе
@@ -49,9 +46,7 @@ namespace AR_ApartmentBase.Model.Elements
                                               item.PARAMETER_VALUE);
                 parameters.Add(parameter);
             }            
-            Parameters = Parameter.Sort(parameters);
-
-            //module.Elements.Add(this);
+            Parameters = Parameter.Sort(parameters);            
         }
 
         public Element (Module module, F_nn_Elements_Modules emEnt)
@@ -115,12 +110,15 @@ namespace AR_ApartmentBase.Model.Elements
             return errElem;
         }
 
+        /// <summary>
+        /// Сравниваются элементы - без привязки к модулю (т.е. без Location и Direction)!!!
+        /// </summary>        
         public virtual bool Equals(IElement other)
         {
             if (other == null) return false;
             if (object.ReferenceEquals(this, other)) return true;
             var res = this.CategoryElement.Equals(other.CategoryElement) &&
-                //this.Direction.Equals(other.Direction) &&
+               //this.Direction.Equals(other.Direction) &&
                //this.LocationPoint.Equals(other.LocationPoint) &&
                this.FamilyName.Equals(other.FamilyName) &&
                this.FamilySymbolName.Equals(other.FamilySymbolName) &&

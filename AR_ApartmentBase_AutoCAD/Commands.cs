@@ -18,6 +18,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 using AcadLib;
+using System.Diagnostics;
 
 [assembly: CommandClass(typeof(AR_ApartmentBase_AutoCAD.Commands))]
 [assembly: ExtensionApplication(typeof(AR_ApartmentBase_AutoCAD.Commands))]
@@ -88,26 +89,20 @@ namespace AR_ApartmentBase_AutoCAD
         [CommandMethod("PIK", "AR-BaseApartmentsExport", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
         public void BaseApartmentsExport()
         {
-            Logger.Log.Info("Start command AR-BaseApartmentsExport");
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            if (doc == null) return;
-
-            // Проверка допуска пользователя
-            if (!AccessUsers.HasAccess())
+            CommandStart.Start(doc =>
             {
-                doc.Editor.WriteMessage("\nОтказано в доступе");
-                return;
-            }
+                // Проверка допуска пользователя
+                if (!AccessUsers.HasAccess())
+                {
+                    doc.Editor.WriteMessage("\nОтказано в доступе");
+                    return;
+                }
 
-            if (!File.Exists(doc.Name))
-            {
-                doc.Editor.WriteMessage("\nНужно сохранить текущий чертеж.");
-                return;
-            }
-
-            try
-            {
-                Inspector.Clear();
+                if (!File.Exists(doc.Name))
+                {
+                    doc.Editor.WriteMessage("\nНужно сохранить текущий чертеж.");
+                    return;
+                }
 
                 Database db = doc.Database;
                 Editor ed = doc.Editor;
@@ -117,11 +112,11 @@ namespace AR_ApartmentBase_AutoCAD
                 ParameterAC.BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
 
                 // Проверка дубликатов блоков    
-                CheckDublicateBlocks.Tolerance = new Autodesk.AutoCAD.Geometry.Tolerance(0.02, 15);                
+                CheckDublicateBlocks.Tolerance = new Autodesk.AutoCAD.Geometry.Tolerance(0.02, 15);
                 CheckDublicateBlocks.Check(new HashSet<string>() { "RV_EL_BS_Базовая стена", "RV_EL_BS_Вентиляционный блок" });
 
                 // Создание папки для экспорта подложек квуартир                
-                DefineDirExportFilesApartments(db);                
+                DefineDirExportFilesApartments(db);
 
                 // Считывание блоков квартир из чертежа                
                 var apartments = ApartmentAC.GetApartments(db);
@@ -132,7 +127,7 @@ namespace AR_ApartmentBase_AutoCAD
                 ed.WriteMessage($"\nВ Модели найдено {apartments.Count} блоков квартир.");
 
                 Inspector.ShowDialog();
-                Inspector.Clear();                
+                Inspector.Clear();
 
                 // Квартиры в базе
                 //var apartmentsInBase = GetBaseApartments.GetAll();
@@ -163,61 +158,53 @@ namespace AR_ApartmentBase_AutoCAD
 
                 //if (dlgRes == System.Windows.Forms.DialogResult.OK)
                 //{
-                    // Экспорт блоков в файлы
-                    var count = ApartmentAC.ExportToFiles(apartments);
-                    ed.WriteMessage($"\nЭкспортированно '{count}' квартир в отдельные файлы.");
+                // Экспорт блоков в файлы
+                var count = ApartmentAC.ExportToFiles(apartments);
+                ed.WriteMessage($"\nЭкспортированно '{count}' квартир в отдельные файлы.");
 
-                    //// Выбор квартир записываемых в базу - изменившиеся и новые
-                    //var apartsToDb = apartments.Where
-                    //         (a => !a.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
-                    //               !a.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg) &&
-                    //           (
-                    //                     a.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
-                    //                     a.BaseStatus.HasFlag(EnumBaseStatus.New) ||
-                    //                     a.Modules.Any(m => !m.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
-                    //                                   (
-                    //                                       m.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
-                    //                                       m.BaseStatus.HasFlag(EnumBaseStatus.New)
-                    //                                   ))
-                    //           )).ToList();
-                    //var apartsNotToDB = apartments.Except(apartsToDb);
-                    //foreach (var apartNotToDB in apartsNotToDB)
-                    //{
-                    //    ed.WriteMessage($"\nКвартира не будет записана в базу, статус '{apartNotToDB.BaseStatus}' - '{apartNotToDB.Name}'.");
-                    //}
-
-                    //// Запись квартир в xml
-                    //string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");               
-                    //Apartment.ExportToXML(fileXml, apartmentsToExport);               
-
-                    // Запись в DB    
-                    try
-                    {
-                        // Преобразовать из ApartmentAC в Apartment
-                        BaseApartments.Export(apartments);
-                    }
-                    catch (System.Exception ex)
-                    {
-                        Inspector.AddError($"Ошибка экспорта в БД - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
-                    }
-
-                    // Запись лога экспортированных блоков      
-                    string logFile = Path.Combine(Path.GetDirectoryName(doc.Name), OptionsAC.Instance.LogFileName);
-                    ExcelLog excelLog = new ExcelLog(logFile);
-                    excelLog.AddtoLog(apartments);
-
-                    // Показ ошибок                    
-                    Inspector.Show();                    
+                //// Выбор квартир записываемых в базу - изменившиеся и новые
+                //var apartsToDb = apartments.Where
+                //         (a => !a.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
+                //               !a.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg) &&
+                //           (
+                //                     a.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
+                //                     a.BaseStatus.HasFlag(EnumBaseStatus.New) ||
+                //                     a.Modules.Any(m => !m.BaseStatus.HasFlag(EnumBaseStatus.Error) &&
+                //                                   (
+                //                                       m.BaseStatus.HasFlag(EnumBaseStatus.Changed) ||
+                //                                       m.BaseStatus.HasFlag(EnumBaseStatus.New)
+                //                                   ))
+                //           )).ToList();
+                //var apartsNotToDB = apartments.Except(apartsToDb);
+                //foreach (var apartNotToDB in apartsNotToDB)
+                //{
+                //    ed.WriteMessage($"\nКвартира не будет записана в базу, статус '{apartNotToDB.BaseStatus}' - '{apartNotToDB.Name}'.");
                 //}
-            }
-            catch (System.Exception ex)
-            {
-                doc.Editor.WriteMessage($"\nОшибка экспорта блоков: {ex.Message}");
-                if (!ex.Message.Contains(AcadLib.General.CanceledByUser))
-                {                    
-                    Logger.Log.Error(ex, $"Command: AR-BaseApartmentsExport. {doc.Name}");
+
+                //// Запись квартир в xml
+                //string fileXml = Path.Combine(Path.GetDirectoryName(doc.Name), Path.GetFileNameWithoutExtension(doc.Name) + ".xml");               
+                //Apartment.ExportToXML(fileXml, apartmentsToExport);               
+
+                // Запись в DB    
+                try
+                {
+                    // Преобразовать из ApartmentAC в Apartment
+                    var sw = Stopwatch.StartNew();
+
+                    BaseApartments.Export(apartments);
+
+                    Logger.Log.Error($"На запись {apartments.Count} квартир в БД ушло {sw.Elapsed.TotalMinutes} минут.");
                 }
-            }
+                catch (System.Exception ex)
+                {
+                    Inspector.AddError($"Ошибка экспорта в БД - {ex.Message}", icon: System.Drawing.SystemIcons.Error);
+                }
+
+                // Запись лога экспортированных блоков      
+                string logFile = Path.Combine(Path.GetDirectoryName(doc.Name), OptionsAC.Instance.LogFileName);
+                ExcelLog excelLog = new ExcelLog(logFile);
+                excelLog.AddtoLog(apartments);
+            });
         }
 
         private void DefineDirExportFilesApartments(Database db)
@@ -237,29 +224,16 @@ namespace AR_ApartmentBase_AutoCAD
         [CommandMethod("PIK", "AR-BaseApartmentsClear", CommandFlags.Modal | CommandFlags.NoPaperSpace | CommandFlags.NoBlockEditor)]
         public void BaseApartmentsClear()
         {
-            Logger.Log.Info("Start command AR-BaseApartmentsClear");
-            Document doc = Application.DocumentManager.MdiActiveDocument;
-            if (doc == null) return;
-
-            // Проверка допуска пользователя
-            if (!AccessUsers.HasAccess())
+            CommandStart.Start(doc =>
             {
-                doc.Editor.WriteMessage("\nОтказано в доступе");
-                return;
-            }
-
-            try
-            {
-                BaseApartments.Clear();
-            }
-            catch (System.Exception ex)
-            {
-                doc.Editor.WriteMessage($"\nОшибка очистки базы: {ex.Message}");
-                if (!ex.Message.Contains("Отменено пользователем"))
+                // Проверка допуска пользователя
+                if (!AccessUsers.HasAccess())
                 {
-                    Logger.Log.Error(ex, $"Command: AR-BaseApartmentsClear. {doc.Name}");
+                    doc.Editor.WriteMessage("\nОтказано в доступе");
+                    return;
                 }
-            }
+                BaseApartments.Clear();
+            });
         }
 
         /// <summary>
