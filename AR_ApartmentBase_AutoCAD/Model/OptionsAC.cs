@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
+using AcadLib;
 using AcadLib.Files;
 using Autodesk.AutoCAD.ApplicationServices;
 
-namespace AR_ApartmentBase.AutoCAD
+namespace AR_ApartmentBase_AutoCAD
 {
     [Serializable]
     public class OptionsAC

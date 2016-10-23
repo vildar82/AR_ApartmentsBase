@@ -13,7 +13,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 
-namespace AR_ApartmentBase.AutoCAD.Utils
+namespace AR_ApartmentBase_AutoCAD.Utils
 {
     public static class ApartmentPlacement
     {

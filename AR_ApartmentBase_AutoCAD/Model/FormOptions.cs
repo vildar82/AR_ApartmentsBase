@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AR_ApartmentBase.AutoCAD
+namespace AR_ApartmentBase_AutoCAD
 {
    public partial class FormOptions : Form
    {

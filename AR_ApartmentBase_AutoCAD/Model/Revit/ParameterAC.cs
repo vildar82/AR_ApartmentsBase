@@ -8,20 +8,20 @@ using Autodesk.AutoCAD.Geometry;
 using AR_ApartmentBase.Model;
 using AR_ApartmentBase.Model.DB.EntityModel;
 
-namespace AR_ApartmentBase.AutoCAD
+namespace AR_ApartmentBase_AutoCAD
 {
     public class ParameterAC : Parameter
     {
         // Константные атрибуты в блоках
-        public static Dictionary<ObjectId, List<ParameterAC>> BlocksConstantAtrs = new Dictionary<ObjectId, List<ParameterAC>>();
+        public static Dictionary<ObjectId, List<Parameter>> BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
 
         public ParameterAC (string name, object value) : base(name, value)
         {            
         }
 
-        public static List<ParameterAC> GetParameters(BlockReference blRef, string blName, Matrix3d transToModel)
+        public static List<Parameter> GetParameters(BlockReference blRef, string blName, Matrix3d transToModel)
         {
-            List<ParameterAC> parameters = new List<ParameterAC>();
+            List<Parameter> parameters = new List<Parameter>();
 
             // считывание дин параметров
             defineDynParams(blRef, parameters, blName, transToModel);
@@ -35,7 +35,7 @@ namespace AR_ApartmentBase.AutoCAD
             return parameters;
         }
 
-        private static void defineDynParams(BlockReference blRef, List<ParameterAC> parameters, string blName, Matrix3d transToModel)
+        private static void defineDynParams(BlockReference blRef, List<Parameter> parameters, string blName, Matrix3d transToModel)
         {
             if (blRef.IsDynamicBlock)
             {
@@ -48,7 +48,7 @@ namespace AR_ApartmentBase.AutoCAD
             }
         }
 
-        private static void defineAttributesParam(BlockReference blRef, List<ParameterAC> parameters, string blName, Matrix3d transToModel)
+        private static void defineAttributesParam(BlockReference blRef, List<Parameter> parameters, string blName, Matrix3d transToModel)
         {
             if (blRef.AttributeCollection != null)
             {
@@ -68,13 +68,13 @@ namespace AR_ApartmentBase.AutoCAD
             parameters.AddRange(getConstAtrParameters(blRef));
         }
 
-        private static List<ParameterAC> getConstAtrParameters(BlockReference blRef)
+        private static List<Parameter> getConstAtrParameters(BlockReference blRef)
         {
-            List<ParameterAC> constAtrParameters;
+            List<Parameter> constAtrParameters;
             ObjectId idBtr = blRef.DynamicBlockTableRecord;
             if (!BlocksConstantAtrs.TryGetValue(idBtr, out constAtrParameters))
             {
-                constAtrParameters = new List<ParameterAC>();
+                constAtrParameters = new List<Parameter>();
                 var btr = idBtr.GetObject(OpenMode.ForRead) as BlockTableRecord;
                 foreach (var idEnt in btr)
                 {
@@ -88,7 +88,7 @@ namespace AR_ApartmentBase.AutoCAD
             return constAtrParameters;
         }
 
-        private static void addParam(List<ParameterAC> parameters, string name, object value, Error errorHasParam)
+        private static void addParam(List<Parameter> parameters, string name, object value, Error errorHasParam)
         {
             if (hasParamName(parameters, name))
             {
@@ -156,32 +156,32 @@ namespace AR_ApartmentBase.AutoCAD
             }
         }
 
-        private static bool hasParamName(List<ParameterAC> parameters, string name)
+        private static bool hasParamName(List<Parameter> parameters, string name)
         {
             return parameters.Exists(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
-        public bool Equals(ParameterAC other)
-        {
-            return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase) &&
-               this.Value.Equals(other.Value, StringComparison.OrdinalIgnoreCase);
-        }
+        //public bool Equals(ParameterAC other)
+        //{
+        //    return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase) &&
+        //       this.Value.Equals(other.Value, StringComparison.OrdinalIgnoreCase);
+        //}
 
-        /// <summary>
-        /// проверка списков параметров.
-        /// Все элементы из второго списка обязательно должны соответствовать первому списку, 
-        /// второй список может содержать лишние параметры
-        /// </summary>      
-        public static bool Equal(List<ParameterAC> params1, List<ParameterAC> params2)
-        {
-            foreach (var p1 in params1)
-            {
-                if (!params2.Contains(p1))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        ///// <summary>
+        ///// проверка списков параметров.
+        ///// Все элементы из второго списка обязательно должны соответствовать первому списку, 
+        ///// второй список может содержать лишние параметры
+        ///// </summary>      
+        //public static bool Equal(List<ParameterAC> params1, List<ParameterAC> params2)
+        //{
+        //    foreach (var p1 in params1)
+        //    {
+        //        if (!params2.Contains(p1))
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    return true;
+        //}
     }
 }

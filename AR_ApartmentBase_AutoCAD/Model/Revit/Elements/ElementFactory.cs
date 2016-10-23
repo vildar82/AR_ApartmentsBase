@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AR_ApartmentBase.Model;
 using AR_ApartmentBase.Model.DB.EntityModel;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace AR_ApartmentBase.AutoCAD
+namespace AR_ApartmentBase_AutoCAD
 {
     public static class ElementFactory
     {
@@ -17,7 +18,8 @@ namespace AR_ApartmentBase.AutoCAD
         /// <summary>
         /// Создание элемента из автокадовского блока блока
         /// </summary>      
-        public static ElementAC CreateElementDWG (BlockReference blRefElem, ModuleAC module, string blName, List<ParameterAC> parameters, string category)
+        public static ElementAC CreateElementDWG (BlockReference blRefElem, Module module, string blName, 
+            List<Parameter> parameters, string category)
         {
             ElementAC elem = null;
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autodesk.AutoCAD.Geometry;
 
-namespace AR_ApartmentBase.AutoCAD.Utils
+namespace AR_ApartmentBase_AutoCAD.Utils
 {
     [Serializable]
     public class SaveDynProp

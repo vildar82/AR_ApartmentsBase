@@ -8,14 +8,15 @@ using AR_ApartmentBase.Model.DB.EntityModel;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using AcadLib.Geometry;
+using AR_ApartmentBase.Model;
 
-namespace AR_ApartmentBase.AutoCAD
+namespace AR_ApartmentBase_AutoCAD
 {
     public class DoorElement : WallHostBase
     {        
         //public int count = -1;
 
-        public DoorElement(BlockReference blRefElem, ModuleAC module, string blName, List<ParameterAC> parameters, string category)
+        public DoorElement(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
               : base(blRefElem, module, blName, parameters, category)
         {
         }        

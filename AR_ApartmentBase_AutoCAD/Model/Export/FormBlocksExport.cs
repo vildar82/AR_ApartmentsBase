@@ -12,7 +12,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using System.IO;
 using AcadLib;
 
-namespace AR_ApartmentBase.AutoCAD.Export
+namespace AR_ApartmentBase_AutoCAD.Export
 {
     public partial class FormBlocksExport : Form
     {
@@ -83,19 +83,21 @@ namespace AR_ApartmentBase.AutoCAD.Export
                 nodeApart.ForeColor = BaseColor.GetColor(apart.BaseStatus);
                 treeViewApartments.Nodes.Add(nodeApart);
 
-                foreach (var module in apart.ModulesAC)
+                foreach (var module in apart.Modules)
                 {
-                    TreeNode nodeModule = new TreeNode(module.NodeName);
+                    var moduleAC = (ModuleAC)module;
+                    TreeNode nodeModule = new TreeNode(moduleAC.NodeName);
                     nodeApart.Nodes.Add(nodeModule);
                     nodeModule.Tag = (IRevitBlock)module;
-                    nodeModule.ForeColor = BaseColor.GetColor(module.BaseStatus);
+                    nodeModule.ForeColor = BaseColor.GetColor(moduleAC.BaseStatus);
 
-                    foreach (var elem in module.ElementsAC)
+                    foreach (var elem in module.Elements)
                     {
-                        TreeNode nodeElem = new TreeNode(elem.NodeName);
+                        var elemAC = (ElementAC)elem;
+                        TreeNode nodeElem = new TreeNode(elemAC.NodeName);
                         nodeModule.Nodes.Add(nodeElem);
                         nodeElem.Tag = (IRevitBlock)elem;
-                        nodeElem.ForeColor = BaseColor.GetColor(elem.BaseStatus);
+                        nodeElem.ForeColor = BaseColor.GetColor(elemAC.BaseStatus);
                     }
                 }
                 nodeApart.Expand();

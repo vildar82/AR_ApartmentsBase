@@ -12,8 +12,10 @@ namespace AR_ApartmentBase.Model.Elements
     /// <summary>
     /// Элемент - блок в автокаде из которых состоит модуль - стены, окна, двери, мебель и т.п.
     /// </summary>      
-    public class Element : IEquatable<Element>, IElement
+    public class Element : IElement, IEquatable<IElement>
     {
+        private F_nn_Elements_Modules emEnt;
+
         public string FamilyName { get; set; }
         public string FamilySymbolName { get; set; }
         public string CategoryElement { get; set; }
@@ -29,7 +31,30 @@ namespace AR_ApartmentBase.Model.Elements
         /// <summary>
         /// Конструктор создания элемента из базы
         /// </summary>
-        public Element(Module module, F_nn_Elements_Modules emEnt)
+        public Element(F_S_Elements emEnt)
+        {
+            CategoryElement = emEnt.F_S_Categories.NAME_RUS_CATEGORY;
+            //Direction = emEnt.DIRECTION;
+            //LocationPoint = emEnt.LOCATION;
+            FamilyName = emEnt.F_S_FamilyInfos.FAMILY_NAME;
+            FamilySymbolName = emEnt.F_S_FamilyInfos.FAMILY_SYMBOL;
+            //Module = module;
+            DBObject = emEnt;
+
+            // Параметры элемента в базе
+            List<Parameter> parameters = new List<Parameter>();
+            foreach (var item in emEnt.F_nn_ElementParam_Value)
+            {
+                var parameter = new Parameter(item.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER,
+                                              item.PARAMETER_VALUE);
+                parameters.Add(parameter);
+            }            
+            Parameters = Parameter.Sort(parameters);
+
+            //module.Elements.Add(this);
+        }
+
+        public Element (Module module, F_nn_Elements_Modules emEnt)
         {
             CategoryElement = emEnt.F_S_Elements.F_S_Categories.NAME_RUS_CATEGORY;
             Direction = emEnt.DIRECTION;
@@ -46,11 +71,11 @@ namespace AR_ApartmentBase.Model.Elements
                 var parameter = new Parameter(item.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER,
                                               item.PARAMETER_VALUE);
                 parameters.Add(parameter);
-            }            
+            }
             Parameters = Parameter.Sort(parameters);
 
             module.Elements.Add(this);
-        }        
+        }
 
         /// <summary>
         /// Проверка элемента - есть ли все необходимые параметры.
@@ -90,13 +115,13 @@ namespace AR_ApartmentBase.Model.Elements
             return errElem;
         }
 
-        public virtual bool Equals(Element other)
+        public virtual bool Equals(IElement other)
         {
             if (other == null) return false;
             if (object.ReferenceEquals(this, other)) return true;
             var res = this.CategoryElement.Equals(other.CategoryElement) &&
-                this.Direction.Equals(other.Direction) &&
-               this.LocationPoint.Equals(other.LocationPoint) &&
+                //this.Direction.Equals(other.Direction) &&
+               //this.LocationPoint.Equals(other.LocationPoint) &&
                this.FamilyName.Equals(other.FamilyName) &&
                this.FamilySymbolName.Equals(other.FamilySymbolName) &&
                Parameter.Equal(this.Parameters, other.Parameters);

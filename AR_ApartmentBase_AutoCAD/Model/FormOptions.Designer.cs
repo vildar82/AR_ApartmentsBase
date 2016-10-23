@@ -1,4 +1,4 @@
-﻿namespace AR_ApartmentBase.AutoCAD
+﻿namespace AR_ApartmentBase_AutoCAD
 {
    partial class FormOptions
    {

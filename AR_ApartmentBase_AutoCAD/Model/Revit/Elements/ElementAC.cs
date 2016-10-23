@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using AcadLib.Blocks;
 using AcadLib.Errors;
+using AR_ApartmentBase.Model;
 using AR_ApartmentBase.Model.DB.EntityModel;
 using AR_ApartmentBase.Model.Elements;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
-namespace AR_ApartmentBase.AutoCAD
+namespace AR_ApartmentBase_AutoCAD
 {
     /// <summary>
     /// Элемент - блок в автокаде из которых состоит модуль - стены, окна, двери, мебель и т.п.
@@ -26,23 +27,12 @@ namespace AR_ApartmentBase.AutoCAD
         /// Точка вставки относительно базовой точки квартиры
         /// </summary>      
         public Point3d Position { get; set; }
-
         /// <summary>
         /// Поворот относительно 0 в блоке квартиры
         /// </summary>
-        public double Rotation { get; set; }
-
-        /// <summary>
-        /// Параметры элемента
-        /// </summary>
-        public List<ParameterAC> ParametersAC { get; set; }
-
+        public double Rotation { get; set; }        
         public ObjectId IdBlRef { get; set; }
-
-        public ObjectId IdBtr { get; set; }
-
-        public ModuleAC ModuleAC { get; set; }
-
+        public ObjectId IdBtr { get; set; }        
         public Matrix3d BlockTransform { get; set; }
         public Error Error { get; set; }        
 
@@ -62,7 +52,8 @@ namespace AR_ApartmentBase.AutoCAD
                         try
                         {
                             _extentsInModel = blRef.GeometricExtents;
-                            _extentsInModel.TransformBy(ModuleAC.BlockTransform * ModuleAC.ApartmentAC.BlockTransform);
+                            var moduleAC = (ModuleAC)Module;
+                            _extentsInModel.TransformBy(moduleAC.BlockTransform* moduleAC.ApartmentAC.BlockTransform);
                         }
                         catch
                         {
@@ -70,21 +61,7 @@ namespace AR_ApartmentBase.AutoCAD
                         }
                         t.Commit();
                     }
-                }
-                //if (_extentsIsNull)
-                //{
-                //    if (Error == null)
-                //    {
-                //        Error = new Error("Границы блока не определены. ");
-                //    }
-                //    else
-                //    {
-                //        if (!Error.Message.Contains("Границы блока не определены."))
-                //        {
-                //            Error.AdditionToMessage("Границы блока не определены. ");
-                //        }
-                //    }
-                //}
+                }                
                 return _extentsInModel;
             }
         }
@@ -115,7 +92,7 @@ namespace AR_ApartmentBase.AutoCAD
             }
         }
 
-        public ElementAC(BlockReference blRefElem, ModuleAC module, string blName, List<ParameterAC> parameters, string category)
+        public ElementAC(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
         {
             Name = blName;
             Module = module;
@@ -132,15 +109,15 @@ namespace AR_ApartmentBase.AutoCAD
             FamilyName = parameters.SingleOrDefault(p => p.Name.Equals(OptionsAC.Instance.ParameterFamilyName))?.Value ?? "";
             FamilySymbolName = parameters.SingleOrDefault(p => p.Name.Equals(OptionsAC.Instance.ParameterFamilySymbolName))?.Value ?? "";
 
-            ParametersAC = ParameterAC.ExceptOnlyRequiredParameters(parameters, category);
+            Parameters = Parameter.ExceptOnlyRequiredParameters(parameters, category);
         }
 
         /// <summary>
         /// Поиск элементов в блоке модуля
         /// </summary>      
-        public static List<ElementAC> GetElements(ModuleAC module)
+        public static List<IElement> GetElements(ModuleAC module)
         {
-            List<ElementAC> elements = new List<ElementAC>();
+            List<IElement> elements = new List<IElement>();
 
             var btrModule = module.IdBtr.GetObject(OpenMode.ForRead, false, true) as BlockTableRecord;
             foreach (var idEnt in btrModule)
@@ -228,10 +205,10 @@ namespace AR_ApartmentBase.AutoCAD
             {
                 foreach (var paramEnt in paramsForCategory)
                 {
-                    ParameterAC paramElem = null;
+                    Parameter paramElem = null;
                     try
                     {
-                        paramElem = ParametersAC.SingleOrDefault(p => p.Name.Equals(paramEnt.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
+                        paramElem = Parameters.SingleOrDefault(p => p.Name.Equals(paramEnt.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
                     }
                     catch
                     {
@@ -273,7 +250,7 @@ namespace AR_ApartmentBase.AutoCAD
 
         public ObjectId[] GetSubentPath()
         {            
-            return new[] { ModuleAC.ApartmentAC.IdBlRef, ModuleAC.IdBlRef, IdBlRef };            
+            return new[] { ((ApartmentAC)Module.Apartment).IdBlRef, ((ModuleAC)Module).IdBlRef, IdBlRef };            
         }
 
         public void AddErrMsg(string errElem)

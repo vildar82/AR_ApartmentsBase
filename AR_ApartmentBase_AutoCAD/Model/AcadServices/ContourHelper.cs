@@ -12,7 +12,7 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.Runtime;
 using AcadLib.Errors;
 
-namespace AR_ApartmentBase.AutoCAD.AcadServices
+namespace AR_ApartmentBase_AutoCAD.AcadServices
 {
     public static class ContourHelper
     {
@@ -21,7 +21,7 @@ namespace AR_ApartmentBase.AutoCAD.AcadServices
             Database db = HostApplicationServices.WorkingDatabase;
             using (var t = db.TransactionManager.StartTransaction())
             {
-                db.RegApp(AR_ApartmentBase.AutoCAD.Commands.RegAppApartBase);
+                db.RegApp(Commands.RegAppApartBase);
 
                 ProgressMeter progress = new ProgressMeter();
                 progress.SetLimit(apartments.Count);
@@ -34,9 +34,9 @@ namespace AR_ApartmentBase.AutoCAD.AcadServices
                     {
                         List<Polyline> colPl = new List<Polyline>();
                         Point3dCollection pts = new Point3dCollection();
-                        foreach (var module in apart.ModulesAC)
+                        foreach (var module in apart.Modules)
                         {
-                            var blRefModule = module.IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
+                            var blRefModule = ((ModuleAC)module).IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;
                             foreach (var wall in module.Elements.OfType<WallElement>())
                             {
                                 var pl = wall.Contour?.Clone() as Polyline;
@@ -57,7 +57,7 @@ namespace AR_ApartmentBase.AutoCAD.AcadServices
                         var layerApartInfo = new AcadLib.Layers.LayerInfo(blRefApart.Layer);
                         AcadLib.Layers.LayerExt.CheckLayerState(layerApartInfo);
 
-                        plContour.SetXData(AR_ApartmentBase.AutoCAD.Commands.RegAppApartBase, 1);
+                        plContour.SetXData(Commands.RegAppApartBase, 1);
                         plContour.SetDatabaseDefaults();
                         plContour.LayerId = blRefApart.LayerId;
 
@@ -67,7 +67,7 @@ namespace AR_ApartmentBase.AutoCAD.AcadServices
                         t.AddNewlyCreatedDBObject(plContour, true);
 
                         Hatch h = new Hatch();
-                        h.SetXData(AR_ApartmentBase.AutoCAD.Commands.RegAppApartBase, 1);
+                        h.SetXData(Commands.RegAppApartBase, 1);
                         h.SetDatabaseDefaults();
                         h.LayerId = blRefApart.LayerId;
                         h.SetHatchPattern(HatchPatternType.PreDefined, "Solid");

@@ -12,8 +12,11 @@ namespace AR_ApartmentBase.Model.Elements
     /// </summary>
     public interface IWallHost : IElement
     {
+        /// <summary>
+        /// Стены, которым принадлежит элемент
+        /// </summary>
         List<IElement> HostWall { get; set; }
-        void SearchHostWallDwg (List<Element> elements);
-        void SearchHostWallDB (F_R_Modules moduleEnt);
+        void SearchHostWallDwg (List<IElement> elements);
+        void SearchHostWallDB ();
     }
 }

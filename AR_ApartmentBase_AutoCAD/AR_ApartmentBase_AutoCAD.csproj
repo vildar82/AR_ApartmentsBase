@@ -73,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands.cs" />
-    <Compile Include="Logger.cs" />
     <Compile Include="Model\AcadServices\ContourHelper.cs" />
     <Compile Include="Model\AcadServices\LayerService.cs" />
     <Compile Include="Model\AcadServices\TypeConverter.cs" />
@@ -95,7 +94,6 @@
     <Compile Include="Model\Revit\Elements\ElementAC.cs" />
     <Compile Include="Model\Revit\Elements\ElementFactory.cs" />
     <Compile Include="Model\Revit\Elements\HostWall\DoorElement.cs" />
-    <Compile Include="Model\Revit\Elements\HostWall\IWallHost.cs" />
     <Compile Include="Model\Revit\Elements\HostWall\WallHostBase.cs" />
     <Compile Include="Model\Revit\Elements\HostWall\WindowElement.cs" />
     <Compile Include="Model\Revit\Elements\WallElement.cs" />

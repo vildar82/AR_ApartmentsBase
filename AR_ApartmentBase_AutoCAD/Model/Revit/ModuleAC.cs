@@ -9,11 +9,12 @@ using AcadLib.Blocks;
 using AcadLib.Errors;
 using AR_ApartmentBase.Model;
 using AR_ApartmentBase.Model.DB.EntityModel;
+using AR_ApartmentBase.Model.Elements;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
-namespace AR_ApartmentBase.AutoCAD
+namespace AR_ApartmentBase_AutoCAD
 {
     /// <summary>
     /// Модуль - блок помещения в автокаде
@@ -21,23 +22,14 @@ namespace AR_ApartmentBase.AutoCAD
     public class ModuleAC : Module, IRevitBlock
     {
         public ApartmentAC ApartmentAC { get; set; }
-
         /// <summary>
         /// Точка вставки модуля
         /// </summary>      
-        public Point3d Position { get; set; }
-
-        public double Rotation { get; set; }
-
-        public List<ElementAC> ElementsAC { get; set; }
-
+        public Point3d Position { get; set; }        
         public ObjectId IdBlRef { get; set; }
-
         public ObjectId IdBtr { get; set; }
-
         public Matrix3d BlockTransform { get; set; }        
-
-        public List<ParameterAC> ParametersAC { get; set; }
+        public List<Parameter> Parameters { get; set; }
 
         private bool _extentsAreDefined;
         private bool _extentsIsNull;
@@ -61,21 +53,7 @@ namespace AR_ApartmentBase.AutoCAD
                             _extentsIsNull = true;
                         }
                     }
-                }
-                //if (_extentsIsNull)
-                //{
-                //    if (Error == null)
-                //    {
-                //        Error = new Error("Границы блока не определены. ");
-                //    }
-                //    else
-                //    {
-                //        if (!Error.Message.Contains("Границы блока не определены."))
-                //        {
-                //            Error.AdditionToMessage("Границы блока не определены. ");
-                //        }
-                //    }
-                //}
+                }                
                 return _extentsInModel;
             }
         }
@@ -119,11 +97,11 @@ namespace AR_ApartmentBase.AutoCAD
             Direction = ElementAC.GetDirection(Rotation);
             LocationPoint = TypeConverter.Point(Position);
 
-            ParametersAC = ParameterAC.GetParameters(blRefModule, blName, apartment.BlockTransform);
+            Parameters = ParameterAC.GetParameters(blRefModule, blName, apartment.BlockTransform);
 
             Name = getModuleName(blRefModule, blName);
 
-            ElementsAC = ElementAC.GetElements(this);
+            Elements = ElementAC.GetElements(this);
         }
 
         private string getModuleName(BlockReference blRefModule, string blName)

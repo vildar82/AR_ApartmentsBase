@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AR_ApartmentBase.Model.Elements
 {
-    public interface IElement
+    public interface IElement : IEquatable<IElement>
     {
         string CategoryElement { get; set; }
         object DBObject { get; set; }

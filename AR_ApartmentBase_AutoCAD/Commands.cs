@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using AcadLib.Blocks;
 using AcadLib.Blocks.Dublicate;
 using AcadLib.Errors;
-using AR_ApartmentBase.AutoCAD.Export;
-using AR_ApartmentBase.AutoCAD.Utils;
+using AR_ApartmentBase_AutoCAD.Export;
+using AR_ApartmentBase_AutoCAD.Utils;
 using AR_ApartmentBase.Model;
 using AR_ApartmentBase.Model.DB;
 using AR_ApartmentBase.Model.DB.EntityModel;
@@ -17,11 +17,12 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
+using AcadLib;
 
-[assembly: CommandClass(typeof(AR_ApartmentBase.AutoCAD.Commands))]
-[assembly: ExtensionApplication(typeof(AR_ApartmentBase.AutoCAD.Commands))]
+[assembly: CommandClass(typeof(AR_ApartmentBase_AutoCAD.Commands))]
+[assembly: ExtensionApplication(typeof(AR_ApartmentBase_AutoCAD.Commands))]
 
-namespace AR_ApartmentBase.AutoCAD
+namespace AR_ApartmentBase_AutoCAD
 {
     public class Commands : IExtensionApplication
     {
@@ -113,7 +114,7 @@ namespace AR_ApartmentBase.AutoCAD
 
                 ExportApartmentsAbout();
 
-                ParameterAC.BlocksConstantAtrs = new Dictionary<ObjectId, List<ParameterAC>>();
+                ParameterAC.BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
 
                 // Проверка дубликатов блоков    
                 CheckDublicateBlocks.Tolerance = new Autodesk.AutoCAD.Geometry.Tolerance(0.02, 15);                
@@ -134,34 +135,34 @@ namespace AR_ApartmentBase.AutoCAD
                 Inspector.Clear();                
 
                 // Квартиры в базе
-                var apartmentsInBase = GetBaseApartments.GetAll();
+                //var apartmentsInBase = GetBaseApartments.GetAll();
 
                 //Проверка всех элементов квартир в базе - категории, параметры.
                 //CheckApartments.Check(apartments, apartmentsInBase);
 
-                // Сортировка квартир, модулей и элементов                
-                var alphaComparer = AcadLib.Comparers.AlphanumComparator.New;
-                apartments.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));
-                apartments.ForEach(a =>
-                    {
-                        a.ModulesAC.Sort((m1, m2) => m1.Name.CompareTo(m2.Name));
-                        a.ModulesAC.ForEach(m => m.ElementsAC.Sort((e1, e2) => alphaComparer.Compare(e1.NodeName, e2.NodeName)));
-                    });
+                //// Сортировка квартир, модулей и элементов                
+                //var alphaComparer = AcadLib.Comparers.AlphanumComparator.New;
+                //apartments.Sort((a1, a2) => a1.Name.CompareTo(a2.Name));
+                //apartments.ForEach(a =>
+                //    {
+                //        a.ModulesAC.Sort((m1, m2) => m1.Name.CompareTo(m2.Name));
+                //        a.ModulesAC.ForEach(m => m.ElementsAC.Sort((e1, e2) => alphaComparer.Compare(e1.NodeName, e2.NodeName)));
+                //    });
 
-                // Форма предпросмотра экспорта блоков
-                FormBlocksExport formExport = new FormBlocksExport(apartments);
-                var dlgRes = Application.ShowModalDialog(formExport);
+                //// Форма предпросмотра экспорта блоков
+                //FormBlocksExport formExport = new FormBlocksExport(apartments);
+                //var dlgRes = Application.ShowModalDialog(formExport);
 
-                // Прервать
-                if (dlgRes == System.Windows.Forms.DialogResult.Abort)
-                {
-                    formExport.SetModaless();
-                    Application.ShowModelessDialog(formExport);
-                    throw new System.Exception(AcadLib.General.CanceledByUser);
-                }
+                //// Прервать
+                //if (dlgRes == System.Windows.Forms.DialogResult.Abort)
+                //{
+                //    formExport.SetModaless();
+                //    Application.ShowModelessDialog(formExport);
+                //    throw new System.Exception(AcadLib.General.CanceledByUser);
+                //}
 
-                if (dlgRes == System.Windows.Forms.DialogResult.OK)
-                {
+                //if (dlgRes == System.Windows.Forms.DialogResult.OK)
+                //{
                     // Экспорт блоков в файлы
                     var count = ApartmentAC.ExportToFiles(apartments);
                     ed.WriteMessage($"\nЭкспортированно '{count}' квартир в отдельные файлы.");
@@ -193,7 +194,7 @@ namespace AR_ApartmentBase.AutoCAD
                     try
                     {
                         // Преобразовать из ApartmentAC в Apartment
-                        //BaseApartments.Export(apartments);
+                        BaseApartments.Export(apartments);
                     }
                     catch (System.Exception ex)
                     {
@@ -207,7 +208,7 @@ namespace AR_ApartmentBase.AutoCAD
 
                     // Показ ошибок                    
                     Inspector.Show();                    
-                }
+                //}
             }
             catch (System.Exception ex)
             {

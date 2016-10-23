@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AR_ApartmentBase.Model;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
-namespace AR_ApartmentBase.AutoCAD
+namespace AR_ApartmentBase_AutoCAD
 {
     /// <summary>
     /// Блок ревитовского элемента
@@ -37,7 +38,7 @@ namespace AR_ApartmentBase.AutoCAD
         /// <summary>
         /// Параметры элемента
         /// </summary>
-        List<ParameterAC> ParametersAC { get; }
+        List<Parameter> Parameters { get; }
 
         /// <summary>
         /// Границы блока в Модели

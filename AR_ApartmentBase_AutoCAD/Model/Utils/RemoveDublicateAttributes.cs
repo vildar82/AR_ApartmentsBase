@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AcadLib.Blocks;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace AR_ApartmentBase.AutoCAD.Utils
+namespace AR_ApartmentBase_AutoCAD.Utils
 {
     public static class RemoveDublicateAttributes
     {

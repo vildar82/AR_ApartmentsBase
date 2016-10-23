@@ -17,12 +17,15 @@ namespace AR_ApartmentBase.Model
     {
         public Apartment Apartment { get; set; }
         public string Name { get; set; }        
-        public List<Element> Elements { get; set; }        
-        public List<Parameter> Parameters { get; set; }
+        public List<IElement> Elements { get; set; }                
         public string Direction { get; set; }
         public string LocationPoint { get; set; }
         public double Rotation { get; set; }
         public int Revision { get; set; }
+        /// <summary>
+        /// F_R_Modules
+        /// </summary>
+        public object DBObject { get; set; }
 
         public Module ()
         {
@@ -35,7 +38,7 @@ namespace AR_ApartmentBase.Model
         {
             Name = fmEnt.F_R_Modules.NAME_MODULE;
             Apartment = apart;            
-            Elements = new List<Element>();
+            Elements = new List<IElement>();
             apart.Modules.Add(this);
             Direction = fmEnt.DIRECTION;
             LocationPoint = fmEnt.LOCATION;            

@@ -40,12 +40,12 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                             // Создание элемента из элемента базы базы
                             Element elem = new Element(module, emEnt);
                         }
-                        //// Для дверей определение элемента стены
-                        //var doors = module.Elements.OfType<DoorElement>();
-                        //foreach (var door in doors)
-                        //{
-                        //    door.SearchHostWallDB(fmEnt.F_R_Modules);
-                        //}
+                        // Для окон дверей определение элемента стены
+                        var hostsWall = module.Elements.OfType<IWallHost>();
+                        foreach (var hostWall in hostsWall)
+                        {
+                            hostWall.SearchHostWallDB();
+                        }
                     }
                 }
             }

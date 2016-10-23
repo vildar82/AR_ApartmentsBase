@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcadLib.Errors;
+using AR_ApartmentBase.Model;
 using OfficeOpenXml;
 
-namespace AR_ApartmentBase.AutoCAD.Export
+namespace AR_ApartmentBase_AutoCAD.Export
 {
    public class ExcelLog
    {
@@ -18,7 +19,7 @@ namespace AR_ApartmentBase.AutoCAD.Export
          this.logFile = fileLog;
       }
 
-      public void AddtoLog(List<ApartmentAC> bllocksToExport)
+      public void AddtoLog(List<Apartment> apartments)
       {
          try
          {
@@ -35,13 +36,14 @@ namespace AR_ApartmentBase.AutoCAD.Export
                while (worksheet.Cells[row, 1].Text != "")
                   row++;
 
-               foreach (var blToExport in bllocksToExport)
+               foreach (var apart in apartments)
                {
-                  if (blToExport.ExportDate > DateTime.MinValue)
+                  var apartAC = (ApartmentAC)apart;
+                  if (apartAC.ExportDate > DateTime.MinValue)
                   {
-                     worksheet.Cells[row, 1].Value = blToExport.ExportDate;//"Дата"
-                     worksheet.Cells[row, 2].Value = blToExport.Name;//"Блок"
-                     worksheet.Cells[row, 3].Value = blToExport.File;//"файл"
+                     worksheet.Cells[row, 1].Value = apartAC.ExportDate;//"Дата"
+                     worksheet.Cells[row, 2].Value = apartAC.Name;//"Блок"
+                     worksheet.Cells[row, 3].Value = apartAC.File;//"файл"
                      worksheet.Cells[row, 4].Value = Environment.UserName;//"Пользователь"               
                      row++;
                   }

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace AR_ApartmentBase.AutoCAD.Export
+namespace AR_ApartmentBase_AutoCAD.Export
 {
     partial class FormBlocksExport
     {

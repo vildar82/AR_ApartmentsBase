@@ -13,9 +13,10 @@ using Autodesk.AutoCAD.ApplicationServices;
 using AR_ApartmentBase.Model.DB.EntityModel;
 using AcadLib.Blocks;
 using AR_ApartmentBase.Model;
-using AR_ApartmentBase.AutoCAD.AcadServices;
+using AR_ApartmentBase_AutoCAD.AcadServices;
+using AcadLib;
 
-namespace AR_ApartmentBase.AutoCAD
+namespace AR_ApartmentBase_AutoCAD
 {
     /// <summary>
     /// Квартира или МОП - блок в автокаде
@@ -25,39 +26,26 @@ namespace AR_ApartmentBase.AutoCAD
         private static List<ObjectId> layersOff;        
        
         public AttributeInfo TypeFlatAttr { get; set; }
-
         public ObjectId IdBlRef { get; set; }
         public string Layer { get; set; }
-
-        public ObjectId IdBtr { get; set; }
-
-        /// <summary>
-        /// Модули в квартире.
-        /// </summary>
-        public List<ModuleAC> ModulesAC { get; set; }
-        public List<ParameterAC> ParametersAC { get; set; }
-
+        public ObjectId IdBtr { get; set; }        
+        public List<Parameter> Parameters { get; set; }
         /// <summary>
         /// Дата экспорта
         /// </summary>      
         public DateTime ExportDate { get; set; }
-
         /// <summary>
         /// Полный путь к файлу экспортированного блока
         /// </summary>      
         public string File { get; set; }
-
         /// <summary>
         /// Точка вставки бллока квартиры в Модели.
         /// </summary>      
         public Point3d Position { get; set; }
-
         /// <summary>
         /// Угол поворота блока квартиры.
         /// </summary>
-        public double Rotation { get; set; }
-
-        public List<ParameterAC> Parameters { get; set; }
+        public double Rotation { get; set; }        
 
         private bool _extentsAreDefined;
         private bool _extentsIsNull;
@@ -81,21 +69,7 @@ namespace AR_ApartmentBase.AutoCAD
                             _extentsIsNull = true;
                         }
                     }
-                }
-                //if (_extentsIsNull)
-                //{
-                //    if (Error == null)
-                //    {
-                //        Error = new Error("Границы блока не определены. ");
-                //    }
-                //    else
-                //    {
-                //        if (!Error.Message.Contains("Границы блока не определены."))
-                //        {
-                //            Error.AdditionToMessage("Границы блока не определены. ");
-                //        }
-                //    }
-                //}
+                }                
                 return _extentsInModel;
             }
         }
@@ -203,7 +177,7 @@ namespace AR_ApartmentBase.AutoCAD
         /// Экспорт блоков квартир в отдельные файлы dwg квартир.
         /// </summary>      
         /// <returns>Количество экспортированных квартир.</returns>
-        public static int ExportToFiles(List<ApartmentAC> apartments)
+        public static int ExportToFiles(List<Apartment> apartments)
         {
             int count = 0;
             DateTime now = DateTime.Now;
@@ -214,20 +188,21 @@ namespace AR_ApartmentBase.AutoCAD
             // Выключение слоев штриховки
             layersOff = LayerService.LayersOff(OptionsAC.Instance.LayersOffMatch);
 
-            var apartsToFile = apartments.Where(a => !a.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg));
+            //var apartsToFile = apartments.Where(a => !a.BaseStatus.HasFlag(EnumBaseStatus.NotInDwg));
 
             using (var progress = new ProgressMeter())
             {
-                progress.SetLimit(apartsToFile.Count());
+                progress.SetLimit(apartments.Count());
                 progress.Start("Экспорт квартир в файлы...");
 
-                foreach (var apart in apartsToFile)
+                foreach (var apart in apartments)
                 {
                     progress.MeterProgress();
                     try
                     {
-                        apart.ExportToFile();
-                        apart.ExportDate = now;
+                        var apartAC = (ApartmentAC)apart;
+                        apartAC.ExportToFile();
+                        apartAC.ExportDate = now;
                         count++;
                     }
                     catch (System.Exception ex)
@@ -364,9 +339,9 @@ namespace AR_ApartmentBase.AutoCAD
         /// <summary>
         /// Поиск квартир в чертеже.
         /// </summary>      
-        public static List<ApartmentAC> GetApartments(Autodesk.AutoCAD.DatabaseServices.Database db)
+        public static List<Apartment> GetApartments(Autodesk.AutoCAD.DatabaseServices.Database db)
         {
-            List<ApartmentAC> apartments = new List<ApartmentAC>();            
+            List<Apartment> apartments = new List<Apartment>();            
 
             using (var t = db.TransactionManager.StartTransaction())
             {
