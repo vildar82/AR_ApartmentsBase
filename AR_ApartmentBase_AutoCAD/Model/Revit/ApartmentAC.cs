@@ -81,12 +81,12 @@ namespace AR_ApartmentBase_AutoCAD
         public string LocationPoint { get; set; }
 
         public EnumBaseStatus BaseStatus { get; set; }
-        public int Revision { get; set; }
+        //public int Revision { get; set; }
 
-        /// <summary>
-        /// F_R_Flats
-        /// </summary>
-        public object DBObject { get; set; }
+        ///// <summary>
+        ///// F_R_Flats
+        ///// </summary>
+        //public object DBObject { get; set; }
 
         public string NodeName
         {

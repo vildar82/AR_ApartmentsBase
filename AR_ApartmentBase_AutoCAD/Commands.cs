@@ -33,9 +33,9 @@ namespace AR_ApartmentBase_AutoCAD
         public void Initialize()
         {
             // Загрузка сборок EF, MoreLinq
-            AcadLib.LoadService.LoadEntityFramework();
-            AcadLib.LoadService.LoadMorelinq();
-            AcadLib.LoadService.LoadNetTopologySuite();
+            LoadService.LoadEntityFramework();
+            LoadService.LoadMorelinq();
+            LoadService.LoadNetTopologySuite();
         }
 
         public void Terminate()

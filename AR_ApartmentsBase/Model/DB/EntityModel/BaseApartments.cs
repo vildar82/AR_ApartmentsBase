@@ -101,11 +101,14 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                     apartDB = entities.F_R_Flats.Add(new F_R_Flats() {
                         WORKNAME = apart.Name,
                         COMMERCIAL_NAME = "",
+                        TYPE_FLAT = apart.TypeFlat,
                         REVISION = 1
                     });                   
                 }
                 else
                 {
+                    if (apartDB.TYPE_FLAT == null || !apartDB.TYPE_FLAT.Equals(apart.TypeFlat, StringComparison.OrdinalIgnoreCase))
+                        apartDB.TYPE_FLAT = apart.TypeFlat;
                     // Удаление модулей (Удалятся ли Модули и Элементы?)
                     foreach (var item in apartDB.F_nn_FlatModules.ToList())
                     {
