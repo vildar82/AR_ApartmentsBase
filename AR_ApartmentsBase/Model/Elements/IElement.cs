@@ -11,7 +11,7 @@ namespace AR_ApartmentBase.Model.Elements
         string FamilyName { get; set; }
         string FamilySymbolName { get; set; }
         string LocationPoint { get; set; }
-        //Module Module { get; set; }
+        Module Module { get; set; }
         string Name { get; set; }
         List<Parameter> Parameters { get; set; }        
     }

@@ -19,7 +19,7 @@ namespace AR_ApartmentBase.Model.Elements
         public string CategoryElement { get; set; }
         public string Name { get; set; }        
         public List<Parameter> Parameters { get; set; }        
-        //public Module Module { get; set; }
+        public Module Module { get; set; }
         public string Direction { get; set; }
         public string LocationPoint { get; set; }
         public object DBObject { get; set; }
@@ -56,7 +56,7 @@ namespace AR_ApartmentBase.Model.Elements
             LocationPoint = emEnt.LOCATION;
             FamilyName = emEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_NAME;
             FamilySymbolName = emEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_SYMBOL;
-            //Module = module;
+            
             DBObject = emEnt;
 
             // Параметры элемента в базе
@@ -68,8 +68,11 @@ namespace AR_ApartmentBase.Model.Elements
                 parameters.Add(parameter);
             }
             Parameters = Parameter.Sort(parameters);
-
-            module.Elements.Add(this);
+            if (module != null)
+            {
+                Module = module;
+                module.Elements.Add(this);
+            }
         }
 
         /// <summary>

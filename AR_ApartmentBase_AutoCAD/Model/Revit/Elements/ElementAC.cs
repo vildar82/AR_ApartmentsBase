@@ -22,8 +22,7 @@ namespace AR_ApartmentBase_AutoCAD
     public class ElementAC : Element, IRevitBlock, IEquatable<ElementAC>
     {
         public ElementAC () { }
-
-        public Module Module { get; set; }
+        
         /// <summary>
         /// Точка вставки относительно базовой точки квартиры
         /// </summary>      

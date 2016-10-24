@@ -11,7 +11,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
     public static class BaseApartments
     {
         private static List<KeyValuePair<string, List<F_S_Parameters>>> baseCategoryParameters;
-        private static List<Tuple<F_nn_Elements_Modules, List<F_nn_Elements_Modules>>> elemsAndHostWall;
+        private static List<KeyValuePair<int, List<F_S_Parameters>>> baseCategoryParametersById;
+        private static List<int> categoriesIdWithIdWallParameter;
+        private static int idWallParam;
         private static SAPREntities entities;
 
         public static SAPREntities ConnectEntities()
@@ -36,7 +38,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         }
 
         /// <summary>
-        /// Список параметров по категориям
+        /// Список параметров по категориям - имя категории - список параметров
         /// </summary>        
         public static List<KeyValuePair<string, List<F_S_Parameters>>> GetBaseCategoryParameters ()
         {
@@ -50,7 +52,24 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 }
             }
             return baseCategoryParameters;
-        }             
+        }
+
+        /// <summary>
+        /// Список параметров по категориям - id категории - список параметров
+        /// </summary>        
+        public static List<KeyValuePair<int, List<F_S_Parameters>>> GetBaseCategoryParametersById ()
+        {
+            if (baseCategoryParametersById == null)
+            {
+                using (var entities = ConnectEntities())
+                {
+                    entities.F_nn_Category_Parameters.Load();
+                    baseCategoryParametersById = entities.F_nn_Category_Parameters.Local.GroupBy(cp => cp.F_S_Categories).Select(p =>
+                        new KeyValuePair<int, List<F_S_Parameters>>(p.Key.ID_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
+                }
+            }
+            return baseCategoryParametersById;
+        }
 
         /// <summary>
         /// Экспорт квартир в базу.
@@ -112,12 +131,34 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                     // Удаление модулей (Удалятся ли Модули и Элементы?)
                     foreach (var item in apartDB.F_nn_FlatModules.ToList())
                     {
+                        // Удаление элементов стен в модуле
+                        RemoveHostWallElements(item.F_R_Modules);
+                        // Удаление модуля
                         entities.F_R_Modules.Remove(item.F_R_Modules);
                     }                    
                 }
                 apart.DBObject = apartDB;
             }
             entities.SaveChanges();
+        }
+
+        private static void RemoveHostWallElements (F_R_Modules module)
+        {
+            // Категории элементов с парвметром IdWall (Options.HostWallParameter)
+            if (categoriesIdWithIdWallParameter == null)
+            {
+                categoriesIdWithIdWallParameter = GetBaseCategoryParametersById().Where(c => c.Value.Any(p =>
+                            p.NAME_PARAMETER.Equals(Options.HostWallParameter, StringComparison.OrdinalIgnoreCase)))
+                            .Select(s => s.Key).ToList();
+            }
+            // елеметы в модуле с параметром idWall
+            var elemsWithIdWallParam = module.F_nn_Elements_Modules.Select(s=>s.F_S_Elements).
+                    Where(e => categoriesIdWithIdWallParameter.Any(c=>c == e?.ID_CATEGORY)).ToList();
+            // Удаление найденных элементов
+            foreach (var elem in elemsWithIdWallParam)
+            {
+                entities.F_S_Elements.Remove(elem);
+            }
         }
 
         private static void FillModules (List<Apartment> apartments)
@@ -148,6 +189,60 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 }
             }
             entities.SaveChanges();
+
+            // Поиск и заполнение параметров IdWall элементов хостов стены
+            FindAndFillIdWallParametersInApartments(apartments);
+            entities.SaveChanges();
+        }
+
+        /// <summary>
+        /// Поиск элементо-модулей стен для элементов хостов стены и запись параметрва idWall
+        /// </summary>
+        /// <param name="apartments"></param>
+        private static void FindAndFillIdWallParametersInApartments (List<Apartment> apartments)
+        {
+            foreach (var apart in apartments)
+            {
+                foreach (var module in apart.Modules)
+                {                    
+                    FillIdWallParameterInModule(module);
+                }
+            }
+        }
+
+        private static void FillIdWallParameterInModule (Module module)
+        {
+            var moduleDb = (F_R_Modules)module.DBObject;
+            var hostWallElems = module.Elements.OfType<IWallHost>();
+            foreach (var hw in hostWallElems)
+            {
+                List<string> idsWall = new List<string>();
+                foreach (var wall in hw.HostWall)
+                {
+                    // Найти элементо-модуль стены
+                    var wallDbEM = ((F_S_Elements)wall.DBObject).F_nn_Elements_Modules.FirstOrDefault();
+                    if (wallDbEM == null)
+                    {                        
+                        throw new Exception("Ошибка - не должно такого быть - не найден элементо-модуль стены в базе!!!");
+                    }
+                    idsWall.Add(wallDbEM.ID_ELEMENT_IN_MODULE.ToString());
+                }
+                var idWallParam = GetHostWallsValue(idsWall);
+                // Запись параметра IdWall в базу для элемента хоста стены
+                FillIdWallParameterElemInDb(hw, idWallParam);
+            }
+        }
+
+        private static void FillIdWallParameterElemInDb (IWallHost hw, string idWallParamValue)
+        {
+            if (idWallParam ==0)
+            {
+                idWallParam = entities.F_S_Parameters.First(p => 
+                    p.NAME_PARAMETER.Equals(Options.HostWallParameter, StringComparison.OrdinalIgnoreCase)).ID_PARAMETER;
+            }
+            var elemDb = (F_S_Elements)hw.DBObject;
+            var param = elemDb.F_nn_ElementParam_Value.First(p => p.F_nn_Category_Parameters.F_S_Parameters.ID_PARAMETER == idWallParam);
+            param.PARAMETER_VALUE = idWallParamValue;
         }
 
         private static void AddElementsToModule (Module module)
@@ -178,24 +273,8 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             entities.F_S_Categories.Load();
             entities.F_nn_Category_Parameters.Load();
 
-            // Стены записать в первую очередь
-            var walls = new List<IElement>();
-            var otherElems = new List<IElement>();            
-            foreach (var elem in allElements)
-            {                
-                if (elem is IWall)                
-                    walls.Add(elem);                
-                else                
-                    otherElems.Add(elem);                
-            }            
-
-            AddElements(walls, elementsBD);            
-
-            // Для элемнтов хостов стен - найти стены и вписать Id
-            DefineIdWallParameterForHostWallElements(allElements, elementsBD);
-
-            // Запись остальных элементов
-            AddElements(otherElems, elementsBD);
+            // Записать все элементы
+            AddElements(allElements, elementsBD);            
         }
 
         private static void AddElements (List<IElement> elements, List<IElement> elementsBD)
@@ -203,33 +282,43 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             if (elements == null || elements.Count == 0) return;
 
             // Найти новые элементов
-            var newElements = new List<IGrouping<IElement, IElement>>();
+            var newElements = new List<KeyValuePair<IElement,List<IElement>>>();
             var uniqElems = elements.GroupBy(g => g).ToList();
             foreach (var group in uniqElems)
             {
-                var elemBD = elementsBD.Find(e => e.Equals(group.Key));
-                if (elemBD == null)
+                if (group.Key is IWallHost)
                 {
-                    newElements.Add(group);
+                    // Элементы принадлежащие стенам - записываются все как новые
+                    foreach (var item in group)
+                        newElements.Add(new KeyValuePair<IElement, List<IElement>>(item, new List<IElement> { item }));
                 }
                 else
                 {
-                    foreach (var item in group)
+                    var elemBD = elementsBD.Find(e => e.Equals(group.Key));
+                    if (elemBD == null)
                     {
-                        item.DBObject = elemBD.DBObject;
-                    }                   
+                        newElements.Add(new KeyValuePair<IElement, List<IElement>>(group.Key, group.ToList()));
+                    }
+                    else
+                    {
+                        foreach (var item in group)
+                        {
+                            item.DBObject = elemBD.DBObject;
+                        }
+                    }
                 }
             }
-
-            // Запись новых семейств если есть
+            
+            // Запись новых элементов
             if (newElements.Any())
             {
+                // Запись новых семейств если есть
                 FillFamilys(newElements.Select(s=>s.Key).ToList());
                 foreach (var group in newElements)
                 {
                     // Запись нового элемента
                     FillNewElement(group.Key);
-                    foreach (var item in group)
+                    foreach (var item in group.Value)
                     {
                         item.DBObject = group.Key.DBObject;
                     }
@@ -291,48 +380,5 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 entities.SaveChanges();
             }
         }
-
-        /// <summary>
-        /// Определение параметра IdWall для элементов хостов стены
-        /// </summary>
-        /// <param name="elements">Элементы чертежа</param>
-        /// <param name="elementsBD">Элементы из базы</param>
-        private static void DefineIdWallParameterForHostWallElements (List<IElement> elements, List<IElement> elementsBD)
-        {
-            if (elements == null || elements.Count == 0) return;
-
-            var hostsWallElems = elements.OfType<IWallHost>();
-            foreach (var hw in hostsWallElems)
-            {
-                var idsWall = new List<string>();
-                foreach (var wall in hw.HostWall)
-                {
-                    int idWall = 0;
-                    if (wall.DBObject == null)
-                    {
-                        var wallBD = elementsBD.Find(e => e.Equals(wall));
-                        if (wallBD == null)
-                        {
-                            idsWall = null;
-                            break;
-                        }
-                        idWall = ((F_S_Elements)wallBD.DBObject).ID_ELEMENT;
-                    }
-                    else
-                    {
-                        idWall = ((F_S_Elements)wall.DBObject).ID_ELEMENT;
-                    }
-                    idsWall.Add(idWall.ToString());
-                }
-                if (idsWall != null)
-                {
-                    var idWallParam = hw.Parameters.Find(p => p.Name.Equals(Options.HostWallParameter, StringComparison.OrdinalIgnoreCase));
-                    if (idWallParam != null)
-                    {
-                        idWallParam.Value = GetHostWallsValue(idsWall);
-                    }
-                }
-            }
-        }        
     }
 }

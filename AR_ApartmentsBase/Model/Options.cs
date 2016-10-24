@@ -8,6 +8,7 @@ namespace AR_ApartmentBase.Model
 {    
     public static class Options
     {
-        public static string HostWallParameter { get; set; } = "IdWall";      
+        public static string HostWallParameter { get; set; } = "IdWall";
+        public static string WallCategory { get; set; } = "Базовая стена";
     }
 }
