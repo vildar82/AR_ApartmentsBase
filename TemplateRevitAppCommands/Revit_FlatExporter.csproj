@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Revit_FlatExporter</RootNamespace>
     <AssemblyName>Revit_FlatExporter</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AssemblyVersion>1.0.299.17</AssemblyVersion>
+    <AssemblyVersion>1.0.301.34</AssemblyVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,6 +66,12 @@
     <Compile Include="ProcessManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WallHost.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AR_ApartmentsBase\AR_ApartmentBase.csproj">
+      <Project>{d20eae72-c053-4c2c-877f-53f3f53fd1f8}</Project>
+      <Name>AR_ApartmentBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

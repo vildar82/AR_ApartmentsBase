@@ -9,6 +9,6 @@ namespace Revit_FlatExporter
 {
     public class DBWall : ElementInfo,IWall
     {
-        public List<AR_ApartmentBase.Model.Elements.Element> Doors { get; set; }
+        public List<AR_ApartmentBase.Model.Elements.IWallHost> WallHosts { get; set; }
     }
 }

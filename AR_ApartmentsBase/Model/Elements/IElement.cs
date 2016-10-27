@@ -1,18 +1,14 @@
-﻿using System;
+﻿using AR_ApartmentBase.Model;
+using System;
 using System.Collections.Generic;
-
-namespace AR_ApartmentBase.Model.Elements
+public interface IElement : IEquatable<IElement>
 {
-    public interface IElement : IEquatable<IElement>
-    {
-        string CategoryElement { get; set; }
-        object DBObject { get; set; }
-        string Direction { get; set; }
-        string FamilyName { get; set; }
-        string FamilySymbolName { get; set; }
-        string LocationPoint { get; set; }
-        Module Module { get; set; }
-        string Name { get; set; }
-        List<Parameter> Parameters { get; set; }        
-    }
+    string CategoryElement { get; set; }
+    object DBObject { get; set; }
+    string Direction { get; set; }
+    string FamilyName { get; set; }
+    string FamilySymbolName { get; set; }
+    string LocationPoint { get; set; }
+    string Name { get; set; }
+    List<Parameter> Parameters { get; set; }
 }

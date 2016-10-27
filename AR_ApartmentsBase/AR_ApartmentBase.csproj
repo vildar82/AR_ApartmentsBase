@@ -27,6 +27,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <AssemblyVersion>1.0.301.38</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -130,7 +131,6 @@
     <Compile Include="Model\Elements\IElement.cs" />
     <Compile Include="Model\Elements\IWall.cs" />
     <Compile Include="Model\Elements\IWallHost.cs" />
-    <Compile Include="Model\Module.cs" />
     <Compile Include="Model\Options.cs" />
     <Compile Include="Model\Parameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

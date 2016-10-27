@@ -1,66 +1,64 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
-using System.Drawing;
-using AR_ApartmentBase.Model.Elements;
 using AR_ApartmentBase.Model.DB.EntityModel;
-using System.Data.Entity;
+using AR_ApartmentBase.Model.Elements;
 
 namespace AR_ApartmentBase.Model
 {
     /// <summary>
-    /// Квартира или МОП - блок в автокаде
+    /// Модуль - блок помещения в автокаде
     /// </summary>
     public class Apartment : IEquatable<Apartment>
-    {   
-        /// <summary>
-        /// Имя блока
-        /// </summary>
+    {
+
         public string Name { get; set; }
+        public string TypeFlat { get; set; }
+        public List<IElement> Elements { get; set; }
+        public string Direction { get; set; }
+        public string LocationPoint { get; set; }
+        public double Rotation { get; set; }
+
         /// <summary>
-        /// Параметр типа квартиры - Студия, 1комн, и т.д.
-        /// </summary>
-        public string TypeFlat { get; set; }                
-        /// <summary>
-        /// Модули в квартире.
-        /// </summary>
-        public List<Module> Modules { get; set; }  
-        public int Revision { get; set; }
-        /// <summary>
-        /// F_R_Flats
+        /// F_R_Modules
         /// </summary>
         public object DBObject { get; set; }
 
-        public Apartment ()
+        public Apartment()
         {
-
         }
 
         /// <summary>
-        /// Конструктор для создания квартиры из базы
+        /// Конструктор для создания модуля из Базы
         /// </summary>
-        public Apartment(F_R_Flats flatEnt)
+        public Apartment(F_nn_FlatModules fmEnt, Apartment apart)
         {
-            Name = flatEnt.WORKNAME;            
-            Modules = new List<Module>();
-            DBObject = flatEnt;
-            Revision = flatEnt.REVISION;
-            TypeFlat = flatEnt.TYPE_FLAT;
-        }                             
+            Name = fmEnt.F_R_Modules.NAME_MODULE;
+
+            Elements = new List<IElement>();
+            Direction = fmEnt.DIRECTION;
+            LocationPoint = fmEnt.LOCATION;
+            // Revision = fmEnt.F_R_Modules.REVISION;
+        }
 
         public bool Equals(Apartment other)
         {
             if (other == null) return false;
             if (ReferenceEquals(this, other)) return true;
-            return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase);
+            return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase) &&
+                   this.Direction.Equals(other.Direction) &&
+                   this.LocationPoint.Equals(other.LocationPoint) &&
+                   this.Elements.SequenceEqual(other.Elements);
         }
 
-        public override int GetHashCode ()
+        public override int GetHashCode()
         {
             return Name.GetHashCode();
         }
+
     }
 }
