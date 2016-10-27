@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
+using AR_ApartmentBase.Model.DB.EntityModel;
 
 namespace AR_ApartmentBase.Model
 {
@@ -24,6 +25,16 @@ namespace AR_ApartmentBase.Model
             objectValue = value;
             Value = objectValue.ToString();
             Relate = relate;
+        }
+
+        public Parameter (string name, object value, string category)
+        {
+            var paramDB = BaseApartments.GetBaseCategoryParameters()
+                    .FirstOrDefault(p => p.Key.Equals(category, StringComparison.OrdinalIgnoreCase))
+                    .Value.FirstOrDefault(p => p.NAME_PARAMETER.Equals(name, StringComparison.OrdinalIgnoreCase));
+            Name = name;
+            objectValue = value;
+            Relate = (ParamRelateEnum)paramDB.RELATE;
         }
 
         public static List<Parameter> Sort(List<Parameter> parameters)
