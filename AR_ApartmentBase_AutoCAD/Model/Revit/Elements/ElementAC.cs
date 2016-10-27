@@ -37,8 +37,7 @@ namespace AR_ApartmentBase_AutoCAD
         public Matrix3d BlockTransform { get; set; }
         public Error Error { get; set; }        
 
-        private bool _extentsAreDefined;
-        private bool _extentsIsNull;
+        private bool _extentsAreDefined;        
         private Extents3d _extentsInModel;
         public Extents3d ExtentsInModel
         {
@@ -55,8 +54,7 @@ namespace AR_ApartmentBase_AutoCAD
                             _extentsInModel = blRef.GeometricExtents;                            
                         }
                         catch
-                        {
-                            _extentsIsNull = true;
+                        {                            
                         }
                         t.Commit();
                     }

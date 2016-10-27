@@ -28,6 +28,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             {
                 entities.F_R_Flats.RemoveRange(entities.F_R_Flats);                
                 entities.F_S_Elements.RemoveRange(entities.F_S_Elements);
+                entities.F_nn_ElementInFlatValue.RemoveRange(entities.F_nn_ElementInFlatValue);
                 entities.F_S_FamilyInfos.RemoveRange(entities.F_S_FamilyInfos);
                 entities.SaveChanges();
             }
@@ -227,7 +228,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 foreach (var item in paramsDB)
                 {
                     var paramElem = elem.Parameters.FirstOrDefault(p => p.Name.Equals(item.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
-                    if (paramElem != null)
+                    if (paramElem != null && !string.IsNullOrEmpty(paramElem.Value))
                     {
                         var catParam = entities.F_nn_Category_Parameters.First(p => p.ID_CATEGORY == elemDB.ID_CATEGORY &&
                                 p.ID_PARAMETER == item.ID_PARAMETER);

@@ -439,5 +439,14 @@ namespace AR_ApartmentBase_AutoCAD
                 }
             }
         }
+
+        [CommandMethod("PIK", "AR-BaseApartmentsUtilsExplodeModules", CommandFlags.Modal)]
+        public void BaseApartmentsUtilsExplodeModules()
+        {
+            CommandStart.Start(doc =>
+            {
+                UtilExplodeModules.ExplodeModules(doc.Database);
+            });
+        }
     }
 }        
