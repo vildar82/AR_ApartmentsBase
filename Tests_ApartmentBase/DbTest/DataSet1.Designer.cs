@@ -28,15 +28,13 @@ namespace Tests_ApartmentBase.DbTest {
         
         private F_S_ParametersDataTable tableF_S_Parameters;
         
+        private F_nn_ElementInFlatValueDataTable tableF_nn_ElementInFlatValue;
+        
         private F_nn_ElementParam_ValueDataTable tableF_nn_ElementParam_Value;
         
         private F_nn_Elements_ModulesDataTable tableF_nn_Elements_Modules;
         
-        private F_nn_FlatModulesDataTable tableF_nn_FlatModules;
-        
         private F_R_FlatsDataTable tableF_R_Flats;
-        
-        private F_R_ModulesDataTable tableF_R_Modules;
         
         private F_S_CategoriesDataTable tableF_S_Categories;
         
@@ -44,29 +42,23 @@ namespace Tests_ApartmentBase.DbTest {
         
         private F_S_FamilyInfosDataTable tableF_S_FamilyInfos;
         
-        private КатегорииDataTable tableКатегории;
-        
-        private _Квартиры_модулиDataTable _tableКвартиры_модули;
-        
-        private МодульЭлементыDataTable tableМодульЭлементы;
-        
-        private ПараметрыЭлементаDataTable tableПараметрыЭлемента;
+        private vil_ParametersDataTable tablevil_Parameters;
         
         private global::System.Data.DataRelation relationFK_F_nn_Category_Parameters_F_S_Categories;
         
         private global::System.Data.DataRelation relationFK_F_nn_Category_Parameters_F_S_Parameters;
         
+        private global::System.Data.DataRelation relationFK_F_nn_ElementInFlatValue_F_nn_Category_Parameters;
+        
+        private global::System.Data.DataRelation relationFK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue;
+        
         private global::System.Data.DataRelation relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters;
         
         private global::System.Data.DataRelation relationFK_F_nn_ElementParam_Value_F_S_Elements;
         
-        private global::System.Data.DataRelation relationFK_F_nn_Elements_FlatModules_F_R_Modules;
-        
         private global::System.Data.DataRelation relationFK_F_nn_Elements_Modules_F_nn_Elements;
         
-        private global::System.Data.DataRelation relationFK_F_R_FlatModules_F_R_Flats1;
-        
-        private global::System.Data.DataRelation relationFK_F_R_FlatModules_F_R_Modules;
+        private global::System.Data.DataRelation relationFK_F_nn_Elements_Modules_F_R_Flats;
         
         private global::System.Data.DataRelation relationFK_F_S_Elements_F_S_Categories;
         
@@ -75,12 +67,6 @@ namespace Tests_ApartmentBase.DbTest {
         private global::System.Data.DataRelation relationFK_F_nn_Category_Parameters_F_S_Categories1;
         
         private global::System.Data.DataRelation relationFK_F_S_Elements_F_S_Categories1;
-        
-        private global::System.Data.DataRelation relationFK_F_R_FlatModules_F_R_Flats11;
-        
-        private global::System.Data.DataRelation relationFK_F_nn_Elements_FlatModules_F_R_Modules1;
-        
-        private global::System.Data.DataRelation relationFK_F_R_FlatModules_F_R_Modules1;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -116,20 +102,17 @@ namespace Tests_ApartmentBase.DbTest {
                 if ((ds.Tables["F_S_Parameters"] != null)) {
                     base.Tables.Add(new F_S_ParametersDataTable(ds.Tables["F_S_Parameters"]));
                 }
+                if ((ds.Tables["F_nn_ElementInFlatValue"] != null)) {
+                    base.Tables.Add(new F_nn_ElementInFlatValueDataTable(ds.Tables["F_nn_ElementInFlatValue"]));
+                }
                 if ((ds.Tables["F_nn_ElementParam_Value"] != null)) {
                     base.Tables.Add(new F_nn_ElementParam_ValueDataTable(ds.Tables["F_nn_ElementParam_Value"]));
                 }
                 if ((ds.Tables["F_nn_Elements_Modules"] != null)) {
                     base.Tables.Add(new F_nn_Elements_ModulesDataTable(ds.Tables["F_nn_Elements_Modules"]));
                 }
-                if ((ds.Tables["F_nn_FlatModules"] != null)) {
-                    base.Tables.Add(new F_nn_FlatModulesDataTable(ds.Tables["F_nn_FlatModules"]));
-                }
                 if ((ds.Tables["F_R_Flats"] != null)) {
                     base.Tables.Add(new F_R_FlatsDataTable(ds.Tables["F_R_Flats"]));
-                }
-                if ((ds.Tables["F_R_Modules"] != null)) {
-                    base.Tables.Add(new F_R_ModulesDataTable(ds.Tables["F_R_Modules"]));
                 }
                 if ((ds.Tables["F_S_Categories"] != null)) {
                     base.Tables.Add(new F_S_CategoriesDataTable(ds.Tables["F_S_Categories"]));
@@ -140,17 +123,8 @@ namespace Tests_ApartmentBase.DbTest {
                 if ((ds.Tables["F_S_FamilyInfos"] != null)) {
                     base.Tables.Add(new F_S_FamilyInfosDataTable(ds.Tables["F_S_FamilyInfos"]));
                 }
-                if ((ds.Tables["Категории"] != null)) {
-                    base.Tables.Add(new КатегорииDataTable(ds.Tables["Категории"]));
-                }
-                if ((ds.Tables["Квартиры-модули"] != null)) {
-                    base.Tables.Add(new _Квартиры_модулиDataTable(ds.Tables["Квартиры-модули"]));
-                }
-                if ((ds.Tables["МодульЭлементы"] != null)) {
-                    base.Tables.Add(new МодульЭлементыDataTable(ds.Tables["МодульЭлементы"]));
-                }
-                if ((ds.Tables["ПараметрыЭлемента"] != null)) {
-                    base.Tables.Add(new ПараметрыЭлементаDataTable(ds.Tables["ПараметрыЭлемента"]));
+                if ((ds.Tables["vil_Parameters"] != null)) {
+                    base.Tables.Add(new vil_ParametersDataTable(ds.Tables["vil_Parameters"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -194,6 +168,16 @@ namespace Tests_ApartmentBase.DbTest {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public F_nn_ElementInFlatValueDataTable F_nn_ElementInFlatValue {
+            get {
+                return this.tableF_nn_ElementInFlatValue;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
         public F_nn_ElementParam_ValueDataTable F_nn_ElementParam_Value {
             get {
                 return this.tableF_nn_ElementParam_Value;
@@ -214,29 +198,9 @@ namespace Tests_ApartmentBase.DbTest {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public F_nn_FlatModulesDataTable F_nn_FlatModules {
-            get {
-                return this.tableF_nn_FlatModules;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
         public F_R_FlatsDataTable F_R_Flats {
             get {
                 return this.tableF_R_Flats;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public F_R_ModulesDataTable F_R_Modules {
-            get {
-                return this.tableF_R_Modules;
             }
         }
         
@@ -274,39 +238,9 @@ namespace Tests_ApartmentBase.DbTest {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public КатегорииDataTable Категории {
+        public vil_ParametersDataTable vil_Parameters {
             get {
-                return this.tableКатегории;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public _Квартиры_модулиDataTable _Квартиры_модули {
-            get {
-                return this._tableКвартиры_модули;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public МодульЭлементыDataTable МодульЭлементы {
-            get {
-                return this.tableМодульЭлементы;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public ПараметрыЭлементаDataTable ПараметрыЭлемента {
-            get {
-                return this.tableПараметрыЭлемента;
+                return this.tablevil_Parameters;
             }
         }
         
@@ -383,20 +317,17 @@ namespace Tests_ApartmentBase.DbTest {
                 if ((ds.Tables["F_S_Parameters"] != null)) {
                     base.Tables.Add(new F_S_ParametersDataTable(ds.Tables["F_S_Parameters"]));
                 }
+                if ((ds.Tables["F_nn_ElementInFlatValue"] != null)) {
+                    base.Tables.Add(new F_nn_ElementInFlatValueDataTable(ds.Tables["F_nn_ElementInFlatValue"]));
+                }
                 if ((ds.Tables["F_nn_ElementParam_Value"] != null)) {
                     base.Tables.Add(new F_nn_ElementParam_ValueDataTable(ds.Tables["F_nn_ElementParam_Value"]));
                 }
                 if ((ds.Tables["F_nn_Elements_Modules"] != null)) {
                     base.Tables.Add(new F_nn_Elements_ModulesDataTable(ds.Tables["F_nn_Elements_Modules"]));
                 }
-                if ((ds.Tables["F_nn_FlatModules"] != null)) {
-                    base.Tables.Add(new F_nn_FlatModulesDataTable(ds.Tables["F_nn_FlatModules"]));
-                }
                 if ((ds.Tables["F_R_Flats"] != null)) {
                     base.Tables.Add(new F_R_FlatsDataTable(ds.Tables["F_R_Flats"]));
-                }
-                if ((ds.Tables["F_R_Modules"] != null)) {
-                    base.Tables.Add(new F_R_ModulesDataTable(ds.Tables["F_R_Modules"]));
                 }
                 if ((ds.Tables["F_S_Categories"] != null)) {
                     base.Tables.Add(new F_S_CategoriesDataTable(ds.Tables["F_S_Categories"]));
@@ -407,17 +338,8 @@ namespace Tests_ApartmentBase.DbTest {
                 if ((ds.Tables["F_S_FamilyInfos"] != null)) {
                     base.Tables.Add(new F_S_FamilyInfosDataTable(ds.Tables["F_S_FamilyInfos"]));
                 }
-                if ((ds.Tables["Категории"] != null)) {
-                    base.Tables.Add(new КатегорииDataTable(ds.Tables["Категории"]));
-                }
-                if ((ds.Tables["Квартиры-модули"] != null)) {
-                    base.Tables.Add(new _Квартиры_модулиDataTable(ds.Tables["Квартиры-модули"]));
-                }
-                if ((ds.Tables["МодульЭлементы"] != null)) {
-                    base.Tables.Add(new МодульЭлементыDataTable(ds.Tables["МодульЭлементы"]));
-                }
-                if ((ds.Tables["ПараметрыЭлемента"] != null)) {
-                    base.Tables.Add(new ПараметрыЭлементаDataTable(ds.Tables["ПараметрыЭлемента"]));
+                if ((ds.Tables["vil_Parameters"] != null)) {
+                    base.Tables.Add(new vil_ParametersDataTable(ds.Tables["vil_Parameters"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -464,6 +386,12 @@ namespace Tests_ApartmentBase.DbTest {
                     this.tableF_S_Parameters.InitVars();
                 }
             }
+            this.tableF_nn_ElementInFlatValue = ((F_nn_ElementInFlatValueDataTable)(base.Tables["F_nn_ElementInFlatValue"]));
+            if ((initTable == true)) {
+                if ((this.tableF_nn_ElementInFlatValue != null)) {
+                    this.tableF_nn_ElementInFlatValue.InitVars();
+                }
+            }
             this.tableF_nn_ElementParam_Value = ((F_nn_ElementParam_ValueDataTable)(base.Tables["F_nn_ElementParam_Value"]));
             if ((initTable == true)) {
                 if ((this.tableF_nn_ElementParam_Value != null)) {
@@ -476,22 +404,10 @@ namespace Tests_ApartmentBase.DbTest {
                     this.tableF_nn_Elements_Modules.InitVars();
                 }
             }
-            this.tableF_nn_FlatModules = ((F_nn_FlatModulesDataTable)(base.Tables["F_nn_FlatModules"]));
-            if ((initTable == true)) {
-                if ((this.tableF_nn_FlatModules != null)) {
-                    this.tableF_nn_FlatModules.InitVars();
-                }
-            }
             this.tableF_R_Flats = ((F_R_FlatsDataTable)(base.Tables["F_R_Flats"]));
             if ((initTable == true)) {
                 if ((this.tableF_R_Flats != null)) {
                     this.tableF_R_Flats.InitVars();
-                }
-            }
-            this.tableF_R_Modules = ((F_R_ModulesDataTable)(base.Tables["F_R_Modules"]));
-            if ((initTable == true)) {
-                if ((this.tableF_R_Modules != null)) {
-                    this.tableF_R_Modules.InitVars();
                 }
             }
             this.tableF_S_Categories = ((F_S_CategoriesDataTable)(base.Tables["F_S_Categories"]));
@@ -512,45 +428,24 @@ namespace Tests_ApartmentBase.DbTest {
                     this.tableF_S_FamilyInfos.InitVars();
                 }
             }
-            this.tableКатегории = ((КатегорииDataTable)(base.Tables["Категории"]));
+            this.tablevil_Parameters = ((vil_ParametersDataTable)(base.Tables["vil_Parameters"]));
             if ((initTable == true)) {
-                if ((this.tableКатегории != null)) {
-                    this.tableКатегории.InitVars();
-                }
-            }
-            this._tableКвартиры_модули = ((_Квартиры_модулиDataTable)(base.Tables["Квартиры-модули"]));
-            if ((initTable == true)) {
-                if ((this._tableКвартиры_модули != null)) {
-                    this._tableКвартиры_модули.InitVars();
-                }
-            }
-            this.tableМодульЭлементы = ((МодульЭлементыDataTable)(base.Tables["МодульЭлементы"]));
-            if ((initTable == true)) {
-                if ((this.tableМодульЭлементы != null)) {
-                    this.tableМодульЭлементы.InitVars();
-                }
-            }
-            this.tableПараметрыЭлемента = ((ПараметрыЭлементаDataTable)(base.Tables["ПараметрыЭлемента"]));
-            if ((initTable == true)) {
-                if ((this.tableПараметрыЭлемента != null)) {
-                    this.tableПараметрыЭлемента.InitVars();
+                if ((this.tablevil_Parameters != null)) {
+                    this.tablevil_Parameters.InitVars();
                 }
             }
             this.relationFK_F_nn_Category_Parameters_F_S_Categories = this.Relations["FK_F_nn_Category_Parameters_F_S_Categories"];
             this.relationFK_F_nn_Category_Parameters_F_S_Parameters = this.Relations["FK_F_nn_Category_Parameters_F_S_Parameters"];
+            this.relationFK_F_nn_ElementInFlatValue_F_nn_Category_Parameters = this.Relations["FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters"];
+            this.relationFK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue = this.Relations["FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue"];
             this.relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters = this.Relations["FK_F_nn_ElementParam_Value_F_nn_Category_Parameters"];
             this.relationFK_F_nn_ElementParam_Value_F_S_Elements = this.Relations["FK_F_nn_ElementParam_Value_F_S_Elements"];
-            this.relationFK_F_nn_Elements_FlatModules_F_R_Modules = this.Relations["FK_F_nn_Elements_FlatModules_F_R_Modules"];
             this.relationFK_F_nn_Elements_Modules_F_nn_Elements = this.Relations["FK_F_nn_Elements_Modules_F_nn_Elements"];
-            this.relationFK_F_R_FlatModules_F_R_Flats1 = this.Relations["FK_F_R_FlatModules_F_R_Flats1"];
-            this.relationFK_F_R_FlatModules_F_R_Modules = this.Relations["FK_F_R_FlatModules_F_R_Modules"];
+            this.relationFK_F_nn_Elements_Modules_F_R_Flats = this.Relations["FK_F_nn_Elements_Modules_F_R_Flats"];
             this.relationFK_F_S_Elements_F_S_Categories = this.Relations["FK_F_S_Elements_F_S_Categories"];
             this.relationFK_F_S_Elements_F_S_FamilyInfos = this.Relations["FK_F_S_Elements_F_S_FamilyInfos"];
             this.relationFK_F_nn_Category_Parameters_F_S_Categories1 = this.Relations["FK_F_nn_Category_Parameters_F_S_Categories1"];
             this.relationFK_F_S_Elements_F_S_Categories1 = this.Relations["FK_F_S_Elements_F_S_Categories1"];
-            this.relationFK_F_R_FlatModules_F_R_Flats11 = this.Relations["FK_F_R_FlatModules_F_R_Flats11"];
-            this.relationFK_F_nn_Elements_FlatModules_F_R_Modules1 = this.Relations["FK_F_nn_Elements_FlatModules_F_R_Modules1"];
-            this.relationFK_F_R_FlatModules_F_R_Modules1 = this.Relations["FK_F_R_FlatModules_F_R_Modules1"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -565,30 +460,22 @@ namespace Tests_ApartmentBase.DbTest {
             base.Tables.Add(this.tableF_nn_Category_Parameters);
             this.tableF_S_Parameters = new F_S_ParametersDataTable();
             base.Tables.Add(this.tableF_S_Parameters);
+            this.tableF_nn_ElementInFlatValue = new F_nn_ElementInFlatValueDataTable();
+            base.Tables.Add(this.tableF_nn_ElementInFlatValue);
             this.tableF_nn_ElementParam_Value = new F_nn_ElementParam_ValueDataTable();
             base.Tables.Add(this.tableF_nn_ElementParam_Value);
             this.tableF_nn_Elements_Modules = new F_nn_Elements_ModulesDataTable();
             base.Tables.Add(this.tableF_nn_Elements_Modules);
-            this.tableF_nn_FlatModules = new F_nn_FlatModulesDataTable();
-            base.Tables.Add(this.tableF_nn_FlatModules);
             this.tableF_R_Flats = new F_R_FlatsDataTable();
             base.Tables.Add(this.tableF_R_Flats);
-            this.tableF_R_Modules = new F_R_ModulesDataTable();
-            base.Tables.Add(this.tableF_R_Modules);
             this.tableF_S_Categories = new F_S_CategoriesDataTable();
             base.Tables.Add(this.tableF_S_Categories);
             this.tableF_S_Elements = new F_S_ElementsDataTable();
             base.Tables.Add(this.tableF_S_Elements);
             this.tableF_S_FamilyInfos = new F_S_FamilyInfosDataTable();
             base.Tables.Add(this.tableF_S_FamilyInfos);
-            this.tableКатегории = new КатегорииDataTable();
-            base.Tables.Add(this.tableКатегории);
-            this._tableКвартиры_модули = new _Квартиры_модулиDataTable();
-            base.Tables.Add(this._tableКвартиры_модули);
-            this.tableМодульЭлементы = new МодульЭлементыDataTable();
-            base.Tables.Add(this.tableМодульЭлементы);
-            this.tableПараметрыЭлемента = new ПараметрыЭлементаDataTable();
-            base.Tables.Add(this.tableПараметрыЭлемента);
+            this.tablevil_Parameters = new vil_ParametersDataTable();
+            base.Tables.Add(this.tablevil_Parameters);
             this.relationFK_F_nn_Category_Parameters_F_S_Categories = new global::System.Data.DataRelation("FK_F_nn_Category_Parameters_F_S_Categories", new global::System.Data.DataColumn[] {
                         this.tableF_S_Categories.ID_CATEGORYColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_Category_Parameters.ID_CATEGORYColumn}, false);
@@ -597,6 +484,14 @@ namespace Tests_ApartmentBase.DbTest {
                         this.tableF_S_Parameters.ID_PARAMETERColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_Category_Parameters.ID_PARAMETERColumn}, false);
             this.Relations.Add(this.relationFK_F_nn_Category_Parameters_F_S_Parameters);
+            this.relationFK_F_nn_ElementInFlatValue_F_nn_Category_Parameters = new global::System.Data.DataRelation("FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters", new global::System.Data.DataColumn[] {
+                        this.tableF_nn_Category_Parameters.ID_CAT_PARAMETERColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_ElementInFlatValue.ID_CAT_PARAMETERColumn}, false);
+            this.Relations.Add(this.relationFK_F_nn_ElementInFlatValue_F_nn_Category_Parameters);
+            this.relationFK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue = new global::System.Data.DataRelation("FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue", new global::System.Data.DataColumn[] {
+                        this.tableF_nn_Elements_Modules.ID_ELEMENT_IN_FLATColumn}, new global::System.Data.DataColumn[] {
+                        this.tableF_nn_ElementInFlatValue.ID_ELEMENT_IN_FLATColumn}, false);
+            this.Relations.Add(this.relationFK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue);
             this.relationFK_F_nn_ElementParam_Value_F_nn_Category_Parameters = new global::System.Data.DataRelation("FK_F_nn_ElementParam_Value_F_nn_Category_Parameters", new global::System.Data.DataColumn[] {
                         this.tableF_nn_Category_Parameters.ID_CAT_PARAMETERColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_ElementParam_Value.ID_CAT_PARAMETERColumn}, false);
@@ -605,22 +500,14 @@ namespace Tests_ApartmentBase.DbTest {
                         this.tableF_S_Elements.ID_ELEMENTColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_ElementParam_Value.ID_ELEMENTColumn}, false);
             this.Relations.Add(this.relationFK_F_nn_ElementParam_Value_F_S_Elements);
-            this.relationFK_F_nn_Elements_FlatModules_F_R_Modules = new global::System.Data.DataRelation("FK_F_nn_Elements_FlatModules_F_R_Modules", new global::System.Data.DataColumn[] {
-                        this.tableF_R_Modules.ID_MODULEColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_Elements_Modules.ID_MODULEColumn}, false);
-            this.Relations.Add(this.relationFK_F_nn_Elements_FlatModules_F_R_Modules);
             this.relationFK_F_nn_Elements_Modules_F_nn_Elements = new global::System.Data.DataRelation("FK_F_nn_Elements_Modules_F_nn_Elements", new global::System.Data.DataColumn[] {
                         this.tableF_S_Elements.ID_ELEMENTColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_Elements_Modules.ID_ELEMENTColumn}, false);
             this.Relations.Add(this.relationFK_F_nn_Elements_Modules_F_nn_Elements);
-            this.relationFK_F_R_FlatModules_F_R_Flats1 = new global::System.Data.DataRelation("FK_F_R_FlatModules_F_R_Flats1", new global::System.Data.DataColumn[] {
+            this.relationFK_F_nn_Elements_Modules_F_R_Flats = new global::System.Data.DataRelation("FK_F_nn_Elements_Modules_F_R_Flats", new global::System.Data.DataColumn[] {
                         this.tableF_R_Flats.ID_FLATColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_FlatModules.ID_FLATColumn}, false);
-            this.Relations.Add(this.relationFK_F_R_FlatModules_F_R_Flats1);
-            this.relationFK_F_R_FlatModules_F_R_Modules = new global::System.Data.DataRelation("FK_F_R_FlatModules_F_R_Modules", new global::System.Data.DataColumn[] {
-                        this.tableF_R_Modules.ID_MODULEColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_FlatModules.ID_MODULEColumn}, false);
-            this.Relations.Add(this.relationFK_F_R_FlatModules_F_R_Modules);
+                        this.tableF_nn_Elements_Modules.ID_FLATColumn}, false);
+            this.Relations.Add(this.relationFK_F_nn_Elements_Modules_F_R_Flats);
             this.relationFK_F_S_Elements_F_S_Categories = new global::System.Data.DataRelation("FK_F_S_Elements_F_S_Categories", new global::System.Data.DataColumn[] {
                         this.tableF_S_Categories.ID_CATEGORYColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_S_Elements.ID_CATEGORYColumn}, false);
@@ -630,25 +517,13 @@ namespace Tests_ApartmentBase.DbTest {
                         this.tableF_S_Elements.ID_FAMILY_INFOColumn}, false);
             this.Relations.Add(this.relationFK_F_S_Elements_F_S_FamilyInfos);
             this.relationFK_F_nn_Category_Parameters_F_S_Categories1 = new global::System.Data.DataRelation("FK_F_nn_Category_Parameters_F_S_Categories1", new global::System.Data.DataColumn[] {
-                        this.tableКатегории.ID_CATEGORYColumn}, new global::System.Data.DataColumn[] {
+                        this.tablevil_Parameters.ID_CATEGORYColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_Category_Parameters.ID_CATEGORYColumn}, false);
             this.Relations.Add(this.relationFK_F_nn_Category_Parameters_F_S_Categories1);
             this.relationFK_F_S_Elements_F_S_Categories1 = new global::System.Data.DataRelation("FK_F_S_Elements_F_S_Categories1", new global::System.Data.DataColumn[] {
-                        this.tableКатегории.ID_CATEGORYColumn}, new global::System.Data.DataColumn[] {
+                        this.tablevil_Parameters.ID_CATEGORYColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_S_Elements.ID_CATEGORYColumn}, false);
             this.Relations.Add(this.relationFK_F_S_Elements_F_S_Categories1);
-            this.relationFK_F_R_FlatModules_F_R_Flats11 = new global::System.Data.DataRelation("FK_F_R_FlatModules_F_R_Flats11", new global::System.Data.DataColumn[] {
-                        this._tableКвартиры_модули.ID_FLATColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_FlatModules.ID_FLATColumn}, false);
-            this.Relations.Add(this.relationFK_F_R_FlatModules_F_R_Flats11);
-            this.relationFK_F_nn_Elements_FlatModules_F_R_Modules1 = new global::System.Data.DataRelation("FK_F_nn_Elements_FlatModules_F_R_Modules1", new global::System.Data.DataColumn[] {
-                        this.tableМодульЭлементы.ID_MODULEColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_Elements_Modules.ID_MODULEColumn}, false);
-            this.Relations.Add(this.relationFK_F_nn_Elements_FlatModules_F_R_Modules1);
-            this.relationFK_F_R_FlatModules_F_R_Modules1 = new global::System.Data.DataRelation("FK_F_R_FlatModules_F_R_Modules1", new global::System.Data.DataColumn[] {
-                        this.tableМодульЭлементы.ID_MODULEColumn}, new global::System.Data.DataColumn[] {
-                        this.tableF_nn_FlatModules.ID_MODULEColumn}, false);
-            this.Relations.Add(this.relationFK_F_R_FlatModules_F_R_Modules1);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -660,6 +535,12 @@ namespace Tests_ApartmentBase.DbTest {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private bool ShouldSerializeF_S_Parameters() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private bool ShouldSerializeF_nn_ElementInFlatValue() {
             return false;
         }
         
@@ -677,19 +558,7 @@ namespace Tests_ApartmentBase.DbTest {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeF_nn_FlatModules() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private bool ShouldSerializeF_R_Flats() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeF_R_Modules() {
             return false;
         }
         
@@ -713,25 +582,7 @@ namespace Tests_ApartmentBase.DbTest {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeКатегории() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerialize_Квартиры_модули() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeМодульЭлементы() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeПараметрыЭлемента() {
+        private bool ShouldSerializevil_Parameters() {
             return false;
         }
         
@@ -797,19 +648,16 @@ namespace Tests_ApartmentBase.DbTest {
         public delegate void F_S_ParametersRowChangeEventHandler(object sender, F_S_ParametersRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public delegate void F_nn_ElementInFlatValueRowChangeEventHandler(object sender, F_nn_ElementInFlatValueRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void F_nn_ElementParam_ValueRowChangeEventHandler(object sender, F_nn_ElementParam_ValueRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void F_nn_Elements_ModulesRowChangeEventHandler(object sender, F_nn_Elements_ModulesRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void F_nn_FlatModulesRowChangeEventHandler(object sender, F_nn_FlatModulesRowChangeEvent e);
-        
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void F_R_FlatsRowChangeEventHandler(object sender, F_R_FlatsRowChangeEvent e);
-        
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void F_R_ModulesRowChangeEventHandler(object sender, F_R_ModulesRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void F_S_CategoriesRowChangeEventHandler(object sender, F_S_CategoriesRowChangeEvent e);
@@ -821,16 +669,7 @@ namespace Tests_ApartmentBase.DbTest {
         public delegate void F_S_FamilyInfosRowChangeEventHandler(object sender, F_S_FamilyInfosRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void КатегорииRowChangeEventHandler(object sender, КатегорииRowChangeEvent e);
-        
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void _Квартиры_модулиRowChangeEventHandler(object sender, _Квартиры_модулиRowChangeEvent e);
-        
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void МодульЭлементыRowChangeEventHandler(object sender, МодульЭлементыRowChangeEvent e);
-        
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void ПараметрыЭлементаRowChangeEventHandler(object sender, ПараметрыЭлементаRowChangeEvent e);
+        public delegate void vil_ParametersRowChangeEventHandler(object sender, vil_ParametersRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -1143,6 +982,8 @@ namespace Tests_ApartmentBase.DbTest {
             
             private global::System.Data.DataColumn columnTYPE_PARAMETER;
             
+            private global::System.Data.DataColumn columnRELATE;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public F_S_ParametersDataTable() {
@@ -1202,6 +1043,14 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RELATEColumn {
+                get {
+                    return this.columnRELATE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1237,12 +1086,13 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_S_ParametersRow AddF_S_ParametersRow(string NAME_PARAMETER, string TYPE_PARAMETER) {
+            public F_S_ParametersRow AddF_S_ParametersRow(string NAME_PARAMETER, string TYPE_PARAMETER, int RELATE) {
                 F_S_ParametersRow rowF_S_ParametersRow = ((F_S_ParametersRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         NAME_PARAMETER,
-                        TYPE_PARAMETER};
+                        TYPE_PARAMETER,
+                        RELATE};
                 rowF_S_ParametersRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowF_S_ParametersRow);
                 return rowF_S_ParametersRow;
@@ -1275,6 +1125,7 @@ namespace Tests_ApartmentBase.DbTest {
                 this.columnID_PARAMETER = base.Columns["ID_PARAMETER"];
                 this.columnNAME_PARAMETER = base.Columns["NAME_PARAMETER"];
                 this.columnTYPE_PARAMETER = base.Columns["TYPE_PARAMETER"];
+                this.columnRELATE = base.Columns["RELATE"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1286,6 +1137,8 @@ namespace Tests_ApartmentBase.DbTest {
                 base.Columns.Add(this.columnNAME_PARAMETER);
                 this.columnTYPE_PARAMETER = new global::System.Data.DataColumn("TYPE_PARAMETER", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTYPE_PARAMETER);
+                this.columnRELATE = new global::System.Data.DataColumn("RELATE", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRELATE);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_PARAMETER}, true));
                 this.columnID_PARAMETER.AutoIncrement = true;
@@ -1297,6 +1150,7 @@ namespace Tests_ApartmentBase.DbTest {
                 this.columnNAME_PARAMETER.AllowDBNull = false;
                 this.columnNAME_PARAMETER.MaxLength = 150;
                 this.columnTYPE_PARAMETER.MaxLength = 50;
+                this.columnRELATE.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1383,6 +1237,320 @@ namespace Tests_ApartmentBase.DbTest {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "F_S_ParametersDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class F_nn_ElementInFlatValueDataTable : global::System.Data.TypedTableBase<F_nn_ElementInFlatValueRow> {
+            
+            private global::System.Data.DataColumn columnID_ELEMENT_VALUE;
+            
+            private global::System.Data.DataColumn columnID_ELEMENT_IN_FLAT;
+            
+            private global::System.Data.DataColumn columnID_CAT_PARAMETER;
+            
+            private global::System.Data.DataColumn columnPARAMETER_VALUE;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_ElementInFlatValueDataTable() {
+                this.TableName = "F_nn_ElementInFlatValue";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal F_nn_ElementInFlatValueDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected F_nn_ElementInFlatValueDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ID_ELEMENT_VALUEColumn {
+                get {
+                    return this.columnID_ELEMENT_VALUE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ID_ELEMENT_IN_FLATColumn {
+                get {
+                    return this.columnID_ELEMENT_IN_FLAT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ID_CAT_PARAMETERColumn {
+                get {
+                    return this.columnID_CAT_PARAMETER;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PARAMETER_VALUEColumn {
+                get {
+                    return this.columnPARAMETER_VALUE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_ElementInFlatValueRow this[int index] {
+                get {
+                    return ((F_nn_ElementInFlatValueRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event F_nn_ElementInFlatValueRowChangeEventHandler F_nn_ElementInFlatValueRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event F_nn_ElementInFlatValueRowChangeEventHandler F_nn_ElementInFlatValueRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event F_nn_ElementInFlatValueRowChangeEventHandler F_nn_ElementInFlatValueRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event F_nn_ElementInFlatValueRowChangeEventHandler F_nn_ElementInFlatValueRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void AddF_nn_ElementInFlatValueRow(F_nn_ElementInFlatValueRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_ElementInFlatValueRow AddF_nn_ElementInFlatValueRow(F_nn_Elements_ModulesRow parentF_nn_Elements_ModulesRowByFK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue, F_nn_Category_ParametersRow parentF_nn_Category_ParametersRowByFK_F_nn_ElementInFlatValue_F_nn_Category_Parameters, string PARAMETER_VALUE) {
+                F_nn_ElementInFlatValueRow rowF_nn_ElementInFlatValueRow = ((F_nn_ElementInFlatValueRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        null,
+                        null,
+                        PARAMETER_VALUE};
+                if ((parentF_nn_Elements_ModulesRowByFK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue != null)) {
+                    columnValuesArray[1] = parentF_nn_Elements_ModulesRowByFK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue[0];
+                }
+                if ((parentF_nn_Category_ParametersRowByFK_F_nn_ElementInFlatValue_F_nn_Category_Parameters != null)) {
+                    columnValuesArray[2] = parentF_nn_Category_ParametersRowByFK_F_nn_ElementInFlatValue_F_nn_Category_Parameters[0];
+                }
+                rowF_nn_ElementInFlatValueRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowF_nn_ElementInFlatValueRow);
+                return rowF_nn_ElementInFlatValueRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_ElementInFlatValueRow FindByID_ELEMENT_VALUE(int ID_ELEMENT_VALUE) {
+                return ((F_nn_ElementInFlatValueRow)(this.Rows.Find(new object[] {
+                            ID_ELEMENT_VALUE})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                F_nn_ElementInFlatValueDataTable cln = ((F_nn_ElementInFlatValueDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new F_nn_ElementInFlatValueDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal void InitVars() {
+                this.columnID_ELEMENT_VALUE = base.Columns["ID_ELEMENT_VALUE"];
+                this.columnID_ELEMENT_IN_FLAT = base.Columns["ID_ELEMENT_IN_FLAT"];
+                this.columnID_CAT_PARAMETER = base.Columns["ID_CAT_PARAMETER"];
+                this.columnPARAMETER_VALUE = base.Columns["PARAMETER_VALUE"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            private void InitClass() {
+                this.columnID_ELEMENT_VALUE = new global::System.Data.DataColumn("ID_ELEMENT_VALUE", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_ELEMENT_VALUE);
+                this.columnID_ELEMENT_IN_FLAT = new global::System.Data.DataColumn("ID_ELEMENT_IN_FLAT", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_ELEMENT_IN_FLAT);
+                this.columnID_CAT_PARAMETER = new global::System.Data.DataColumn("ID_CAT_PARAMETER", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_CAT_PARAMETER);
+                this.columnPARAMETER_VALUE = new global::System.Data.DataColumn("PARAMETER_VALUE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPARAMETER_VALUE);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnID_ELEMENT_VALUE}, true));
+                this.columnID_ELEMENT_VALUE.AutoIncrement = true;
+                this.columnID_ELEMENT_VALUE.AutoIncrementSeed = -1;
+                this.columnID_ELEMENT_VALUE.AutoIncrementStep = -1;
+                this.columnID_ELEMENT_VALUE.AllowDBNull = false;
+                this.columnID_ELEMENT_VALUE.ReadOnly = true;
+                this.columnID_ELEMENT_VALUE.Unique = true;
+                this.columnID_ELEMENT_IN_FLAT.AllowDBNull = false;
+                this.columnID_CAT_PARAMETER.AllowDBNull = false;
+                this.columnPARAMETER_VALUE.AllowDBNull = false;
+                this.columnPARAMETER_VALUE.MaxLength = 250;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_ElementInFlatValueRow NewF_nn_ElementInFlatValueRow() {
+                return ((F_nn_ElementInFlatValueRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new F_nn_ElementInFlatValueRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(F_nn_ElementInFlatValueRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.F_nn_ElementInFlatValueRowChanged != null)) {
+                    this.F_nn_ElementInFlatValueRowChanged(this, new F_nn_ElementInFlatValueRowChangeEvent(((F_nn_ElementInFlatValueRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.F_nn_ElementInFlatValueRowChanging != null)) {
+                    this.F_nn_ElementInFlatValueRowChanging(this, new F_nn_ElementInFlatValueRowChangeEvent(((F_nn_ElementInFlatValueRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.F_nn_ElementInFlatValueRowDeleted != null)) {
+                    this.F_nn_ElementInFlatValueRowDeleted(this, new F_nn_ElementInFlatValueRowChangeEvent(((F_nn_ElementInFlatValueRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.F_nn_ElementInFlatValueRowDeleting != null)) {
+                    this.F_nn_ElementInFlatValueRowDeleting(this, new F_nn_ElementInFlatValueRowChangeEvent(((F_nn_ElementInFlatValueRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void RemoveF_nn_ElementInFlatValueRow(F_nn_ElementInFlatValueRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                DataSet1 ds = new DataSet1();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "F_nn_ElementInFlatValueDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -1744,11 +1912,11 @@ namespace Tests_ApartmentBase.DbTest {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class F_nn_Elements_ModulesDataTable : global::System.Data.TypedTableBase<F_nn_Elements_ModulesRow> {
             
-            private global::System.Data.DataColumn columnID_ELEMENT_IN_MODULE;
+            private global::System.Data.DataColumn columnID_ELEMENT_IN_FLAT;
             
             private global::System.Data.DataColumn columnID_ELEMENT;
             
-            private global::System.Data.DataColumn columnID_MODULE;
+            private global::System.Data.DataColumn columnID_FLAT;
             
             private global::System.Data.DataColumn columnLOCATION;
             
@@ -1789,9 +1957,9 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_ELEMENT_IN_MODULEColumn {
+            public global::System.Data.DataColumn ID_ELEMENT_IN_FLATColumn {
                 get {
-                    return this.columnID_ELEMENT_IN_MODULE;
+                    return this.columnID_ELEMENT_IN_FLAT;
                 }
             }
             
@@ -1805,9 +1973,9 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_MODULEColumn {
+            public global::System.Data.DataColumn ID_FLATColumn {
                 get {
-                    return this.columnID_MODULE;
+                    return this.columnID_FLAT;
                 }
             }
             
@@ -1864,7 +2032,7 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_Elements_ModulesRow AddF_nn_Elements_ModulesRow(F_S_ElementsRow parentF_S_ElementsRowByFK_F_nn_Elements_Modules_F_nn_Elements, F_R_ModulesRow parentF_R_ModulesRowByFK_F_nn_Elements_FlatModules_F_R_Modules, string LOCATION, string DIRECTION) {
+            public F_nn_Elements_ModulesRow AddF_nn_Elements_ModulesRow(F_S_ElementsRow parentF_S_ElementsRowByFK_F_nn_Elements_Modules_F_nn_Elements, F_R_FlatsRow parentF_R_FlatsRowByFK_F_nn_Elements_Modules_F_R_Flats, string LOCATION, string DIRECTION) {
                 F_nn_Elements_ModulesRow rowF_nn_Elements_ModulesRow = ((F_nn_Elements_ModulesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -1875,8 +2043,8 @@ namespace Tests_ApartmentBase.DbTest {
                 if ((parentF_S_ElementsRowByFK_F_nn_Elements_Modules_F_nn_Elements != null)) {
                     columnValuesArray[1] = parentF_S_ElementsRowByFK_F_nn_Elements_Modules_F_nn_Elements[0];
                 }
-                if ((parentF_R_ModulesRowByFK_F_nn_Elements_FlatModules_F_R_Modules != null)) {
-                    columnValuesArray[2] = parentF_R_ModulesRowByFK_F_nn_Elements_FlatModules_F_R_Modules[0];
+                if ((parentF_R_FlatsRowByFK_F_nn_Elements_Modules_F_R_Flats != null)) {
+                    columnValuesArray[2] = parentF_R_FlatsRowByFK_F_nn_Elements_Modules_F_R_Flats[0];
                 }
                 rowF_nn_Elements_ModulesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowF_nn_Elements_ModulesRow);
@@ -1885,9 +2053,9 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_Elements_ModulesRow FindByID_ELEMENT_IN_MODULE(int ID_ELEMENT_IN_MODULE) {
+            public F_nn_Elements_ModulesRow FindByID_ELEMENT_IN_FLAT(int ID_ELEMENT_IN_FLAT) {
                 return ((F_nn_Elements_ModulesRow)(this.Rows.Find(new object[] {
-                            ID_ELEMENT_IN_MODULE})));
+                            ID_ELEMENT_IN_FLAT})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1907,9 +2075,9 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnID_ELEMENT_IN_MODULE = base.Columns["ID_ELEMENT_IN_MODULE"];
+                this.columnID_ELEMENT_IN_FLAT = base.Columns["ID_ELEMENT_IN_FLAT"];
                 this.columnID_ELEMENT = base.Columns["ID_ELEMENT"];
-                this.columnID_MODULE = base.Columns["ID_MODULE"];
+                this.columnID_FLAT = base.Columns["ID_FLAT"];
                 this.columnLOCATION = base.Columns["LOCATION"];
                 this.columnDIRECTION = base.Columns["DIRECTION"];
             }
@@ -1917,26 +2085,26 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnID_ELEMENT_IN_MODULE = new global::System.Data.DataColumn("ID_ELEMENT_IN_MODULE", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_ELEMENT_IN_MODULE);
+                this.columnID_ELEMENT_IN_FLAT = new global::System.Data.DataColumn("ID_ELEMENT_IN_FLAT", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_ELEMENT_IN_FLAT);
                 this.columnID_ELEMENT = new global::System.Data.DataColumn("ID_ELEMENT", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnID_ELEMENT);
-                this.columnID_MODULE = new global::System.Data.DataColumn("ID_MODULE", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_MODULE);
+                this.columnID_FLAT = new global::System.Data.DataColumn("ID_FLAT", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_FLAT);
                 this.columnLOCATION = new global::System.Data.DataColumn("LOCATION", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLOCATION);
                 this.columnDIRECTION = new global::System.Data.DataColumn("DIRECTION", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDIRECTION);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnID_ELEMENT_IN_MODULE}, true));
-                this.columnID_ELEMENT_IN_MODULE.AutoIncrement = true;
-                this.columnID_ELEMENT_IN_MODULE.AutoIncrementSeed = -1;
-                this.columnID_ELEMENT_IN_MODULE.AutoIncrementStep = -1;
-                this.columnID_ELEMENT_IN_MODULE.AllowDBNull = false;
-                this.columnID_ELEMENT_IN_MODULE.ReadOnly = true;
-                this.columnID_ELEMENT_IN_MODULE.Unique = true;
+                                this.columnID_ELEMENT_IN_FLAT}, true));
+                this.columnID_ELEMENT_IN_FLAT.AutoIncrement = true;
+                this.columnID_ELEMENT_IN_FLAT.AutoIncrementSeed = -1;
+                this.columnID_ELEMENT_IN_FLAT.AutoIncrementStep = -1;
+                this.columnID_ELEMENT_IN_FLAT.AllowDBNull = false;
+                this.columnID_ELEMENT_IN_FLAT.ReadOnly = true;
+                this.columnID_ELEMENT_IN_FLAT.Unique = true;
                 this.columnID_ELEMENT.AllowDBNull = false;
-                this.columnID_MODULE.AllowDBNull = false;
+                this.columnID_FLAT.AllowDBNull = false;
                 this.columnLOCATION.AllowDBNull = false;
                 this.columnLOCATION.MaxLength = 150;
                 this.columnDIRECTION.MaxLength = 150;
@@ -2071,349 +2239,6 @@ namespace Tests_ApartmentBase.DbTest {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class F_nn_FlatModulesDataTable : global::System.Data.TypedTableBase<F_nn_FlatModulesRow> {
-            
-            private global::System.Data.DataColumn columnID_FLAT_MODULE;
-            
-            private global::System.Data.DataColumn columnID_FLAT;
-            
-            private global::System.Data.DataColumn columnID_MODULE;
-            
-            private global::System.Data.DataColumn columnLOCATION;
-            
-            private global::System.Data.DataColumn columnDIRECTION;
-            
-            private global::System.Data.DataColumn columnANGLE;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_FlatModulesDataTable() {
-                this.TableName = "F_nn_FlatModules";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal F_nn_FlatModulesDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected F_nn_FlatModulesDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_FLAT_MODULEColumn {
-                get {
-                    return this.columnID_FLAT_MODULE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_FLATColumn {
-                get {
-                    return this.columnID_FLAT;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_MODULEColumn {
-                get {
-                    return this.columnID_MODULE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn LOCATIONColumn {
-                get {
-                    return this.columnLOCATION;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DIRECTIONColumn {
-                get {
-                    return this.columnDIRECTION;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ANGLEColumn {
-                get {
-                    return this.columnANGLE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_FlatModulesRow this[int index] {
-                get {
-                    return ((F_nn_FlatModulesRow)(this.Rows[index]));
-                }
-            }
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event F_nn_FlatModulesRowChangeEventHandler F_nn_FlatModulesRowChanging;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event F_nn_FlatModulesRowChangeEventHandler F_nn_FlatModulesRowChanged;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event F_nn_FlatModulesRowChangeEventHandler F_nn_FlatModulesRowDeleting;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event F_nn_FlatModulesRowChangeEventHandler F_nn_FlatModulesRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddF_nn_FlatModulesRow(F_nn_FlatModulesRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_FlatModulesRow AddF_nn_FlatModulesRow(F_R_FlatsRow parentF_R_FlatsRowByFK_F_R_FlatModules_F_R_Flats1, F_R_ModulesRow parentF_R_ModulesRowByFK_F_R_FlatModules_F_R_Modules, string LOCATION, string DIRECTION, double ANGLE) {
-                F_nn_FlatModulesRow rowF_nn_FlatModulesRow = ((F_nn_FlatModulesRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        null,
-                        null,
-                        null,
-                        LOCATION,
-                        DIRECTION,
-                        ANGLE};
-                if ((parentF_R_FlatsRowByFK_F_R_FlatModules_F_R_Flats1 != null)) {
-                    columnValuesArray[1] = parentF_R_FlatsRowByFK_F_R_FlatModules_F_R_Flats1[0];
-                }
-                if ((parentF_R_ModulesRowByFK_F_R_FlatModules_F_R_Modules != null)) {
-                    columnValuesArray[2] = parentF_R_ModulesRowByFK_F_R_FlatModules_F_R_Modules[0];
-                }
-                rowF_nn_FlatModulesRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowF_nn_FlatModulesRow);
-                return rowF_nn_FlatModulesRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_FlatModulesRow FindByID_FLAT_MODULE(int ID_FLAT_MODULE) {
-                return ((F_nn_FlatModulesRow)(this.Rows.Find(new object[] {
-                            ID_FLAT_MODULE})));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public override global::System.Data.DataTable Clone() {
-                F_nn_FlatModulesDataTable cln = ((F_nn_FlatModulesDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new F_nn_FlatModulesDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal void InitVars() {
-                this.columnID_FLAT_MODULE = base.Columns["ID_FLAT_MODULE"];
-                this.columnID_FLAT = base.Columns["ID_FLAT"];
-                this.columnID_MODULE = base.Columns["ID_MODULE"];
-                this.columnLOCATION = base.Columns["LOCATION"];
-                this.columnDIRECTION = base.Columns["DIRECTION"];
-                this.columnANGLE = base.Columns["ANGLE"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            private void InitClass() {
-                this.columnID_FLAT_MODULE = new global::System.Data.DataColumn("ID_FLAT_MODULE", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_FLAT_MODULE);
-                this.columnID_FLAT = new global::System.Data.DataColumn("ID_FLAT", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_FLAT);
-                this.columnID_MODULE = new global::System.Data.DataColumn("ID_MODULE", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_MODULE);
-                this.columnLOCATION = new global::System.Data.DataColumn("LOCATION", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnLOCATION);
-                this.columnDIRECTION = new global::System.Data.DataColumn("DIRECTION", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDIRECTION);
-                this.columnANGLE = new global::System.Data.DataColumn("ANGLE", typeof(double), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnANGLE);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnID_FLAT_MODULE}, true));
-                this.columnID_FLAT_MODULE.AutoIncrement = true;
-                this.columnID_FLAT_MODULE.AutoIncrementSeed = -1;
-                this.columnID_FLAT_MODULE.AutoIncrementStep = -1;
-                this.columnID_FLAT_MODULE.AllowDBNull = false;
-                this.columnID_FLAT_MODULE.ReadOnly = true;
-                this.columnID_FLAT_MODULE.Unique = true;
-                this.columnID_FLAT.AllowDBNull = false;
-                this.columnID_MODULE.AllowDBNull = false;
-                this.columnLOCATION.AllowDBNull = false;
-                this.columnLOCATION.MaxLength = 100;
-                this.columnDIRECTION.MaxLength = 100;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_FlatModulesRow NewF_nn_FlatModulesRow() {
-                return ((F_nn_FlatModulesRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new F_nn_FlatModulesRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Type GetRowType() {
-                return typeof(F_nn_FlatModulesRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.F_nn_FlatModulesRowChanged != null)) {
-                    this.F_nn_FlatModulesRowChanged(this, new F_nn_FlatModulesRowChangeEvent(((F_nn_FlatModulesRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.F_nn_FlatModulesRowChanging != null)) {
-                    this.F_nn_FlatModulesRowChanging(this, new F_nn_FlatModulesRowChangeEvent(((F_nn_FlatModulesRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.F_nn_FlatModulesRowDeleted != null)) {
-                    this.F_nn_FlatModulesRowDeleted(this, new F_nn_FlatModulesRowChangeEvent(((F_nn_FlatModulesRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.F_nn_FlatModulesRowDeleting != null)) {
-                    this.F_nn_FlatModulesRowDeleting(this, new F_nn_FlatModulesRowChangeEvent(((F_nn_FlatModulesRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveF_nn_FlatModulesRow(F_nn_FlatModulesRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DataSet1 ds = new DataSet1();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "F_nn_FlatModulesDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class F_R_FlatsDataTable : global::System.Data.TypedTableBase<F_R_FlatsRow> {
             
             private global::System.Data.DataColumn columnID_FLAT;
@@ -2422,7 +2247,7 @@ namespace Tests_ApartmentBase.DbTest {
             
             private global::System.Data.DataColumn columnWORKNAME;
             
-            private global::System.Data.DataColumn columnREVISION;
+            private global::System.Data.DataColumn columnTYPE_FLAT;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -2483,9 +2308,9 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn REVISIONColumn {
+            public global::System.Data.DataColumn TYPE_FLATColumn {
                 get {
-                    return this.columnREVISION;
+                    return this.columnTYPE_FLAT;
                 }
             }
             
@@ -2526,13 +2351,13 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_R_FlatsRow AddF_R_FlatsRow(string COMMERCIAL_NAME, string WORKNAME, int REVISION) {
+            public F_R_FlatsRow AddF_R_FlatsRow(string COMMERCIAL_NAME, string WORKNAME, string TYPE_FLAT) {
                 F_R_FlatsRow rowF_R_FlatsRow = ((F_R_FlatsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         COMMERCIAL_NAME,
                         WORKNAME,
-                        REVISION};
+                        TYPE_FLAT};
                 rowF_R_FlatsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowF_R_FlatsRow);
                 return rowF_R_FlatsRow;
@@ -2565,7 +2390,7 @@ namespace Tests_ApartmentBase.DbTest {
                 this.columnID_FLAT = base.Columns["ID_FLAT"];
                 this.columnCOMMERCIAL_NAME = base.Columns["COMMERCIAL_NAME"];
                 this.columnWORKNAME = base.Columns["WORKNAME"];
-                this.columnREVISION = base.Columns["REVISION"];
+                this.columnTYPE_FLAT = base.Columns["TYPE_FLAT"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2577,8 +2402,8 @@ namespace Tests_ApartmentBase.DbTest {
                 base.Columns.Add(this.columnCOMMERCIAL_NAME);
                 this.columnWORKNAME = new global::System.Data.DataColumn("WORKNAME", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnWORKNAME);
-                this.columnREVISION = new global::System.Data.DataColumn("REVISION", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnREVISION);
+                this.columnTYPE_FLAT = new global::System.Data.DataColumn("TYPE_FLAT", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTYPE_FLAT);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_FLAT}, true));
                 this.columnID_FLAT.AutoIncrement = true;
@@ -2591,7 +2416,7 @@ namespace Tests_ApartmentBase.DbTest {
                 this.columnCOMMERCIAL_NAME.MaxLength = 50;
                 this.columnWORKNAME.AllowDBNull = false;
                 this.columnWORKNAME.MaxLength = 150;
-                this.columnREVISION.AllowDBNull = false;
+                this.columnTYPE_FLAT.MaxLength = 150;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2678,299 +2503,6 @@ namespace Tests_ApartmentBase.DbTest {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "F_R_FlatsDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class F_R_ModulesDataTable : global::System.Data.TypedTableBase<F_R_ModulesRow> {
-            
-            private global::System.Data.DataColumn columnID_MODULE;
-            
-            private global::System.Data.DataColumn columnNAME_MODULE;
-            
-            private global::System.Data.DataColumn columnREVISION;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_R_ModulesDataTable() {
-                this.TableName = "F_R_Modules";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal F_R_ModulesDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected F_R_ModulesDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_MODULEColumn {
-                get {
-                    return this.columnID_MODULE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NAME_MODULEColumn {
-                get {
-                    return this.columnNAME_MODULE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn REVISIONColumn {
-                get {
-                    return this.columnREVISION;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_R_ModulesRow this[int index] {
-                get {
-                    return ((F_R_ModulesRow)(this.Rows[index]));
-                }
-            }
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event F_R_ModulesRowChangeEventHandler F_R_ModulesRowChanging;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event F_R_ModulesRowChangeEventHandler F_R_ModulesRowChanged;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event F_R_ModulesRowChangeEventHandler F_R_ModulesRowDeleting;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event F_R_ModulesRowChangeEventHandler F_R_ModulesRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddF_R_ModulesRow(F_R_ModulesRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_R_ModulesRow AddF_R_ModulesRow(string NAME_MODULE, int REVISION) {
-                F_R_ModulesRow rowF_R_ModulesRow = ((F_R_ModulesRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        null,
-                        NAME_MODULE,
-                        REVISION};
-                rowF_R_ModulesRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowF_R_ModulesRow);
-                return rowF_R_ModulesRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_R_ModulesRow FindByID_MODULE(int ID_MODULE) {
-                return ((F_R_ModulesRow)(this.Rows.Find(new object[] {
-                            ID_MODULE})));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public override global::System.Data.DataTable Clone() {
-                F_R_ModulesDataTable cln = ((F_R_ModulesDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new F_R_ModulesDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal void InitVars() {
-                this.columnID_MODULE = base.Columns["ID_MODULE"];
-                this.columnNAME_MODULE = base.Columns["NAME_MODULE"];
-                this.columnREVISION = base.Columns["REVISION"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            private void InitClass() {
-                this.columnID_MODULE = new global::System.Data.DataColumn("ID_MODULE", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_MODULE);
-                this.columnNAME_MODULE = new global::System.Data.DataColumn("NAME_MODULE", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNAME_MODULE);
-                this.columnREVISION = new global::System.Data.DataColumn("REVISION", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnREVISION);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnID_MODULE}, true));
-                this.columnID_MODULE.AutoIncrement = true;
-                this.columnID_MODULE.AutoIncrementSeed = -1;
-                this.columnID_MODULE.AutoIncrementStep = -1;
-                this.columnID_MODULE.AllowDBNull = false;
-                this.columnID_MODULE.ReadOnly = true;
-                this.columnID_MODULE.Unique = true;
-                this.columnNAME_MODULE.AllowDBNull = false;
-                this.columnNAME_MODULE.MaxLength = 50;
-                this.columnREVISION.AllowDBNull = false;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_R_ModulesRow NewF_R_ModulesRow() {
-                return ((F_R_ModulesRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new F_R_ModulesRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Type GetRowType() {
-                return typeof(F_R_ModulesRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.F_R_ModulesRowChanged != null)) {
-                    this.F_R_ModulesRowChanged(this, new F_R_ModulesRowChangeEvent(((F_R_ModulesRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.F_R_ModulesRowChanging != null)) {
-                    this.F_R_ModulesRowChanging(this, new F_R_ModulesRowChangeEvent(((F_R_ModulesRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.F_R_ModulesRowDeleted != null)) {
-                    this.F_R_ModulesRowDeleted(this, new F_R_ModulesRowChangeEvent(((F_R_ModulesRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.F_R_ModulesRowDeleting != null)) {
-                    this.F_R_ModulesRowDeleting(this, new F_R_ModulesRowChangeEvent(((F_R_ModulesRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveF_R_ModulesRow(F_R_ModulesRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DataSet1 ds = new DataSet1();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "F_R_ModulesDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -3900,24 +3432,24 @@ namespace Tests_ApartmentBase.DbTest {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class КатегорииDataTable : global::System.Data.TypedTableBase<КатегорииRow> {
+        public partial class vil_ParametersDataTable : global::System.Data.TypedTableBase<vil_ParametersRow> {
             
             private global::System.Data.DataColumn columnID_CATEGORY;
             
-            private global::System.Data.DataColumn columnID_PARAMETER;
+            private global::System.Data.DataColumn columnNAME_RUS_CATEGORY;
             
             private global::System.Data.DataColumn columnID_CAT_PARAMETER;
             
-            private global::System.Data.DataColumn columnNAME_RUS_CATEGORY;
-            
-            private global::System.Data.DataColumn columnNAME_PARAMETER;
+            private global::System.Data.DataColumn columnRELATE;
             
             private global::System.Data.DataColumn columnTYPE_PARAMETER;
             
+            private global::System.Data.DataColumn columnNAME_PARAMETER;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public КатегорииDataTable() {
-                this.TableName = "Категории";
+            public vil_ParametersDataTable() {
+                this.TableName = "vil_Parameters";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -3925,7 +3457,7 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal КатегорииDataTable(global::System.Data.DataTable table) {
+            internal vil_ParametersDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -3942,7 +3474,7 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected КатегорииDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected vil_ParametersDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -3957,9 +3489,9 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_PARAMETERColumn {
+            public global::System.Data.DataColumn NAME_RUS_CATEGORYColumn {
                 get {
-                    return this.columnID_PARAMETER;
+                    return this.columnNAME_RUS_CATEGORY;
                 }
             }
             
@@ -3973,17 +3505,9 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NAME_RUS_CATEGORYColumn {
+            public global::System.Data.DataColumn RELATEColumn {
                 get {
-                    return this.columnNAME_RUS_CATEGORY;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NAME_PARAMETERColumn {
-                get {
-                    return this.columnNAME_PARAMETER;
+                    return this.columnRELATE;
                 }
             }
             
@@ -3997,1140 +3521,6 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public КатегорииRow this[int index] {
-                get {
-                    return ((КатегорииRow)(this.Rows[index]));
-                }
-            }
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event КатегорииRowChangeEventHandler КатегорииRowChanging;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event КатегорииRowChangeEventHandler КатегорииRowChanged;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event КатегорииRowChangeEventHandler КатегорииRowDeleting;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event КатегорииRowChangeEventHandler КатегорииRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddКатегорииRow(КатегорииRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public КатегорииRow AddКатегорииRow(string NAME_RUS_CATEGORY, string NAME_PARAMETER, string TYPE_PARAMETER) {
-                КатегорииRow rowКатегорииRow = ((КатегорииRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        null,
-                        null,
-                        null,
-                        NAME_RUS_CATEGORY,
-                        NAME_PARAMETER,
-                        TYPE_PARAMETER};
-                rowКатегорииRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowКатегорииRow);
-                return rowКатегорииRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public КатегорииRow FindByID_CATEGORYID_PARAMETERID_CAT_PARAMETER(int ID_CATEGORY, int ID_PARAMETER, int ID_CAT_PARAMETER) {
-                return ((КатегорииRow)(this.Rows.Find(new object[] {
-                            ID_CATEGORY,
-                            ID_PARAMETER,
-                            ID_CAT_PARAMETER})));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public override global::System.Data.DataTable Clone() {
-                КатегорииDataTable cln = ((КатегорииDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new КатегорииDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal void InitVars() {
-                this.columnID_CATEGORY = base.Columns["ID_CATEGORY"];
-                this.columnID_PARAMETER = base.Columns["ID_PARAMETER"];
-                this.columnID_CAT_PARAMETER = base.Columns["ID_CAT_PARAMETER"];
-                this.columnNAME_RUS_CATEGORY = base.Columns["NAME_RUS_CATEGORY"];
-                this.columnNAME_PARAMETER = base.Columns["NAME_PARAMETER"];
-                this.columnTYPE_PARAMETER = base.Columns["TYPE_PARAMETER"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            private void InitClass() {
-                this.columnID_CATEGORY = new global::System.Data.DataColumn("ID_CATEGORY", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_CATEGORY);
-                this.columnID_PARAMETER = new global::System.Data.DataColumn("ID_PARAMETER", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_PARAMETER);
-                this.columnID_CAT_PARAMETER = new global::System.Data.DataColumn("ID_CAT_PARAMETER", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_CAT_PARAMETER);
-                this.columnNAME_RUS_CATEGORY = new global::System.Data.DataColumn("NAME_RUS_CATEGORY", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNAME_RUS_CATEGORY);
-                this.columnNAME_PARAMETER = new global::System.Data.DataColumn("NAME_PARAMETER", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNAME_PARAMETER);
-                this.columnTYPE_PARAMETER = new global::System.Data.DataColumn("TYPE_PARAMETER", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTYPE_PARAMETER);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnID_CATEGORY,
-                                this.columnID_PARAMETER,
-                                this.columnID_CAT_PARAMETER}, true));
-                this.columnID_CATEGORY.AutoIncrement = true;
-                this.columnID_CATEGORY.AutoIncrementSeed = -1;
-                this.columnID_CATEGORY.AutoIncrementStep = -1;
-                this.columnID_CATEGORY.AllowDBNull = false;
-                this.columnID_CATEGORY.ReadOnly = true;
-                this.columnID_PARAMETER.AutoIncrement = true;
-                this.columnID_PARAMETER.AutoIncrementSeed = -1;
-                this.columnID_PARAMETER.AutoIncrementStep = -1;
-                this.columnID_PARAMETER.AllowDBNull = false;
-                this.columnID_PARAMETER.ReadOnly = true;
-                this.columnID_CAT_PARAMETER.AutoIncrement = true;
-                this.columnID_CAT_PARAMETER.AutoIncrementSeed = -1;
-                this.columnID_CAT_PARAMETER.AutoIncrementStep = -1;
-                this.columnID_CAT_PARAMETER.AllowDBNull = false;
-                this.columnID_CAT_PARAMETER.ReadOnly = true;
-                this.columnNAME_RUS_CATEGORY.MaxLength = 150;
-                this.columnNAME_PARAMETER.AllowDBNull = false;
-                this.columnNAME_PARAMETER.MaxLength = 150;
-                this.columnTYPE_PARAMETER.MaxLength = 50;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public КатегорииRow NewКатегорииRow() {
-                return ((КатегорииRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new КатегорииRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Type GetRowType() {
-                return typeof(КатегорииRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.КатегорииRowChanged != null)) {
-                    this.КатегорииRowChanged(this, new КатегорииRowChangeEvent(((КатегорииRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.КатегорииRowChanging != null)) {
-                    this.КатегорииRowChanging(this, new КатегорииRowChangeEvent(((КатегорииRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.КатегорииRowDeleted != null)) {
-                    this.КатегорииRowDeleted(this, new КатегорииRowChangeEvent(((КатегорииRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.КатегорииRowDeleting != null)) {
-                    this.КатегорииRowDeleting(this, new КатегорииRowChangeEvent(((КатегорииRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveКатегорииRow(КатегорииRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DataSet1 ds = new DataSet1();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "КатегорииDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class _Квартиры_модулиDataTable : global::System.Data.TypedTableBase<_Квартиры_модулиRow> {
-            
-            private global::System.Data.DataColumn columnID_FLAT_MODULE;
-            
-            private global::System.Data.DataColumn columnLOCATION;
-            
-            private global::System.Data.DataColumn columnDIRECTION;
-            
-            private global::System.Data.DataColumn columnID_FLAT;
-            
-            private global::System.Data.DataColumn columnWORKNAME;
-            
-            private global::System.Data.DataColumn columnRevFlat;
-            
-            private global::System.Data.DataColumn columnID_MODULE;
-            
-            private global::System.Data.DataColumn columnNAME_MODULE;
-            
-            private global::System.Data.DataColumn columnRevMod;
-            
-            private global::System.Data.DataColumn columnANGLE;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Квартиры_модулиDataTable() {
-                this.TableName = "Квартиры-модули";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal _Квартиры_модулиDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected _Квартиры_модулиDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_FLAT_MODULEColumn {
-                get {
-                    return this.columnID_FLAT_MODULE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn LOCATIONColumn {
-                get {
-                    return this.columnLOCATION;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DIRECTIONColumn {
-                get {
-                    return this.columnDIRECTION;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_FLATColumn {
-                get {
-                    return this.columnID_FLAT;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn WORKNAMEColumn {
-                get {
-                    return this.columnWORKNAME;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn RevFlatColumn {
-                get {
-                    return this.columnRevFlat;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_MODULEColumn {
-                get {
-                    return this.columnID_MODULE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NAME_MODULEColumn {
-                get {
-                    return this.columnNAME_MODULE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn RevModColumn {
-                get {
-                    return this.columnRevMod;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ANGLEColumn {
-                get {
-                    return this.columnANGLE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Квартиры_модулиRow this[int index] {
-                get {
-                    return ((_Квартиры_модулиRow)(this.Rows[index]));
-                }
-            }
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event _Квартиры_модулиRowChangeEventHandler _Квартиры_модулиRowChanging;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event _Квартиры_модулиRowChangeEventHandler _Квартиры_модулиRowChanged;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event _Квартиры_модулиRowChangeEventHandler _Квартиры_модулиRowDeleting;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event _Квартиры_модулиRowChangeEventHandler _Квартиры_модулиRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void Add_Квартиры_модулиRow(_Квартиры_модулиRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Квартиры_модулиRow Add_Квартиры_модулиRow(string LOCATION, string DIRECTION, string WORKNAME, int RevFlat, string NAME_MODULE, int RevMod, double ANGLE) {
-                _Квартиры_модулиRow row_Квартиры_модулиRow = ((_Квартиры_модулиRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        null,
-                        LOCATION,
-                        DIRECTION,
-                        null,
-                        WORKNAME,
-                        RevFlat,
-                        null,
-                        NAME_MODULE,
-                        RevMod,
-                        ANGLE};
-                row_Квартиры_модулиRow.ItemArray = columnValuesArray;
-                this.Rows.Add(row_Квартиры_модулиRow);
-                return row_Квартиры_модулиRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Квартиры_модулиRow FindByID_FLAT_MODULEID_FLATID_MODULE(int ID_FLAT_MODULE, int ID_FLAT, int ID_MODULE) {
-                return ((_Квартиры_модулиRow)(this.Rows.Find(new object[] {
-                            ID_FLAT_MODULE,
-                            ID_FLAT,
-                            ID_MODULE})));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public override global::System.Data.DataTable Clone() {
-                _Квартиры_модулиDataTable cln = ((_Квартиры_модулиDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new _Квартиры_модулиDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal void InitVars() {
-                this.columnID_FLAT_MODULE = base.Columns["ID_FLAT_MODULE"];
-                this.columnLOCATION = base.Columns["LOCATION"];
-                this.columnDIRECTION = base.Columns["DIRECTION"];
-                this.columnID_FLAT = base.Columns["ID_FLAT"];
-                this.columnWORKNAME = base.Columns["WORKNAME"];
-                this.columnRevFlat = base.Columns["RevFlat"];
-                this.columnID_MODULE = base.Columns["ID_MODULE"];
-                this.columnNAME_MODULE = base.Columns["NAME_MODULE"];
-                this.columnRevMod = base.Columns["RevMod"];
-                this.columnANGLE = base.Columns["ANGLE"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            private void InitClass() {
-                this.columnID_FLAT_MODULE = new global::System.Data.DataColumn("ID_FLAT_MODULE", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_FLAT_MODULE);
-                this.columnLOCATION = new global::System.Data.DataColumn("LOCATION", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnLOCATION);
-                this.columnDIRECTION = new global::System.Data.DataColumn("DIRECTION", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDIRECTION);
-                this.columnID_FLAT = new global::System.Data.DataColumn("ID_FLAT", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_FLAT);
-                this.columnWORKNAME = new global::System.Data.DataColumn("WORKNAME", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnWORKNAME);
-                this.columnRevFlat = new global::System.Data.DataColumn("RevFlat", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRevFlat);
-                this.columnID_MODULE = new global::System.Data.DataColumn("ID_MODULE", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_MODULE);
-                this.columnNAME_MODULE = new global::System.Data.DataColumn("NAME_MODULE", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNAME_MODULE);
-                this.columnRevMod = new global::System.Data.DataColumn("RevMod", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRevMod);
-                this.columnANGLE = new global::System.Data.DataColumn("ANGLE", typeof(double), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnANGLE);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnID_FLAT_MODULE,
-                                this.columnID_FLAT,
-                                this.columnID_MODULE}, true));
-                this.columnID_FLAT_MODULE.AutoIncrement = true;
-                this.columnID_FLAT_MODULE.AutoIncrementSeed = -1;
-                this.columnID_FLAT_MODULE.AutoIncrementStep = -1;
-                this.columnID_FLAT_MODULE.AllowDBNull = false;
-                this.columnID_FLAT_MODULE.ReadOnly = true;
-                this.columnLOCATION.AllowDBNull = false;
-                this.columnLOCATION.MaxLength = 100;
-                this.columnDIRECTION.MaxLength = 100;
-                this.columnID_FLAT.AutoIncrement = true;
-                this.columnID_FLAT.AutoIncrementSeed = -1;
-                this.columnID_FLAT.AutoIncrementStep = -1;
-                this.columnID_FLAT.AllowDBNull = false;
-                this.columnID_FLAT.ReadOnly = true;
-                this.columnWORKNAME.AllowDBNull = false;
-                this.columnWORKNAME.MaxLength = 150;
-                this.columnRevFlat.AllowDBNull = false;
-                this.columnID_MODULE.AutoIncrement = true;
-                this.columnID_MODULE.AutoIncrementSeed = -1;
-                this.columnID_MODULE.AutoIncrementStep = -1;
-                this.columnID_MODULE.AllowDBNull = false;
-                this.columnID_MODULE.ReadOnly = true;
-                this.columnNAME_MODULE.AllowDBNull = false;
-                this.columnNAME_MODULE.MaxLength = 50;
-                this.columnRevMod.AllowDBNull = false;
-                this.ExtendedProperties.Add("Generator_TableVarName", "_tableКвартиры_модули");
-                this.ExtendedProperties.Add("Generator_UserTableName", "Квартиры-модули");
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Квартиры_модулиRow New_Квартиры_модулиRow() {
-                return ((_Квартиры_модулиRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new _Квартиры_модулиRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Type GetRowType() {
-                return typeof(_Квартиры_модулиRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this._Квартиры_модулиRowChanged != null)) {
-                    this._Квартиры_модулиRowChanged(this, new _Квартиры_модулиRowChangeEvent(((_Квартиры_модулиRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this._Квартиры_модулиRowChanging != null)) {
-                    this._Квартиры_модулиRowChanging(this, new _Квартиры_модулиRowChangeEvent(((_Квартиры_модулиRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this._Квартиры_модулиRowDeleted != null)) {
-                    this._Квартиры_модулиRowDeleted(this, new _Квартиры_модулиRowChangeEvent(((_Квартиры_модулиRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this._Квартиры_модулиRowDeleting != null)) {
-                    this._Квартиры_модулиRowDeleting(this, new _Квартиры_модулиRowChangeEvent(((_Квартиры_модулиRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void Remove_Квартиры_модулиRow(_Квартиры_модулиRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DataSet1 ds = new DataSet1();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "_Квартиры_модулиDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class МодульЭлементыDataTable : global::System.Data.TypedTableBase<МодульЭлементыRow> {
-            
-            private global::System.Data.DataColumn columnID_MODULE;
-            
-            private global::System.Data.DataColumn columnNAME_MODULE;
-            
-            private global::System.Data.DataColumn columnREVISION;
-            
-            private global::System.Data.DataColumn columnID_ELEMENT_IN_MODULE;
-            
-            private global::System.Data.DataColumn columnLOCATION;
-            
-            private global::System.Data.DataColumn columnDIRECTION;
-            
-            private global::System.Data.DataColumn columnID_ELEMENT;
-            
-            private global::System.Data.DataColumn columnFAMILY_NAME;
-            
-            private global::System.Data.DataColumn columnFAMILY_SYMBOL;
-            
-            private global::System.Data.DataColumn columnNAME_RUS_CATEGORY;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public МодульЭлементыDataTable() {
-                this.TableName = "МодульЭлементы";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal МодульЭлементыDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected МодульЭлементыDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_MODULEColumn {
-                get {
-                    return this.columnID_MODULE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NAME_MODULEColumn {
-                get {
-                    return this.columnNAME_MODULE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn REVISIONColumn {
-                get {
-                    return this.columnREVISION;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_ELEMENT_IN_MODULEColumn {
-                get {
-                    return this.columnID_ELEMENT_IN_MODULE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn LOCATIONColumn {
-                get {
-                    return this.columnLOCATION;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DIRECTIONColumn {
-                get {
-                    return this.columnDIRECTION;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_ELEMENTColumn {
-                get {
-                    return this.columnID_ELEMENT;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn FAMILY_NAMEColumn {
-                get {
-                    return this.columnFAMILY_NAME;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn FAMILY_SYMBOLColumn {
-                get {
-                    return this.columnFAMILY_SYMBOL;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NAME_RUS_CATEGORYColumn {
-                get {
-                    return this.columnNAME_RUS_CATEGORY;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public МодульЭлементыRow this[int index] {
-                get {
-                    return ((МодульЭлементыRow)(this.Rows[index]));
-                }
-            }
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event МодульЭлементыRowChangeEventHandler МодульЭлементыRowChanging;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event МодульЭлементыRowChangeEventHandler МодульЭлементыRowChanged;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event МодульЭлементыRowChangeEventHandler МодульЭлементыRowDeleting;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event МодульЭлементыRowChangeEventHandler МодульЭлементыRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddМодульЭлементыRow(МодульЭлементыRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public МодульЭлементыRow AddМодульЭлементыRow(string NAME_MODULE, int REVISION, string LOCATION, string DIRECTION, string FAMILY_NAME, string FAMILY_SYMBOL, string NAME_RUS_CATEGORY) {
-                МодульЭлементыRow rowМодульЭлементыRow = ((МодульЭлементыRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        null,
-                        NAME_MODULE,
-                        REVISION,
-                        null,
-                        LOCATION,
-                        DIRECTION,
-                        null,
-                        FAMILY_NAME,
-                        FAMILY_SYMBOL,
-                        NAME_RUS_CATEGORY};
-                rowМодульЭлементыRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowМодульЭлементыRow);
-                return rowМодульЭлементыRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public override global::System.Data.DataTable Clone() {
-                МодульЭлементыDataTable cln = ((МодульЭлементыDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new МодульЭлементыDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal void InitVars() {
-                this.columnID_MODULE = base.Columns["ID_MODULE"];
-                this.columnNAME_MODULE = base.Columns["NAME_MODULE"];
-                this.columnREVISION = base.Columns["REVISION"];
-                this.columnID_ELEMENT_IN_MODULE = base.Columns["ID_ELEMENT_IN_MODULE"];
-                this.columnLOCATION = base.Columns["LOCATION"];
-                this.columnDIRECTION = base.Columns["DIRECTION"];
-                this.columnID_ELEMENT = base.Columns["ID_ELEMENT"];
-                this.columnFAMILY_NAME = base.Columns["FAMILY_NAME"];
-                this.columnFAMILY_SYMBOL = base.Columns["FAMILY_SYMBOL"];
-                this.columnNAME_RUS_CATEGORY = base.Columns["NAME_RUS_CATEGORY"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            private void InitClass() {
-                this.columnID_MODULE = new global::System.Data.DataColumn("ID_MODULE", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_MODULE);
-                this.columnNAME_MODULE = new global::System.Data.DataColumn("NAME_MODULE", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNAME_MODULE);
-                this.columnREVISION = new global::System.Data.DataColumn("REVISION", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnREVISION);
-                this.columnID_ELEMENT_IN_MODULE = new global::System.Data.DataColumn("ID_ELEMENT_IN_MODULE", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_ELEMENT_IN_MODULE);
-                this.columnLOCATION = new global::System.Data.DataColumn("LOCATION", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnLOCATION);
-                this.columnDIRECTION = new global::System.Data.DataColumn("DIRECTION", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDIRECTION);
-                this.columnID_ELEMENT = new global::System.Data.DataColumn("ID_ELEMENT", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_ELEMENT);
-                this.columnFAMILY_NAME = new global::System.Data.DataColumn("FAMILY_NAME", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnFAMILY_NAME);
-                this.columnFAMILY_SYMBOL = new global::System.Data.DataColumn("FAMILY_SYMBOL", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnFAMILY_SYMBOL);
-                this.columnNAME_RUS_CATEGORY = new global::System.Data.DataColumn("NAME_RUS_CATEGORY", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNAME_RUS_CATEGORY);
-                this.columnID_MODULE.AutoIncrement = true;
-                this.columnID_MODULE.AutoIncrementSeed = -1;
-                this.columnID_MODULE.AutoIncrementStep = -1;
-                this.columnID_MODULE.AllowDBNull = false;
-                this.columnID_MODULE.ReadOnly = true;
-                this.columnNAME_MODULE.AllowDBNull = false;
-                this.columnNAME_MODULE.MaxLength = 50;
-                this.columnREVISION.AllowDBNull = false;
-                this.columnID_ELEMENT_IN_MODULE.AutoIncrement = true;
-                this.columnID_ELEMENT_IN_MODULE.AutoIncrementSeed = -1;
-                this.columnID_ELEMENT_IN_MODULE.AutoIncrementStep = -1;
-                this.columnID_ELEMENT_IN_MODULE.AllowDBNull = false;
-                this.columnID_ELEMENT_IN_MODULE.ReadOnly = true;
-                this.columnLOCATION.AllowDBNull = false;
-                this.columnLOCATION.MaxLength = 150;
-                this.columnDIRECTION.MaxLength = 150;
-                this.columnID_ELEMENT.AutoIncrement = true;
-                this.columnID_ELEMENT.AutoIncrementSeed = -1;
-                this.columnID_ELEMENT.AutoIncrementStep = -1;
-                this.columnID_ELEMENT.AllowDBNull = false;
-                this.columnID_ELEMENT.ReadOnly = true;
-                this.columnFAMILY_NAME.AllowDBNull = false;
-                this.columnFAMILY_NAME.MaxLength = 100;
-                this.columnFAMILY_SYMBOL.AllowDBNull = false;
-                this.columnFAMILY_SYMBOL.MaxLength = 100;
-                this.columnNAME_RUS_CATEGORY.MaxLength = 150;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public МодульЭлементыRow NewМодульЭлементыRow() {
-                return ((МодульЭлементыRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new МодульЭлементыRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Type GetRowType() {
-                return typeof(МодульЭлементыRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.МодульЭлементыRowChanged != null)) {
-                    this.МодульЭлементыRowChanged(this, new МодульЭлементыRowChangeEvent(((МодульЭлементыRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.МодульЭлементыRowChanging != null)) {
-                    this.МодульЭлементыRowChanging(this, new МодульЭлементыRowChangeEvent(((МодульЭлементыRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.МодульЭлементыRowDeleted != null)) {
-                    this.МодульЭлементыRowDeleted(this, new МодульЭлементыRowChangeEvent(((МодульЭлементыRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.МодульЭлементыRowDeleting != null)) {
-                    this.МодульЭлементыRowDeleting(this, new МодульЭлементыRowChangeEvent(((МодульЭлементыRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveМодульЭлементыRow(МодульЭлементыRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DataSet1 ds = new DataSet1();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "МодульЭлементыDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ПараметрыЭлементаDataTable : global::System.Data.TypedTableBase<ПараметрыЭлементаRow> {
-            
-            private global::System.Data.DataColumn columnID_ELEMENT;
-            
-            private global::System.Data.DataColumn columnFAMILY_NAME;
-            
-            private global::System.Data.DataColumn columnNAME_RUS_CATEGORY;
-            
-            private global::System.Data.DataColumn columnNAME_PARAMETER;
-            
-            private global::System.Data.DataColumn columnPARAMETER_VALUE;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ПараметрыЭлементаDataTable() {
-                this.TableName = "ПараметрыЭлемента";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal ПараметрыЭлементаDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected ПараметрыЭлементаDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ID_ELEMENTColumn {
-                get {
-                    return this.columnID_ELEMENT;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn FAMILY_NAMEColumn {
-                get {
-                    return this.columnFAMILY_NAME;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NAME_RUS_CATEGORYColumn {
-                get {
-                    return this.columnNAME_RUS_CATEGORY;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public global::System.Data.DataColumn NAME_PARAMETERColumn {
                 get {
                     return this.columnNAME_PARAMETER;
@@ -5139,14 +3529,6 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PARAMETER_VALUEColumn {
-                get {
-                    return this.columnPARAMETER_VALUE;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -5156,56 +3538,50 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ПараметрыЭлементаRow this[int index] {
+            public vil_ParametersRow this[int index] {
                 get {
-                    return ((ПараметрыЭлементаRow)(this.Rows[index]));
+                    return ((vil_ParametersRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ПараметрыЭлементаRowChangeEventHandler ПараметрыЭлементаRowChanging;
+            public event vil_ParametersRowChangeEventHandler vil_ParametersRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ПараметрыЭлементаRowChangeEventHandler ПараметрыЭлементаRowChanged;
+            public event vil_ParametersRowChangeEventHandler vil_ParametersRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ПараметрыЭлементаRowChangeEventHandler ПараметрыЭлементаRowDeleting;
+            public event vil_ParametersRowChangeEventHandler vil_ParametersRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ПараметрыЭлементаRowChangeEventHandler ПараметрыЭлементаRowDeleted;
+            public event vil_ParametersRowChangeEventHandler vil_ParametersRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddПараметрыЭлементаRow(ПараметрыЭлементаRow row) {
+            public void Addvil_ParametersRow(vil_ParametersRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ПараметрыЭлементаRow AddПараметрыЭлементаRow(string FAMILY_NAME, string NAME_RUS_CATEGORY, string NAME_PARAMETER, string PARAMETER_VALUE) {
-                ПараметрыЭлементаRow rowПараметрыЭлементаRow = ((ПараметрыЭлементаRow)(this.NewRow()));
+            public vil_ParametersRow Addvil_ParametersRow(string NAME_RUS_CATEGORY, int RELATE, string TYPE_PARAMETER, string NAME_PARAMETER) {
+                vil_ParametersRow rowvil_ParametersRow = ((vil_ParametersRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
-                        FAMILY_NAME,
                         NAME_RUS_CATEGORY,
-                        NAME_PARAMETER,
-                        PARAMETER_VALUE};
-                rowПараметрыЭлементаRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowПараметрыЭлементаRow);
-                return rowПараметрыЭлементаRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ПараметрыЭлементаRow FindByID_ELEMENT(int ID_ELEMENT) {
-                return ((ПараметрыЭлементаRow)(this.Rows.Find(new object[] {
-                            ID_ELEMENT})));
+                        null,
+                        RELATE,
+                        TYPE_PARAMETER,
+                        NAME_PARAMETER};
+                rowvil_ParametersRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowvil_ParametersRow);
+                return rowvil_ParametersRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                ПараметрыЭлементаDataTable cln = ((ПараметрыЭлементаDataTable)(base.Clone()));
+                vil_ParametersDataTable cln = ((vil_ParametersDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -5213,73 +3589,76 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new ПараметрыЭлементаDataTable();
+                return new vil_ParametersDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnID_ELEMENT = base.Columns["ID_ELEMENT"];
-                this.columnFAMILY_NAME = base.Columns["FAMILY_NAME"];
+                this.columnID_CATEGORY = base.Columns["ID_CATEGORY"];
                 this.columnNAME_RUS_CATEGORY = base.Columns["NAME_RUS_CATEGORY"];
+                this.columnID_CAT_PARAMETER = base.Columns["ID_CAT_PARAMETER"];
+                this.columnRELATE = base.Columns["RELATE"];
+                this.columnTYPE_PARAMETER = base.Columns["TYPE_PARAMETER"];
                 this.columnNAME_PARAMETER = base.Columns["NAME_PARAMETER"];
-                this.columnPARAMETER_VALUE = base.Columns["PARAMETER_VALUE"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnID_ELEMENT = new global::System.Data.DataColumn("ID_ELEMENT", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnID_ELEMENT);
-                this.columnFAMILY_NAME = new global::System.Data.DataColumn("FAMILY_NAME", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnFAMILY_NAME);
+                this.columnID_CATEGORY = new global::System.Data.DataColumn("ID_CATEGORY", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_CATEGORY);
                 this.columnNAME_RUS_CATEGORY = new global::System.Data.DataColumn("NAME_RUS_CATEGORY", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNAME_RUS_CATEGORY);
+                this.columnID_CAT_PARAMETER = new global::System.Data.DataColumn("ID_CAT_PARAMETER", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_CAT_PARAMETER);
+                this.columnRELATE = new global::System.Data.DataColumn("RELATE", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRELATE);
+                this.columnTYPE_PARAMETER = new global::System.Data.DataColumn("TYPE_PARAMETER", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTYPE_PARAMETER);
                 this.columnNAME_PARAMETER = new global::System.Data.DataColumn("NAME_PARAMETER", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNAME_PARAMETER);
-                this.columnPARAMETER_VALUE = new global::System.Data.DataColumn("PARAMETER_VALUE", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPARAMETER_VALUE);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnID_ELEMENT}, true));
-                this.columnID_ELEMENT.AutoIncrement = true;
-                this.columnID_ELEMENT.AutoIncrementSeed = -1;
-                this.columnID_ELEMENT.AutoIncrementStep = -1;
-                this.columnID_ELEMENT.AllowDBNull = false;
-                this.columnID_ELEMENT.ReadOnly = true;
-                this.columnID_ELEMENT.Unique = true;
-                this.columnFAMILY_NAME.AllowDBNull = false;
-                this.columnFAMILY_NAME.MaxLength = 100;
+                this.columnID_CATEGORY.AutoIncrement = true;
+                this.columnID_CATEGORY.AutoIncrementSeed = -1;
+                this.columnID_CATEGORY.AutoIncrementStep = -1;
+                this.columnID_CATEGORY.AllowDBNull = false;
+                this.columnID_CATEGORY.ReadOnly = true;
                 this.columnNAME_RUS_CATEGORY.MaxLength = 150;
+                this.columnID_CAT_PARAMETER.AutoIncrement = true;
+                this.columnID_CAT_PARAMETER.AutoIncrementSeed = -1;
+                this.columnID_CAT_PARAMETER.AutoIncrementStep = -1;
+                this.columnID_CAT_PARAMETER.AllowDBNull = false;
+                this.columnID_CAT_PARAMETER.ReadOnly = true;
+                this.columnRELATE.AllowDBNull = false;
+                this.columnTYPE_PARAMETER.MaxLength = 50;
                 this.columnNAME_PARAMETER.AllowDBNull = false;
                 this.columnNAME_PARAMETER.MaxLength = 150;
-                this.columnPARAMETER_VALUE.AllowDBNull = false;
-                this.columnPARAMETER_VALUE.MaxLength = 250;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ПараметрыЭлементаRow NewПараметрыЭлементаRow() {
-                return ((ПараметрыЭлементаRow)(this.NewRow()));
+            public vil_ParametersRow Newvil_ParametersRow() {
+                return ((vil_ParametersRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new ПараметрыЭлементаRow(builder);
+                return new vil_ParametersRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(ПараметрыЭлементаRow);
+                return typeof(vil_ParametersRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.ПараметрыЭлементаRowChanged != null)) {
-                    this.ПараметрыЭлементаRowChanged(this, new ПараметрыЭлементаRowChangeEvent(((ПараметрыЭлементаRow)(e.Row)), e.Action));
+                if ((this.vil_ParametersRowChanged != null)) {
+                    this.vil_ParametersRowChanged(this, new vil_ParametersRowChangeEvent(((vil_ParametersRow)(e.Row)), e.Action));
                 }
             }
             
@@ -5287,8 +3666,8 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.ПараметрыЭлементаRowChanging != null)) {
-                    this.ПараметрыЭлементаRowChanging(this, new ПараметрыЭлементаRowChangeEvent(((ПараметрыЭлементаRow)(e.Row)), e.Action));
+                if ((this.vil_ParametersRowChanging != null)) {
+                    this.vil_ParametersRowChanging(this, new vil_ParametersRowChangeEvent(((vil_ParametersRow)(e.Row)), e.Action));
                 }
             }
             
@@ -5296,8 +3675,8 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.ПараметрыЭлементаRowDeleted != null)) {
-                    this.ПараметрыЭлементаRowDeleted(this, new ПараметрыЭлементаRowChangeEvent(((ПараметрыЭлементаRow)(e.Row)), e.Action));
+                if ((this.vil_ParametersRowDeleted != null)) {
+                    this.vil_ParametersRowDeleted(this, new vil_ParametersRowChangeEvent(((vil_ParametersRow)(e.Row)), e.Action));
                 }
             }
             
@@ -5305,14 +3684,14 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.ПараметрыЭлементаRowDeleting != null)) {
-                    this.ПараметрыЭлементаRowDeleting(this, new ПараметрыЭлементаRowChangeEvent(((ПараметрыЭлементаRow)(e.Row)), e.Action));
+                if ((this.vil_ParametersRowDeleting != null)) {
+                    this.vil_ParametersRowDeleting(this, new vil_ParametersRowChangeEvent(((vil_ParametersRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveПараметрыЭлементаRow(ПараметрыЭлементаRow row) {
+            public void Removevil_ParametersRow(vil_ParametersRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -5339,7 +3718,7 @@ namespace Tests_ApartmentBase.DbTest {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "ПараметрыЭлементаDataTable";
+                attribute2.FixedValue = "vil_ParametersDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -5451,12 +3830,23 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public КатегорииRow КатегорииRow {
+            public vil_ParametersRow vil_ParametersRow {
                 get {
-                    return ((КатегорииRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_Category_Parameters_F_S_Categories1"])));
+                    return ((vil_ParametersRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_Category_Parameters_F_S_Categories1"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_Category_Parameters_F_S_Categories1"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_ElementInFlatValueRow[] GetF_nn_ElementInFlatValueRows() {
+                if ((this.Table.ChildRelations["FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters"] == null)) {
+                    return new F_nn_ElementInFlatValueRow[0];
+                }
+                else {
+                    return ((F_nn_ElementInFlatValueRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters"])));
                 }
             }
             
@@ -5526,6 +3916,17 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int RELATE {
+                get {
+                    return ((int)(this[this.tableF_S_Parameters.RELATEColumn]));
+                }
+                set {
+                    this[this.tableF_S_Parameters.RELATEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsTYPE_PARAMETERNull() {
                 return this.IsNull(this.tableF_S_Parameters.TYPE_PARAMETERColumn);
             }
@@ -5544,6 +3945,87 @@ namespace Tests_ApartmentBase.DbTest {
                 }
                 else {
                     return ((F_nn_Category_ParametersRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_nn_Category_Parameters_F_S_Parameters"])));
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class F_nn_ElementInFlatValueRow : global::System.Data.DataRow {
+            
+            private F_nn_ElementInFlatValueDataTable tableF_nn_ElementInFlatValue;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal F_nn_ElementInFlatValueRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableF_nn_ElementInFlatValue = ((F_nn_ElementInFlatValueDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int ID_ELEMENT_VALUE {
+                get {
+                    return ((int)(this[this.tableF_nn_ElementInFlatValue.ID_ELEMENT_VALUEColumn]));
+                }
+                set {
+                    this[this.tableF_nn_ElementInFlatValue.ID_ELEMENT_VALUEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int ID_ELEMENT_IN_FLAT {
+                get {
+                    return ((int)(this[this.tableF_nn_ElementInFlatValue.ID_ELEMENT_IN_FLATColumn]));
+                }
+                set {
+                    this[this.tableF_nn_ElementInFlatValue.ID_ELEMENT_IN_FLATColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int ID_CAT_PARAMETER {
+                get {
+                    return ((int)(this[this.tableF_nn_ElementInFlatValue.ID_CAT_PARAMETERColumn]));
+                }
+                set {
+                    this[this.tableF_nn_ElementInFlatValue.ID_CAT_PARAMETERColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string PARAMETER_VALUE {
+                get {
+                    return ((string)(this[this.tableF_nn_ElementInFlatValue.PARAMETER_VALUEColumn]));
+                }
+                set {
+                    this[this.tableF_nn_ElementInFlatValue.PARAMETER_VALUEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_Category_ParametersRow F_nn_Category_ParametersRow {
+                get {
+                    return ((F_nn_Category_ParametersRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_Elements_ModulesRow F_nn_Elements_ModulesRow {
+                get {
+                    return ((F_nn_Elements_ModulesRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue"]);
                 }
             }
         }
@@ -5645,12 +4127,12 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_ELEMENT_IN_MODULE {
+            public int ID_ELEMENT_IN_FLAT {
                 get {
-                    return ((int)(this[this.tableF_nn_Elements_Modules.ID_ELEMENT_IN_MODULEColumn]));
+                    return ((int)(this[this.tableF_nn_Elements_Modules.ID_ELEMENT_IN_FLATColumn]));
                 }
                 set {
-                    this[this.tableF_nn_Elements_Modules.ID_ELEMENT_IN_MODULEColumn] = value;
+                    this[this.tableF_nn_Elements_Modules.ID_ELEMENT_IN_FLATColumn] = value;
                 }
             }
             
@@ -5667,12 +4149,12 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_MODULE {
+            public int ID_FLAT {
                 get {
-                    return ((int)(this[this.tableF_nn_Elements_Modules.ID_MODULEColumn]));
+                    return ((int)(this[this.tableF_nn_Elements_Modules.ID_FLATColumn]));
                 }
                 set {
-                    this[this.tableF_nn_Elements_Modules.ID_MODULEColumn] = value;
+                    this[this.tableF_nn_Elements_Modules.ID_FLATColumn] = value;
                 }
             }
             
@@ -5705,17 +4187,6 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_R_ModulesRow F_R_ModulesRow {
-                get {
-                    return ((F_R_ModulesRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_R_Modules"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_R_Modules"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public F_S_ElementsRow F_S_ElementsRow {
                 get {
                     return ((F_S_ElementsRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_Elements_Modules_F_nn_Elements"])));
@@ -5727,12 +4198,12 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public МодульЭлементыRow МодульЭлементыRow {
+            public F_R_FlatsRow F_R_FlatsRow {
                 get {
-                    return ((МодульЭлементыRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_R_Modules1"])));
+                    return ((F_R_FlatsRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_nn_Elements_Modules_F_R_Flats"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_Elements_FlatModules_F_R_Modules1"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_nn_Elements_Modules_F_R_Flats"]);
                 }
             }
             
@@ -5747,164 +4218,16 @@ namespace Tests_ApartmentBase.DbTest {
             public void SetDIRECTIONNull() {
                 this[this.tableF_nn_Elements_Modules.DIRECTIONColumn] = global::System.Convert.DBNull;
             }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        public partial class F_nn_FlatModulesRow : global::System.Data.DataRow {
-            
-            private F_nn_FlatModulesDataTable tableF_nn_FlatModules;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal F_nn_FlatModulesRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableF_nn_FlatModules = ((F_nn_FlatModulesDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_FLAT_MODULE {
-                get {
-                    return ((int)(this[this.tableF_nn_FlatModules.ID_FLAT_MODULEColumn]));
+            public F_nn_ElementInFlatValueRow[] GetF_nn_ElementInFlatValueRows() {
+                if ((this.Table.ChildRelations["FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue"] == null)) {
+                    return new F_nn_ElementInFlatValueRow[0];
                 }
-                set {
-                    this[this.tableF_nn_FlatModules.ID_FLAT_MODULEColumn] = value;
+                else {
+                    return ((F_nn_ElementInFlatValueRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue"])));
                 }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_FLAT {
-                get {
-                    return ((int)(this[this.tableF_nn_FlatModules.ID_FLATColumn]));
-                }
-                set {
-                    this[this.tableF_nn_FlatModules.ID_FLATColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_MODULE {
-                get {
-                    return ((int)(this[this.tableF_nn_FlatModules.ID_MODULEColumn]));
-                }
-                set {
-                    this[this.tableF_nn_FlatModules.ID_MODULEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string LOCATION {
-                get {
-                    return ((string)(this[this.tableF_nn_FlatModules.LOCATIONColumn]));
-                }
-                set {
-                    this[this.tableF_nn_FlatModules.LOCATIONColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string DIRECTION {
-                get {
-                    try {
-                        return ((string)(this[this.tableF_nn_FlatModules.DIRECTIONColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'DIRECTION\' в таблице \'F_nn_FlatModules\' равно DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableF_nn_FlatModules.DIRECTIONColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double ANGLE {
-                get {
-                    try {
-                        return ((double)(this[this.tableF_nn_FlatModules.ANGLEColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'ANGLE\' в таблице \'F_nn_FlatModules\' равно DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableF_nn_FlatModules.ANGLEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_R_FlatsRow F_R_FlatsRow {
-                get {
-                    return ((F_R_FlatsRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Flats1"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Flats1"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_R_ModulesRow F_R_ModulesRow {
-                get {
-                    return ((F_R_ModulesRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Modules"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Modules"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Квартиры_модулиRow _Квартиры_модулиRow {
-                get {
-                    return ((_Квартиры_модулиRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Flats11"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Flats11"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public МодульЭлементыRow МодульЭлементыRow {
-                get {
-                    return ((МодульЭлементыRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Modules1"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_F_R_FlatModules_F_R_Modules1"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDIRECTIONNull() {
-                return this.IsNull(this.tableF_nn_FlatModules.DIRECTIONColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDIRECTIONNull() {
-                this[this.tableF_nn_FlatModules.DIRECTIONColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsANGLENull() {
-                return this.IsNull(this.tableF_nn_FlatModules.ANGLEColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetANGLENull() {
-                this[this.tableF_nn_FlatModules.ANGLEColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -5957,93 +4280,40 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int REVISION {
+            public string TYPE_FLAT {
                 get {
-                    return ((int)(this[this.tableF_R_Flats.REVISIONColumn]));
+                    try {
+                        return ((string)(this[this.tableF_R_Flats.TYPE_FLATColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'TYPE_FLAT\' в таблице \'F_R_Flats\' равно DBNull.", e);
+                    }
                 }
                 set {
-                    this[this.tableF_R_Flats.REVISIONColumn] = value;
+                    this[this.tableF_R_Flats.TYPE_FLATColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_FlatModulesRow[] GetF_nn_FlatModulesRows() {
-                if ((this.Table.ChildRelations["FK_F_R_FlatModules_F_R_Flats1"] == null)) {
-                    return new F_nn_FlatModulesRow[0];
-                }
-                else {
-                    return ((F_nn_FlatModulesRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_R_FlatModules_F_R_Flats1"])));
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        public partial class F_R_ModulesRow : global::System.Data.DataRow {
-            
-            private F_R_ModulesDataTable tableF_R_Modules;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal F_R_ModulesRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableF_R_Modules = ((F_R_ModulesDataTable)(this.Table));
+            public bool IsTYPE_FLATNull() {
+                return this.IsNull(this.tableF_R_Flats.TYPE_FLATColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_MODULE {
-                get {
-                    return ((int)(this[this.tableF_R_Modules.ID_MODULEColumn]));
-                }
-                set {
-                    this[this.tableF_R_Modules.ID_MODULEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NAME_MODULE {
-                get {
-                    return ((string)(this[this.tableF_R_Modules.NAME_MODULEColumn]));
-                }
-                set {
-                    this[this.tableF_R_Modules.NAME_MODULEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int REVISION {
-                get {
-                    return ((int)(this[this.tableF_R_Modules.REVISIONColumn]));
-                }
-                set {
-                    this[this.tableF_R_Modules.REVISIONColumn] = value;
-                }
+            public void SetTYPE_FLATNull() {
+                this[this.tableF_R_Flats.TYPE_FLATColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public F_nn_Elements_ModulesRow[] GetF_nn_Elements_ModulesRows() {
-                if ((this.Table.ChildRelations["FK_F_nn_Elements_FlatModules_F_R_Modules"] == null)) {
+                if ((this.Table.ChildRelations["FK_F_nn_Elements_Modules_F_R_Flats"] == null)) {
                     return new F_nn_Elements_ModulesRow[0];
                 }
                 else {
-                    return ((F_nn_Elements_ModulesRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_nn_Elements_FlatModules_F_R_Modules"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_FlatModulesRow[] GetF_nn_FlatModulesRows() {
-                if ((this.Table.ChildRelations["FK_F_R_FlatModules_F_R_Modules"] == null)) {
-                    return new F_nn_FlatModulesRow[0];
-                }
-                else {
-                    return ((F_nn_FlatModulesRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_R_FlatModules_F_R_Modules"])));
+                    return ((F_nn_Elements_ModulesRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_nn_Elements_Modules_F_R_Flats"])));
                 }
             }
         }
@@ -6225,9 +4495,9 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public КатегорииRow КатегорииRow {
+            public vil_ParametersRow vil_ParametersRow {
                 get {
-                    return ((КатегорииRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_S_Elements_F_S_Categories1"])));
+                    return ((vil_ParametersRow)(this.GetParentRow(this.Table.ParentRelations["FK_F_S_Elements_F_S_Categories1"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_F_S_Elements_F_S_Categories1"]);
@@ -6319,47 +4589,25 @@ namespace Tests_ApartmentBase.DbTest {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class КатегорииRow : global::System.Data.DataRow {
+        public partial class vil_ParametersRow : global::System.Data.DataRow {
             
-            private КатегорииDataTable tableКатегории;
+            private vil_ParametersDataTable tablevil_Parameters;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal КатегорииRow(global::System.Data.DataRowBuilder rb) : 
+            internal vil_ParametersRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableКатегории = ((КатегорииDataTable)(this.Table));
+                this.tablevil_Parameters = ((vil_ParametersDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int ID_CATEGORY {
                 get {
-                    return ((int)(this[this.tableКатегории.ID_CATEGORYColumn]));
+                    return ((int)(this[this.tablevil_Parameters.ID_CATEGORYColumn]));
                 }
                 set {
-                    this[this.tableКатегории.ID_CATEGORYColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_PARAMETER {
-                get {
-                    return ((int)(this[this.tableКатегории.ID_PARAMETERColumn]));
-                }
-                set {
-                    this[this.tableКатегории.ID_PARAMETERColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_CAT_PARAMETER {
-                get {
-                    return ((int)(this[this.tableКатегории.ID_CAT_PARAMETERColumn]));
-                }
-                set {
-                    this[this.tableКатегории.ID_CAT_PARAMETERColumn] = value;
+                    this[this.tablevil_Parameters.ID_CATEGORYColumn] = value;
                 }
             }
             
@@ -6368,25 +4616,37 @@ namespace Tests_ApartmentBase.DbTest {
             public string NAME_RUS_CATEGORY {
                 get {
                     try {
-                        return ((string)(this[this.tableКатегории.NAME_RUS_CATEGORYColumn]));
+                        return ((string)(this[this.tablevil_Parameters.NAME_RUS_CATEGORYColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'NAME_RUS_CATEGORY\' в таблице \'Категории\' равно DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'NAME_RUS_CATEGORY\' в таблице \'vil_Parameters\' равно DBNull." +
+                                "", e);
                     }
                 }
                 set {
-                    this[this.tableКатегории.NAME_RUS_CATEGORYColumn] = value;
+                    this[this.tablevil_Parameters.NAME_RUS_CATEGORYColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NAME_PARAMETER {
+            public int ID_CAT_PARAMETER {
                 get {
-                    return ((string)(this[this.tableКатегории.NAME_PARAMETERColumn]));
+                    return ((int)(this[this.tablevil_Parameters.ID_CAT_PARAMETERColumn]));
                 }
                 set {
-                    this[this.tableКатегории.NAME_PARAMETERColumn] = value;
+                    this[this.tablevil_Parameters.ID_CAT_PARAMETERColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int RELATE {
+                get {
+                    return ((int)(this[this.tablevil_Parameters.RELATEColumn]));
+                }
+                set {
+                    this[this.tablevil_Parameters.RELATEColumn] = value;
                 }
             }
             
@@ -6395,39 +4655,50 @@ namespace Tests_ApartmentBase.DbTest {
             public string TYPE_PARAMETER {
                 get {
                     try {
-                        return ((string)(this[this.tableКатегории.TYPE_PARAMETERColumn]));
+                        return ((string)(this[this.tablevil_Parameters.TYPE_PARAMETERColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'TYPE_PARAMETER\' в таблице \'Категории\' равно DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'TYPE_PARAMETER\' в таблице \'vil_Parameters\' равно DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableКатегории.TYPE_PARAMETERColumn] = value;
+                    this[this.tablevil_Parameters.TYPE_PARAMETERColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string NAME_PARAMETER {
+                get {
+                    return ((string)(this[this.tablevil_Parameters.NAME_PARAMETERColumn]));
+                }
+                set {
+                    this[this.tablevil_Parameters.NAME_PARAMETERColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsNAME_RUS_CATEGORYNull() {
-                return this.IsNull(this.tableКатегории.NAME_RUS_CATEGORYColumn);
+                return this.IsNull(this.tablevil_Parameters.NAME_RUS_CATEGORYColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetNAME_RUS_CATEGORYNull() {
-                this[this.tableКатегории.NAME_RUS_CATEGORYColumn] = global::System.Convert.DBNull;
+                this[this.tablevil_Parameters.NAME_RUS_CATEGORYColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsTYPE_PARAMETERNull() {
-                return this.IsNull(this.tableКатегории.TYPE_PARAMETERColumn);
+                return this.IsNull(this.tablevil_Parameters.TYPE_PARAMETERColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetTYPE_PARAMETERNull() {
-                this[this.tableКатегории.TYPE_PARAMETERColumn] = global::System.Convert.DBNull;
+                this[this.tablevil_Parameters.TYPE_PARAMETERColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6450,446 +4721,6 @@ namespace Tests_ApartmentBase.DbTest {
                 else {
                     return ((F_S_ElementsRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_S_Elements_F_S_Categories1"])));
                 }
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        public partial class _Квартиры_модулиRow : global::System.Data.DataRow {
-            
-            private _Квартиры_модулиDataTable _tableКвартиры_модули;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal _Квартиры_модулиRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this._tableКвартиры_модули = ((_Квартиры_модулиDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_FLAT_MODULE {
-                get {
-                    return ((int)(this[this._tableКвартиры_модули.ID_FLAT_MODULEColumn]));
-                }
-                set {
-                    this[this._tableКвартиры_модули.ID_FLAT_MODULEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string LOCATION {
-                get {
-                    return ((string)(this[this._tableКвартиры_модули.LOCATIONColumn]));
-                }
-                set {
-                    this[this._tableКвартиры_модули.LOCATIONColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string DIRECTION {
-                get {
-                    try {
-                        return ((string)(this[this._tableКвартиры_модули.DIRECTIONColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'DIRECTION\' в таблице \'Квартиры-модули\' равно DBNull.", e);
-                    }
-                }
-                set {
-                    this[this._tableКвартиры_модули.DIRECTIONColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_FLAT {
-                get {
-                    return ((int)(this[this._tableКвартиры_модули.ID_FLATColumn]));
-                }
-                set {
-                    this[this._tableКвартиры_модули.ID_FLATColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string WORKNAME {
-                get {
-                    return ((string)(this[this._tableКвартиры_модули.WORKNAMEColumn]));
-                }
-                set {
-                    this[this._tableКвартиры_модули.WORKNAMEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int RevFlat {
-                get {
-                    return ((int)(this[this._tableКвартиры_модули.RevFlatColumn]));
-                }
-                set {
-                    this[this._tableКвартиры_модули.RevFlatColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_MODULE {
-                get {
-                    return ((int)(this[this._tableКвартиры_модули.ID_MODULEColumn]));
-                }
-                set {
-                    this[this._tableКвартиры_модули.ID_MODULEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NAME_MODULE {
-                get {
-                    return ((string)(this[this._tableКвартиры_модули.NAME_MODULEColumn]));
-                }
-                set {
-                    this[this._tableКвартиры_модули.NAME_MODULEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int RevMod {
-                get {
-                    return ((int)(this[this._tableКвартиры_модули.RevModColumn]));
-                }
-                set {
-                    this[this._tableКвартиры_модули.RevModColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public double ANGLE {
-                get {
-                    try {
-                        return ((double)(this[this._tableКвартиры_модули.ANGLEColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'ANGLE\' в таблице \'Квартиры-модули\' равно DBNull.", e);
-                    }
-                }
-                set {
-                    this[this._tableКвартиры_модули.ANGLEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDIRECTIONNull() {
-                return this.IsNull(this._tableКвартиры_модули.DIRECTIONColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDIRECTIONNull() {
-                this[this._tableКвартиры_модули.DIRECTIONColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsANGLENull() {
-                return this.IsNull(this._tableКвартиры_модули.ANGLEColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetANGLENull() {
-                this[this._tableКвартиры_модули.ANGLEColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_FlatModulesRow[] GetF_nn_FlatModulesRows() {
-                if ((this.Table.ChildRelations["FK_F_R_FlatModules_F_R_Flats11"] == null)) {
-                    return new F_nn_FlatModulesRow[0];
-                }
-                else {
-                    return ((F_nn_FlatModulesRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_R_FlatModules_F_R_Flats11"])));
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        public partial class МодульЭлементыRow : global::System.Data.DataRow {
-            
-            private МодульЭлементыDataTable tableМодульЭлементы;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal МодульЭлементыRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableМодульЭлементы = ((МодульЭлементыDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_MODULE {
-                get {
-                    return ((int)(this[this.tableМодульЭлементы.ID_MODULEColumn]));
-                }
-                set {
-                    this[this.tableМодульЭлементы.ID_MODULEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NAME_MODULE {
-                get {
-                    return ((string)(this[this.tableМодульЭлементы.NAME_MODULEColumn]));
-                }
-                set {
-                    this[this.tableМодульЭлементы.NAME_MODULEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int REVISION {
-                get {
-                    return ((int)(this[this.tableМодульЭлементы.REVISIONColumn]));
-                }
-                set {
-                    this[this.tableМодульЭлементы.REVISIONColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_ELEMENT_IN_MODULE {
-                get {
-                    return ((int)(this[this.tableМодульЭлементы.ID_ELEMENT_IN_MODULEColumn]));
-                }
-                set {
-                    this[this.tableМодульЭлементы.ID_ELEMENT_IN_MODULEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string LOCATION {
-                get {
-                    return ((string)(this[this.tableМодульЭлементы.LOCATIONColumn]));
-                }
-                set {
-                    this[this.tableМодульЭлементы.LOCATIONColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string DIRECTION {
-                get {
-                    try {
-                        return ((string)(this[this.tableМодульЭлементы.DIRECTIONColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'DIRECTION\' в таблице \'МодульЭлементы\' равно DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableМодульЭлементы.DIRECTIONColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_ELEMENT {
-                get {
-                    return ((int)(this[this.tableМодульЭлементы.ID_ELEMENTColumn]));
-                }
-                set {
-                    this[this.tableМодульЭлементы.ID_ELEMENTColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string FAMILY_NAME {
-                get {
-                    return ((string)(this[this.tableМодульЭлементы.FAMILY_NAMEColumn]));
-                }
-                set {
-                    this[this.tableМодульЭлементы.FAMILY_NAMEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string FAMILY_SYMBOL {
-                get {
-                    return ((string)(this[this.tableМодульЭлементы.FAMILY_SYMBOLColumn]));
-                }
-                set {
-                    this[this.tableМодульЭлементы.FAMILY_SYMBOLColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NAME_RUS_CATEGORY {
-                get {
-                    try {
-                        return ((string)(this[this.tableМодульЭлементы.NAME_RUS_CATEGORYColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'NAME_RUS_CATEGORY\' в таблице \'МодульЭлементы\' равно DBNull." +
-                                "", e);
-                    }
-                }
-                set {
-                    this[this.tableМодульЭлементы.NAME_RUS_CATEGORYColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDIRECTIONNull() {
-                return this.IsNull(this.tableМодульЭлементы.DIRECTIONColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDIRECTIONNull() {
-                this[this.tableМодульЭлементы.DIRECTIONColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNAME_RUS_CATEGORYNull() {
-                return this.IsNull(this.tableМодульЭлементы.NAME_RUS_CATEGORYColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNAME_RUS_CATEGORYNull() {
-                this[this.tableМодульЭлементы.NAME_RUS_CATEGORYColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_Elements_ModulesRow[] GetF_nn_Elements_ModulesRows() {
-                if ((this.Table.ChildRelations["FK_F_nn_Elements_FlatModules_F_R_Modules1"] == null)) {
-                    return new F_nn_Elements_ModulesRow[0];
-                }
-                else {
-                    return ((F_nn_Elements_ModulesRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_nn_Elements_FlatModules_F_R_Modules1"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_FlatModulesRow[] GetF_nn_FlatModulesRows() {
-                if ((this.Table.ChildRelations["FK_F_R_FlatModules_F_R_Modules1"] == null)) {
-                    return new F_nn_FlatModulesRow[0];
-                }
-                else {
-                    return ((F_nn_FlatModulesRow[])(base.GetChildRows(this.Table.ChildRelations["FK_F_R_FlatModules_F_R_Modules1"])));
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        public partial class ПараметрыЭлементаRow : global::System.Data.DataRow {
-            
-            private ПараметрыЭлементаDataTable tableПараметрыЭлемента;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal ПараметрыЭлементаRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableПараметрыЭлемента = ((ПараметрыЭлементаDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int ID_ELEMENT {
-                get {
-                    return ((int)(this[this.tableПараметрыЭлемента.ID_ELEMENTColumn]));
-                }
-                set {
-                    this[this.tableПараметрыЭлемента.ID_ELEMENTColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string FAMILY_NAME {
-                get {
-                    return ((string)(this[this.tableПараметрыЭлемента.FAMILY_NAMEColumn]));
-                }
-                set {
-                    this[this.tableПараметрыЭлемента.FAMILY_NAMEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NAME_RUS_CATEGORY {
-                get {
-                    try {
-                        return ((string)(this[this.tableПараметрыЭлемента.NAME_RUS_CATEGORYColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'NAME_RUS_CATEGORY\' в таблице \'ПараметрыЭлемента\' равно DBNu" +
-                                "ll.", e);
-                    }
-                }
-                set {
-                    this[this.tableПараметрыЭлемента.NAME_RUS_CATEGORYColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string NAME_PARAMETER {
-                get {
-                    return ((string)(this[this.tableПараметрыЭлемента.NAME_PARAMETERColumn]));
-                }
-                set {
-                    this[this.tableПараметрыЭлемента.NAME_PARAMETERColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string PARAMETER_VALUE {
-                get {
-                    return ((string)(this[this.tableПараметрыЭлемента.PARAMETER_VALUEColumn]));
-                }
-                set {
-                    this[this.tableПараметрыЭлемента.PARAMETER_VALUEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNAME_RUS_CATEGORYNull() {
-                return this.IsNull(this.tableПараметрыЭлемента.NAME_RUS_CATEGORYColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNAME_RUS_CATEGORYNull() {
-                this[this.tableПараметрыЭлемента.NAME_RUS_CATEGORYColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -6947,6 +4778,40 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public F_S_ParametersRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public class F_nn_ElementInFlatValueRowChangeEvent : global::System.EventArgs {
+            
+            private F_nn_ElementInFlatValueRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_ElementInFlatValueRowChangeEvent(F_nn_ElementInFlatValueRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public F_nn_ElementInFlatValueRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -7033,40 +4898,6 @@ namespace Tests_ApartmentBase.DbTest {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class F_nn_FlatModulesRowChangeEvent : global::System.EventArgs {
-            
-            private F_nn_FlatModulesRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_FlatModulesRowChangeEvent(F_nn_FlatModulesRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_nn_FlatModulesRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public class F_R_FlatsRowChangeEvent : global::System.EventArgs {
             
             private F_R_FlatsRow eventRow;
@@ -7083,40 +4914,6 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public F_R_FlatsRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class F_R_ModulesRowChangeEvent : global::System.EventArgs {
-            
-            private F_R_ModulesRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_R_ModulesRowChangeEvent(F_R_ModulesRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public F_R_ModulesRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -7237,124 +5034,22 @@ namespace Tests_ApartmentBase.DbTest {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class КатегорииRowChangeEvent : global::System.EventArgs {
+        public class vil_ParametersRowChangeEvent : global::System.EventArgs {
             
-            private КатегорииRow eventRow;
+            private vil_ParametersRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public КатегорииRowChangeEvent(КатегорииRow row, global::System.Data.DataRowAction action) {
+            public vil_ParametersRowChangeEvent(vil_ParametersRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public КатегорииRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class _Квартиры_модулиRowChangeEvent : global::System.EventArgs {
-            
-            private _Квартиры_модулиRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Квартиры_модулиRowChangeEvent(_Квартиры_модулиRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public _Квартиры_модулиRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class МодульЭлементыRowChangeEvent : global::System.EventArgs {
-            
-            private МодульЭлементыRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public МодульЭлементыRowChangeEvent(МодульЭлементыRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public МодульЭлементыRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class ПараметрыЭлементаRowChangeEvent : global::System.EventArgs {
-            
-            private ПараметрыЭлементаRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ПараметрыЭлементаRowChangeEvent(ПараметрыЭлементаRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ПараметрыЭлементаRow Row {
+            public vil_ParametersRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -7806,37 +5501,40 @@ SELECT ID_CAT_PARAMETER, ID_CATEGORY, ID_PARAMETER FROM F_nn_Category_Parameters
             tableMapping.ColumnMappings.Add("ID_PARAMETER", "ID_PARAMETER");
             tableMapping.ColumnMappings.Add("NAME_PARAMETER", "NAME_PARAMETER");
             tableMapping.ColumnMappings.Add("TYPE_PARAMETER", "TYPE_PARAMETER");
+            tableMapping.ColumnMappings.Add("RELATE", "RELATE");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[F_S_Parameters] WHERE (([ID_PARAMETER] = @Original_ID_PARAMETE" +
-                "R) AND ([NAME_PARAMETER] = @Original_NAME_PARAMETER) AND ((@IsNull_TYPE_PARAMETE" +
-                "R = 1 AND [TYPE_PARAMETER] IS NULL) OR ([TYPE_PARAMETER] = @Original_TYPE_PARAME" +
-                "TER)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [F_S_Parameters] WHERE (([ID_PARAMETER] = @Original_ID_PARAMETER) AND ([NAME_PARAMETER] = @Original_NAME_PARAMETER) AND ((@IsNull_TYPE_PARAMETER = 1 AND [TYPE_PARAMETER] IS NULL) OR ([TYPE_PARAMETER] = @Original_TYPE_PARAMETER)) AND ([RELATE] = @Original_RELATE))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_PARAMETER", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_PARAMETER", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_NAME_PARAMETER", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "NAME_PARAMETER", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_TYPE_PARAMETER", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TYPE_PARAMETER", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TYPE_PARAMETER", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TYPE_PARAMETER", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_RELATE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "RELATE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[F_S_Parameters] ([NAME_PARAMETER], [TYPE_PARAMETER]) VALUES (@" +
-                "NAME_PARAMETER, @TYPE_PARAMETER);\r\nSELECT ID_PARAMETER, NAME_PARAMETER, TYPE_PAR" +
-                "AMETER FROM F_S_Parameters WHERE (ID_PARAMETER = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [F_S_Parameters] ([NAME_PARAMETER], [TYPE_PARAMETER], [RELATE]) VALUE" +
+                "S (@NAME_PARAMETER, @TYPE_PARAMETER, @RELATE);\r\nSELECT ID_PARAMETER, NAME_PARAME" +
+                "TER, TYPE_PARAMETER, RELATE FROM F_S_Parameters WHERE (ID_PARAMETER = SCOPE_IDEN" +
+                "TITY())";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@NAME_PARAMETER", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "NAME_PARAMETER", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TYPE_PARAMETER", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TYPE_PARAMETER", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RELATE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "RELATE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[F_S_Parameters] SET [NAME_PARAMETER] = @NAME_PARAMETER, [TYPE_PARAMETER] = @TYPE_PARAMETER WHERE (([ID_PARAMETER] = @Original_ID_PARAMETER) AND ([NAME_PARAMETER] = @Original_NAME_PARAMETER) AND ((@IsNull_TYPE_PARAMETER = 1 AND [TYPE_PARAMETER] IS NULL) OR ([TYPE_PARAMETER] = @Original_TYPE_PARAMETER)));
-SELECT ID_PARAMETER, NAME_PARAMETER, TYPE_PARAMETER FROM F_S_Parameters WHERE (ID_PARAMETER = @ID_PARAMETER)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [F_S_Parameters] SET [NAME_PARAMETER] = @NAME_PARAMETER, [TYPE_PARAMETER] = @TYPE_PARAMETER, [RELATE] = @RELATE WHERE (([ID_PARAMETER] = @Original_ID_PARAMETER) AND ([NAME_PARAMETER] = @Original_NAME_PARAMETER) AND ((@IsNull_TYPE_PARAMETER = 1 AND [TYPE_PARAMETER] IS NULL) OR ([TYPE_PARAMETER] = @Original_TYPE_PARAMETER)) AND ([RELATE] = @Original_RELATE));
+SELECT ID_PARAMETER, NAME_PARAMETER, TYPE_PARAMETER, RELATE FROM F_S_Parameters WHERE (ID_PARAMETER = @ID_PARAMETER)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@NAME_PARAMETER", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "NAME_PARAMETER", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TYPE_PARAMETER", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TYPE_PARAMETER", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RELATE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "RELATE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_PARAMETER", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_PARAMETER", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_NAME_PARAMETER", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "NAME_PARAMETER", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_TYPE_PARAMETER", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TYPE_PARAMETER", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TYPE_PARAMETER", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TYPE_PARAMETER", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_RELATE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "RELATE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_PARAMETER", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID_PARAMETER", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -7853,7 +5551,8 @@ SELECT ID_PARAMETER, NAME_PARAMETER, TYPE_PARAMETER FROM F_S_Parameters WHERE (I
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ID_PARAMETER, NAME_PARAMETER, TYPE_PARAMETER FROM dbo.F_S_Parameters";
+            this._commandCollection[0].CommandText = "SELECT        ID_PARAMETER, NAME_PARAMETER, TYPE_PARAMETER, RELATE\r\nFROM         " +
+                "   F_S_Parameters";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -7914,7 +5613,7 @@ SELECT ID_PARAMETER, NAME_PARAMETER, TYPE_PARAMETER FROM F_S_Parameters WHERE (I
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID_PARAMETER, string Original_NAME_PARAMETER, string Original_TYPE_PARAMETER) {
+        public virtual int Delete(int Original_ID_PARAMETER, string Original_NAME_PARAMETER, string Original_TYPE_PARAMETER, int Original_RELATE) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_PARAMETER));
             if ((Original_NAME_PARAMETER == null)) {
                 throw new global::System.ArgumentNullException("Original_NAME_PARAMETER");
@@ -7929,6 +5628,359 @@ SELECT ID_PARAMETER, NAME_PARAMETER, TYPE_PARAMETER FROM F_S_Parameters WHERE (I
             else {
                 this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(0));
                 this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(Original_TYPE_PARAMETER));
+            }
+            this.Adapter.DeleteCommand.Parameters[4].Value = ((int)(Original_RELATE));
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
+            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.DeleteCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.DeleteCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(string NAME_PARAMETER, string TYPE_PARAMETER, int RELATE) {
+            if ((NAME_PARAMETER == null)) {
+                throw new global::System.ArgumentNullException("NAME_PARAMETER");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(NAME_PARAMETER));
+            }
+            if ((TYPE_PARAMETER == null)) {
+                this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(TYPE_PARAMETER));
+            }
+            this.Adapter.InsertCommand.Parameters[2].Value = ((int)(RELATE));
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(string NAME_PARAMETER, string TYPE_PARAMETER, int RELATE, int Original_ID_PARAMETER, string Original_NAME_PARAMETER, string Original_TYPE_PARAMETER, int Original_RELATE, int ID_PARAMETER) {
+            if ((NAME_PARAMETER == null)) {
+                throw new global::System.ArgumentNullException("NAME_PARAMETER");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(NAME_PARAMETER));
+            }
+            if ((TYPE_PARAMETER == null)) {
+                this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(TYPE_PARAMETER));
+            }
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(RELATE));
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(Original_ID_PARAMETER));
+            if ((Original_NAME_PARAMETER == null)) {
+                throw new global::System.ArgumentNullException("Original_NAME_PARAMETER");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(Original_NAME_PARAMETER));
+            }
+            if ((Original_TYPE_PARAMETER == null)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(Original_TYPE_PARAMETER));
+            }
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(Original_RELATE));
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(ID_PARAMETER));
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
+            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.UpdateCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.UpdateCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(string NAME_PARAMETER, string TYPE_PARAMETER, int RELATE, int Original_ID_PARAMETER, string Original_NAME_PARAMETER, string Original_TYPE_PARAMETER, int Original_RELATE) {
+            return this.Update(NAME_PARAMETER, TYPE_PARAMETER, RELATE, Original_ID_PARAMETER, Original_NAME_PARAMETER, Original_TYPE_PARAMETER, Original_RELATE, Original_ID_PARAMETER);
+        }
+    }
+    
+    /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class F_nn_ElementInFlatValueTableAdapter : global::System.ComponentModel.Component {
+        
+        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private global::System.Data.SqlClient.SqlConnection _connection;
+        
+        private global::System.Data.SqlClient.SqlTransaction _transaction;
+        
+        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public F_nn_ElementInFlatValueTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        internal global::System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        internal global::System.Data.SqlClient.SqlTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "F_nn_ElementInFlatValue";
+            tableMapping.ColumnMappings.Add("ID_ELEMENT_VALUE", "ID_ELEMENT_VALUE");
+            tableMapping.ColumnMappings.Add("ID_ELEMENT_IN_FLAT", "ID_ELEMENT_IN_FLAT");
+            tableMapping.ColumnMappings.Add("ID_CAT_PARAMETER", "ID_CAT_PARAMETER");
+            tableMapping.ColumnMappings.Add("PARAMETER_VALUE", "PARAMETER_VALUE");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[F_nn_ElementInFlatValue] WHERE (([ID_ELEMENT_VALUE] = @Original_ID_ELEMENT_VALUE) AND ([ID_ELEMENT_IN_FLAT] = @Original_ID_ELEMENT_IN_FLAT) AND ([ID_CAT_PARAMETER] = @Original_ID_CAT_PARAMETER) AND ([PARAMETER_VALUE] = @Original_PARAMETER_VALUE))";
+            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_ELEMENT_VALUE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_VALUE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_ELEMENT_IN_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_IN_FLAT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_CAT_PARAMETER", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_CAT_PARAMETER", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PARAMETER_VALUE", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PARAMETER_VALUE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[F_nn_ElementInFlatValue] ([ID_ELEMENT_IN_FLAT], [ID_CAT_PARAMETER], [PARAMETER_VALUE]) VALUES (@ID_ELEMENT_IN_FLAT, @ID_CAT_PARAMETER, @PARAMETER_VALUE);
+SELECT ID_ELEMENT_VALUE, ID_ELEMENT_IN_FLAT, ID_CAT_PARAMETER, PARAMETER_VALUE FROM F_nn_ElementInFlatValue WHERE (ID_ELEMENT_VALUE = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_ELEMENT_IN_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_IN_FLAT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_CAT_PARAMETER", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_CAT_PARAMETER", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PARAMETER_VALUE", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PARAMETER_VALUE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[F_nn_ElementInFlatValue] SET [ID_ELEMENT_IN_FLAT] = @ID_ELEMENT_IN_FLAT, [ID_CAT_PARAMETER] = @ID_CAT_PARAMETER, [PARAMETER_VALUE] = @PARAMETER_VALUE WHERE (([ID_ELEMENT_VALUE] = @Original_ID_ELEMENT_VALUE) AND ([ID_ELEMENT_IN_FLAT] = @Original_ID_ELEMENT_IN_FLAT) AND ([ID_CAT_PARAMETER] = @Original_ID_CAT_PARAMETER) AND ([PARAMETER_VALUE] = @Original_PARAMETER_VALUE));
+SELECT ID_ELEMENT_VALUE, ID_ELEMENT_IN_FLAT, ID_CAT_PARAMETER, PARAMETER_VALUE FROM F_nn_ElementInFlatValue WHERE (ID_ELEMENT_VALUE = @ID_ELEMENT_VALUE)";
+            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_ELEMENT_IN_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_IN_FLAT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_CAT_PARAMETER", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_CAT_PARAMETER", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PARAMETER_VALUE", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PARAMETER_VALUE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_ELEMENT_VALUE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_VALUE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_ELEMENT_IN_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_IN_FLAT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_CAT_PARAMETER", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_CAT_PARAMETER", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PARAMETER_VALUE", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PARAMETER_VALUE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_ELEMENT_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_VALUE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = global::Tests_ApartmentBase.Properties.Settings.Default.SAPRConnectionString;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT ID_ELEMENT_VALUE, ID_ELEMENT_IN_FLAT, ID_CAT_PARAMETER, PARAMETER_VALUE FR" +
+                "OM dbo.F_nn_ElementInFlatValue";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(DataSet1.F_nn_ElementInFlatValueDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual DataSet1.F_nn_ElementInFlatValueDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            DataSet1.F_nn_ElementInFlatValueDataTable dataTable = new DataSet1.F_nn_ElementInFlatValueDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet1.F_nn_ElementInFlatValueDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet1 dataSet) {
+            return this.Adapter.Update(dataSet, "F_nn_ElementInFlatValue");
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new global::System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
+        public virtual int Delete(int Original_ID_ELEMENT_VALUE, int Original_ID_ELEMENT_IN_FLAT, int Original_ID_CAT_PARAMETER, string Original_PARAMETER_VALUE) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_ELEMENT_VALUE));
+            this.Adapter.DeleteCommand.Parameters[1].Value = ((int)(Original_ID_ELEMENT_IN_FLAT));
+            this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_ID_CAT_PARAMETER));
+            if ((Original_PARAMETER_VALUE == null)) {
+                throw new global::System.ArgumentNullException("Original_PARAMETER_VALUE");
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(Original_PARAMETER_VALUE));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -7950,18 +6002,14 @@ SELECT ID_PARAMETER, NAME_PARAMETER, TYPE_PARAMETER FROM F_S_Parameters WHERE (I
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string NAME_PARAMETER, string TYPE_PARAMETER) {
-            if ((NAME_PARAMETER == null)) {
-                throw new global::System.ArgumentNullException("NAME_PARAMETER");
+        public virtual int Insert(int ID_ELEMENT_IN_FLAT, int ID_CAT_PARAMETER, string PARAMETER_VALUE) {
+            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ID_ELEMENT_IN_FLAT));
+            this.Adapter.InsertCommand.Parameters[1].Value = ((int)(ID_CAT_PARAMETER));
+            if ((PARAMETER_VALUE == null)) {
+                throw new global::System.ArgumentNullException("PARAMETER_VALUE");
             }
             else {
-                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(NAME_PARAMETER));
-            }
-            if ((TYPE_PARAMETER == null)) {
-                this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(TYPE_PARAMETER));
+                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(PARAMETER_VALUE));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -7983,35 +6031,25 @@ SELECT ID_PARAMETER, NAME_PARAMETER, TYPE_PARAMETER FROM F_S_Parameters WHERE (I
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string NAME_PARAMETER, string TYPE_PARAMETER, int Original_ID_PARAMETER, string Original_NAME_PARAMETER, string Original_TYPE_PARAMETER, int ID_PARAMETER) {
-            if ((NAME_PARAMETER == null)) {
-                throw new global::System.ArgumentNullException("NAME_PARAMETER");
+        public virtual int Update(int ID_ELEMENT_IN_FLAT, int ID_CAT_PARAMETER, string PARAMETER_VALUE, int Original_ID_ELEMENT_VALUE, int Original_ID_ELEMENT_IN_FLAT, int Original_ID_CAT_PARAMETER, string Original_PARAMETER_VALUE, int ID_ELEMENT_VALUE) {
+            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ID_ELEMENT_IN_FLAT));
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(ID_CAT_PARAMETER));
+            if ((PARAMETER_VALUE == null)) {
+                throw new global::System.ArgumentNullException("PARAMETER_VALUE");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(NAME_PARAMETER));
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(PARAMETER_VALUE));
             }
-            if ((TYPE_PARAMETER == null)) {
-                this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(TYPE_PARAMETER));
-            }
-            this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(Original_ID_PARAMETER));
-            if ((Original_NAME_PARAMETER == null)) {
-                throw new global::System.ArgumentNullException("Original_NAME_PARAMETER");
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(Original_ID_ELEMENT_VALUE));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_ID_ELEMENT_IN_FLAT));
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_ID_CAT_PARAMETER));
+            if ((Original_PARAMETER_VALUE == null)) {
+                throw new global::System.ArgumentNullException("Original_PARAMETER_VALUE");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(Original_NAME_PARAMETER));
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(Original_PARAMETER_VALUE));
             }
-            if ((Original_TYPE_PARAMETER == null)) {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(Original_TYPE_PARAMETER));
-            }
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(ID_PARAMETER));
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(ID_ELEMENT_VALUE));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -8032,8 +6070,8 @@ SELECT ID_PARAMETER, NAME_PARAMETER, TYPE_PARAMETER FROM F_S_Parameters WHERE (I
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string NAME_PARAMETER, string TYPE_PARAMETER, int Original_ID_PARAMETER, string Original_NAME_PARAMETER, string Original_TYPE_PARAMETER) {
-            return this.Update(NAME_PARAMETER, TYPE_PARAMETER, Original_ID_PARAMETER, Original_NAME_PARAMETER, Original_TYPE_PARAMETER, Original_ID_PARAMETER);
+        public virtual int Update(int ID_ELEMENT_IN_FLAT, int ID_CAT_PARAMETER, string PARAMETER_VALUE, int Original_ID_ELEMENT_VALUE, int Original_ID_ELEMENT_IN_FLAT, int Original_ID_CAT_PARAMETER, string Original_PARAMETER_VALUE) {
+            return this.Update(ID_ELEMENT_IN_FLAT, ID_CAT_PARAMETER, PARAMETER_VALUE, Original_ID_ELEMENT_VALUE, Original_ID_ELEMENT_IN_FLAT, Original_ID_CAT_PARAMETER, Original_PARAMETER_VALUE, Original_ID_ELEMENT_VALUE);
         }
     }
     
@@ -8496,47 +6534,47 @@ SELECT ID_ELEMENT_VALUE, ID_ELEMENT, ID_CAT_PARAMETER, PARAMETER_VALUE FROM F_nn
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
             tableMapping.DataSetTable = "F_nn_Elements_Modules";
-            tableMapping.ColumnMappings.Add("ID_ELEMENT_IN_MODULE", "ID_ELEMENT_IN_MODULE");
+            tableMapping.ColumnMappings.Add("ID_ELEMENT_IN_FLAT", "ID_ELEMENT_IN_FLAT");
             tableMapping.ColumnMappings.Add("ID_ELEMENT", "ID_ELEMENT");
-            tableMapping.ColumnMappings.Add("ID_MODULE", "ID_MODULE");
+            tableMapping.ColumnMappings.Add("ID_FLAT", "ID_FLAT");
             tableMapping.ColumnMappings.Add("LOCATION", "LOCATION");
             tableMapping.ColumnMappings.Add("DIRECTION", "DIRECTION");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[F_nn_Elements_Modules] WHERE (([ID_ELEMENT_IN_MODULE] = @Original_ID_ELEMENT_IN_MODULE) AND ([ID_ELEMENT] = @Original_ID_ELEMENT) AND ([ID_MODULE] = @Original_ID_MODULE) AND ([LOCATION] = @Original_LOCATION) AND ((@IsNull_DIRECTION = 1 AND [DIRECTION] IS NULL) OR ([DIRECTION] = @Original_DIRECTION)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[F_nn_Elements_Modules] WHERE (([ID_ELEMENT_IN_FLAT] = @Original_ID_ELEMENT_IN_FLAT) AND ([ID_ELEMENT] = @Original_ID_ELEMENT) AND ([ID_FLAT] = @Original_ID_FLAT) AND ([LOCATION] = @Original_LOCATION) AND ((@IsNull_DIRECTION = 1 AND [DIRECTION] IS NULL) OR ([DIRECTION] = @Original_DIRECTION)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_ELEMENT_IN_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_IN_MODULE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_ELEMENT_IN_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_IN_FLAT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_ELEMENT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LOCATION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LOCATION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_DIRECTION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DIRECTION", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_DIRECTION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DIRECTION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[F_nn_Elements_Modules] ([ID_ELEMENT], [ID_MODULE], [LOCATION], [DIRECTION]) VALUES (@ID_ELEMENT, @ID_MODULE, @LOCATION, @DIRECTION);
-SELECT ID_ELEMENT_IN_MODULE, ID_ELEMENT, ID_MODULE, LOCATION, DIRECTION FROM F_nn_Elements_Modules WHERE (ID_ELEMENT_IN_MODULE = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[F_nn_Elements_Modules] ([ID_ELEMENT], [ID_FLAT], [LOCATION], [DIRECTION]) VALUES (@ID_ELEMENT, @ID_FLAT, @LOCATION, @DIRECTION);
+SELECT ID_ELEMENT_IN_FLAT, ID_ELEMENT, ID_FLAT, LOCATION, DIRECTION FROM F_nn_Elements_Modules WHERE (ID_ELEMENT_IN_FLAT = SCOPE_IDENTITY())";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_ELEMENT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LOCATION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LOCATION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DIRECTION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DIRECTION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[F_nn_Elements_Modules] SET [ID_ELEMENT] = @ID_ELEMENT, [ID_MODULE] = @ID_MODULE, [LOCATION] = @LOCATION, [DIRECTION] = @DIRECTION WHERE (([ID_ELEMENT_IN_MODULE] = @Original_ID_ELEMENT_IN_MODULE) AND ([ID_ELEMENT] = @Original_ID_ELEMENT) AND ([ID_MODULE] = @Original_ID_MODULE) AND ([LOCATION] = @Original_LOCATION) AND ((@IsNull_DIRECTION = 1 AND [DIRECTION] IS NULL) OR ([DIRECTION] = @Original_DIRECTION)));
-SELECT ID_ELEMENT_IN_MODULE, ID_ELEMENT, ID_MODULE, LOCATION, DIRECTION FROM F_nn_Elements_Modules WHERE (ID_ELEMENT_IN_MODULE = @ID_ELEMENT_IN_MODULE)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[F_nn_Elements_Modules] SET [ID_ELEMENT] = @ID_ELEMENT, [ID_FLAT] = @ID_FLAT, [LOCATION] = @LOCATION, [DIRECTION] = @DIRECTION WHERE (([ID_ELEMENT_IN_FLAT] = @Original_ID_ELEMENT_IN_FLAT) AND ([ID_ELEMENT] = @Original_ID_ELEMENT) AND ([ID_FLAT] = @Original_ID_FLAT) AND ([LOCATION] = @Original_LOCATION) AND ((@IsNull_DIRECTION = 1 AND [DIRECTION] IS NULL) OR ([DIRECTION] = @Original_DIRECTION)));
+SELECT ID_ELEMENT_IN_FLAT, ID_ELEMENT, ID_FLAT, LOCATION, DIRECTION FROM F_nn_Elements_Modules WHERE (ID_ELEMENT_IN_FLAT = @ID_ELEMENT_IN_FLAT)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_ELEMENT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LOCATION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LOCATION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DIRECTION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DIRECTION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_ELEMENT_IN_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_IN_MODULE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_ELEMENT_IN_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_IN_FLAT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_ELEMENT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LOCATION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LOCATION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_DIRECTION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DIRECTION", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_DIRECTION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DIRECTION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_ELEMENT_IN_MODULE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_IN_MODULE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_ELEMENT_IN_FLAT", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT_IN_FLAT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8552,8 +6590,8 @@ SELECT ID_ELEMENT_IN_MODULE, ID_ELEMENT, ID_MODULE, LOCATION, DIRECTION FROM F_n
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ID_ELEMENT_IN_MODULE, ID_ELEMENT, ID_MODULE, LOCATION, DIRECTION FROM dbo." +
-                "F_nn_Elements_Modules";
+            this._commandCollection[0].CommandText = "SELECT ID_ELEMENT_IN_FLAT, ID_ELEMENT, ID_FLAT, LOCATION, DIRECTION FROM dbo.F_nn" +
+                "_Elements_Modules";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -8614,10 +6652,10 @@ SELECT ID_ELEMENT_IN_MODULE, ID_ELEMENT, ID_MODULE, LOCATION, DIRECTION FROM F_n
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID_ELEMENT_IN_MODULE, int Original_ID_ELEMENT, int Original_ID_MODULE, string Original_LOCATION, string Original_DIRECTION) {
-            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_ELEMENT_IN_MODULE));
+        public virtual int Delete(int Original_ID_ELEMENT_IN_FLAT, int Original_ID_ELEMENT, int Original_ID_FLAT, string Original_LOCATION, string Original_DIRECTION) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_ELEMENT_IN_FLAT));
             this.Adapter.DeleteCommand.Parameters[1].Value = ((int)(Original_ID_ELEMENT));
-            this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_ID_MODULE));
+            this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_ID_FLAT));
             if ((Original_LOCATION == null)) {
                 throw new global::System.ArgumentNullException("Original_LOCATION");
             }
@@ -8652,9 +6690,9 @@ SELECT ID_ELEMENT_IN_MODULE, ID_ELEMENT, ID_MODULE, LOCATION, DIRECTION FROM F_n
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int ID_ELEMENT, int ID_MODULE, string LOCATION, string DIRECTION) {
+        public virtual int Insert(int ID_ELEMENT, int ID_FLAT, string LOCATION, string DIRECTION) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ID_ELEMENT));
-            this.Adapter.InsertCommand.Parameters[1].Value = ((int)(ID_MODULE));
+            this.Adapter.InsertCommand.Parameters[1].Value = ((int)(ID_FLAT));
             if ((LOCATION == null)) {
                 throw new global::System.ArgumentNullException("LOCATION");
             }
@@ -8687,9 +6725,9 @@ SELECT ID_ELEMENT_IN_MODULE, ID_ELEMENT, ID_MODULE, LOCATION, DIRECTION FROM F_n
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int ID_ELEMENT, int ID_MODULE, string LOCATION, string DIRECTION, int Original_ID_ELEMENT_IN_MODULE, int Original_ID_ELEMENT, int Original_ID_MODULE, string Original_LOCATION, string Original_DIRECTION, int ID_ELEMENT_IN_MODULE) {
+        public virtual int Update(int ID_ELEMENT, int ID_FLAT, string LOCATION, string DIRECTION, int Original_ID_ELEMENT_IN_FLAT, int Original_ID_ELEMENT, int Original_ID_FLAT, string Original_LOCATION, string Original_DIRECTION, int ID_ELEMENT_IN_FLAT) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ID_ELEMENT));
-            this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(ID_MODULE));
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(ID_FLAT));
             if ((LOCATION == null)) {
                 throw new global::System.ArgumentNullException("LOCATION");
             }
@@ -8702,9 +6740,9 @@ SELECT ID_ELEMENT_IN_MODULE, ID_ELEMENT, ID_MODULE, LOCATION, DIRECTION FROM F_n
             else {
                 this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(DIRECTION));
             }
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_ID_ELEMENT_IN_MODULE));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_ID_ELEMENT_IN_FLAT));
             this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_ID_ELEMENT));
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ID_MODULE));
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ID_FLAT));
             if ((Original_LOCATION == null)) {
                 throw new global::System.ArgumentNullException("Original_LOCATION");
             }
@@ -8719,7 +6757,7 @@ SELECT ID_ELEMENT_IN_MODULE, ID_ELEMENT, ID_MODULE, LOCATION, DIRECTION FROM F_n
                 this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(0));
                 this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(Original_DIRECTION));
             }
-            this.Adapter.UpdateCommand.Parameters[10].Value = ((int)(ID_ELEMENT_IN_MODULE));
+            this.Adapter.UpdateCommand.Parameters[10].Value = ((int)(ID_ELEMENT_IN_FLAT));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -8740,413 +6778,8 @@ SELECT ID_ELEMENT_IN_MODULE, ID_ELEMENT, ID_MODULE, LOCATION, DIRECTION FROM F_n
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int ID_ELEMENT, int ID_MODULE, string LOCATION, string DIRECTION, int Original_ID_ELEMENT_IN_MODULE, int Original_ID_ELEMENT, int Original_ID_MODULE, string Original_LOCATION, string Original_DIRECTION) {
-            return this.Update(ID_ELEMENT, ID_MODULE, LOCATION, DIRECTION, Original_ID_ELEMENT_IN_MODULE, Original_ID_ELEMENT, Original_ID_MODULE, Original_LOCATION, Original_DIRECTION, Original_ID_ELEMENT_IN_MODULE);
-        }
-    }
-    
-    /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
-    ///</summary>
-    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
-    [global::System.ComponentModel.ToolboxItem(true)]
-    [global::System.ComponentModel.DataObjectAttribute(true)]
-    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
-        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class F_nn_FlatModulesTableAdapter : global::System.ComponentModel.Component {
-        
-        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
-        
-        private global::System.Data.SqlClient.SqlConnection _connection;
-        
-        private global::System.Data.SqlClient.SqlTransaction _transaction;
-        
-        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
-        
-        private bool _clearBeforeFill;
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public F_nn_FlatModulesTableAdapter() {
-            this.ClearBeforeFill = true;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
-            get {
-                if ((this._adapter == null)) {
-                    this.InitAdapter();
-                }
-                return this._adapter;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal global::System.Data.SqlClient.SqlConnection Connection {
-            get {
-                if ((this._connection == null)) {
-                    this.InitConnection();
-                }
-                return this._connection;
-            }
-            set {
-                this._connection = value;
-                if ((this.Adapter.InsertCommand != null)) {
-                    this.Adapter.InsertCommand.Connection = value;
-                }
-                if ((this.Adapter.DeleteCommand != null)) {
-                    this.Adapter.DeleteCommand.Connection = value;
-                }
-                if ((this.Adapter.UpdateCommand != null)) {
-                    this.Adapter.UpdateCommand.Connection = value;
-                }
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    if ((this.CommandCollection[i] != null)) {
-                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
-                    }
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal global::System.Data.SqlClient.SqlTransaction Transaction {
-            get {
-                return this._transaction;
-            }
-            set {
-                this._transaction = value;
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    this.CommandCollection[i].Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.DeleteCommand != null))) {
-                    this.Adapter.DeleteCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.InsertCommand != null))) {
-                    this.Adapter.InsertCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.UpdateCommand != null))) {
-                    this.Adapter.UpdateCommand.Transaction = this._transaction;
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
-            get {
-                if ((this._commandCollection == null)) {
-                    this.InitCommandCollection();
-                }
-                return this._commandCollection;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public bool ClearBeforeFill {
-            get {
-                return this._clearBeforeFill;
-            }
-            set {
-                this._clearBeforeFill = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitAdapter() {
-            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
-            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
-            tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "F_nn_FlatModules";
-            tableMapping.ColumnMappings.Add("ID_FLAT_MODULE", "ID_FLAT_MODULE");
-            tableMapping.ColumnMappings.Add("ID_FLAT", "ID_FLAT");
-            tableMapping.ColumnMappings.Add("ID_MODULE", "ID_MODULE");
-            tableMapping.ColumnMappings.Add("LOCATION", "LOCATION");
-            tableMapping.ColumnMappings.Add("DIRECTION", "DIRECTION");
-            tableMapping.ColumnMappings.Add("ANGLE", "ANGLE");
-            this._adapter.TableMappings.Add(tableMapping);
-            this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[F_nn_FlatModules] WHERE (([ID_FLAT_MODULE] = @Original_ID_FLAT_MODULE) AND ([ID_FLAT] = @Original_ID_FLAT) AND ([ID_MODULE] = @Original_ID_MODULE) AND ([LOCATION] = @Original_LOCATION) AND ((@IsNull_DIRECTION = 1 AND [DIRECTION] IS NULL) OR ([DIRECTION] = @Original_DIRECTION)) AND ((@IsNull_ANGLE = 1 AND [ANGLE] IS NULL) OR ([ANGLE] = @Original_ANGLE)))";
-            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_FLAT_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT_MODULE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LOCATION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LOCATION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_DIRECTION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DIRECTION", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_DIRECTION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DIRECTION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ANGLE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ANGLE", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ANGLE", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ANGLE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[F_nn_FlatModules] ([ID_FLAT], [ID_MODULE], [LOCATION], [DIRECTION], [ANGLE]) VALUES (@ID_FLAT, @ID_MODULE, @LOCATION, @DIRECTION, @ANGLE);
-SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_FlatModules WHERE (ID_FLAT_MODULE = SCOPE_IDENTITY())";
-            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LOCATION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LOCATION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DIRECTION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DIRECTION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ANGLE", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ANGLE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[F_nn_FlatModules] SET [ID_FLAT] = @ID_FLAT, [ID_MODULE] = @ID_MODULE, [LOCATION] = @LOCATION, [DIRECTION] = @DIRECTION, [ANGLE] = @ANGLE WHERE (([ID_FLAT_MODULE] = @Original_ID_FLAT_MODULE) AND ([ID_FLAT] = @Original_ID_FLAT) AND ([ID_MODULE] = @Original_ID_MODULE) AND ([LOCATION] = @Original_LOCATION) AND ((@IsNull_DIRECTION = 1 AND [DIRECTION] IS NULL) OR ([DIRECTION] = @Original_DIRECTION)) AND ((@IsNull_ANGLE = 1 AND [ANGLE] IS NULL) OR ([ANGLE] = @Original_ANGLE)));
-SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_FlatModules WHERE (ID_FLAT_MODULE = @ID_FLAT_MODULE)";
-            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LOCATION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LOCATION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DIRECTION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DIRECTION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ANGLE", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ANGLE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_FLAT_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT_MODULE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LOCATION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LOCATION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_DIRECTION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DIRECTION", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_DIRECTION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DIRECTION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ANGLE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ANGLE", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ANGLE", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ANGLE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_FLAT_MODULE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT_MODULE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitConnection() {
-            this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Tests_ApartmentBase.Properties.Settings.Default.SAPRConnectionString;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
-            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
-            this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM dbo.F_" +
-                "nn_FlatModules";
-            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet1.F_nn_FlatModulesDataTable dataTable) {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((this.ClearBeforeFill == true)) {
-                dataTable.Clear();
-            }
-            int returnValue = this.Adapter.Fill(dataTable);
-            return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet1.F_nn_FlatModulesDataTable GetData() {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            DataSet1.F_nn_FlatModulesDataTable dataTable = new DataSet1.F_nn_FlatModulesDataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet1.F_nn_FlatModulesDataTable dataTable) {
-            return this.Adapter.Update(dataTable);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet1 dataSet) {
-            return this.Adapter.Update(dataSet, "F_nn_FlatModules");
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow dataRow) {
-            return this.Adapter.Update(new global::System.Data.DataRow[] {
-                        dataRow});
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow[] dataRows) {
-            return this.Adapter.Update(dataRows);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID_FLAT_MODULE, int Original_ID_FLAT, int Original_ID_MODULE, string Original_LOCATION, string Original_DIRECTION, global::System.Nullable<double> Original_ANGLE) {
-            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_FLAT_MODULE));
-            this.Adapter.DeleteCommand.Parameters[1].Value = ((int)(Original_ID_FLAT));
-            this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_ID_MODULE));
-            if ((Original_LOCATION == null)) {
-                throw new global::System.ArgumentNullException("Original_LOCATION");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(Original_LOCATION));
-            }
-            if ((Original_DIRECTION == null)) {
-                this.Adapter.DeleteCommand.Parameters[4].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[5].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[4].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[5].Value = ((string)(Original_DIRECTION));
-            }
-            if ((Original_ANGLE.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((double)(Original_ANGLE.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[7].Value = global::System.DBNull.Value;
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
-            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.DeleteCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.DeleteCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int ID_FLAT, int ID_MODULE, string LOCATION, string DIRECTION, global::System.Nullable<double> ANGLE) {
-            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ID_FLAT));
-            this.Adapter.InsertCommand.Parameters[1].Value = ((int)(ID_MODULE));
-            if ((LOCATION == null)) {
-                throw new global::System.ArgumentNullException("LOCATION");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(LOCATION));
-            }
-            if ((DIRECTION == null)) {
-                this.Adapter.InsertCommand.Parameters[3].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[3].Value = ((string)(DIRECTION));
-            }
-            if ((ANGLE.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[4].Value = ((double)(ANGLE.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
-            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.InsertCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.InsertCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int ID_FLAT, int ID_MODULE, string LOCATION, string DIRECTION, global::System.Nullable<double> ANGLE, int Original_ID_FLAT_MODULE, int Original_ID_FLAT, int Original_ID_MODULE, string Original_LOCATION, string Original_DIRECTION, global::System.Nullable<double> Original_ANGLE, int ID_FLAT_MODULE) {
-            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ID_FLAT));
-            this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(ID_MODULE));
-            if ((LOCATION == null)) {
-                throw new global::System.ArgumentNullException("LOCATION");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(LOCATION));
-            }
-            if ((DIRECTION == null)) {
-                this.Adapter.UpdateCommand.Parameters[3].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(DIRECTION));
-            }
-            if ((ANGLE.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((double)(ANGLE.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_ID_FLAT_MODULE));
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ID_FLAT));
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(Original_ID_MODULE));
-            if ((Original_LOCATION == null)) {
-                throw new global::System.ArgumentNullException("Original_LOCATION");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(Original_LOCATION));
-            }
-            if ((Original_DIRECTION == null)) {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Original_DIRECTION));
-            }
-            if ((Original_ANGLE.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((double)(Original_ANGLE.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(ID_FLAT_MODULE));
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
-            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.UpdateCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.UpdateCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int ID_FLAT, int ID_MODULE, string LOCATION, string DIRECTION, global::System.Nullable<double> ANGLE, int Original_ID_FLAT_MODULE, int Original_ID_FLAT, int Original_ID_MODULE, string Original_LOCATION, string Original_DIRECTION, global::System.Nullable<double> Original_ANGLE) {
-            return this.Update(ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE, Original_ID_FLAT_MODULE, Original_ID_FLAT, Original_ID_MODULE, Original_LOCATION, Original_DIRECTION, Original_ANGLE, Original_ID_FLAT_MODULE);
+        public virtual int Update(int ID_ELEMENT, int ID_FLAT, string LOCATION, string DIRECTION, int Original_ID_ELEMENT_IN_FLAT, int Original_ID_ELEMENT, int Original_ID_FLAT, string Original_LOCATION, string Original_DIRECTION) {
+            return this.Update(ID_ELEMENT, ID_FLAT, LOCATION, DIRECTION, Original_ID_ELEMENT_IN_FLAT, Original_ID_ELEMENT, Original_ID_FLAT, Original_LOCATION, Original_DIRECTION, Original_ID_ELEMENT_IN_FLAT);
         }
     }
     
@@ -9274,39 +6907,42 @@ SELECT ID_FLAT_MODULE, ID_FLAT, ID_MODULE, LOCATION, DIRECTION, ANGLE FROM F_nn_
             tableMapping.ColumnMappings.Add("ID_FLAT", "ID_FLAT");
             tableMapping.ColumnMappings.Add("COMMERCIAL_NAME", "COMMERCIAL_NAME");
             tableMapping.ColumnMappings.Add("WORKNAME", "WORKNAME");
-            tableMapping.ColumnMappings.Add("REVISION", "REVISION");
+            tableMapping.ColumnMappings.Add("TYPE_FLAT", "TYPE_FLAT");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
             this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[F_R_Flats] WHERE (([ID_FLAT] = @Original_ID_FLAT) AND ([COMMER" +
                 "CIAL_NAME] = @Original_COMMERCIAL_NAME) AND ([WORKNAME] = @Original_WORKNAME) AN" +
-                "D ([REVISION] = @Original_REVISION))";
+                "D ((@IsNull_TYPE_FLAT = 1 AND [TYPE_FLAT] IS NULL) OR ([TYPE_FLAT] = @Original_T" +
+                "YPE_FLAT)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_COMMERCIAL_NAME", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "COMMERCIAL_NAME", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_WORKNAME", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "WORKNAME", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_REVISION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "REVISION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_TYPE_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TYPE_FLAT", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TYPE_FLAT", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TYPE_FLAT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[F_R_Flats] ([COMMERCIAL_NAME], [WORKNAME], [REVISION]) VALUES " +
-                "(@COMMERCIAL_NAME, @WORKNAME, @REVISION);\r\nSELECT ID_FLAT, COMMERCIAL_NAME, WORK" +
-                "NAME, REVISION FROM F_R_Flats WHERE (ID_FLAT = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[F_R_Flats] ([COMMERCIAL_NAME], [WORKNAME], [TYPE_FLAT]) VALUES" +
+                " (@COMMERCIAL_NAME, @WORKNAME, @TYPE_FLAT);\r\nSELECT ID_FLAT, COMMERCIAL_NAME, WO" +
+                "RKNAME, TYPE_FLAT FROM F_R_Flats WHERE (ID_FLAT = SCOPE_IDENTITY())";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@COMMERCIAL_NAME", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "COMMERCIAL_NAME", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@WORKNAME", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "WORKNAME", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@REVISION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "REVISION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TYPE_FLAT", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TYPE_FLAT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[F_R_Flats] SET [COMMERCIAL_NAME] = @COMMERCIAL_NAME, [WORKNAME] = @WORKNAME, [REVISION] = @REVISION WHERE (([ID_FLAT] = @Original_ID_FLAT) AND ([COMMERCIAL_NAME] = @Original_COMMERCIAL_NAME) AND ([WORKNAME] = @Original_WORKNAME) AND ([REVISION] = @Original_REVISION));
-SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, REVISION FROM F_R_Flats WHERE (ID_FLAT = @ID_FLAT)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[F_R_Flats] SET [COMMERCIAL_NAME] = @COMMERCIAL_NAME, [WORKNAME] = @WORKNAME, [TYPE_FLAT] = @TYPE_FLAT WHERE (([ID_FLAT] = @Original_ID_FLAT) AND ([COMMERCIAL_NAME] = @Original_COMMERCIAL_NAME) AND ([WORKNAME] = @Original_WORKNAME) AND ((@IsNull_TYPE_FLAT = 1 AND [TYPE_FLAT] IS NULL) OR ([TYPE_FLAT] = @Original_TYPE_FLAT)));
+SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, TYPE_FLAT FROM F_R_Flats WHERE (ID_FLAT = @ID_FLAT)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@COMMERCIAL_NAME", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "COMMERCIAL_NAME", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@WORKNAME", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "WORKNAME", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@REVISION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "REVISION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TYPE_FLAT", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TYPE_FLAT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_COMMERCIAL_NAME", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "COMMERCIAL_NAME", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_WORKNAME", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "WORKNAME", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_REVISION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "REVISION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_TYPE_FLAT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TYPE_FLAT", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TYPE_FLAT", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "TYPE_FLAT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_FLAT", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID_FLAT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -9323,7 +6959,7 @@ SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, REVISION FROM F_R_Flats WHERE (ID_FLA
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, REVISION FROM dbo.F_R_Flats";
+            this._commandCollection[0].CommandText = "SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, TYPE_FLAT FROM dbo.F_R_Flats";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -9384,7 +7020,7 @@ SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, REVISION FROM F_R_Flats WHERE (ID_FLA
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID_FLAT, string Original_COMMERCIAL_NAME, string Original_WORKNAME, int Original_REVISION) {
+        public virtual int Delete(int Original_ID_FLAT, string Original_COMMERCIAL_NAME, string Original_WORKNAME, string Original_TYPE_FLAT) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_FLAT));
             if ((Original_COMMERCIAL_NAME == null)) {
                 throw new global::System.ArgumentNullException("Original_COMMERCIAL_NAME");
@@ -9398,7 +7034,14 @@ SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, REVISION FROM F_R_Flats WHERE (ID_FLA
             else {
                 this.Adapter.DeleteCommand.Parameters[2].Value = ((string)(Original_WORKNAME));
             }
-            this.Adapter.DeleteCommand.Parameters[3].Value = ((int)(Original_REVISION));
+            if ((Original_TYPE_FLAT == null)) {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((string)(Original_TYPE_FLAT));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -9419,7 +7062,7 @@ SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, REVISION FROM F_R_Flats WHERE (ID_FLA
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string COMMERCIAL_NAME, string WORKNAME, int REVISION) {
+        public virtual int Insert(string COMMERCIAL_NAME, string WORKNAME, string TYPE_FLAT) {
             if ((COMMERCIAL_NAME == null)) {
                 throw new global::System.ArgumentNullException("COMMERCIAL_NAME");
             }
@@ -9432,7 +7075,12 @@ SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, REVISION FROM F_R_Flats WHERE (ID_FLA
             else {
                 this.Adapter.InsertCommand.Parameters[1].Value = ((string)(WORKNAME));
             }
-            this.Adapter.InsertCommand.Parameters[2].Value = ((int)(REVISION));
+            if ((TYPE_FLAT == null)) {
+                this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(TYPE_FLAT));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -9453,7 +7101,7 @@ SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, REVISION FROM F_R_Flats WHERE (ID_FLA
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string COMMERCIAL_NAME, string WORKNAME, int REVISION, int Original_ID_FLAT, string Original_COMMERCIAL_NAME, string Original_WORKNAME, int Original_REVISION, int ID_FLAT) {
+        public virtual int Update(string COMMERCIAL_NAME, string WORKNAME, string TYPE_FLAT, int Original_ID_FLAT, string Original_COMMERCIAL_NAME, string Original_WORKNAME, string Original_TYPE_FLAT, int ID_FLAT) {
             if ((COMMERCIAL_NAME == null)) {
                 throw new global::System.ArgumentNullException("COMMERCIAL_NAME");
             }
@@ -9466,7 +7114,12 @@ SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, REVISION FROM F_R_Flats WHERE (ID_FLA
             else {
                 this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(WORKNAME));
             }
-            this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(REVISION));
+            if ((TYPE_FLAT == null)) {
+                this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(TYPE_FLAT));
+            }
             this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(Original_ID_FLAT));
             if ((Original_COMMERCIAL_NAME == null)) {
                 throw new global::System.ArgumentNullException("Original_COMMERCIAL_NAME");
@@ -9480,8 +7133,15 @@ SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, REVISION FROM F_R_Flats WHERE (ID_FLA
             else {
                 this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(Original_WORKNAME));
             }
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_REVISION));
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(ID_FLAT));
+            if ((Original_TYPE_FLAT == null)) {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((string)(Original_TYPE_FLAT));
+            }
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(ID_FLAT));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -9502,335 +7162,8 @@ SELECT ID_FLAT, COMMERCIAL_NAME, WORKNAME, REVISION FROM F_R_Flats WHERE (ID_FLA
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string COMMERCIAL_NAME, string WORKNAME, int REVISION, int Original_ID_FLAT, string Original_COMMERCIAL_NAME, string Original_WORKNAME, int Original_REVISION) {
-            return this.Update(COMMERCIAL_NAME, WORKNAME, REVISION, Original_ID_FLAT, Original_COMMERCIAL_NAME, Original_WORKNAME, Original_REVISION, Original_ID_FLAT);
-        }
-    }
-    
-    /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
-    ///</summary>
-    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
-    [global::System.ComponentModel.ToolboxItem(true)]
-    [global::System.ComponentModel.DataObjectAttribute(true)]
-    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
-        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class F_R_ModulesTableAdapter : global::System.ComponentModel.Component {
-        
-        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
-        
-        private global::System.Data.SqlClient.SqlConnection _connection;
-        
-        private global::System.Data.SqlClient.SqlTransaction _transaction;
-        
-        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
-        
-        private bool _clearBeforeFill;
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public F_R_ModulesTableAdapter() {
-            this.ClearBeforeFill = true;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
-            get {
-                if ((this._adapter == null)) {
-                    this.InitAdapter();
-                }
-                return this._adapter;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal global::System.Data.SqlClient.SqlConnection Connection {
-            get {
-                if ((this._connection == null)) {
-                    this.InitConnection();
-                }
-                return this._connection;
-            }
-            set {
-                this._connection = value;
-                if ((this.Adapter.InsertCommand != null)) {
-                    this.Adapter.InsertCommand.Connection = value;
-                }
-                if ((this.Adapter.DeleteCommand != null)) {
-                    this.Adapter.DeleteCommand.Connection = value;
-                }
-                if ((this.Adapter.UpdateCommand != null)) {
-                    this.Adapter.UpdateCommand.Connection = value;
-                }
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    if ((this.CommandCollection[i] != null)) {
-                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
-                    }
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal global::System.Data.SqlClient.SqlTransaction Transaction {
-            get {
-                return this._transaction;
-            }
-            set {
-                this._transaction = value;
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    this.CommandCollection[i].Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.DeleteCommand != null))) {
-                    this.Adapter.DeleteCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.InsertCommand != null))) {
-                    this.Adapter.InsertCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.UpdateCommand != null))) {
-                    this.Adapter.UpdateCommand.Transaction = this._transaction;
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
-            get {
-                if ((this._commandCollection == null)) {
-                    this.InitCommandCollection();
-                }
-                return this._commandCollection;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public bool ClearBeforeFill {
-            get {
-                return this._clearBeforeFill;
-            }
-            set {
-                this._clearBeforeFill = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitAdapter() {
-            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
-            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
-            tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "F_R_Modules";
-            tableMapping.ColumnMappings.Add("ID_MODULE", "ID_MODULE");
-            tableMapping.ColumnMappings.Add("NAME_MODULE", "NAME_MODULE");
-            tableMapping.ColumnMappings.Add("REVISION", "REVISION");
-            this._adapter.TableMappings.Add(tableMapping);
-            this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[F_R_Modules] WHERE (([ID_MODULE] = @Original_ID_MODULE) AND ([" +
-                "NAME_MODULE] = @Original_NAME_MODULE) AND ([REVISION] = @Original_REVISION))";
-            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_NAME_MODULE", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "NAME_MODULE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_REVISION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "REVISION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[F_R_Modules] ([NAME_MODULE], [REVISION]) VALUES (@NAME_MODULE," +
-                " @REVISION);\r\nSELECT ID_MODULE, NAME_MODULE, REVISION FROM F_R_Modules WHERE (ID" +
-                "_MODULE = SCOPE_IDENTITY())";
-            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@NAME_MODULE", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "NAME_MODULE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@REVISION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "REVISION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[F_R_Modules] SET [NAME_MODULE] = @NAME_MODULE, [REVISION] = @REVISION WHERE (([ID_MODULE] = @Original_ID_MODULE) AND ([NAME_MODULE] = @Original_NAME_MODULE) AND ([REVISION] = @Original_REVISION));
-SELECT ID_MODULE, NAME_MODULE, REVISION FROM F_R_Modules WHERE (ID_MODULE = @ID_MODULE)";
-            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@NAME_MODULE", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "NAME_MODULE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@REVISION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "REVISION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID_MODULE", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_NAME_MODULE", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "NAME_MODULE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_REVISION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "REVISION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID_MODULE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitConnection() {
-            this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Tests_ApartmentBase.Properties.Settings.Default.SAPRConnectionString;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
-            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
-            this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ID_MODULE, NAME_MODULE, REVISION FROM dbo.F_R_Modules";
-            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet1.F_R_ModulesDataTable dataTable) {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((this.ClearBeforeFill == true)) {
-                dataTable.Clear();
-            }
-            int returnValue = this.Adapter.Fill(dataTable);
-            return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet1.F_R_ModulesDataTable GetData() {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            DataSet1.F_R_ModulesDataTable dataTable = new DataSet1.F_R_ModulesDataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet1.F_R_ModulesDataTable dataTable) {
-            return this.Adapter.Update(dataTable);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet1 dataSet) {
-            return this.Adapter.Update(dataSet, "F_R_Modules");
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow dataRow) {
-            return this.Adapter.Update(new global::System.Data.DataRow[] {
-                        dataRow});
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow[] dataRows) {
-            return this.Adapter.Update(dataRows);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID_MODULE, string Original_NAME_MODULE, int Original_REVISION) {
-            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_MODULE));
-            if ((Original_NAME_MODULE == null)) {
-                throw new global::System.ArgumentNullException("Original_NAME_MODULE");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_NAME_MODULE));
-            }
-            this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_REVISION));
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
-            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.DeleteCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.DeleteCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string NAME_MODULE, int REVISION) {
-            if ((NAME_MODULE == null)) {
-                throw new global::System.ArgumentNullException("NAME_MODULE");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(NAME_MODULE));
-            }
-            this.Adapter.InsertCommand.Parameters[1].Value = ((int)(REVISION));
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
-            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.InsertCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.InsertCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string NAME_MODULE, int REVISION, int Original_ID_MODULE, string Original_NAME_MODULE, int Original_REVISION, int ID_MODULE) {
-            if ((NAME_MODULE == null)) {
-                throw new global::System.ArgumentNullException("NAME_MODULE");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(NAME_MODULE));
-            }
-            this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(REVISION));
-            this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(Original_ID_MODULE));
-            if ((Original_NAME_MODULE == null)) {
-                throw new global::System.ArgumentNullException("Original_NAME_MODULE");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(Original_NAME_MODULE));
-            }
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_REVISION));
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(ID_MODULE));
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
-            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.UpdateCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.UpdateCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string NAME_MODULE, int REVISION, int Original_ID_MODULE, string Original_NAME_MODULE, int Original_REVISION) {
-            return this.Update(NAME_MODULE, REVISION, Original_ID_MODULE, Original_NAME_MODULE, Original_REVISION, Original_ID_MODULE);
+        public virtual int Update(string COMMERCIAL_NAME, string WORKNAME, string TYPE_FLAT, int Original_ID_FLAT, string Original_COMMERCIAL_NAME, string Original_WORKNAME, string Original_TYPE_FLAT) {
+            return this.Update(COMMERCIAL_NAME, WORKNAME, TYPE_FLAT, Original_ID_FLAT, Original_COMMERCIAL_NAME, Original_WORKNAME, Original_TYPE_FLAT, Original_ID_FLAT);
         }
     }
     
@@ -10858,7 +8191,7 @@ SELECT ID_FAMILY_INFO, FAMILY_NAME, FAMILY_SYMBOL FROM F_S_FamilyInfos WHERE (ID
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class КатегорииTableAdapter : global::System.ComponentModel.Component {
+    public partial class vil_ParametersTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -10872,7 +8205,7 @@ SELECT ID_FAMILY_INFO, FAMILY_NAME, FAMILY_SYMBOL FROM F_S_FamilyInfos WHERE (ID
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public КатегорииTableAdapter() {
+        public vil_ParametersTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -10969,13 +8302,13 @@ SELECT ID_FAMILY_INFO, FAMILY_NAME, FAMILY_SYMBOL FROM F_S_FamilyInfos WHERE (ID
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "Категории";
+            tableMapping.DataSetTable = "vil_Parameters";
             tableMapping.ColumnMappings.Add("ID_CATEGORY", "ID_CATEGORY");
-            tableMapping.ColumnMappings.Add("ID_PARAMETER", "ID_PARAMETER");
-            tableMapping.ColumnMappings.Add("ID_CAT_PARAMETER", "ID_CAT_PARAMETER");
             tableMapping.ColumnMappings.Add("NAME_RUS_CATEGORY", "NAME_RUS_CATEGORY");
-            tableMapping.ColumnMappings.Add("NAME_PARAMETER", "NAME_PARAMETER");
+            tableMapping.ColumnMappings.Add("ID_CAT_PARAMETER", "ID_CAT_PARAMETER");
+            tableMapping.ColumnMappings.Add("RELATE", "RELATE");
             tableMapping.ColumnMappings.Add("TYPE_PARAMETER", "TYPE_PARAMETER");
+            tableMapping.ColumnMappings.Add("NAME_PARAMETER", "NAME_PARAMETER");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -10992,8 +8325,8 @@ SELECT ID_FAMILY_INFO, FAMILY_NAME, FAMILY_SYMBOL FROM F_S_FamilyInfos WHERE (ID
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT        F_S_Categories.ID_CATEGORY, F_S_Parameters.ID_PARAMETER, F_nn_Category_Parameters.ID_CAT_PARAMETER, F_S_Categories.NAME_RUS_CATEGORY, 
-                         F_S_Parameters.NAME_PARAMETER, F_S_Parameters.TYPE_PARAMETER
+            this._commandCollection[0].CommandText = @"SELECT        F_S_Categories.ID_CATEGORY, F_S_Categories.NAME_RUS_CATEGORY, F_nn_Category_Parameters.ID_CAT_PARAMETER, F_S_Parameters.RELATE, 
+                         F_S_Parameters.TYPE_PARAMETER, F_S_Parameters.NAME_PARAMETER
 FROM            F_nn_Category_Parameters INNER JOIN
                          F_S_Categories ON F_nn_Category_Parameters.ID_CATEGORY = F_S_Categories.ID_CATEGORY INNER JOIN
                          F_S_Parameters ON F_nn_Category_Parameters.ID_PARAMETER = F_S_Parameters.ID_PARAMETER";
@@ -11003,574 +8336,10 @@ FROM            F_nn_Category_Parameters INNER JOIN
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet1.КатегорииDataTable dataTable) {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((this.ClearBeforeFill == true)) {
-                dataTable.Clear();
-            }
-            int returnValue = this.Adapter.Fill(dataTable);
-            return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet1.КатегорииDataTable GetData() {
+        public virtual DataSet1.vil_ParametersDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            DataSet1.КатегорииDataTable dataTable = new DataSet1.КатегорииDataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
-        }
-    }
-    
-    /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
-    ///</summary>
-    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
-    [global::System.ComponentModel.ToolboxItem(true)]
-    [global::System.ComponentModel.DataObjectAttribute(true)]
-    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
-        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class Квартиры_модулиTableAdapter : global::System.ComponentModel.Component {
-        
-        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
-        
-        private global::System.Data.SqlClient.SqlConnection _connection;
-        
-        private global::System.Data.SqlClient.SqlTransaction _transaction;
-        
-        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
-        
-        private bool _clearBeforeFill;
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public Квартиры_модулиTableAdapter() {
-            this.ClearBeforeFill = true;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
-            get {
-                if ((this._adapter == null)) {
-                    this.InitAdapter();
-                }
-                return this._adapter;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal global::System.Data.SqlClient.SqlConnection Connection {
-            get {
-                if ((this._connection == null)) {
-                    this.InitConnection();
-                }
-                return this._connection;
-            }
-            set {
-                this._connection = value;
-                if ((this.Adapter.InsertCommand != null)) {
-                    this.Adapter.InsertCommand.Connection = value;
-                }
-                if ((this.Adapter.DeleteCommand != null)) {
-                    this.Adapter.DeleteCommand.Connection = value;
-                }
-                if ((this.Adapter.UpdateCommand != null)) {
-                    this.Adapter.UpdateCommand.Connection = value;
-                }
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    if ((this.CommandCollection[i] != null)) {
-                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
-                    }
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal global::System.Data.SqlClient.SqlTransaction Transaction {
-            get {
-                return this._transaction;
-            }
-            set {
-                this._transaction = value;
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    this.CommandCollection[i].Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.DeleteCommand != null))) {
-                    this.Adapter.DeleteCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.InsertCommand != null))) {
-                    this.Adapter.InsertCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.UpdateCommand != null))) {
-                    this.Adapter.UpdateCommand.Transaction = this._transaction;
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
-            get {
-                if ((this._commandCollection == null)) {
-                    this.InitCommandCollection();
-                }
-                return this._commandCollection;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public bool ClearBeforeFill {
-            get {
-                return this._clearBeforeFill;
-            }
-            set {
-                this._clearBeforeFill = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitAdapter() {
-            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
-            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
-            tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "Квартиры-модули";
-            tableMapping.ColumnMappings.Add("ID_FLAT_MODULE", "ID_FLAT_MODULE");
-            tableMapping.ColumnMappings.Add("LOCATION", "LOCATION");
-            tableMapping.ColumnMappings.Add("DIRECTION", "DIRECTION");
-            tableMapping.ColumnMappings.Add("ID_FLAT", "ID_FLAT");
-            tableMapping.ColumnMappings.Add("WORKNAME", "WORKNAME");
-            tableMapping.ColumnMappings.Add("RevFlat", "RevFlat");
-            tableMapping.ColumnMappings.Add("ID_MODULE", "ID_MODULE");
-            tableMapping.ColumnMappings.Add("NAME_MODULE", "NAME_MODULE");
-            tableMapping.ColumnMappings.Add("RevMod", "RevMod");
-            tableMapping.ColumnMappings.Add("ANGLE", "ANGLE");
-            this._adapter.TableMappings.Add(tableMapping);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitConnection() {
-            this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Tests_ApartmentBase.Properties.Settings.Default.SAPRConnectionString;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
-            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
-            this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT        F_nn_FlatModules.ID_FLAT_MODULE, F_nn_FlatModules.LOCATION, F_nn_FlatModules.DIRECTION, F_R_Flats.ID_FLAT, F_R_Flats.WORKNAME, 
-                         F_R_Flats.REVISION AS RevFlat, F_R_Modules.ID_MODULE, F_R_Modules.NAME_MODULE, F_R_Modules.REVISION AS RevMod, F_nn_FlatModules.ANGLE
-FROM            F_nn_FlatModules INNER JOIN
-                         F_R_Flats ON F_nn_FlatModules.ID_FLAT = F_R_Flats.ID_FLAT INNER JOIN
-                         F_R_Modules ON F_nn_FlatModules.ID_MODULE = F_R_Modules.ID_MODULE";
-            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet1._Квартиры_модулиDataTable dataTable) {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((this.ClearBeforeFill == true)) {
-                dataTable.Clear();
-            }
-            int returnValue = this.Adapter.Fill(dataTable);
-            return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet1._Квартиры_модулиDataTable GetData() {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            DataSet1._Квартиры_модулиDataTable dataTable = new DataSet1._Квартиры_модулиDataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
-        }
-    }
-    
-    /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
-    ///</summary>
-    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
-    [global::System.ComponentModel.ToolboxItem(true)]
-    [global::System.ComponentModel.DataObjectAttribute(true)]
-    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
-        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class МодульЭлементыTableAdapter : global::System.ComponentModel.Component {
-        
-        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
-        
-        private global::System.Data.SqlClient.SqlConnection _connection;
-        
-        private global::System.Data.SqlClient.SqlTransaction _transaction;
-        
-        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
-        
-        private bool _clearBeforeFill;
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public МодульЭлементыTableAdapter() {
-            this.ClearBeforeFill = true;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
-            get {
-                if ((this._adapter == null)) {
-                    this.InitAdapter();
-                }
-                return this._adapter;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal global::System.Data.SqlClient.SqlConnection Connection {
-            get {
-                if ((this._connection == null)) {
-                    this.InitConnection();
-                }
-                return this._connection;
-            }
-            set {
-                this._connection = value;
-                if ((this.Adapter.InsertCommand != null)) {
-                    this.Adapter.InsertCommand.Connection = value;
-                }
-                if ((this.Adapter.DeleteCommand != null)) {
-                    this.Adapter.DeleteCommand.Connection = value;
-                }
-                if ((this.Adapter.UpdateCommand != null)) {
-                    this.Adapter.UpdateCommand.Connection = value;
-                }
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    if ((this.CommandCollection[i] != null)) {
-                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
-                    }
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal global::System.Data.SqlClient.SqlTransaction Transaction {
-            get {
-                return this._transaction;
-            }
-            set {
-                this._transaction = value;
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    this.CommandCollection[i].Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.DeleteCommand != null))) {
-                    this.Adapter.DeleteCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.InsertCommand != null))) {
-                    this.Adapter.InsertCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.UpdateCommand != null))) {
-                    this.Adapter.UpdateCommand.Transaction = this._transaction;
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
-            get {
-                if ((this._commandCollection == null)) {
-                    this.InitCommandCollection();
-                }
-                return this._commandCollection;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public bool ClearBeforeFill {
-            get {
-                return this._clearBeforeFill;
-            }
-            set {
-                this._clearBeforeFill = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitAdapter() {
-            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
-            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
-            tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "МодульЭлементы";
-            tableMapping.ColumnMappings.Add("ID_MODULE", "ID_MODULE");
-            tableMapping.ColumnMappings.Add("NAME_MODULE", "NAME_MODULE");
-            tableMapping.ColumnMappings.Add("REVISION", "REVISION");
-            tableMapping.ColumnMappings.Add("ID_ELEMENT_IN_MODULE", "ID_ELEMENT_IN_MODULE");
-            tableMapping.ColumnMappings.Add("LOCATION", "LOCATION");
-            tableMapping.ColumnMappings.Add("DIRECTION", "DIRECTION");
-            tableMapping.ColumnMappings.Add("ID_ELEMENT", "ID_ELEMENT");
-            tableMapping.ColumnMappings.Add("FAMILY_NAME", "FAMILY_NAME");
-            tableMapping.ColumnMappings.Add("FAMILY_SYMBOL", "FAMILY_SYMBOL");
-            tableMapping.ColumnMappings.Add("NAME_RUS_CATEGORY", "NAME_RUS_CATEGORY");
-            this._adapter.TableMappings.Add(tableMapping);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitConnection() {
-            this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Tests_ApartmentBase.Properties.Settings.Default.SAPRConnectionString;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
-            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
-            this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT        F_R_Modules.ID_MODULE, F_R_Modules.NAME_MODULE, F_R_Modules.REVISION, F_nn_Elements_Modules.ID_ELEMENT_IN_MODULE, 
-                         F_nn_Elements_Modules.LOCATION, F_nn_Elements_Modules.DIRECTION, F_S_Elements.ID_ELEMENT, F_S_FamilyInfos.FAMILY_NAME, 
-                         F_S_FamilyInfos.FAMILY_SYMBOL, F_S_Categories.NAME_RUS_CATEGORY
-FROM            F_S_Categories INNER JOIN
-                         F_S_Elements ON F_S_Categories.ID_CATEGORY = F_S_Elements.ID_CATEGORY INNER JOIN
-                         F_R_Modules INNER JOIN
-                         F_nn_Elements_Modules ON F_R_Modules.ID_MODULE = F_nn_Elements_Modules.ID_MODULE ON 
-                         F_S_Elements.ID_ELEMENT = F_nn_Elements_Modules.ID_ELEMENT INNER JOIN
-                         F_S_FamilyInfos ON F_S_Elements.ID_FAMILY_INFO = F_S_FamilyInfos.ID_FAMILY_INFO
-WHERE        (F_R_Modules.ID_MODULE = @IDModule)";
-            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IDModule", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID_MODULE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet1.МодульЭлементыDataTable dataTable, int IDModule) {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(IDModule));
-            if ((this.ClearBeforeFill == true)) {
-                dataTable.Clear();
-            }
-            int returnValue = this.Adapter.Fill(dataTable);
-            return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet1.МодульЭлементыDataTable GetData(int IDModule) {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(IDModule));
-            DataSet1.МодульЭлементыDataTable dataTable = new DataSet1.МодульЭлементыDataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
-        }
-    }
-    
-    /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
-    ///</summary>
-    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
-    [global::System.ComponentModel.ToolboxItem(true)]
-    [global::System.ComponentModel.DataObjectAttribute(true)]
-    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
-        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class ПараметрыЭлементаTableAdapter : global::System.ComponentModel.Component {
-        
-        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
-        
-        private global::System.Data.SqlClient.SqlConnection _connection;
-        
-        private global::System.Data.SqlClient.SqlTransaction _transaction;
-        
-        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
-        
-        private bool _clearBeforeFill;
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public ПараметрыЭлементаTableAdapter() {
-            this.ClearBeforeFill = true;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
-            get {
-                if ((this._adapter == null)) {
-                    this.InitAdapter();
-                }
-                return this._adapter;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal global::System.Data.SqlClient.SqlConnection Connection {
-            get {
-                if ((this._connection == null)) {
-                    this.InitConnection();
-                }
-                return this._connection;
-            }
-            set {
-                this._connection = value;
-                if ((this.Adapter.InsertCommand != null)) {
-                    this.Adapter.InsertCommand.Connection = value;
-                }
-                if ((this.Adapter.DeleteCommand != null)) {
-                    this.Adapter.DeleteCommand.Connection = value;
-                }
-                if ((this.Adapter.UpdateCommand != null)) {
-                    this.Adapter.UpdateCommand.Connection = value;
-                }
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    if ((this.CommandCollection[i] != null)) {
-                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
-                    }
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal global::System.Data.SqlClient.SqlTransaction Transaction {
-            get {
-                return this._transaction;
-            }
-            set {
-                this._transaction = value;
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    this.CommandCollection[i].Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.DeleteCommand != null))) {
-                    this.Adapter.DeleteCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.InsertCommand != null))) {
-                    this.Adapter.InsertCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.UpdateCommand != null))) {
-                    this.Adapter.UpdateCommand.Transaction = this._transaction;
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
-            get {
-                if ((this._commandCollection == null)) {
-                    this.InitCommandCollection();
-                }
-                return this._commandCollection;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public bool ClearBeforeFill {
-            get {
-                return this._clearBeforeFill;
-            }
-            set {
-                this._clearBeforeFill = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitAdapter() {
-            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
-            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
-            tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "ПараметрыЭлемента";
-            tableMapping.ColumnMappings.Add("ID_ELEMENT", "ID_ELEMENT");
-            tableMapping.ColumnMappings.Add("FAMILY_NAME", "FAMILY_NAME");
-            tableMapping.ColumnMappings.Add("NAME_RUS_CATEGORY", "NAME_RUS_CATEGORY");
-            tableMapping.ColumnMappings.Add("NAME_PARAMETER", "NAME_PARAMETER");
-            tableMapping.ColumnMappings.Add("PARAMETER_VALUE", "PARAMETER_VALUE");
-            this._adapter.TableMappings.Add(tableMapping);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitConnection() {
-            this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Tests_ApartmentBase.Properties.Settings.Default.SAPRConnectionString;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
-            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
-            this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT        F_S_Elements.ID_ELEMENT, F_S_FamilyInfos.FAMILY_NAME, F_S_Categories.NAME_RUS_CATEGORY, F_S_Parameters.NAME_PARAMETER, 
-                         F_nn_ElementParam_Value.PARAMETER_VALUE
-FROM            F_nn_ElementParam_Value INNER JOIN
-                         F_S_Elements ON F_nn_ElementParam_Value.ID_ELEMENT = F_S_Elements.ID_ELEMENT INNER JOIN
-                         F_S_FamilyInfos ON F_S_Elements.ID_FAMILY_INFO = F_S_FamilyInfos.ID_FAMILY_INFO INNER JOIN
-                         F_S_Categories ON F_S_Elements.ID_CATEGORY = F_S_Categories.ID_CATEGORY INNER JOIN
-                         F_nn_Category_Parameters ON F_nn_ElementParam_Value.ID_CAT_PARAMETER = F_nn_Category_Parameters.ID_CAT_PARAMETER AND 
-                         F_S_Categories.ID_CATEGORY = F_nn_Category_Parameters.ID_CATEGORY INNER JOIN
-                         F_S_Parameters ON F_nn_Category_Parameters.ID_PARAMETER = F_S_Parameters.ID_PARAMETER
-WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
-            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Id_Elem", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID_ELEMENT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet1.ПараметрыЭлементаDataTable dataTable, int Id_Elem) {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(Id_Elem));
-            if ((this.ClearBeforeFill == true)) {
-                dataTable.Clear();
-            }
-            int returnValue = this.Adapter.Fill(dataTable);
-            return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet1.ПараметрыЭлементаDataTable GetData(int Id_Elem) {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(Id_Elem));
-            DataSet1.ПараметрыЭлементаDataTable dataTable = new DataSet1.ПараметрыЭлементаDataTable();
+            DataSet1.vil_ParametersDataTable dataTable = new DataSet1.vil_ParametersDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -11592,15 +8361,13 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
         
         private F_S_ParametersTableAdapter _f_S_ParametersTableAdapter;
         
+        private F_nn_ElementInFlatValueTableAdapter _f_nn_ElementInFlatValueTableAdapter;
+        
         private F_nn_ElementParam_ValueTableAdapter _f_nn_ElementParam_ValueTableAdapter;
         
         private F_nn_Elements_ModulesTableAdapter _f_nn_Elements_ModulesTableAdapter;
         
-        private F_nn_FlatModulesTableAdapter _f_nn_FlatModulesTableAdapter;
-        
         private F_R_FlatsTableAdapter _f_R_FlatsTableAdapter;
-        
-        private F_R_ModulesTableAdapter _f_R_ModulesTableAdapter;
         
         private F_S_CategoriesTableAdapter _f_S_CategoriesTableAdapter;
         
@@ -11656,6 +8423,20 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
         [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
             "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
             "a", "System.Drawing.Design.UITypeEditor")]
+        public F_nn_ElementInFlatValueTableAdapter F_nn_ElementInFlatValueTableAdapter {
+            get {
+                return this._f_nn_ElementInFlatValueTableAdapter;
+            }
+            set {
+                this._f_nn_ElementInFlatValueTableAdapter = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
+            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
+            "a", "System.Drawing.Design.UITypeEditor")]
         public F_nn_ElementParam_ValueTableAdapter F_nn_ElementParam_ValueTableAdapter {
             get {
                 return this._f_nn_ElementParam_ValueTableAdapter;
@@ -11684,40 +8465,12 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
         [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
             "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
             "a", "System.Drawing.Design.UITypeEditor")]
-        public F_nn_FlatModulesTableAdapter F_nn_FlatModulesTableAdapter {
-            get {
-                return this._f_nn_FlatModulesTableAdapter;
-            }
-            set {
-                this._f_nn_FlatModulesTableAdapter = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
-            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
-            "a", "System.Drawing.Design.UITypeEditor")]
         public F_R_FlatsTableAdapter F_R_FlatsTableAdapter {
             get {
                 return this._f_R_FlatsTableAdapter;
             }
             set {
                 this._f_R_FlatsTableAdapter = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
-            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
-            "a", "System.Drawing.Design.UITypeEditor")]
-        public F_R_ModulesTableAdapter F_R_ModulesTableAdapter {
-            get {
-                return this._f_R_ModulesTableAdapter;
-            }
-            set {
-                this._f_R_ModulesTableAdapter = value;
             }
         }
         
@@ -11790,6 +8543,10 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                             && (this._f_S_ParametersTableAdapter.Connection != null))) {
                     return this._f_S_ParametersTableAdapter.Connection;
                 }
+                if (((this._f_nn_ElementInFlatValueTableAdapter != null) 
+                            && (this._f_nn_ElementInFlatValueTableAdapter.Connection != null))) {
+                    return this._f_nn_ElementInFlatValueTableAdapter.Connection;
+                }
                 if (((this._f_nn_ElementParam_ValueTableAdapter != null) 
                             && (this._f_nn_ElementParam_ValueTableAdapter.Connection != null))) {
                     return this._f_nn_ElementParam_ValueTableAdapter.Connection;
@@ -11798,17 +8555,9 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                             && (this._f_nn_Elements_ModulesTableAdapter.Connection != null))) {
                     return this._f_nn_Elements_ModulesTableAdapter.Connection;
                 }
-                if (((this._f_nn_FlatModulesTableAdapter != null) 
-                            && (this._f_nn_FlatModulesTableAdapter.Connection != null))) {
-                    return this._f_nn_FlatModulesTableAdapter.Connection;
-                }
                 if (((this._f_R_FlatsTableAdapter != null) 
                             && (this._f_R_FlatsTableAdapter.Connection != null))) {
                     return this._f_R_FlatsTableAdapter.Connection;
-                }
-                if (((this._f_R_ModulesTableAdapter != null) 
-                            && (this._f_R_ModulesTableAdapter.Connection != null))) {
-                    return this._f_R_ModulesTableAdapter.Connection;
                 }
                 if (((this._f_S_CategoriesTableAdapter != null) 
                             && (this._f_S_CategoriesTableAdapter.Connection != null))) {
@@ -11841,19 +8590,16 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                 if ((this._f_S_ParametersTableAdapter != null)) {
                     count = (count + 1);
                 }
+                if ((this._f_nn_ElementInFlatValueTableAdapter != null)) {
+                    count = (count + 1);
+                }
                 if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
                     count = (count + 1);
                 }
                 if ((this._f_nn_Elements_ModulesTableAdapter != null)) {
                     count = (count + 1);
                 }
-                if ((this._f_nn_FlatModulesTableAdapter != null)) {
-                    count = (count + 1);
-                }
                 if ((this._f_R_FlatsTableAdapter != null)) {
-                    count = (count + 1);
-                }
-                if ((this._f_R_ModulesTableAdapter != null)) {
                     count = (count + 1);
                 }
                 if ((this._f_S_CategoriesTableAdapter != null)) {
@@ -11876,15 +8622,6 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateUpdatedRows(DataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._f_S_ParametersTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._f_S_ParametersTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._f_S_CategoriesTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.F_S_Categories.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
@@ -11903,12 +8640,12 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._f_nn_Category_ParametersTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.F_nn_Category_Parameters.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._f_S_ParametersTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._f_nn_Category_ParametersTableAdapter.Update(updatedRows));
+                    result = (result + this._f_S_ParametersTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -11921,15 +8658,6 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._f_R_ModulesTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.F_R_Modules.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._f_R_ModulesTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._f_S_ElementsTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.F_S_Elements.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
@@ -11939,12 +8667,12 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.F_nn_ElementParam_Value.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._f_nn_Category_ParametersTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.F_nn_Category_Parameters.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._f_nn_ElementParam_ValueTableAdapter.Update(updatedRows));
+                    result = (result + this._f_nn_Category_ParametersTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -11957,12 +8685,21 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._f_nn_FlatModulesTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.F_nn_FlatModules.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._f_nn_ElementInFlatValueTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.F_nn_ElementInFlatValue.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._f_nn_FlatModulesTableAdapter.Update(updatedRows));
+                    result = (result + this._f_nn_ElementInFlatValueTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.F_nn_ElementParam_Value.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._f_nn_ElementParam_ValueTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -11976,14 +8713,6 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateInsertedRows(DataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._f_S_ParametersTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._f_S_ParametersTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             if ((this._f_S_CategoriesTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.F_S_Categories.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
@@ -12000,11 +8729,11 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._f_nn_Category_ParametersTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.F_nn_Category_Parameters.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._f_S_ParametersTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._f_nn_Category_ParametersTableAdapter.Update(addedRows));
+                    result = (result + this._f_S_ParametersTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -12016,14 +8745,6 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._f_R_ModulesTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.F_R_Modules.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._f_R_ModulesTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             if ((this._f_S_ElementsTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.F_S_Elements.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
@@ -12032,11 +8753,11 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.F_nn_ElementParam_Value.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._f_nn_Category_ParametersTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.F_nn_Category_Parameters.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._f_nn_ElementParam_ValueTableAdapter.Update(addedRows));
+                    result = (result + this._f_nn_Category_ParametersTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -12048,11 +8769,19 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._f_nn_FlatModulesTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.F_nn_FlatModules.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._f_nn_ElementInFlatValueTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.F_nn_ElementInFlatValue.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._f_nn_FlatModulesTableAdapter.Update(addedRows));
+                    result = (result + this._f_nn_ElementInFlatValueTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.F_nn_ElementParam_Value.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._f_nn_ElementParam_ValueTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -12066,11 +8795,19 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateDeletedRows(DataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
-            if ((this._f_nn_FlatModulesTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.F_nn_FlatModules.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.F_nn_ElementParam_Value.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._f_nn_FlatModulesTableAdapter.Update(deletedRows));
+                    result = (result + this._f_nn_ElementParam_ValueTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._f_nn_ElementInFlatValueTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.F_nn_ElementInFlatValue.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._f_nn_ElementInFlatValueTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -12082,11 +8819,11 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.F_nn_ElementParam_Value.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._f_nn_Category_ParametersTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.F_nn_Category_Parameters.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._f_nn_ElementParam_ValueTableAdapter.Update(deletedRows));
+                    result = (result + this._f_nn_Category_ParametersTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -12098,14 +8835,6 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._f_R_ModulesTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.F_R_Modules.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._f_R_ModulesTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
             if ((this._f_R_FlatsTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.F_R_Flats.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
@@ -12114,11 +8843,11 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._f_nn_Category_ParametersTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.F_nn_Category_Parameters.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._f_S_ParametersTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._f_nn_Category_ParametersTableAdapter.Update(deletedRows));
+                    result = (result + this._f_S_ParametersTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -12135,14 +8864,6 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._f_S_CategoriesTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._f_S_ParametersTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.F_S_Parameters.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._f_S_ParametersTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -12195,6 +8916,11 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                 throw new global::System.ArgumentException("Все адаптеры таблицы, управляемые диспетчером адаптера таблицы TableAdapterManage" +
                         "r, должны использовать одинаковую строку подключения.");
             }
+            if (((this._f_nn_ElementInFlatValueTableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._f_nn_ElementInFlatValueTableAdapter.Connection) == false))) {
+                throw new global::System.ArgumentException("Все адаптеры таблицы, управляемые диспетчером адаптера таблицы TableAdapterManage" +
+                        "r, должны использовать одинаковую строку подключения.");
+            }
             if (((this._f_nn_ElementParam_ValueTableAdapter != null) 
                         && (this.MatchTableAdapterConnection(this._f_nn_ElementParam_ValueTableAdapter.Connection) == false))) {
                 throw new global::System.ArgumentException("Все адаптеры таблицы, управляемые диспетчером адаптера таблицы TableAdapterManage" +
@@ -12205,18 +8931,8 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                 throw new global::System.ArgumentException("Все адаптеры таблицы, управляемые диспетчером адаптера таблицы TableAdapterManage" +
                         "r, должны использовать одинаковую строку подключения.");
             }
-            if (((this._f_nn_FlatModulesTableAdapter != null) 
-                        && (this.MatchTableAdapterConnection(this._f_nn_FlatModulesTableAdapter.Connection) == false))) {
-                throw new global::System.ArgumentException("Все адаптеры таблицы, управляемые диспетчером адаптера таблицы TableAdapterManage" +
-                        "r, должны использовать одинаковую строку подключения.");
-            }
             if (((this._f_R_FlatsTableAdapter != null) 
                         && (this.MatchTableAdapterConnection(this._f_R_FlatsTableAdapter.Connection) == false))) {
-                throw new global::System.ArgumentException("Все адаптеры таблицы, управляемые диспетчером адаптера таблицы TableAdapterManage" +
-                        "r, должны использовать одинаковую строку подключения.");
-            }
-            if (((this._f_R_ModulesTableAdapter != null) 
-                        && (this.MatchTableAdapterConnection(this._f_R_ModulesTableAdapter.Connection) == false))) {
                 throw new global::System.ArgumentException("Все адаптеры таблицы, управляемые диспетчером адаптера таблицы TableAdapterManage" +
                         "r, должны использовать одинаковую строку подключения.");
             }
@@ -12285,6 +9001,15 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                         adaptersWithAcceptChangesDuringUpdate.Add(this._f_S_ParametersTableAdapter.Adapter);
                     }
                 }
+                if ((this._f_nn_ElementInFlatValueTableAdapter != null)) {
+                    revertConnections.Add(this._f_nn_ElementInFlatValueTableAdapter, this._f_nn_ElementInFlatValueTableAdapter.Connection);
+                    this._f_nn_ElementInFlatValueTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
+                    this._f_nn_ElementInFlatValueTableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
+                    if (this._f_nn_ElementInFlatValueTableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._f_nn_ElementInFlatValueTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._f_nn_ElementInFlatValueTableAdapter.Adapter);
+                    }
+                }
                 if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
                     revertConnections.Add(this._f_nn_ElementParam_ValueTableAdapter, this._f_nn_ElementParam_ValueTableAdapter.Connection);
                     this._f_nn_ElementParam_ValueTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
@@ -12303,15 +9028,6 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                         adaptersWithAcceptChangesDuringUpdate.Add(this._f_nn_Elements_ModulesTableAdapter.Adapter);
                     }
                 }
-                if ((this._f_nn_FlatModulesTableAdapter != null)) {
-                    revertConnections.Add(this._f_nn_FlatModulesTableAdapter, this._f_nn_FlatModulesTableAdapter.Connection);
-                    this._f_nn_FlatModulesTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
-                    this._f_nn_FlatModulesTableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
-                    if (this._f_nn_FlatModulesTableAdapter.Adapter.AcceptChangesDuringUpdate) {
-                        this._f_nn_FlatModulesTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
-                        adaptersWithAcceptChangesDuringUpdate.Add(this._f_nn_FlatModulesTableAdapter.Adapter);
-                    }
-                }
                 if ((this._f_R_FlatsTableAdapter != null)) {
                     revertConnections.Add(this._f_R_FlatsTableAdapter, this._f_R_FlatsTableAdapter.Connection);
                     this._f_R_FlatsTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
@@ -12319,15 +9035,6 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     if (this._f_R_FlatsTableAdapter.Adapter.AcceptChangesDuringUpdate) {
                         this._f_R_FlatsTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
                         adaptersWithAcceptChangesDuringUpdate.Add(this._f_R_FlatsTableAdapter.Adapter);
-                    }
-                }
-                if ((this._f_R_ModulesTableAdapter != null)) {
-                    revertConnections.Add(this._f_R_ModulesTableAdapter, this._f_R_ModulesTableAdapter.Connection);
-                    this._f_R_ModulesTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
-                    this._f_R_ModulesTableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
-                    if (this._f_R_ModulesTableAdapter.Adapter.AcceptChangesDuringUpdate) {
-                        this._f_R_ModulesTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
-                        adaptersWithAcceptChangesDuringUpdate.Add(this._f_R_ModulesTableAdapter.Adapter);
                     }
                 }
                 if ((this._f_S_CategoriesTableAdapter != null)) {
@@ -12423,6 +9130,10 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     this._f_S_ParametersTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._f_S_ParametersTableAdapter]));
                     this._f_S_ParametersTableAdapter.Transaction = null;
                 }
+                if ((this._f_nn_ElementInFlatValueTableAdapter != null)) {
+                    this._f_nn_ElementInFlatValueTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._f_nn_ElementInFlatValueTableAdapter]));
+                    this._f_nn_ElementInFlatValueTableAdapter.Transaction = null;
+                }
                 if ((this._f_nn_ElementParam_ValueTableAdapter != null)) {
                     this._f_nn_ElementParam_ValueTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._f_nn_ElementParam_ValueTableAdapter]));
                     this._f_nn_ElementParam_ValueTableAdapter.Transaction = null;
@@ -12431,17 +9142,9 @@ WHERE        (F_S_Elements.ID_ELEMENT = @Id_Elem)";
                     this._f_nn_Elements_ModulesTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._f_nn_Elements_ModulesTableAdapter]));
                     this._f_nn_Elements_ModulesTableAdapter.Transaction = null;
                 }
-                if ((this._f_nn_FlatModulesTableAdapter != null)) {
-                    this._f_nn_FlatModulesTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._f_nn_FlatModulesTableAdapter]));
-                    this._f_nn_FlatModulesTableAdapter.Transaction = null;
-                }
                 if ((this._f_R_FlatsTableAdapter != null)) {
                     this._f_R_FlatsTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._f_R_FlatsTableAdapter]));
                     this._f_R_FlatsTableAdapter.Transaction = null;
-                }
-                if ((this._f_R_ModulesTableAdapter != null)) {
-                    this._f_R_ModulesTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._f_R_ModulesTableAdapter]));
-                    this._f_R_ModulesTableAdapter.Transaction = null;
                 }
                 if ((this._f_S_CategoriesTableAdapter != null)) {
                     this._f_S_CategoriesTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._f_S_CategoriesTableAdapter]));

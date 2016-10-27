@@ -83,19 +83,16 @@
     <Compile Include="Model\DB\EntityModel\F_nn_Category_Parameters.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\DB\EntityModel\F_nn_ElementInFlatValue.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\DB\EntityModel\F_nn_ElementParam_Value.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DB\EntityModel\F_nn_Elements_Modules.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\DB\EntityModel\F_nn_FlatModules.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\DB\EntityModel\F_R_Flats.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DB\EntityModel\F_R_Modules.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DB\EntityModel\F_S_Categories.cs">

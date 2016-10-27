@@ -12,16 +12,14 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class F_nn_FlatModules
+    public partial class F_nn_ElementInFlatValue
     {
-        public int ID_FLAT_MODULE { get; set; }
-        public int ID_FLAT { get; set; }
-        public int ID_MODULE { get; set; }
-        public string LOCATION { get; set; }
-        public string DIRECTION { get; set; }
-        public Nullable<double> ANGLE { get; set; }
+        public int ID_ELEMENT_VALUE { get; set; }
+        public int ID_ELEMENT_IN_FLAT { get; set; }
+        public int ID_CAT_PARAMETER { get; set; }
+        public string PARAMETER_VALUE { get; set; }
     
-        public virtual F_R_Flats F_R_Flats { get; set; }
-        public virtual F_R_Modules F_R_Modules { get; set; }
+        public virtual F_nn_Category_Parameters F_nn_Category_Parameters { get; set; }
+        public virtual F_nn_Elements_Modules F_nn_Elements_Modules { get; set; }
     }
 }

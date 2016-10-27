@@ -13,6 +13,15 @@
           <Property Name="ID_CATEGORY" Type="int" Nullable="false" />
           <Property Name="ID_PARAMETER" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="F_nn_ElementInFlatValue">
+          <Key>
+            <PropertyRef Name="ID_ELEMENT_VALUE" />
+          </Key>
+          <Property Name="ID_ELEMENT_VALUE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_ELEMENT_IN_FLAT" Type="int" Nullable="false" />
+          <Property Name="ID_CAT_PARAMETER" Type="int" Nullable="false" />
+          <Property Name="PARAMETER_VALUE" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
         <EntityType Name="F_nn_ElementParam_Value">
           <Key>
             <PropertyRef Name="ID_ELEMENT_VALUE" />
@@ -24,24 +33,13 @@
         </EntityType>
         <EntityType Name="F_nn_Elements_Modules">
           <Key>
-            <PropertyRef Name="ID_ELEMENT_IN_MODULE" />
+            <PropertyRef Name="ID_ELEMENT_IN_FLAT" />
           </Key>
-          <Property Name="ID_ELEMENT_IN_MODULE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_ELEMENT_IN_FLAT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_ELEMENT" Type="int" Nullable="false" />
-          <Property Name="ID_MODULE" Type="int" Nullable="false" />
+          <Property Name="ID_FLAT" Type="int" Nullable="false" />
           <Property Name="LOCATION" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="DIRECTION" Type="nvarchar" MaxLength="150" />
-        </EntityType>
-        <EntityType Name="F_nn_FlatModules">
-          <Key>
-            <PropertyRef Name="ID_FLAT_MODULE" />
-          </Key>
-          <Property Name="ID_FLAT_MODULE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ID_FLAT" Type="int" Nullable="false" />
-          <Property Name="ID_MODULE" Type="int" Nullable="false" />
-          <Property Name="LOCATION" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="DIRECTION" Type="nvarchar" MaxLength="100" />
-          <Property Name="ANGLE" Type="float" />
         </EntityType>
         <EntityType Name="F_R_Flats">
           <Key>
@@ -50,16 +48,7 @@
           <Property Name="ID_FLAT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="COMMERCIAL_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="WORKNAME" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="REVISION" Type="int" Nullable="false" />
           <Property Name="TYPE_FLAT" Type="nvarchar" MaxLength="150" />
-        </EntityType>
-        <EntityType Name="F_R_Modules">
-          <Key>
-            <PropertyRef Name="ID_MODULE" />
-          </Key>
-          <Property Name="ID_MODULE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NAME_MODULE" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="REVISION" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="F_S_Categories">
           <Key>
@@ -92,6 +81,7 @@
           <Property Name="ID_PARAMETER" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NAME_PARAMETER" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="TYPE_PARAMETER" Type="nvarchar" MaxLength="50" />
+          <Property Name="RELATE" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_F_nn_Category_Parameters_F_S_Categories">
           <End Role="F_S_Categories" Type="Self.F_S_Categories" Multiplicity="1">
@@ -118,6 +108,34 @@
             </Principal>
             <Dependent Role="F_nn_Category_Parameters">
               <PropertyRef Name="ID_PARAMETER" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters">
+          <End Role="F_nn_Category_Parameters" Type="Self.F_nn_Category_Parameters" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="F_nn_ElementInFlatValue" Type="Self.F_nn_ElementInFlatValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="F_nn_Category_Parameters">
+              <PropertyRef Name="ID_CAT_PARAMETER" />
+            </Principal>
+            <Dependent Role="F_nn_ElementInFlatValue">
+              <PropertyRef Name="ID_CAT_PARAMETER" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue">
+          <End Role="F_nn_Elements_Modules" Type="Self.F_nn_Elements_Modules" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="F_nn_ElementInFlatValue" Type="Self.F_nn_ElementInFlatValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="F_nn_Elements_Modules">
+              <PropertyRef Name="ID_ELEMENT_IN_FLAT" />
+            </Principal>
+            <Dependent Role="F_nn_ElementInFlatValue">
+              <PropertyRef Name="ID_ELEMENT_IN_FLAT" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -149,20 +167,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_F_nn_Elements_FlatModules_F_R_Modules">
-          <End Role="F_R_Modules" Type="Self.F_R_Modules" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="F_nn_Elements_Modules" Type="Self.F_nn_Elements_Modules" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="F_R_Modules">
-              <PropertyRef Name="ID_MODULE" />
-            </Principal>
-            <Dependent Role="F_nn_Elements_Modules">
-              <PropertyRef Name="ID_MODULE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_F_nn_Elements_Modules_F_nn_Elements">
           <End Role="F_S_Elements" Type="Self.F_S_Elements" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -177,31 +181,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_F_R_FlatModules_F_R_Flats1">
+        <Association Name="FK_F_nn_Elements_Modules_F_R_Flats">
           <End Role="F_R_Flats" Type="Self.F_R_Flats" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="F_nn_FlatModules" Type="Self.F_nn_FlatModules" Multiplicity="*" />
+          <End Role="F_nn_Elements_Modules" Type="Self.F_nn_Elements_Modules" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="F_R_Flats">
               <PropertyRef Name="ID_FLAT" />
             </Principal>
-            <Dependent Role="F_nn_FlatModules">
+            <Dependent Role="F_nn_Elements_Modules">
               <PropertyRef Name="ID_FLAT" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_F_R_FlatModules_F_R_Modules">
-          <End Role="F_R_Modules" Type="Self.F_R_Modules" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="F_nn_FlatModules" Type="Self.F_nn_FlatModules" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="F_R_Modules">
-              <PropertyRef Name="ID_MODULE" />
-            </Principal>
-            <Dependent Role="F_nn_FlatModules">
-              <PropertyRef Name="ID_MODULE" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -233,11 +223,10 @@
         </Association>
         <EntityContainer Name="Хранилище SAPRModelContainer">
           <EntitySet Name="F_nn_Category_Parameters" EntityType="Self.F_nn_Category_Parameters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="F_nn_ElementInFlatValue" EntityType="Self.F_nn_ElementInFlatValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="F_nn_ElementParam_Value" EntityType="Self.F_nn_ElementParam_Value" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="F_nn_Elements_Modules" EntityType="Self.F_nn_Elements_Modules" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="F_nn_FlatModules" EntityType="Self.F_nn_FlatModules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="F_R_Flats" EntityType="Self.F_R_Flats" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="F_R_Modules" EntityType="Self.F_R_Modules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="F_S_Categories" EntityType="Self.F_S_Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="F_S_Elements" EntityType="Self.F_S_Elements" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="F_S_FamilyInfos" EntityType="Self.F_S_FamilyInfos" Schema="dbo" store:Type="Tables" />
@@ -250,6 +239,14 @@
             <End Role="F_S_Parameters" EntitySet="F_S_Parameters" />
             <End Role="F_nn_Category_Parameters" EntitySet="F_nn_Category_Parameters" />
           </AssociationSet>
+          <AssociationSet Name="FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters" Association="Self.FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters">
+            <End Role="F_nn_Category_Parameters" EntitySet="F_nn_Category_Parameters" />
+            <End Role="F_nn_ElementInFlatValue" EntitySet="F_nn_ElementInFlatValue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue" Association="Self.FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue">
+            <End Role="F_nn_Elements_Modules" EntitySet="F_nn_Elements_Modules" />
+            <End Role="F_nn_ElementInFlatValue" EntitySet="F_nn_ElementInFlatValue" />
+          </AssociationSet>
           <AssociationSet Name="FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" Association="Self.FK_F_nn_ElementParam_Value_F_nn_Category_Parameters">
             <End Role="F_nn_Category_Parameters" EntitySet="F_nn_Category_Parameters" />
             <End Role="F_nn_ElementParam_Value" EntitySet="F_nn_ElementParam_Value" />
@@ -258,21 +255,13 @@
             <End Role="F_S_Elements" EntitySet="F_S_Elements" />
             <End Role="F_nn_ElementParam_Value" EntitySet="F_nn_ElementParam_Value" />
           </AssociationSet>
-          <AssociationSet Name="FK_F_nn_Elements_FlatModules_F_R_Modules" Association="Self.FK_F_nn_Elements_FlatModules_F_R_Modules">
-            <End Role="F_R_Modules" EntitySet="F_R_Modules" />
-            <End Role="F_nn_Elements_Modules" EntitySet="F_nn_Elements_Modules" />
-          </AssociationSet>
           <AssociationSet Name="FK_F_nn_Elements_Modules_F_nn_Elements" Association="Self.FK_F_nn_Elements_Modules_F_nn_Elements">
             <End Role="F_S_Elements" EntitySet="F_S_Elements" />
             <End Role="F_nn_Elements_Modules" EntitySet="F_nn_Elements_Modules" />
           </AssociationSet>
-          <AssociationSet Name="FK_F_R_FlatModules_F_R_Flats1" Association="Self.FK_F_R_FlatModules_F_R_Flats1">
+          <AssociationSet Name="FK_F_nn_Elements_Modules_F_R_Flats" Association="Self.FK_F_nn_Elements_Modules_F_R_Flats">
             <End Role="F_R_Flats" EntitySet="F_R_Flats" />
-            <End Role="F_nn_FlatModules" EntitySet="F_nn_FlatModules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_F_R_FlatModules_F_R_Modules" Association="Self.FK_F_R_FlatModules_F_R_Modules">
-            <End Role="F_R_Modules" EntitySet="F_R_Modules" />
-            <End Role="F_nn_FlatModules" EntitySet="F_nn_FlatModules" />
+            <End Role="F_nn_Elements_Modules" EntitySet="F_nn_Elements_Modules" />
           </AssociationSet>
           <AssociationSet Name="FK_F_S_Elements_F_S_Categories" Association="Self.FK_F_S_Elements_F_S_Categories">
             <End Role="F_S_Categories" EntitySet="F_S_Categories" />
@@ -287,6 +276,57 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SAPRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SAPREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="F_nn_Category_Parameters" EntityType="SAPRModel.F_nn_Category_Parameters" />
+          <EntitySet Name="F_nn_ElementInFlatValue" EntityType="SAPRModel.F_nn_ElementInFlatValue" />
+          <EntitySet Name="F_nn_ElementParam_Value" EntityType="SAPRModel.F_nn_ElementParam_Value" />
+          <EntitySet Name="F_nn_Elements_Modules" EntityType="SAPRModel.F_nn_Elements_Modules" />
+          <EntitySet Name="F_R_Flats" EntityType="SAPRModel.F_R_Flats" />
+          <EntitySet Name="F_S_Categories" EntityType="SAPRModel.F_S_Categories" />
+          <EntitySet Name="F_S_Elements" EntityType="SAPRModel.F_S_Elements" />
+          <EntitySet Name="F_S_FamilyInfos" EntityType="SAPRModel.F_S_FamilyInfos" />
+          <EntitySet Name="F_S_Parameters" EntityType="SAPRModel.F_S_Parameters" />
+          <AssociationSet Name="FK_F_nn_Category_Parameters_F_S_Categories" Association="SAPRModel.FK_F_nn_Category_Parameters_F_S_Categories">
+            <End Role="F_S_Categories" EntitySet="F_S_Categories" />
+            <End Role="F_nn_Category_Parameters" EntitySet="F_nn_Category_Parameters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_F_nn_Category_Parameters_F_S_Parameters" Association="SAPRModel.FK_F_nn_Category_Parameters_F_S_Parameters">
+            <End Role="F_S_Parameters" EntitySet="F_S_Parameters" />
+            <End Role="F_nn_Category_Parameters" EntitySet="F_nn_Category_Parameters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters" Association="SAPRModel.FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters">
+            <End Role="F_nn_Category_Parameters" EntitySet="F_nn_Category_Parameters" />
+            <End Role="F_nn_ElementInFlatValue" EntitySet="F_nn_ElementInFlatValue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" Association="SAPRModel.FK_F_nn_ElementParam_Value_F_nn_Category_Parameters">
+            <End Role="F_nn_Category_Parameters" EntitySet="F_nn_Category_Parameters" />
+            <End Role="F_nn_ElementParam_Value" EntitySet="F_nn_ElementParam_Value" />
+          </AssociationSet>
+          <AssociationSet Name="FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue" Association="SAPRModel.FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue">
+            <End Role="F_nn_Elements_Modules" EntitySet="F_nn_Elements_Modules" />
+            <End Role="F_nn_ElementInFlatValue" EntitySet="F_nn_ElementInFlatValue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_F_nn_ElementParam_Value_F_S_Elements" Association="SAPRModel.FK_F_nn_ElementParam_Value_F_S_Elements">
+            <End Role="F_S_Elements" EntitySet="F_S_Elements" />
+            <End Role="F_nn_ElementParam_Value" EntitySet="F_nn_ElementParam_Value" />
+          </AssociationSet>
+          <AssociationSet Name="FK_F_nn_Elements_Modules_F_nn_Elements" Association="SAPRModel.FK_F_nn_Elements_Modules_F_nn_Elements">
+            <End Role="F_S_Elements" EntitySet="F_S_Elements" />
+            <End Role="F_nn_Elements_Modules" EntitySet="F_nn_Elements_Modules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_F_nn_Elements_Modules_F_R_Flats" Association="SAPRModel.FK_F_nn_Elements_Modules_F_R_Flats">
+            <End Role="F_R_Flats" EntitySet="F_R_Flats" />
+            <End Role="F_nn_Elements_Modules" EntitySet="F_nn_Elements_Modules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_F_S_Elements_F_S_Categories" Association="SAPRModel.FK_F_S_Elements_F_S_Categories">
+            <End Role="F_S_Categories" EntitySet="F_S_Categories" />
+            <End Role="F_S_Elements" EntitySet="F_S_Elements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_F_S_Elements_F_S_FamilyInfos" Association="SAPRModel.FK_F_S_Elements_F_S_FamilyInfos">
+            <End Role="F_S_FamilyInfos" EntitySet="F_S_FamilyInfos" />
+            <End Role="F_S_Elements" EntitySet="F_S_Elements" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="F_nn_Category_Parameters">
           <Key>
             <PropertyRef Name="ID_CAT_PARAMETER" />
@@ -294,9 +334,21 @@
           <Property Name="ID_CAT_PARAMETER" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_CATEGORY" Type="Int32" Nullable="false" />
           <Property Name="ID_PARAMETER" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="F_S_Categories" Relationship="Self.FK_F_nn_Category_Parameters_F_S_Categories" FromRole="F_nn_Category_Parameters" ToRole="F_S_Categories" />
-          <NavigationProperty Name="F_S_Parameters" Relationship="Self.FK_F_nn_Category_Parameters_F_S_Parameters" FromRole="F_nn_Category_Parameters" ToRole="F_S_Parameters" />
-          <NavigationProperty Name="F_nn_ElementParam_Value" Relationship="Self.FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" FromRole="F_nn_Category_Parameters" ToRole="F_nn_ElementParam_Value" />
+          <NavigationProperty Name="F_S_Categories" Relationship="SAPRModel.FK_F_nn_Category_Parameters_F_S_Categories" FromRole="F_nn_Category_Parameters" ToRole="F_S_Categories" />
+          <NavigationProperty Name="F_S_Parameters" Relationship="SAPRModel.FK_F_nn_Category_Parameters_F_S_Parameters" FromRole="F_nn_Category_Parameters" ToRole="F_S_Parameters" />
+          <NavigationProperty Name="F_nn_ElementInFlatValue" Relationship="SAPRModel.FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters" FromRole="F_nn_Category_Parameters" ToRole="F_nn_ElementInFlatValue" />
+          <NavigationProperty Name="F_nn_ElementParam_Value" Relationship="SAPRModel.FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" FromRole="F_nn_Category_Parameters" ToRole="F_nn_ElementParam_Value" />
+        </EntityType>
+        <EntityType Name="F_nn_ElementInFlatValue">
+          <Key>
+            <PropertyRef Name="ID_ELEMENT_VALUE" />
+          </Key>
+          <Property Name="ID_ELEMENT_VALUE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_ELEMENT_IN_FLAT" Type="Int32" Nullable="false" />
+          <Property Name="ID_CAT_PARAMETER" Type="Int32" Nullable="false" />
+          <Property Name="PARAMETER_VALUE" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="F_nn_Category_Parameters" Relationship="SAPRModel.FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters" FromRole="F_nn_ElementInFlatValue" ToRole="F_nn_Category_Parameters" />
+          <NavigationProperty Name="F_nn_Elements_Modules" Relationship="SAPRModel.FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue" FromRole="F_nn_ElementInFlatValue" ToRole="F_nn_Elements_Modules" />
         </EntityType>
         <EntityType Name="F_nn_ElementParam_Value">
           <Key>
@@ -305,55 +357,32 @@
           <Property Name="ID_ELEMENT_VALUE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_ELEMENT" Type="Int32" Nullable="false" />
           <Property Name="ID_CAT_PARAMETER" Type="Int32" Nullable="false" />
-          <Property Name="PARAMETER_VALUE" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="F_nn_Category_Parameters" Relationship="Self.FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" FromRole="F_nn_ElementParam_Value" ToRole="F_nn_Category_Parameters" />
-          <NavigationProperty Name="F_S_Elements" Relationship="Self.FK_F_nn_ElementParam_Value_F_S_Elements" FromRole="F_nn_ElementParam_Value" ToRole="F_S_Elements" />
+          <Property Name="PARAMETER_VALUE" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="F_nn_Category_Parameters" Relationship="SAPRModel.FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" FromRole="F_nn_ElementParam_Value" ToRole="F_nn_Category_Parameters" />
+          <NavigationProperty Name="F_S_Elements" Relationship="SAPRModel.FK_F_nn_ElementParam_Value_F_S_Elements" FromRole="F_nn_ElementParam_Value" ToRole="F_S_Elements" />
         </EntityType>
         <EntityType Name="F_nn_Elements_Modules">
           <Key>
-            <PropertyRef Name="ID_ELEMENT_IN_MODULE" />
+            <PropertyRef Name="ID_ELEMENT_IN_FLAT" />
           </Key>
-          <Property Name="ID_ELEMENT_IN_MODULE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_ELEMENT_IN_FLAT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_ELEMENT" Type="Int32" Nullable="false" />
-          <Property Name="ID_MODULE" Type="Int32" Nullable="false" />
-          <Property Name="LOCATION" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DIRECTION" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="F_R_Modules" Relationship="Self.FK_F_nn_Elements_FlatModules_F_R_Modules" FromRole="F_nn_Elements_Modules" ToRole="F_R_Modules" />
-          <NavigationProperty Name="F_S_Elements" Relationship="Self.FK_F_nn_Elements_Modules_F_nn_Elements" FromRole="F_nn_Elements_Modules" ToRole="F_S_Elements" />
-        </EntityType>
-        <EntityType Name="F_nn_FlatModules">
-          <Key>
-            <PropertyRef Name="ID_FLAT_MODULE" />
-          </Key>
-          <Property Name="ID_FLAT_MODULE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_FLAT" Type="Int32" Nullable="false" />
-          <Property Name="ID_MODULE" Type="Int32" Nullable="false" />
-          <Property Name="LOCATION" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DIRECTION" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ANGLE" Type="Double" />
-          <NavigationProperty Name="F_R_Flats" Relationship="Self.FK_F_R_FlatModules_F_R_Flats1" FromRole="F_nn_FlatModules" ToRole="F_R_Flats" />
-          <NavigationProperty Name="F_R_Modules" Relationship="Self.FK_F_R_FlatModules_F_R_Modules" FromRole="F_nn_FlatModules" ToRole="F_R_Modules" />
+          <Property Name="LOCATION" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DIRECTION" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="F_nn_ElementInFlatValue" Relationship="SAPRModel.FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue" FromRole="F_nn_Elements_Modules" ToRole="F_nn_ElementInFlatValue" />
+          <NavigationProperty Name="F_S_Elements" Relationship="SAPRModel.FK_F_nn_Elements_Modules_F_nn_Elements" FromRole="F_nn_Elements_Modules" ToRole="F_S_Elements" />
+          <NavigationProperty Name="F_R_Flats" Relationship="SAPRModel.FK_F_nn_Elements_Modules_F_R_Flats" FromRole="F_nn_Elements_Modules" ToRole="F_R_Flats" />
         </EntityType>
         <EntityType Name="F_R_Flats">
           <Key>
             <PropertyRef Name="ID_FLAT" />
           </Key>
           <Property Name="ID_FLAT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="COMMERCIAL_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="WORKNAME" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="REVISION" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="F_nn_FlatModules" Relationship="Self.FK_F_R_FlatModules_F_R_Flats1" FromRole="F_R_Flats" ToRole="F_nn_FlatModules" />
+          <Property Name="COMMERCIAL_NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WORKNAME" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="TYPE_FLAT" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="F_R_Modules">
-          <Key>
-            <PropertyRef Name="ID_MODULE" />
-          </Key>
-          <Property Name="ID_MODULE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NAME_MODULE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="REVISION" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="F_nn_Elements_Modules" Relationship="Self.FK_F_nn_Elements_FlatModules_F_R_Modules" FromRole="F_R_Modules" ToRole="F_nn_Elements_Modules" />
-          <NavigationProperty Name="F_nn_FlatModules" Relationship="Self.FK_F_R_FlatModules_F_R_Modules" FromRole="F_R_Modules" ToRole="F_nn_FlatModules" />
+          <NavigationProperty Name="F_nn_Elements_Modules" Relationship="SAPRModel.FK_F_nn_Elements_Modules_F_R_Flats" FromRole="F_R_Flats" ToRole="F_nn_Elements_Modules" />
         </EntityType>
         <EntityType Name="F_S_Categories">
           <Key>
@@ -362,8 +391,8 @@
           <Property Name="ID_CATEGORY" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME_RUS_CATEGORY" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="NAME_ENG_CATEGORY" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="F_nn_Category_Parameters" Relationship="Self.FK_F_nn_Category_Parameters_F_S_Categories" FromRole="F_S_Categories" ToRole="F_nn_Category_Parameters" />
-          <NavigationProperty Name="F_S_Elements" Relationship="Self.FK_F_S_Elements_F_S_Categories" FromRole="F_S_Categories" ToRole="F_S_Elements" />
+          <NavigationProperty Name="F_nn_Category_Parameters" Relationship="SAPRModel.FK_F_nn_Category_Parameters_F_S_Categories" FromRole="F_S_Categories" ToRole="F_nn_Category_Parameters" />
+          <NavigationProperty Name="F_S_Elements" Relationship="SAPRModel.FK_F_S_Elements_F_S_Categories" FromRole="F_S_Categories" ToRole="F_S_Elements" />
         </EntityType>
         <EntityType Name="F_S_Elements">
           <Key>
@@ -372,34 +401,35 @@
           <Property Name="ID_ELEMENT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_FAMILY_INFO" Type="Int32" Nullable="false" />
           <Property Name="ID_CATEGORY" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="F_nn_ElementParam_Value" Relationship="Self.FK_F_nn_ElementParam_Value_F_S_Elements" FromRole="F_S_Elements" ToRole="F_nn_ElementParam_Value" />
-          <NavigationProperty Name="F_nn_Elements_Modules" Relationship="Self.FK_F_nn_Elements_Modules_F_nn_Elements" FromRole="F_S_Elements" ToRole="F_nn_Elements_Modules" />
-          <NavigationProperty Name="F_S_Categories" Relationship="Self.FK_F_S_Elements_F_S_Categories" FromRole="F_S_Elements" ToRole="F_S_Categories" />
-          <NavigationProperty Name="F_S_FamilyInfos" Relationship="Self.FK_F_S_Elements_F_S_FamilyInfos" FromRole="F_S_Elements" ToRole="F_S_FamilyInfos" />
+          <NavigationProperty Name="F_nn_ElementParam_Value" Relationship="SAPRModel.FK_F_nn_ElementParam_Value_F_S_Elements" FromRole="F_S_Elements" ToRole="F_nn_ElementParam_Value" />
+          <NavigationProperty Name="F_nn_Elements_Modules" Relationship="SAPRModel.FK_F_nn_Elements_Modules_F_nn_Elements" FromRole="F_S_Elements" ToRole="F_nn_Elements_Modules" />
+          <NavigationProperty Name="F_S_Categories" Relationship="SAPRModel.FK_F_S_Elements_F_S_Categories" FromRole="F_S_Elements" ToRole="F_S_Categories" />
+          <NavigationProperty Name="F_S_FamilyInfos" Relationship="SAPRModel.FK_F_S_Elements_F_S_FamilyInfos" FromRole="F_S_Elements" ToRole="F_S_FamilyInfos" />
         </EntityType>
         <EntityType Name="F_S_FamilyInfos">
           <Key>
             <PropertyRef Name="ID_FAMILY_INFO" />
           </Key>
           <Property Name="ID_FAMILY_INFO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FAMILY_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FAMILY_SYMBOL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="F_S_Elements" Relationship="Self.FK_F_S_Elements_F_S_FamilyInfos" FromRole="F_S_FamilyInfos" ToRole="F_S_Elements" />
+          <Property Name="FAMILY_NAME" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FAMILY_SYMBOL" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="F_S_Elements" Relationship="SAPRModel.FK_F_S_Elements_F_S_FamilyInfos" FromRole="F_S_FamilyInfos" ToRole="F_S_Elements" />
         </EntityType>
         <EntityType Name="F_S_Parameters">
           <Key>
             <PropertyRef Name="ID_PARAMETER" />
           </Key>
           <Property Name="ID_PARAMETER" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NAME_PARAMETER" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NAME_PARAMETER" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="TYPE_PARAMETER" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="F_nn_Category_Parameters" Relationship="Self.FK_F_nn_Category_Parameters_F_S_Parameters" FromRole="F_S_Parameters" ToRole="F_nn_Category_Parameters" />
+          <Property Name="RELATE" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="F_nn_Category_Parameters" Relationship="SAPRModel.FK_F_nn_Category_Parameters_F_S_Parameters" FromRole="F_S_Parameters" ToRole="F_nn_Category_Parameters" />
         </EntityType>
         <Association Name="FK_F_nn_Category_Parameters_F_S_Categories">
-          <End Role="F_S_Categories" Type="Self.F_S_Categories" Multiplicity="1">
+          <End Type="SAPRModel.F_S_Categories" Role="F_S_Categories" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="F_nn_Category_Parameters" Type="Self.F_nn_Category_Parameters" Multiplicity="*" />
+          <End Type="SAPRModel.F_nn_Category_Parameters" Role="F_nn_Category_Parameters" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="F_S_Categories">
               <PropertyRef Name="ID_CATEGORY" />
@@ -410,10 +440,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_F_nn_Category_Parameters_F_S_Parameters">
-          <End Role="F_S_Parameters" Type="Self.F_S_Parameters" Multiplicity="1">
+          <End Type="SAPRModel.F_S_Parameters" Role="F_S_Parameters" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="F_nn_Category_Parameters" Type="Self.F_nn_Category_Parameters" Multiplicity="*" />
+          <End Type="SAPRModel.F_nn_Category_Parameters" Role="F_nn_Category_Parameters" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="F_S_Parameters">
               <PropertyRef Name="ID_PARAMETER" />
@@ -423,11 +453,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_F_nn_ElementParam_Value_F_nn_Category_Parameters">
-          <End Role="F_nn_Category_Parameters" Type="Self.F_nn_Category_Parameters" Multiplicity="1">
+        <Association Name="FK_F_nn_ElementInFlatValue_F_nn_Category_Parameters">
+          <End Type="SAPRModel.F_nn_Category_Parameters" Role="F_nn_Category_Parameters" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="F_nn_ElementParam_Value" Type="Self.F_nn_ElementParam_Value" Multiplicity="*" />
+          <End Type="SAPRModel.F_nn_ElementInFlatValue" Role="F_nn_ElementInFlatValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="F_nn_Category_Parameters">
+              <PropertyRef Name="ID_CAT_PARAMETER" />
+            </Principal>
+            <Dependent Role="F_nn_ElementInFlatValue">
+              <PropertyRef Name="ID_CAT_PARAMETER" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_F_nn_ElementParam_Value_F_nn_Category_Parameters">
+          <End Type="SAPRModel.F_nn_Category_Parameters" Role="F_nn_Category_Parameters" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SAPRModel.F_nn_ElementParam_Value" Role="F_nn_ElementParam_Value" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="F_nn_Category_Parameters">
               <PropertyRef Name="ID_CAT_PARAMETER" />
@@ -437,11 +481,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_F_nn_ElementParam_Value_F_S_Elements">
-          <End Role="F_S_Elements" Type="Self.F_S_Elements" Multiplicity="1">
+        <Association Name="FK_F_nn_ElementInFlatValue_F_nn_ElementInFlatValue">
+          <End Type="SAPRModel.F_nn_Elements_Modules" Role="F_nn_Elements_Modules" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="F_nn_ElementParam_Value" Type="Self.F_nn_ElementParam_Value" Multiplicity="*" />
+          <End Type="SAPRModel.F_nn_ElementInFlatValue" Role="F_nn_ElementInFlatValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="F_nn_Elements_Modules">
+              <PropertyRef Name="ID_ELEMENT_IN_FLAT" />
+            </Principal>
+            <Dependent Role="F_nn_ElementInFlatValue">
+              <PropertyRef Name="ID_ELEMENT_IN_FLAT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_F_nn_ElementParam_Value_F_S_Elements">
+          <End Type="SAPRModel.F_S_Elements" Role="F_S_Elements" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SAPRModel.F_nn_ElementParam_Value" Role="F_nn_ElementParam_Value" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="F_S_Elements">
               <PropertyRef Name="ID_ELEMENT" />
@@ -451,25 +509,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_F_nn_Elements_FlatModules_F_R_Modules">
-          <End Role="F_R_Modules" Type="Self.F_R_Modules" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="F_nn_Elements_Modules" Type="Self.F_nn_Elements_Modules" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="F_R_Modules">
-              <PropertyRef Name="ID_MODULE" />
-            </Principal>
-            <Dependent Role="F_nn_Elements_Modules">
-              <PropertyRef Name="ID_MODULE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_F_nn_Elements_Modules_F_nn_Elements">
-          <End Role="F_S_Elements" Type="Self.F_S_Elements" Multiplicity="1">
+          <End Type="SAPRModel.F_S_Elements" Role="F_S_Elements" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="F_nn_Elements_Modules" Type="Self.F_nn_Elements_Modules" Multiplicity="*" />
+          <End Type="SAPRModel.F_nn_Elements_Modules" Role="F_nn_Elements_Modules" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="F_S_Elements">
               <PropertyRef Name="ID_ELEMENT" />
@@ -479,37 +523,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_F_R_FlatModules_F_R_Flats1">
-          <End Role="F_R_Flats" Type="Self.F_R_Flats" Multiplicity="1">
+        <Association Name="FK_F_nn_Elements_Modules_F_R_Flats">
+          <End Type="SAPRModel.F_R_Flats" Role="F_R_Flats" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="F_nn_FlatModules" Type="Self.F_nn_FlatModules" Multiplicity="*" />
+          <End Type="SAPRModel.F_nn_Elements_Modules" Role="F_nn_Elements_Modules" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="F_R_Flats">
               <PropertyRef Name="ID_FLAT" />
             </Principal>
-            <Dependent Role="F_nn_FlatModules">
+            <Dependent Role="F_nn_Elements_Modules">
               <PropertyRef Name="ID_FLAT" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_F_R_FlatModules_F_R_Modules">
-          <End Role="F_R_Modules" Type="Self.F_R_Modules" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="F_nn_FlatModules" Type="Self.F_nn_FlatModules" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="F_R_Modules">
-              <PropertyRef Name="ID_MODULE" />
-            </Principal>
-            <Dependent Role="F_nn_FlatModules">
-              <PropertyRef Name="ID_MODULE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_F_S_Elements_F_S_Categories">
-          <End Role="F_S_Categories" Type="Self.F_S_Categories" Multiplicity="1" />
-          <End Role="F_S_Elements" Type="Self.F_S_Elements" Multiplicity="*" />
+          <End Type="SAPRModel.F_S_Categories" Role="F_S_Categories" Multiplicity="1" />
+          <End Type="SAPRModel.F_S_Elements" Role="F_S_Elements" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="F_S_Categories">
               <PropertyRef Name="ID_CATEGORY" />
@@ -520,10 +550,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_F_S_Elements_F_S_FamilyInfos">
-          <End Role="F_S_FamilyInfos" Type="Self.F_S_FamilyInfos" Multiplicity="1">
+          <End Type="SAPRModel.F_S_FamilyInfos" Role="F_S_FamilyInfos" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="F_S_Elements" Type="Self.F_S_Elements" Multiplicity="*" />
+          <End Type="SAPRModel.F_S_Elements" Role="F_S_Elements" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="F_S_FamilyInfos">
               <PropertyRef Name="ID_FAMILY_INFO" />
@@ -533,59 +563,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SAPREntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="F_nn_Category_Parameters" EntityType="Self.F_nn_Category_Parameters" />
-          <EntitySet Name="F_nn_ElementParam_Value" EntityType="Self.F_nn_ElementParam_Value" />
-          <EntitySet Name="F_nn_Elements_Modules" EntityType="Self.F_nn_Elements_Modules" />
-          <EntitySet Name="F_nn_FlatModules" EntityType="Self.F_nn_FlatModules" />
-          <EntitySet Name="F_R_Flats" EntityType="Self.F_R_Flats" />
-          <EntitySet Name="F_R_Modules" EntityType="Self.F_R_Modules" />
-          <EntitySet Name="F_S_Categories" EntityType="Self.F_S_Categories" />
-          <EntitySet Name="F_S_Elements" EntityType="Self.F_S_Elements" />
-          <EntitySet Name="F_S_FamilyInfos" EntityType="Self.F_S_FamilyInfos" />
-          <EntitySet Name="F_S_Parameters" EntityType="Self.F_S_Parameters" />
-          <AssociationSet Name="FK_F_nn_Category_Parameters_F_S_Categories" Association="Self.FK_F_nn_Category_Parameters_F_S_Categories">
-            <End Role="F_S_Categories" EntitySet="F_S_Categories" />
-            <End Role="F_nn_Category_Parameters" EntitySet="F_nn_Category_Parameters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_F_nn_Category_Parameters_F_S_Parameters" Association="Self.FK_F_nn_Category_Parameters_F_S_Parameters">
-            <End Role="F_S_Parameters" EntitySet="F_S_Parameters" />
-            <End Role="F_nn_Category_Parameters" EntitySet="F_nn_Category_Parameters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_F_nn_ElementParam_Value_F_nn_Category_Parameters" Association="Self.FK_F_nn_ElementParam_Value_F_nn_Category_Parameters">
-            <End Role="F_nn_Category_Parameters" EntitySet="F_nn_Category_Parameters" />
-            <End Role="F_nn_ElementParam_Value" EntitySet="F_nn_ElementParam_Value" />
-          </AssociationSet>
-          <AssociationSet Name="FK_F_nn_ElementParam_Value_F_S_Elements" Association="Self.FK_F_nn_ElementParam_Value_F_S_Elements">
-            <End Role="F_S_Elements" EntitySet="F_S_Elements" />
-            <End Role="F_nn_ElementParam_Value" EntitySet="F_nn_ElementParam_Value" />
-          </AssociationSet>
-          <AssociationSet Name="FK_F_nn_Elements_FlatModules_F_R_Modules" Association="Self.FK_F_nn_Elements_FlatModules_F_R_Modules">
-            <End Role="F_R_Modules" EntitySet="F_R_Modules" />
-            <End Role="F_nn_Elements_Modules" EntitySet="F_nn_Elements_Modules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_F_nn_Elements_Modules_F_nn_Elements" Association="Self.FK_F_nn_Elements_Modules_F_nn_Elements">
-            <End Role="F_S_Elements" EntitySet="F_S_Elements" />
-            <End Role="F_nn_Elements_Modules" EntitySet="F_nn_Elements_Modules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_F_R_FlatModules_F_R_Flats1" Association="Self.FK_F_R_FlatModules_F_R_Flats1">
-            <End Role="F_R_Flats" EntitySet="F_R_Flats" />
-            <End Role="F_nn_FlatModules" EntitySet="F_nn_FlatModules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_F_R_FlatModules_F_R_Modules" Association="Self.FK_F_R_FlatModules_F_R_Modules">
-            <End Role="F_R_Modules" EntitySet="F_R_Modules" />
-            <End Role="F_nn_FlatModules" EntitySet="F_nn_FlatModules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_F_S_Elements_F_S_Categories" Association="Self.FK_F_S_Elements_F_S_Categories">
-            <End Role="F_S_Categories" EntitySet="F_S_Categories" />
-            <End Role="F_S_Elements" EntitySet="F_S_Elements" />
-          </AssociationSet>
-          <AssociationSet Name="FK_F_S_Elements_F_S_FamilyInfos" Association="Self.FK_F_S_Elements_F_S_FamilyInfos">
-            <End Role="F_S_FamilyInfos" EntitySet="F_S_FamilyInfos" />
-            <End Role="F_S_Elements" EntitySet="F_S_Elements" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -594,42 +572,40 @@
           <EntitySetMapping Name="F_nn_Category_Parameters">
             <EntityTypeMapping TypeName="SAPRModel.F_nn_Category_Parameters">
               <MappingFragment StoreEntitySet="F_nn_Category_Parameters">
-                <ScalarProperty Name="ID_CAT_PARAMETER" ColumnName="ID_CAT_PARAMETER" />
-                <ScalarProperty Name="ID_CATEGORY" ColumnName="ID_CATEGORY" />
                 <ScalarProperty Name="ID_PARAMETER" ColumnName="ID_PARAMETER" />
+                <ScalarProperty Name="ID_CATEGORY" ColumnName="ID_CATEGORY" />
+                <ScalarProperty Name="ID_CAT_PARAMETER" ColumnName="ID_CAT_PARAMETER" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="F_nn_ElementInFlatValue">
+            <EntityTypeMapping TypeName="SAPRModel.F_nn_ElementInFlatValue">
+              <MappingFragment StoreEntitySet="F_nn_ElementInFlatValue">
+                <ScalarProperty Name="PARAMETER_VALUE" ColumnName="PARAMETER_VALUE" />
+                <ScalarProperty Name="ID_CAT_PARAMETER" ColumnName="ID_CAT_PARAMETER" />
+                <ScalarProperty Name="ID_ELEMENT_IN_FLAT" ColumnName="ID_ELEMENT_IN_FLAT" />
+                <ScalarProperty Name="ID_ELEMENT_VALUE" ColumnName="ID_ELEMENT_VALUE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="F_nn_ElementParam_Value">
             <EntityTypeMapping TypeName="SAPRModel.F_nn_ElementParam_Value">
               <MappingFragment StoreEntitySet="F_nn_ElementParam_Value">
-                <ScalarProperty Name="ID_ELEMENT_VALUE" ColumnName="ID_ELEMENT_VALUE" />
-                <ScalarProperty Name="ID_ELEMENT" ColumnName="ID_ELEMENT" />
-                <ScalarProperty Name="ID_CAT_PARAMETER" ColumnName="ID_CAT_PARAMETER" />
                 <ScalarProperty Name="PARAMETER_VALUE" ColumnName="PARAMETER_VALUE" />
+                <ScalarProperty Name="ID_CAT_PARAMETER" ColumnName="ID_CAT_PARAMETER" />
+                <ScalarProperty Name="ID_ELEMENT" ColumnName="ID_ELEMENT" />
+                <ScalarProperty Name="ID_ELEMENT_VALUE" ColumnName="ID_ELEMENT_VALUE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="F_nn_Elements_Modules">
             <EntityTypeMapping TypeName="SAPRModel.F_nn_Elements_Modules">
               <MappingFragment StoreEntitySet="F_nn_Elements_Modules">
-                <ScalarProperty Name="ID_ELEMENT_IN_MODULE" ColumnName="ID_ELEMENT_IN_MODULE" />
-                <ScalarProperty Name="ID_ELEMENT" ColumnName="ID_ELEMENT" />
-                <ScalarProperty Name="ID_MODULE" ColumnName="ID_MODULE" />
-                <ScalarProperty Name="LOCATION" ColumnName="LOCATION" />
                 <ScalarProperty Name="DIRECTION" ColumnName="DIRECTION" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="F_nn_FlatModules">
-            <EntityTypeMapping TypeName="SAPRModel.F_nn_FlatModules">
-              <MappingFragment StoreEntitySet="F_nn_FlatModules">
-                <ScalarProperty Name="ID_FLAT_MODULE" ColumnName="ID_FLAT_MODULE" />
+                <ScalarProperty Name="LOCATION" ColumnName="LOCATION" />
                 <ScalarProperty Name="ID_FLAT" ColumnName="ID_FLAT" />
-                <ScalarProperty Name="ID_MODULE" ColumnName="ID_MODULE" />
-                <ScalarProperty Name="LOCATION" ColumnName="LOCATION" />
-                <ScalarProperty Name="DIRECTION" ColumnName="DIRECTION" />
-                <ScalarProperty Name="ANGLE" ColumnName="ANGLE" />
+                <ScalarProperty Name="ID_ELEMENT" ColumnName="ID_ELEMENT" />
+                <ScalarProperty Name="ID_ELEMENT_IN_FLAT" ColumnName="ID_ELEMENT_IN_FLAT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -637,55 +613,46 @@
             <EntityTypeMapping TypeName="SAPRModel.F_R_Flats">
               <MappingFragment StoreEntitySet="F_R_Flats">
                 <ScalarProperty Name="TYPE_FLAT" ColumnName="TYPE_FLAT" />
-                <ScalarProperty Name="ID_FLAT" ColumnName="ID_FLAT" />
-                <ScalarProperty Name="COMMERCIAL_NAME" ColumnName="COMMERCIAL_NAME" />
                 <ScalarProperty Name="WORKNAME" ColumnName="WORKNAME" />
-                <ScalarProperty Name="REVISION" ColumnName="REVISION" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="F_R_Modules">
-            <EntityTypeMapping TypeName="SAPRModel.F_R_Modules">
-              <MappingFragment StoreEntitySet="F_R_Modules">
-                <ScalarProperty Name="ID_MODULE" ColumnName="ID_MODULE" />
-                <ScalarProperty Name="NAME_MODULE" ColumnName="NAME_MODULE" />
-                <ScalarProperty Name="REVISION" ColumnName="REVISION" />
+                <ScalarProperty Name="COMMERCIAL_NAME" ColumnName="COMMERCIAL_NAME" />
+                <ScalarProperty Name="ID_FLAT" ColumnName="ID_FLAT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="F_S_Categories">
             <EntityTypeMapping TypeName="SAPRModel.F_S_Categories">
               <MappingFragment StoreEntitySet="F_S_Categories">
-                <ScalarProperty Name="ID_CATEGORY" ColumnName="ID_CATEGORY" />
-                <ScalarProperty Name="NAME_RUS_CATEGORY" ColumnName="NAME_RUS_CATEGORY" />
                 <ScalarProperty Name="NAME_ENG_CATEGORY" ColumnName="NAME_ENG_CATEGORY" />
+                <ScalarProperty Name="NAME_RUS_CATEGORY" ColumnName="NAME_RUS_CATEGORY" />
+                <ScalarProperty Name="ID_CATEGORY" ColumnName="ID_CATEGORY" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="F_S_Elements">
             <EntityTypeMapping TypeName="SAPRModel.F_S_Elements">
               <MappingFragment StoreEntitySet="F_S_Elements">
-                <ScalarProperty Name="ID_ELEMENT" ColumnName="ID_ELEMENT" />
-                <ScalarProperty Name="ID_FAMILY_INFO" ColumnName="ID_FAMILY_INFO" />
                 <ScalarProperty Name="ID_CATEGORY" ColumnName="ID_CATEGORY" />
+                <ScalarProperty Name="ID_FAMILY_INFO" ColumnName="ID_FAMILY_INFO" />
+                <ScalarProperty Name="ID_ELEMENT" ColumnName="ID_ELEMENT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="F_S_FamilyInfos">
             <EntityTypeMapping TypeName="SAPRModel.F_S_FamilyInfos">
               <MappingFragment StoreEntitySet="F_S_FamilyInfos">
-                <ScalarProperty Name="ID_FAMILY_INFO" ColumnName="ID_FAMILY_INFO" />
-                <ScalarProperty Name="FAMILY_NAME" ColumnName="FAMILY_NAME" />
                 <ScalarProperty Name="FAMILY_SYMBOL" ColumnName="FAMILY_SYMBOL" />
+                <ScalarProperty Name="FAMILY_NAME" ColumnName="FAMILY_NAME" />
+                <ScalarProperty Name="ID_FAMILY_INFO" ColumnName="ID_FAMILY_INFO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="F_S_Parameters">
             <EntityTypeMapping TypeName="SAPRModel.F_S_Parameters">
               <MappingFragment StoreEntitySet="F_S_Parameters">
-                <ScalarProperty Name="ID_PARAMETER" ColumnName="ID_PARAMETER" />
-                <ScalarProperty Name="NAME_PARAMETER" ColumnName="NAME_PARAMETER" />
+                <ScalarProperty Name="RELATE" ColumnName="RELATE" />
                 <ScalarProperty Name="TYPE_PARAMETER" ColumnName="TYPE_PARAMETER" />
+                <ScalarProperty Name="NAME_PARAMETER" ColumnName="NAME_PARAMETER" />
+                <ScalarProperty Name="ID_PARAMETER" ColumnName="ID_PARAMETER" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
