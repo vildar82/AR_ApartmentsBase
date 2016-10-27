@@ -86,7 +86,7 @@ namespace Revit_FlatExporter
                     el.FamilySymbolName = w.WallType.Name;
                     el.LocationPoint = Helper.ConvertXyzToString(lineWall.Origin);
                     apartment.Elements.Add(el);
-                    el.
+                    
                 }
             }
             //scaningElements = scaningElements.OrderBy(x => x.Category.Name).ToList();
