@@ -11,8 +11,8 @@ namespace AR_ApartmentBase_AutoCAD
 {
     public class WindowElement : WallHostBase
     {
-        public WindowElement (BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
-              : base(blRefElem, module, blName, parameters, category)
+        public WindowElement (BlockReference blRefElem, ApartmentAC apart, string blName, List<Parameter> parameters, string category)
+              : base(blRefElem, apart, blName, parameters, category)
         {
         }        
     }

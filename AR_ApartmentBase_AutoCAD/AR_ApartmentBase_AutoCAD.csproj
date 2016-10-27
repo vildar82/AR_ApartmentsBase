@@ -100,7 +100,6 @@
     <Compile Include="Model\Revit\Elements\WallElement.cs" />
     <Compile Include="Model\Revit\EnumBaseStatus.cs" />
     <Compile Include="Model\Revit\IRevitBlock.cs" />
-    <Compile Include="Model\Revit\ModuleAC.cs" />
     <Compile Include="Model\Revit\ParameterAC.cs" />
     <Compile Include="Model\Utils\ApartmentPlacement.cs" />
     <Compile Include="Model\Utils\RemoveDublicateAttributes.cs" />

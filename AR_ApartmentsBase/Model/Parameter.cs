@@ -18,11 +18,12 @@ namespace AR_ApartmentBase.Model
         public ParamRelateEnum Relate { get; set; }
         protected object objectValue;  
 
-        public Parameter(string name, object value)
+        public Parameter(string name, object value, ParamRelateEnum relate )
         {
             Name = name;
             objectValue = value;
             Value = objectValue.ToString();
+            Relate = relate;
         }
 
         public static List<Parameter> Sort(List<Parameter> parameters)

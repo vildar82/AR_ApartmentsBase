@@ -16,8 +16,8 @@ namespace AR_ApartmentBase_AutoCAD
     {        
         //public int count = -1;
 
-        public DoorElement(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
-              : base(blRefElem, module, blName, parameters, category)
+        public DoorElement(BlockReference blRefElem, ApartmentAC apart, string blName, List<Parameter> parameters, string category)
+              : base(blRefElem, apart, blName, parameters, category)
         {
         }        
     }

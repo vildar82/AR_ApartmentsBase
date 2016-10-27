@@ -22,7 +22,8 @@ namespace AR_ApartmentBase_AutoCAD
     public class ElementAC : Element, IRevitBlock, IEquatable<ElementAC>
     {
         public ElementAC () { }
-        
+
+        public ApartmentAC Apartment { get; set; }
         /// <summary>
         /// Точка вставки относительно базовой точки квартиры
         /// </summary>      
@@ -51,9 +52,7 @@ namespace AR_ApartmentBase_AutoCAD
                         var blRef = IdBlRef.GetObject(OpenMode.ForRead, false, true) as BlockReference;                    
                         try
                         {
-                            _extentsInModel = blRef.GeometricExtents;
-                            var moduleAC = (ModuleAC)Module;
-                            _extentsInModel.TransformBy(moduleAC.BlockTransform* ((ApartmentAC)moduleAC.Apartment).BlockTransform);
+                            _extentsInModel = blRef.GeometricExtents;                            
                         }
                         catch
                         {
@@ -92,11 +91,11 @@ namespace AR_ApartmentBase_AutoCAD
             }
         }
 
-        public ElementAC(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
+        public ElementAC(BlockReference blRefElem, ApartmentAC apartAC, string blName, List<Parameter> parameters, string category)
         {
-            Name = blName;
-            Module = module;
+            Name = blName;            
             IdBlRef = blRefElem.Id;
+            Apartment = apartAC;
             IdBtr = blRefElem.BlockTableRecord;
             BlockTransform = blRefElem.BlockTransform;
             Position = blRefElem.Position;
@@ -115,48 +114,45 @@ namespace AR_ApartmentBase_AutoCAD
         /// <summary>
         /// Поиск элементов в блоке модуля
         /// </summary>      
-        public static List<IElement> GetElements(ModuleAC module)
+        public static List<IElement> GetElements(ApartmentAC apartAC)
         {
             List<IElement> elements = new List<IElement>();
 
-            var btrModule = module.IdBtr.GetObject(OpenMode.ForRead, false, true) as BlockTableRecord;
-            foreach (var idEnt in btrModule)
+            var btrApart = apartAC.IdBtr.GetObject(OpenMode.ForRead, false, true) as BlockTableRecord;
+            foreach (var idEnt in btrApart)
             {
                 using (var blRefElem = idEnt.GetObject(OpenMode.ForRead, false, true) as BlockReference)
                 {
                     if (blRefElem == null || !blRefElem.Visible) continue;
 
                     string blName = blRefElem.GetEffectiveName();
-
-                    var apartAC = (ApartmentAC)module.Apartment;
-
                     if (IsBlockElement(blName))
                     {                        
                         // Проверка масштабирования блока
                         if (!blRefElem.CheckNaturalBlockTransform())
                         {
                             Inspector.AddError($"Блок элемента масштабирован '{blName}' - {blRefElem.ScaleFactors.ToString()}.",
-                               blRefElem, module.BlockTransform * apartAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                               blRefElem, apartAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                         }
                         
-                        var parameters = ParameterAC.GetParameters(blRefElem, blName, module.BlockTransform* apartAC.BlockTransform);
+                        var parameters = ParameterAC.GetParameters(blRefElem, blName, apartAC.BlockTransform);
                         var categoryElement = parameters.SingleOrDefault(p => p.Name.Equals(OptionsAC.Instance.ParameterCategoryName, StringComparison.OrdinalIgnoreCase));
 
                         if (categoryElement == null || string.IsNullOrEmpty(categoryElement.Value))
                         {
                             Inspector.AddError($"Не определена категория элемента у блока {blName}",
-                               blRefElem, module.BlockTransform * apartAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                               blRefElem, apartAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                         }
                         else
                         {
                             try
                             {
                                 // Попытка создать элемент. Если такой категории нет в базе, то будет ошибка
-                                ElementAC elem = ElementFactory.CreateElementDWG(blRefElem, module, blName, parameters, categoryElement.Value);
+                                ElementAC elem = ElementFactory.CreateElementDWG(blRefElem, apartAC, blName, parameters, categoryElement.Value);
                                 if (elem == null)
                                 {
                                     Inspector.AddError($"Не удалось создать элемент из блока '{blName}', категории '{categoryElement.Value}'.",
-                                       blRefElem, module.BlockTransform * apartAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                                       blRefElem, apartAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                                     continue;
                                 }
                                 // проверка элемента
@@ -169,14 +165,14 @@ namespace AR_ApartmentBase_AutoCAD
                             catch (Exception ex)
                             {
                                 Inspector.AddError($"Ошибка при создании элемента из блока '{blName}' категории '{categoryElement.Value}'. Возможно такой категории нет в базе. - {ex.ToString()}.",
-                                      blRefElem, module.BlockTransform * apartAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
+                                      blRefElem, apartAC.BlockTransform, icon: System.Drawing.SystemIcons.Error);
                             }
                         }
                     }
                     else
                     {
                         var extInModel = blRefElem.GeometricExtents;
-                        extInModel.TransformBy(module.BlockTransform * apartAC.BlockTransform);
+                        extInModel.TransformBy(apartAC.BlockTransform);
 
                         Inspector.AddError($"Отфильтрован блок элемента '{blName}' имя не соответствует блоку элемента - {OptionsAC.Instance.BlockElementNameMatch}.",
                            extInModel, idEnt, icon: System.Drawing.SystemIcons.Information);
@@ -252,7 +248,7 @@ namespace AR_ApartmentBase_AutoCAD
 
         public ObjectId[] GetSubentPath()
         {            
-            return new[] { ((ApartmentAC)Module.Apartment).IdBlRef, ((ModuleAC)Module).IdBlRef, IdBlRef };            
+            return new[] { Apartment.IdBlRef, IdBlRef };            
         }
 
         public void AddErrMsg(string errElem)

@@ -18,26 +18,26 @@ namespace AR_ApartmentBase_AutoCAD
         /// <summary>
         /// Создание элемента из автокадовского блока блока
         /// </summary>      
-        public static ElementAC CreateElementDWG (BlockReference blRefElem, Module module, string blName, 
+        public static ElementAC CreateElementDWG (BlockReference blRefElem, ApartmentAC apart, string blName, 
             List<Parameter> parameters, string category)
         {
             ElementAC elem = null;
 
             if (category.Equals(categoryWall, StringComparison.OrdinalIgnoreCase))
             {
-                elem = new WallElement(blRefElem, module, blName, parameters, category);
+                elem = new WallElement(blRefElem, apart, blName, parameters, category);
             }
             else if (category.Equals(categoryDoor, StringComparison.OrdinalIgnoreCase))
             {
-                elem = new DoorElement(blRefElem, module, blName, parameters, category);                
+                elem = new DoorElement(blRefElem, apart, blName, parameters, category);                
             }
             else if (category.Equals(categoryWin, StringComparison.OrdinalIgnoreCase))
             {
-                elem = new WindowElement(blRefElem, module, blName, parameters, category);
+                elem = new WindowElement(blRefElem, apart, blName, parameters, category);
             }
             else
             {
-                elem = new ElementAC(blRefElem, module, blName, parameters, category);
+                elem = new ElementAC(blRefElem, apart, blName, parameters, category);
             }
 
             return elem;
