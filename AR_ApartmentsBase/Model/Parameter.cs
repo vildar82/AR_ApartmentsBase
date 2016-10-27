@@ -5,10 +5,17 @@ using System.Drawing;
 
 namespace AR_ApartmentBase.Model
 {
+    public enum ParamRelateEnum
+    {
+        Element,
+        ElementInModule
+    }
+
     public class Parameter : IEquatable<Parameter>
     {
         public string Name { get; set; }
         public string Value { get; set; }
+        public ParamRelateEnum Relate { get; set; }
         protected object objectValue;  
 
         public Parameter(string name, object value)
