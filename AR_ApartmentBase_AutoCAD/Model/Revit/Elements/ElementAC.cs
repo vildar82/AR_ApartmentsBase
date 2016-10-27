@@ -156,7 +156,7 @@ namespace AR_ApartmentBase_AutoCAD
                                     continue;
                                 }
                                 // проверка элемента
-                                elem.checkElement();
+                                //elem.checkElement();
                                 if (!elem.BaseStatus.HasFlag(EnumBaseStatus.Error))
                                 {
                                     elements.Add(elem);

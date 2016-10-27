@@ -15,27 +15,15 @@ namespace AR_ApartmentBase.Model
     public class Parameter : IEquatable<Parameter>
     {
         public string Name { get; set; }
-        public string Value { get; set; }
-        public ParamRelateEnum Relate { get; set; }
+        public string Value { get; set; }        
         protected object objectValue;  
 
-        public Parameter(string name, object value, ParamRelateEnum relate )
+        public Parameter(string name, object value)
         {
             Name = name;
             objectValue = value;
-            Value = objectValue.ToString();
-            Relate = relate;
-        }
-
-        public Parameter (string name, object value, string category)
-        {
-            var paramDB = BaseApartments.GetBaseCategoryParameters()
-                    .FirstOrDefault(p => p.Key.Equals(category, StringComparison.OrdinalIgnoreCase))
-                    .Value.FirstOrDefault(p => p.NAME_PARAMETER.Equals(name, StringComparison.OrdinalIgnoreCase));
-            Name = name;
-            objectValue = value;
-            Relate = (ParamRelateEnum)paramDB.RELATE;
-        }
+            Value = objectValue.ToString();            
+        }        
 
         public static List<Parameter> Sort(List<Parameter> parameters)
         {

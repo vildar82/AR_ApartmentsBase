@@ -12,7 +12,7 @@ using AR_ApartmentBase.Model;
 
 namespace AR_ApartmentBase_AutoCAD
 {
-    public class DoorElement : WallHostBase
+    public class DoorElement : WallHostBase, IElement
     {        
         //public int count = -1;
 

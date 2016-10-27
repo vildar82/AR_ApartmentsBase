@@ -20,7 +20,7 @@ namespace AR_ApartmentBase_AutoCAD
               : base(blRefElem, apart, blName, parameters, category)
         {
             // Добавление параметра idWall - 0 - условно
-            Parameters.Add(new Parameter(OptionsAC.Instance.HostWallParameter, "", ParamRelateEnum.ElementInModule));
+            Parameters.Add(new Parameter(OptionsAC.Instance.HostWallParameter, ""));
             DefineOrientation(blRefElem);
         }        
 

@@ -11,8 +11,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
     public static class BaseApartments
     {
         private static List<KeyValuePair<string, List<F_S_Parameters>>> baseCategoryParameters;
-        private static List<KeyValuePair<int, List<F_S_Parameters>>> baseCategoryParametersById;        
-        private static int idWallParam;
+        private static List<KeyValuePair<int, List<F_S_Parameters>>> baseCategoryParametersById;                
         private static SAPREntities entities;
 
         public static SAPREntities ConnectEntities()
@@ -42,9 +41,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             if (baseCategoryParameters == null)
             {
                 using (var entities = ConnectEntities())
-                {                    
-                    baseCategoryParameters = entities.F_nn_Category_Parameters.GroupBy(cp => cp.F_S_Categories).Select(p =>
-                                  new KeyValuePair<string, List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
+                {
+                    baseCategoryParameters = entities.F_nn_Category_Parameters.ToList().GroupBy(cp => cp.F_S_Categories).Select(p =>
+                        new KeyValuePair<string, List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();                    
                 }
             }
             return baseCategoryParameters;
@@ -59,7 +58,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             {
                 using (var entities = ConnectEntities())
                 {                    
-                    baseCategoryParametersById = entities.F_nn_Category_Parameters.GroupBy(cp => cp.F_S_Categories).Select(p =>
+                    baseCategoryParametersById = entities.F_nn_Category_Parameters.ToList().GroupBy(cp => cp.F_S_Categories).Select(p =>
                         new KeyValuePair<int, List<F_S_Parameters>>(p.Key.ID_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
                 }
             }
@@ -202,6 +201,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                         PARAMETER_VALUE = paramIdWallValue
                     });
                 }
+                entities.SaveChanges();
             }
         }
 
@@ -217,16 +217,16 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 DIRECTION = elem.Direction,
                 LOCATION = elem.LocationPoint
             };
-            // Параметры елементо-квартры
-            var paramsInApart = elem.Parameters.Where(p => p.Relate == ParamRelateEnum.ElementInModule);
-            if (paramsInApart.Any())
+            apartDB.F_nn_Elements_Modules.Add(elemApart);
+            // Параметры елементо-квартры            
+            // Параметры елементо-квартиры для этой категории в базе
+            var paramsDB = GetBaseCategoryParametersById().First(c => c.Key == elemDB.ID_CATEGORY).Value
+                    .Where(p => p.RELATE == (int)ParamRelateEnum.ElementInModule);
+            if (paramsDB.Any())
             {
-                // Параметры елементо-квартиры для этой категории в базе
-                var paramsDB = GetBaseCategoryParametersById().First(c => c.Key == elemDB.ID_CATEGORY).Value
-                        .Where(p => p.RELATE == (int)ParamRelateEnum.ElementInModule);
                 foreach (var item in paramsDB)
                 {
-                    var paramElem = paramsInApart.FirstOrDefault(p => p.Name.Equals(item.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
+                    var paramElem = elem.Parameters.FirstOrDefault(p => p.Name.Equals(item.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
                     if (paramElem != null)
                     {
                         var catParam = entities.F_nn_Category_Parameters.First(p => p.ID_CATEGORY == elemDB.ID_CATEGORY &&

@@ -15,7 +15,7 @@ namespace AR_ApartmentBase_AutoCAD
         // Константные атрибуты в блоках
         public static Dictionary<ObjectId, List<Parameter>> BlocksConstantAtrs = new Dictionary<ObjectId, List<Parameter>>();
 
-        public ParameterAC (string name, object value, ParamRelateEnum relate) : base(name, value, relate)
+        public ParameterAC (string name, object value) : base(name, value,  ParamRelateEnum.Element)
         {            
 
         }
@@ -81,7 +81,7 @@ namespace AR_ApartmentBase_AutoCAD
                 {
                     var atr = idEnt.GetObject(OpenMode.ForRead, false, true) as AttributeDefinition;
                     if (atr == null || !atr.Constant) continue;
-                    ParameterAC constAtrParam = new ParameterAC(atr.Tag.Trim(), atr.TextString.Trim(), ParamRelateEnum.Element);
+                    ParameterAC constAtrParam = new ParameterAC(atr.Tag.Trim(), atr.TextString.Trim());
                     constAtrParameters.Add(constAtrParam);
                 }
                 BlocksConstantAtrs.Add(idBtr, constAtrParameters);
@@ -99,7 +99,7 @@ namespace AR_ApartmentBase_AutoCAD
             {
                 if (!OptionsAC.Instance.IgnoreParamNames.Contains(name, StringComparer.OrdinalIgnoreCase))
                 {
-                    ParameterAC param = new ParameterAC(name, value, );
+                    ParameterAC param = new ParameterAC(name, value);
                     parameters.Add(param);
                 }
             }
@@ -121,6 +121,7 @@ namespace AR_ApartmentBase_AutoCAD
                     if (paramDb != null)
                     {
                         ((ParameterAC)param).ConvertValueToDbType(paramDb.TYPE_PARAMETER);
+                        param.Relate = (ParamRelateEnum)paramDb.RELATE;
                         resVal.Add(param);
                     }
                 }
