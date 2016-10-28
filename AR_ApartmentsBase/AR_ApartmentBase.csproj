@@ -126,6 +126,8 @@
     <Compile Include="Model\Apartment.cs" />
     <Compile Include="Model\Elements\Element.cs" />
     <Compile Include="Model\Elements\IElement.cs" />
+    <Compile Include="Model\Elements\IWall.cs" />
+    <Compile Include="Model\Elements\IWallHost.cs" />
     <Compile Include="Model\Options.cs" />
     <Compile Include="Model\Parameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

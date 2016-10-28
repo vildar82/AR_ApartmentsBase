@@ -270,11 +270,9 @@ namespace AR_ApartmentBase_AutoCAD
             {
                 var lineOrient = idEnt.GetObject(OpenMode.ForRead, false, true) as Line;
                 if (lineOrient == null || lineOrient.ColorIndex != OptionsAC.Instance.DirectionLineColorIndex || !lineOrient.Visible) continue;
-                using (var lineTemp = (Line)lineOrient.Clone())
-                {
-                    lineTemp.TransformBy(blRefElem.BlockTransform);
-                    Direction = ElementAC.GetDirection(lineTemp.Angle);
-                }
+                var lineTemp = (Line)lineOrient.Clone();
+                lineTemp.TransformBy(blRefElem.BlockTransform);
+                Direction = ElementAC.GetDirection(lineTemp.Angle);
                 isFinded = true;
                 break;
             }
