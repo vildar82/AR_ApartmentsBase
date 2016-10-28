@@ -79,7 +79,7 @@ namespace Revit_FlatExporter
                     if (!(scanElement is Wall)) continue;
                     Wall w = scanElement as Wall;
                     DBWall el = new DBWall();
-                    el.CategoryElement = w.Category.Name;
+                    el.CategoryElement = w.Category.Name;/////
                     Line lineWall = (w.Location as LocationCurve).Curve as Line;
                     el.Direction = Helper.ConvertXyzToString(lineWall.Direction);
                     el.FamilyName = w.WallType.FamilyName;
