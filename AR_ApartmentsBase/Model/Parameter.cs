@@ -16,13 +16,13 @@ namespace AR_ApartmentBase.Model
     {
         public string Name { get; set; }
         public string Value { get; set; }        
-        protected object objectValue;  
+        public object ObjectValue { get; set; }  
 
         public Parameter(string name, object value)
         {
             Name = name;
-            objectValue = value;
-            Value = objectValue.ToString();            
+            ObjectValue = value;
+            Value = ObjectValue.ToString();            
         }        
 
         public static List<Parameter> Sort(List<Parameter> parameters)
