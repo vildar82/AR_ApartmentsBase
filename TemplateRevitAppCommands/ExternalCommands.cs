@@ -73,7 +73,7 @@ namespace Revit_FlatExporter
                 if (scaningElements.Count == 0) continue;
                 scaningElements = scaningElements.OrderBy(x => x.Category.Name).ToList();
                 Apartment apartment = new Apartment();
-                apartment.Elements = new List<IElement>();
+                apartment.Elements = new List<IElement>();///
                 foreach (var scanElement in scaningElements)
                 {
                     if (!(scanElement is Wall)) continue;
