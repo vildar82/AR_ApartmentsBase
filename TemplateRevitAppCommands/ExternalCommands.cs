@@ -73,13 +73,13 @@ namespace Revit_FlatExporter
                 if (scaningElements.Count == 0) continue;
                 scaningElements = scaningElements.OrderBy(x => x.Category.Name).ToList();
                 Apartment apartment = new Apartment();
-                apartment.Elements = new List<IElement>();
+                apartment.Elements = new List<IElement>();///
                 foreach (var scanElement in scaningElements)
                 {
                     if (!(scanElement is Wall)) continue;
                     Wall w = scanElement as Wall;
                     DBWall el = new DBWall();
-                    el.CategoryElement = w.Category.Name;
+                    el.CategoryElement = w.Category.Name;/////
                     Line lineWall = (w.Location as LocationCurve).Curve as Line;
                     el.Direction = Helper.ConvertXyzToString(lineWall.Direction);
                     el.FamilyName = w.WallType.FamilyName;
