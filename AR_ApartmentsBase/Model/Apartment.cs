@@ -15,14 +15,9 @@ namespace AR_ApartmentBase.Model
     /// </summary>
     public class Apartment : IEquatable<Apartment>
     {
-
         public string Name { get; set; }
         public string TypeFlat { get; set; }
-        public List<IElement> Elements { get; set; }
-        public string Direction { get; set; }
-        public string LocationPoint { get; set; }
-        public double Rotation { get; set; }
-
+        public List<IElement> Elements { get; set; }     
         /// <summary>
         /// F_R_Modules
         /// </summary>
@@ -35,23 +30,17 @@ namespace AR_ApartmentBase.Model
         /// <summary>
         /// Конструктор для создания модуля из Базы
         /// </summary>
-        public Apartment(F_nn_FlatModules fmEnt, Apartment apart)
+        public Apartment(F_R_Flats flatDB, Apartment apart)
         {
-            Name = fmEnt.F_R_Modules.NAME_MODULE;
-
-            Elements = new List<IElement>();
-            Direction = fmEnt.DIRECTION;
-            LocationPoint = fmEnt.LOCATION;
-            // Revision = fmEnt.F_R_Modules.REVISION;
+            Name = flatDB.WORKNAME;
+            Elements = new List<IElement>();            
         }
 
         public bool Equals(Apartment other)
         {
             if (other == null) return false;
             if (ReferenceEquals(this, other)) return true;
-            return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase) &&
-                   this.Direction.Equals(other.Direction) &&
-                   this.LocationPoint.Equals(other.LocationPoint) &&
+            return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase) &&                   
                    this.Elements.SequenceEqual(other.Elements);
         }
 
@@ -59,6 +48,5 @@ namespace AR_ApartmentBase.Model
         {
             return Name.GetHashCode();
         }
-
     }
 }

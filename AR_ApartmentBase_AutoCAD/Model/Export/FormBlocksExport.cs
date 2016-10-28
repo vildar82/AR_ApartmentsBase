@@ -30,7 +30,7 @@ namespace AR_ApartmentBase_AutoCAD.Export
         private Color colorChanged = Color.Olive;
         private Color colorOk = Color.Blue;
 
-        public FormBlocksExport(List<ApartmentAC> apartments)
+        public FormBlocksExport (List<ApartmentAC> apartments)
         {
             InitializeComponent();
 
@@ -45,12 +45,12 @@ namespace AR_ApartmentBase_AutoCAD.Export
             fillTreeView(apartments);
         }
 
-        private void treeViewApartments_DoubleClick(object sender, EventArgs e)
+        private void treeViewApartments_DoubleClick (object sender, EventArgs e)
         {
             buttonShow_Click(null, null);
         }
 
-        private void buttonShow_Click(object sender, EventArgs e)
+        private void buttonShow_Click (object sender, EventArgs e)
         {
             // TreeView         
             var block = treeViewApartments.SelectedNode?.Tag as IRevitBlock;
@@ -68,43 +68,43 @@ namespace AR_ApartmentBase_AutoCAD.Export
             }
         }
 
-        private void buttonOptions_Click(object sender, EventArgs e)
+        private void buttonOptions_Click (object sender, EventArgs e)
         {
             OptionsAC.Show();
         }
 
-        private void fillTreeView(List<ApartmentAC> apartments)
+        private void fillTreeView (List<ApartmentAC> apartments)
         {
-            treeViewApartments.Nodes.Clear();
-            foreach (var apart in apartments)
-            {
-                TreeNode nodeApart = new TreeNode(apart.NodeName);
-                nodeApart.Tag = (IRevitBlock)apart;
-                nodeApart.ForeColor = BaseColor.GetColor(apart.BaseStatus);
-                treeViewApartments.Nodes.Add(nodeApart);
+            //treeViewApartments.Nodes.Clear();
+            //foreach (var apart in apartments)
+            //{
+            //    TreeNode nodeApart = new TreeNode(apart.NodeName);
+            //    nodeApart.Tag = (IRevitBlock)apart;
+            //    nodeApart.ForeColor = BaseColor.GetColor(apart.BaseStatus);
+            //    treeViewApartments.Nodes.Add(nodeApart);
 
-                foreach (var module in apart.Modules)
-                {
-                    var moduleAC = (ModuleAC)module;
-                    TreeNode nodeModule = new TreeNode(moduleAC.NodeName);
-                    nodeApart.Nodes.Add(nodeModule);
-                    nodeModule.Tag = (IRevitBlock)module;
-                    nodeModule.ForeColor = BaseColor.GetColor(moduleAC.BaseStatus);
+            //    foreach (var module in apart.Modules)
+            //    {
+            //        var moduleAC = (ModuleAC)module;
+            //        TreeNode nodeModule = new TreeNode(moduleAC.NodeName);
+            //        nodeApart.Nodes.Add(nodeModule);
+            //        nodeModule.Tag = (IRevitBlock)module;
+            //        nodeModule.ForeColor = BaseColor.GetColor(moduleAC.BaseStatus);
 
-                    foreach (var elem in module.Elements)
-                    {
-                        var elemAC = (ElementAC)elem;
-                        TreeNode nodeElem = new TreeNode(elemAC.NodeName);
-                        nodeModule.Nodes.Add(nodeElem);
-                        nodeElem.Tag = (IRevitBlock)elem;
-                        nodeElem.ForeColor = BaseColor.GetColor(elemAC.BaseStatus);
-                    }
-                }
-                nodeApart.Expand();
-            }
+            //        foreach (var elem in module.Elements)
+            //        {
+            //            var elemAC = (ElementAC)elem;
+            //            TreeNode nodeElem = new TreeNode(elemAC.NodeName);
+            //            nodeModule.Nodes.Add(nodeElem);
+            //            nodeElem.Tag = (IRevitBlock)elem;
+            //            nodeElem.ForeColor = BaseColor.GetColor(elemAC.BaseStatus);
+            //        }
+            //    }
+            //    nodeApart.Expand();
+            //}
         }
 
-        public void SetModaless()
+        public void SetModaless ()
         {
             buttonOk.Visible = false;
             buttonBreak.Visible = false;
@@ -171,7 +171,7 @@ namespace AR_ApartmentBase_AutoCAD.Export
         //   //}
         //}
 
-        private void treeViewApartments_AfterSelect(object sender, TreeViewEventArgs e)
+        private void treeViewApartments_AfterSelect (object sender, TreeViewEventArgs e)
         {
             textBoxInfo.Text = string.Empty;
             var rBlock = e?.Node?.Tag as IRevitBlock;
@@ -189,17 +189,17 @@ namespace AR_ApartmentBase_AutoCAD.Export
             }
         }
 
-        private void ToolStripMenuItemExpandAll_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemExpandAll_Click (object sender, EventArgs e)
         {
             treeViewApartments.ExpandAll();
         }
 
-        private void свернутьВсеToolStripMenuItem_Click(object sender, EventArgs e)
+        private void свернутьВсеToolStripMenuItem_Click (object sender, EventArgs e)
         {
             treeViewApartments.CollapseAll();
         }
 
-        private void ToolStripMenuItemExpandApart_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemExpandApart_Click (object sender, EventArgs e)
         {
             foreach (TreeNode nodeApart in treeViewApartments.Nodes)
             {

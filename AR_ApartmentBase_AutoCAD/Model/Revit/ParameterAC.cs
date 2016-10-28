@@ -120,7 +120,7 @@ namespace AR_ApartmentBase_AutoCAD
                     var paramDb = paramsCategory.FirstOrDefault(p => p.NAME_PARAMETER.Equals(param.Name, StringComparison.OrdinalIgnoreCase));
                     if (paramDb != null)
                     {
-                        ((ParameterAC)param).ConvertValueToDbType(paramDb.TYPE_PARAMETER);
+                        ((ParameterAC)param).ConvertValueToDbType(paramDb.TYPE_PARAMETER);                        
                         resVal.Add(param);
                     }
                 }

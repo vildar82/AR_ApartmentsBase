@@ -23,6 +23,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         public int ID_PARAMETER { get; set; }
         public string NAME_PARAMETER { get; set; }
         public string TYPE_PARAMETER { get; set; }
+        public int RELATE { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<F_nn_Category_Parameters> F_nn_Category_Parameters { get; set; }

@@ -46,7 +46,7 @@ namespace Tests_ApartmentBase.DbTest {
         
         private vil_FlatDataTable tablevil_Flat;
         
-        private DataTable1DataTable tableDataTable1;
+        private vil_ElemDataTable tablevil_Elem;
         
         private global::System.Data.DataRelation relationFK_F_nn_Category_Parameters_F_S_Categories;
         
@@ -135,8 +135,8 @@ namespace Tests_ApartmentBase.DbTest {
                 if ((ds.Tables["vil_Flat"] != null)) {
                     base.Tables.Add(new vil_FlatDataTable(ds.Tables["vil_Flat"]));
                 }
-                if ((ds.Tables["DataTable1"] != null)) {
-                    base.Tables.Add(new DataTable1DataTable(ds.Tables["DataTable1"]));
+                if ((ds.Tables["vil_Elem"] != null)) {
+                    base.Tables.Add(new vil_ElemDataTable(ds.Tables["vil_Elem"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -270,9 +270,9 @@ namespace Tests_ApartmentBase.DbTest {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public DataTable1DataTable DataTable1 {
+        public vil_ElemDataTable vil_Elem {
             get {
-                return this.tableDataTable1;
+                return this.tablevil_Elem;
             }
         }
         
@@ -376,8 +376,8 @@ namespace Tests_ApartmentBase.DbTest {
                 if ((ds.Tables["vil_Flat"] != null)) {
                     base.Tables.Add(new vil_FlatDataTable(ds.Tables["vil_Flat"]));
                 }
-                if ((ds.Tables["DataTable1"] != null)) {
-                    base.Tables.Add(new DataTable1DataTable(ds.Tables["DataTable1"]));
+                if ((ds.Tables["vil_Elem"] != null)) {
+                    base.Tables.Add(new vil_ElemDataTable(ds.Tables["vil_Elem"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -478,10 +478,10 @@ namespace Tests_ApartmentBase.DbTest {
                     this.tablevil_Flat.InitVars();
                 }
             }
-            this.tableDataTable1 = ((DataTable1DataTable)(base.Tables["DataTable1"]));
+            this.tablevil_Elem = ((vil_ElemDataTable)(base.Tables["vil_Elem"]));
             if ((initTable == true)) {
-                if ((this.tableDataTable1 != null)) {
-                    this.tableDataTable1.InitVars();
+                if ((this.tablevil_Elem != null)) {
+                    this.tablevil_Elem.InitVars();
                 }
             }
             this.relationFK_F_nn_Category_Parameters_F_S_Categories = this.Relations["FK_F_nn_Category_Parameters_F_S_Categories"];
@@ -529,8 +529,8 @@ namespace Tests_ApartmentBase.DbTest {
             base.Tables.Add(this.tablevil_Parameters);
             this.tablevil_Flat = new vil_FlatDataTable();
             base.Tables.Add(this.tablevil_Flat);
-            this.tableDataTable1 = new DataTable1DataTable();
-            base.Tables.Add(this.tableDataTable1);
+            this.tablevil_Elem = new vil_ElemDataTable();
+            base.Tables.Add(this.tablevil_Elem);
             this.relationFK_F_nn_Category_Parameters_F_S_Categories = new global::System.Data.DataRelation("FK_F_nn_Category_Parameters_F_S_Categories", new global::System.Data.DataColumn[] {
                         this.tableF_S_Categories.ID_CATEGORYColumn}, new global::System.Data.DataColumn[] {
                         this.tableF_nn_Category_Parameters.ID_CATEGORYColumn}, false);
@@ -653,7 +653,7 @@ namespace Tests_ApartmentBase.DbTest {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeDataTable1() {
+        private bool ShouldSerializevil_Elem() {
             return false;
         }
         
@@ -746,7 +746,7 @@ namespace Tests_ApartmentBase.DbTest {
         public delegate void vil_FlatRowChangeEventHandler(object sender, vil_FlatRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void DataTable1RowChangeEventHandler(object sender, DataTable1RowChangeEvent e);
+        public delegate void vil_ElemRowChangeEventHandler(object sender, vil_ElemRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -4177,7 +4177,7 @@ namespace Tests_ApartmentBase.DbTest {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class DataTable1DataTable : global::System.Data.TypedTableBase<DataTable1Row> {
+        public partial class vil_ElemDataTable : global::System.Data.TypedTableBase<vil_ElemRow> {
             
             private global::System.Data.DataColumn columnID_ELEMENT_IN_FLAT;
             
@@ -4193,8 +4193,8 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataTable1DataTable() {
-                this.TableName = "DataTable1";
+            public vil_ElemDataTable() {
+                this.TableName = "vil_Elem";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -4202,7 +4202,7 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal DataTable1DataTable(global::System.Data.DataTable table) {
+            internal vil_ElemDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -4219,7 +4219,7 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected DataTable1DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected vil_ElemDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -4283,34 +4283,34 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataTable1Row this[int index] {
+            public vil_ElemRow this[int index] {
                 get {
-                    return ((DataTable1Row)(this.Rows[index]));
+                    return ((vil_ElemRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event DataTable1RowChangeEventHandler DataTable1RowChanging;
+            public event vil_ElemRowChangeEventHandler vil_ElemRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event DataTable1RowChangeEventHandler DataTable1RowChanged;
+            public event vil_ElemRowChangeEventHandler vil_ElemRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event DataTable1RowChangeEventHandler DataTable1RowDeleting;
+            public event vil_ElemRowChangeEventHandler vil_ElemRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event DataTable1RowChangeEventHandler DataTable1RowDeleted;
+            public event vil_ElemRowChangeEventHandler vil_ElemRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddDataTable1Row(DataTable1Row row) {
+            public void Addvil_ElemRow(vil_ElemRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataTable1Row AddDataTable1Row(string NAME_RUS_CATEGORY, string NAME_PARAMETER, string TYPE_PARAMETER, int RELATE, string ParamElemInFlat) {
-                DataTable1Row rowDataTable1Row = ((DataTable1Row)(this.NewRow()));
+            public vil_ElemRow Addvil_ElemRow(string NAME_RUS_CATEGORY, string NAME_PARAMETER, string TYPE_PARAMETER, int RELATE, string ParamElemInFlat) {
+                vil_ElemRow rowvil_ElemRow = ((vil_ElemRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         NAME_RUS_CATEGORY,
@@ -4318,15 +4318,15 @@ namespace Tests_ApartmentBase.DbTest {
                         TYPE_PARAMETER,
                         RELATE,
                         ParamElemInFlat};
-                rowDataTable1Row.ItemArray = columnValuesArray;
-                this.Rows.Add(rowDataTable1Row);
-                return rowDataTable1Row;
+                rowvil_ElemRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowvil_ElemRow);
+                return rowvil_ElemRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                DataTable1DataTable cln = ((DataTable1DataTable)(base.Clone()));
+                vil_ElemDataTable cln = ((vil_ElemDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -4334,7 +4334,7 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new DataTable1DataTable();
+                return new vil_ElemDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4378,28 +4378,28 @@ namespace Tests_ApartmentBase.DbTest {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataTable1Row NewDataTable1Row() {
-                return ((DataTable1Row)(this.NewRow()));
+            public vil_ElemRow Newvil_ElemRow() {
+                return ((vil_ElemRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new DataTable1Row(builder);
+                return new vil_ElemRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(DataTable1Row);
+                return typeof(vil_ElemRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.DataTable1RowChanged != null)) {
-                    this.DataTable1RowChanged(this, new DataTable1RowChangeEvent(((DataTable1Row)(e.Row)), e.Action));
+                if ((this.vil_ElemRowChanged != null)) {
+                    this.vil_ElemRowChanged(this, new vil_ElemRowChangeEvent(((vil_ElemRow)(e.Row)), e.Action));
                 }
             }
             
@@ -4407,8 +4407,8 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.DataTable1RowChanging != null)) {
-                    this.DataTable1RowChanging(this, new DataTable1RowChangeEvent(((DataTable1Row)(e.Row)), e.Action));
+                if ((this.vil_ElemRowChanging != null)) {
+                    this.vil_ElemRowChanging(this, new vil_ElemRowChangeEvent(((vil_ElemRow)(e.Row)), e.Action));
                 }
             }
             
@@ -4416,8 +4416,8 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.DataTable1RowDeleted != null)) {
-                    this.DataTable1RowDeleted(this, new DataTable1RowChangeEvent(((DataTable1Row)(e.Row)), e.Action));
+                if ((this.vil_ElemRowDeleted != null)) {
+                    this.vil_ElemRowDeleted(this, new vil_ElemRowChangeEvent(((vil_ElemRow)(e.Row)), e.Action));
                 }
             }
             
@@ -4425,14 +4425,14 @@ namespace Tests_ApartmentBase.DbTest {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.DataTable1RowDeleting != null)) {
-                    this.DataTable1RowDeleting(this, new DataTable1RowChangeEvent(((DataTable1Row)(e.Row)), e.Action));
+                if ((this.vil_ElemRowDeleting != null)) {
+                    this.vil_ElemRowDeleting(this, new vil_ElemRowChangeEvent(((vil_ElemRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveDataTable1Row(DataTable1Row row) {
+            public void Removevil_ElemRow(vil_ElemRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -4459,7 +4459,7 @@ namespace Tests_ApartmentBase.DbTest {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "DataTable1DataTable";
+                attribute2.FixedValue = "vil_ElemDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -5588,15 +5588,15 @@ namespace Tests_ApartmentBase.DbTest {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class DataTable1Row : global::System.Data.DataRow {
+        public partial class vil_ElemRow : global::System.Data.DataRow {
             
-            private DataTable1DataTable tableDataTable1;
+            private vil_ElemDataTable tablevil_Elem;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal DataTable1Row(global::System.Data.DataRowBuilder rb) : 
+            internal vil_ElemRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableDataTable1 = ((DataTable1DataTable)(this.Table));
+                this.tablevil_Elem = ((vil_ElemDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5604,14 +5604,14 @@ namespace Tests_ApartmentBase.DbTest {
             public int ID_ELEMENT_IN_FLAT {
                 get {
                     try {
-                        return ((int)(this[this.tableDataTable1.ID_ELEMENT_IN_FLATColumn]));
+                        return ((int)(this[this.tablevil_Elem.ID_ELEMENT_IN_FLATColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'ID_ELEMENT_IN_FLAT\' в таблице \'DataTable1\' равно DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'ID_ELEMENT_IN_FLAT\' в таблице \'vil_Elem\' равно DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableDataTable1.ID_ELEMENT_IN_FLATColumn] = value;
+                    this[this.tablevil_Elem.ID_ELEMENT_IN_FLATColumn] = value;
                 }
             }
             
@@ -5620,14 +5620,14 @@ namespace Tests_ApartmentBase.DbTest {
             public string NAME_RUS_CATEGORY {
                 get {
                     try {
-                        return ((string)(this[this.tableDataTable1.NAME_RUS_CATEGORYColumn]));
+                        return ((string)(this[this.tablevil_Elem.NAME_RUS_CATEGORYColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'NAME_RUS_CATEGORY\' в таблице \'DataTable1\' равно DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'NAME_RUS_CATEGORY\' в таблице \'vil_Elem\' равно DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableDataTable1.NAME_RUS_CATEGORYColumn] = value;
+                    this[this.tablevil_Elem.NAME_RUS_CATEGORYColumn] = value;
                 }
             }
             
@@ -5636,14 +5636,14 @@ namespace Tests_ApartmentBase.DbTest {
             public string NAME_PARAMETER {
                 get {
                     try {
-                        return ((string)(this[this.tableDataTable1.NAME_PARAMETERColumn]));
+                        return ((string)(this[this.tablevil_Elem.NAME_PARAMETERColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'NAME_PARAMETER\' в таблице \'DataTable1\' равно DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'NAME_PARAMETER\' в таблице \'vil_Elem\' равно DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableDataTable1.NAME_PARAMETERColumn] = value;
+                    this[this.tablevil_Elem.NAME_PARAMETERColumn] = value;
                 }
             }
             
@@ -5652,14 +5652,14 @@ namespace Tests_ApartmentBase.DbTest {
             public string TYPE_PARAMETER {
                 get {
                     try {
-                        return ((string)(this[this.tableDataTable1.TYPE_PARAMETERColumn]));
+                        return ((string)(this[this.tablevil_Elem.TYPE_PARAMETERColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'TYPE_PARAMETER\' в таблице \'DataTable1\' равно DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'TYPE_PARAMETER\' в таблице \'vil_Elem\' равно DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableDataTable1.TYPE_PARAMETERColumn] = value;
+                    this[this.tablevil_Elem.TYPE_PARAMETERColumn] = value;
                 }
             }
             
@@ -5668,14 +5668,14 @@ namespace Tests_ApartmentBase.DbTest {
             public int RELATE {
                 get {
                     try {
-                        return ((int)(this[this.tableDataTable1.RELATEColumn]));
+                        return ((int)(this[this.tablevil_Elem.RELATEColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'RELATE\' в таблице \'DataTable1\' равно DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'RELATE\' в таблице \'vil_Elem\' равно DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableDataTable1.RELATEColumn] = value;
+                    this[this.tablevil_Elem.RELATEColumn] = value;
                 }
             }
             
@@ -5684,87 +5684,87 @@ namespace Tests_ApartmentBase.DbTest {
             public string ParamElemInFlat {
                 get {
                     try {
-                        return ((string)(this[this.tableDataTable1.ParamElemInFlatColumn]));
+                        return ((string)(this[this.tablevil_Elem.ParamElemInFlatColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("Значение для столбца \'ParamElemInFlat\' в таблице \'DataTable1\' равно DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("Значение для столбца \'ParamElemInFlat\' в таблице \'vil_Elem\' равно DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableDataTable1.ParamElemInFlatColumn] = value;
+                    this[this.tablevil_Elem.ParamElemInFlatColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsID_ELEMENT_IN_FLATNull() {
-                return this.IsNull(this.tableDataTable1.ID_ELEMENT_IN_FLATColumn);
+                return this.IsNull(this.tablevil_Elem.ID_ELEMENT_IN_FLATColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetID_ELEMENT_IN_FLATNull() {
-                this[this.tableDataTable1.ID_ELEMENT_IN_FLATColumn] = global::System.Convert.DBNull;
+                this[this.tablevil_Elem.ID_ELEMENT_IN_FLATColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsNAME_RUS_CATEGORYNull() {
-                return this.IsNull(this.tableDataTable1.NAME_RUS_CATEGORYColumn);
+                return this.IsNull(this.tablevil_Elem.NAME_RUS_CATEGORYColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetNAME_RUS_CATEGORYNull() {
-                this[this.tableDataTable1.NAME_RUS_CATEGORYColumn] = global::System.Convert.DBNull;
+                this[this.tablevil_Elem.NAME_RUS_CATEGORYColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsNAME_PARAMETERNull() {
-                return this.IsNull(this.tableDataTable1.NAME_PARAMETERColumn);
+                return this.IsNull(this.tablevil_Elem.NAME_PARAMETERColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetNAME_PARAMETERNull() {
-                this[this.tableDataTable1.NAME_PARAMETERColumn] = global::System.Convert.DBNull;
+                this[this.tablevil_Elem.NAME_PARAMETERColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsTYPE_PARAMETERNull() {
-                return this.IsNull(this.tableDataTable1.TYPE_PARAMETERColumn);
+                return this.IsNull(this.tablevil_Elem.TYPE_PARAMETERColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetTYPE_PARAMETERNull() {
-                this[this.tableDataTable1.TYPE_PARAMETERColumn] = global::System.Convert.DBNull;
+                this[this.tablevil_Elem.TYPE_PARAMETERColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsRELATENull() {
-                return this.IsNull(this.tableDataTable1.RELATEColumn);
+                return this.IsNull(this.tablevil_Elem.RELATEColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetRELATENull() {
-                this[this.tableDataTable1.RELATEColumn] = global::System.Convert.DBNull;
+                this[this.tablevil_Elem.RELATEColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsParamElemInFlatNull() {
-                return this.IsNull(this.tableDataTable1.ParamElemInFlatColumn);
+                return this.IsNull(this.tablevil_Elem.ParamElemInFlatColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetParamElemInFlatNull() {
-                this[this.tableDataTable1.ParamElemInFlatColumn] = global::System.Convert.DBNull;
+                this[this.tablevil_Elem.ParamElemInFlatColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -6146,22 +6146,22 @@ namespace Tests_ApartmentBase.DbTest {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class DataTable1RowChangeEvent : global::System.EventArgs {
+        public class vil_ElemRowChangeEvent : global::System.EventArgs {
             
-            private DataTable1Row eventRow;
+            private vil_ElemRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataTable1RowChangeEvent(DataTable1Row row, global::System.Data.DataRowAction action) {
+            public vil_ElemRowChangeEvent(vil_ElemRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataTable1Row Row {
+            public vil_ElemRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -9647,7 +9647,7 @@ WHERE        (F_R_Flats.ID_FLAT = @idFlat)";
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class DataTable1TableAdapter : global::System.ComponentModel.Component {
+    public partial class vil_ElemTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -9661,7 +9661,7 @@ WHERE        (F_R_Flats.ID_FLAT = @idFlat)";
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public DataTable1TableAdapter() {
+        public vil_ElemTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -9758,7 +9758,7 @@ WHERE        (F_R_Flats.ID_FLAT = @idFlat)";
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "DataTable1";
+            tableMapping.DataSetTable = "vil_Elem";
             tableMapping.ColumnMappings.Add("ID_ELEMENT_IN_FLAT", "ID_ELEMENT_IN_FLAT");
             tableMapping.ColumnMappings.Add("NAME_RUS_CATEGORY", "NAME_RUS_CATEGORY");
             tableMapping.ColumnMappings.Add("NAME_PARAMETER", "NAME_PARAMETER");
@@ -9801,7 +9801,7 @@ WHERE        (F_nn_Elements_Modules.ID_ELEMENT_IN_FLAT = @idFlatElem)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet1.DataTable1DataTable dataTable, int idFlatElem) {
+        public virtual int Fill(DataSet1.vil_ElemDataTable dataTable, int idFlatElem) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(idFlatElem));
             if ((this.ClearBeforeFill == true)) {
@@ -9815,10 +9815,10 @@ WHERE        (F_nn_Elements_Modules.ID_ELEMENT_IN_FLAT = @idFlatElem)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet1.DataTable1DataTable GetData(int idFlatElem) {
+        public virtual DataSet1.vil_ElemDataTable GetData(int idFlatElem) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(idFlatElem));
-            DataSet1.DataTable1DataTable dataTable = new DataSet1.DataTable1DataTable();
+            DataSet1.vil_ElemDataTable dataTable = new DataSet1.vil_ElemDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }

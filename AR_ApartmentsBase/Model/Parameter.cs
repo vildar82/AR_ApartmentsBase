@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
+using AR_ApartmentBase.Model.DB.EntityModel;
 
 namespace AR_ApartmentBase.Model
 {
@@ -14,16 +15,15 @@ namespace AR_ApartmentBase.Model
     public class Parameter : IEquatable<Parameter>
     {
         public string Name { get; set; }
-        public string Value { get; set; }
-        public ParamRelateEnum Relate { get; set; }
-        protected object objectValue;  
+        public string Value { get; set; }        
+        public object ObjectValue { get; set; }  
 
         public Parameter(string name, object value)
         {
             Name = name;
-            objectValue = value;
-            Value = objectValue.ToString();
-        }
+            ObjectValue = value;
+            Value = ObjectValue.ToString();            
+        }        
 
         public static List<Parameter> Sort(List<Parameter> parameters)
         {

@@ -10,7 +10,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace AR_ApartmentBase_AutoCAD
 {
-    public class WallElement : ElementAC, IWall
+    public class WallElement : ElementAC, IWall, IElement
     {
         /// <summary>
         /// Контур стены
@@ -18,8 +18,8 @@ namespace AR_ApartmentBase_AutoCAD
         public Polyline Contour { get; set; }
         public Extents3d ExtentsClean { get; set; }
 
-        public WallElement(BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
-              : base(blRefElem, module, blName, parameters, category)
+        public WallElement(BlockReference blRefElem, ApartmentAC apart, string blName, List<Parameter> parameters, string category)
+              : base(blRefElem, apart, blName, parameters, category)
         {
             ExtentsClean = blRefElem.GeometricExtentsСlean();
             Contour = getWallContour(blRefElem);

@@ -45,7 +45,13 @@ namespace AR_ApartmentBase_AutoCAD
         /// <summary>
         /// Угол поворота блока квартиры.
         /// </summary>
-        public double Rotation { get; set; }        
+        public double Rotation { get; set; }
+        public Matrix3d BlockTransform { get; set; }        
+        public string Direction { get; set; }
+        public string LocationPoint { get; set; }
+        public Error Error { get; set; }
+
+        public EnumBaseStatus BaseStatus { get; set; }
 
         private bool _extentsAreDefined;
         private bool _extentsIsNull;
@@ -74,25 +80,11 @@ namespace AR_ApartmentBase_AutoCAD
             }
         }
 
-        public Matrix3d BlockTransform { get; set; }
-        public Error Error { get; set; }
-
-        public string Direction { get; set; }
-        public string LocationPoint { get; set; }
-
-        public EnumBaseStatus BaseStatus { get; set; }
-        //public int Revision { get; set; }
-
-        ///// <summary>
-        ///// F_R_Flats
-        ///// </summary>
-        //public object DBObject { get; set; }
-
         public string NodeName
         {
             get
             {
-                return "Квартира " + Name + " " + ((Revision>0) ? "Ревизия-" + Revision.ToString(): "");
+                return "Квартира " + Name;
             }
         }
 
@@ -127,7 +119,7 @@ namespace AR_ApartmentBase_AutoCAD
             defineAttrs(blRef);
 
             // Определение модулуй в квартире
-            Modules = ModuleAC.GetModules(this);
+            Elements = ElementAC.GetElements(this);
         }
 
         private void defineAttrs(BlockReference blRef)
@@ -149,9 +141,8 @@ namespace AR_ApartmentBase_AutoCAD
             Name = flatEnt.WORKNAME;
             _extentsIsNull = true;
             _extentsAreDefined = true;
-            Modules = new List<Module>();
-            DBObject = flatEnt;
-            Revision = flatEnt.REVISION;
+            Elements = new List<IElement>();
+            DBObject = flatEnt;            
             TypeFlat = flatEnt.TYPE_FLAT;
         }
 
@@ -455,12 +446,7 @@ namespace AR_ApartmentBase_AutoCAD
         public static bool IsBlockNameApartment(string blName)
         {
             return Regex.IsMatch(blName, OptionsAC.Instance.BlockApartmentNameMatch, RegexOptions.IgnoreCase);
-        }
-
-        public bool Equals(Apartment other)
-        {
-            return this.Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase);
-        }
+        }        
 
         public ObjectId[] GetSubentPath()
         {

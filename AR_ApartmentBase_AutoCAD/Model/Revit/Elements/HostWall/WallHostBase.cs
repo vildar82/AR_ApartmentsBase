@@ -16,11 +16,11 @@ namespace AR_ApartmentBase_AutoCAD
     {
         public List<IElement> HostWall { get; set; }
 
-        public WallHostBase (BlockReference blRefElem, Module module, string blName, List<Parameter> parameters, string category)
-              : base(blRefElem, module, blName, parameters, category)
+        public WallHostBase (BlockReference blRefElem, ApartmentAC apart, string blName, List<Parameter> parameters, string category)
+              : base(blRefElem, apart, blName, parameters, category)
         {
             // Добавление параметра idWall - 0 - условно
-            Parameters.Add(new Parameter(OptionsAC.Instance.HostWallParameter, "0"));
+            //Parameters.Add(new Parameter(OptionsAC.Instance.HostWallParameter, ""));
             DefineOrientation(blRefElem);
         }        
 
@@ -72,7 +72,7 @@ namespace AR_ApartmentBase_AutoCAD
             {
                 int idWall = Convert.ToInt32(item);
                 // найти стену в элементах модуля         
-                var wall = Module.Elements.SingleOrDefault(e => ((F_nn_Elements_Modules)e.DBObject).ID_ELEMENT_IN_MODULE == idWall);
+                var wall = Apartment.Elements.SingleOrDefault(e => ((F_nn_Elements_Modules)e.DBObject).ID_ELEMENT_IN_FLAT == idWall);
                 HostWall.Add(wall);
             }
         }        

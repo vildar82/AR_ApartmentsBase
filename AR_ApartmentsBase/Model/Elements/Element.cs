@@ -42,7 +42,7 @@ namespace AR_ApartmentBase.Model.Elements
             foreach (var item in emEnt.F_nn_ElementParam_Value)
             {
                 var parameter = new Parameter(item.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER,
-                                              item.PARAMETER_VALUE);
+                    item.PARAMETER_VALUE);
                 parameters.Add(parameter);
             }
             Parameters = Parameter.Sort(parameters);
@@ -63,7 +63,7 @@ namespace AR_ApartmentBase.Model.Elements
             foreach (var item in emEnt.F_S_Elements.F_nn_ElementParam_Value)
             {
                 var parameter = new Parameter(item.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER,
-                                              item.PARAMETER_VALUE);
+                    item.PARAMETER_VALUE);
                 parameters.Add(parameter);
             }
             Parameters = Parameter.Sort(parameters);
@@ -127,12 +127,6 @@ namespace AR_ApartmentBase.Model.Elements
         public override int GetHashCode()
         {
             return CategoryElement.GetHashCode() ^ FamilyName.GetHashCode() ^ FamilySymbolName.GetHashCode();
-        }
-
-
-        bool IEquatable<IElement>.Equals(IElement other)
-        {
-            throw new NotImplementedException();
-        }
+        }        
     }
 }
