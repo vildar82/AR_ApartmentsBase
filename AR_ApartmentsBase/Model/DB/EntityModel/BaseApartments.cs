@@ -161,47 +161,47 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             {
                 var apartDB = (F_R_Flats)apart.DBObject;
 
-                var hostElems = new List<KeyValuePair<IWallHost, F_nn_Elements_Modules>>();
-                foreach (var item in apart.Elements)
-                {
-                    F_nn_Elements_Modules elemApart;
-                    AddElementToApartment(apartDB, item, out elemApart);
+                //var hostElems = new List<KeyValuePair<IWallHost, F_nn_Elements_Modules>>();
+                //foreach (var item in apart.Elements)
+                //{
+                //    F_nn_Elements_Modules elemApart;
+                //    AddElementToApartment(apartDB, item, out elemApart);
 
-                    if (item is IWall)
-                    {
-                        // для стен записываем в DBObject - елементо-квартиру стены                    
-                        item.DBObject = elemApart;
-                    }                    
-                    else if (item is IWallHost)
-                    {
-                        hostElems.Add(new KeyValuePair<IWallHost, F_nn_Elements_Modules> ((IWallHost)item, elemApart));
-                    }
-                }
+                //    if (item is IWall)
+                //    {
+                //        // для стен записываем в DBObject - елементо-квартиру стены                    
+                //        item.DBObject = elemApart;
+                //    }                    
+                //    else if (item is IWallHost)
+                //    {
+                //        hostElems.Add(new KeyValuePair<IWallHost, F_nn_Elements_Modules> ((IWallHost)item, elemApart));
+                //    }
+                //}
                 entities.SaveChanges();
 
                 // Для элементов стен - заполнение параметра стен                
-                foreach (var hostEl in hostElems)
-                {
-                    var hostDB = (F_S_Elements)hostEl.Key.DBObject;
+                //foreach (var hostEl in hostElems)
+                //{
+                //    var hostDB = (F_S_Elements)hostEl.Key.DBObject;
 
-                    List<string> idsWall = new List<string>();
-                    foreach (var wall in hostEl.Key.HostWall)
-                    {
-                        idsWall.Add(((F_nn_Elements_Modules)wall.DBObject).ID_ELEMENT_IN_FLAT.ToString());
-                    }
-                    var paramIdWallValue = GetHostWallsValue(idsWall);
+                //    List<string> idsWall = new List<string>();
+                //    foreach (var wall in hostEl.Key.HostWall)
+                //    {
+                //        idsWall.Add(((F_nn_Elements_Modules)wall.DBObject).ID_ELEMENT_IN_FLAT.ToString());
+                //    }
+                //    var paramIdWallValue = GetHostWallsValue(idsWall);
 
-                    // Параметр idWall
-                    var idParamIdWall = GetBaseCategoryParametersById().First(c=>c.Key == hostDB.ID_CATEGORY)
-                                .Value.First(p=>p.NAME_PARAMETER.Equals(Options.HostWallParameter)).ID_PARAMETER;
-                    var catParam = entities.F_nn_Category_Parameters.First(p => p.ID_CATEGORY == hostDB.ID_CATEGORY &&
-                                p.ID_PARAMETER == idParamIdWall);
-                    entities.F_nn_ElementInFlatValue.Add(new F_nn_ElementInFlatValue {
-                        F_nn_Category_Parameters = catParam,
-                        F_nn_Elements_Modules = hostEl.Value,
-                        PARAMETER_VALUE = paramIdWallValue
-                    });
-                }
+                //    // Параметр idWall
+                //    var idParamIdWall = GetBaseCategoryParametersById().First(c=>c.Key == hostDB.ID_CATEGORY)
+                //                .Value.First(p=>p.NAME_PARAMETER.Equals(Options.HostWallParameter)).ID_PARAMETER;
+                //    var catParam = entities.F_nn_Category_Parameters.First(p => p.ID_CATEGORY == hostDB.ID_CATEGORY &&
+                //                p.ID_PARAMETER == idParamIdWall);
+                //    entities.F_nn_ElementInFlatValue.Add(new F_nn_ElementInFlatValue {
+                //        F_nn_Category_Parameters = catParam,
+                //        F_nn_Elements_Modules = hostEl.Value,
+                //        PARAMETER_VALUE = paramIdWallValue
+                //    });
+                //}
                 entities.SaveChanges();
             }
         }
