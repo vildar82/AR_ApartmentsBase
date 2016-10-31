@@ -204,11 +204,11 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                             var catParam = entities.F_nn_Category_Parameters.First(p => p.ID_CATEGORY == elemDb.ID_CATEGORY &&
                                 p.ID_PARAMETER == paramDb.ID_PARAMETER);
 
-                            var eifParam = new F_nn_ElementInFlatValue {
-                                F_nn_Category_Parameters = catParam,
-                                F_nn_Elements_Modules = elem.DBElementInApart,
-                                PARAMETER_VALUE = itemParam.Value
-                            };
+                            var eifParam = elem.DBElementInApart.F_nn_ElementInFlatValue.FirstOrDefault(p => p.ID_CAT_PARAMETER == catParam.ID_CAT_PARAMETER);
+                            if (eifParam != null)
+                            {
+                                eifParam.PARAMETER_VALUE = itemParam.Value;
+                            }                            
                             entities.SaveChanges();
                         }
                     }
