@@ -24,13 +24,13 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         /// </summary>
         public static void Clear()
         {
-            using (var entities = ConnectEntities())
+            using (var connectEntities = ConnectEntities())
             {
-                entities.F_R_Flats.RemoveRange(entities.F_R_Flats);                
-                entities.F_S_Elements.RemoveRange(entities.F_S_Elements);
-                entities.F_nn_ElementInFlatValue.RemoveRange(entities.F_nn_ElementInFlatValue);
-                entities.F_S_FamilyInfos.RemoveRange(entities.F_S_FamilyInfos);
-                entities.SaveChanges();
+                connectEntities.F_R_Flats.RemoveRange(connectEntities.F_R_Flats);                
+                connectEntities.F_S_Elements.RemoveRange(connectEntities.F_S_Elements);
+                connectEntities.F_nn_ElementInFlatValue.RemoveRange(connectEntities.F_nn_ElementInFlatValue);
+                connectEntities.F_S_FamilyInfos.RemoveRange(connectEntities.F_S_FamilyInfos);
+                connectEntities.SaveChanges();
             }
         }
 
@@ -41,9 +41,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         {
             if (baseCategoryParameters == null)
             {
-                using (var entities = ConnectEntities())
+                using (var connectEntities = ConnectEntities())
                 {
-                    baseCategoryParameters = entities.F_nn_Category_Parameters.ToList().GroupBy(cp => cp.F_S_Categories).Select(p =>
+                    baseCategoryParameters = connectEntities.F_nn_Category_Parameters.ToList().GroupBy(cp => cp.F_S_Categories).Select(p =>
                         new KeyValuePair<string, List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();                    
                 }
             }
@@ -57,9 +57,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         {
             if (baseCategoryParametersById == null)
             {
-                using (var entities = ConnectEntities())
+                using (var connectEntities = ConnectEntities())
                 {                    
-                    baseCategoryParametersById = entities.F_nn_Category_Parameters.ToList().GroupBy(cp => cp.F_S_Categories).Select(p =>
+                    baseCategoryParametersById = connectEntities.F_nn_Category_Parameters.ToList().GroupBy(cp => cp.F_S_Categories).Select(p =>
                         new KeyValuePair<int, List<F_S_Parameters>>(p.Key.ID_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
                 }
             }
@@ -71,7 +71,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         /// </summary>
         /// <param name="idsWall">Id стен</param>
         /// <returns>Строка для заполнения параметра IdWall в элементе хосте стены (дверь, окно)</returns>
-        public static string GetHostWallsValue (List<string> idsWall)
+        public static string GetHostsValue (List<int> idsWall)
         {
             idsWall.Sort();
             return string.Join(";", idsWall);
@@ -138,8 +138,8 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         /// <summary>
         /// Запись елементов чертежа в базу.
         /// </summary>
-        /// <param name="allElements">Элементы чертежа</param>
-        private static void FillElements (List<Apartment> apartments)
+        /// <param name="apartments">Элементы чертежа</param>
+        private static void FillElements (IEnumerable<Apartment> apartments)
         {
             var allElements = apartments.SelectMany(a => a.Elements).ToList();
             var elementsBD = entities.F_S_Elements.ToList().Select(s => new Element(s)).Cast<IElement>().ToList();
@@ -155,54 +155,47 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         /// <summary>
         /// Прицепка элементов к квартирам - и заполнение парампетиров элементо-квартир
         /// </summary>        
-        private static void FillElementsToApartments (List<Apartment> apartments)
+        private static void FillElementsToApartments (IEnumerable<Apartment> apartments)
         {
             foreach (var apart in apartments)
             {
                 var apartDB = (F_R_Flats)apart.DBObject;
+                
+                foreach (var item in apart.Elements)
+                {
+                    F_nn_Elements_Modules elemApart;
+                    AddElementToApartment(apartDB, item, out elemApart);
 
-                //var hostElems = new List<KeyValuePair<IWallHost, F_nn_Elements_Modules>>();
-                //foreach (var item in apart.Elements)
-                //{
-                //    F_nn_Elements_Modules elemApart;
-                //    AddElementToApartment(apartDB, item, out elemApart);
-
-                //    if (item is IWall)
-                //    {
-                //        // для стен записываем в DBObject - елементо-квартиру стены                    
-                //        item.DBObject = elemApart;
-                //    }                    
-                //    else if (item is IWallHost)
-                //    {
-                //        hostElems.Add(new KeyValuePair<IWallHost, F_nn_Elements_Modules> ((IWallHost)item, elemApart));
-                //    }
-                //}
+                    item.DBElementInApart = elemApart;
+                }
                 entities.SaveChanges();
 
-                // Для элементов стен - заполнение параметра стен                
-                //foreach (var hostEl in hostElems)
-                //{
-                //    var hostDB = (F_S_Elements)hostEl.Key.DBObject;
+                // Запись параметров - со списком элементов - список id елем-квартир
+                foreach (var elem in apart.Elements)
+                {
+                    foreach (var itemParam in elem.Parameters)
+                    {
+                        if (itemParam.ObjectValue is List<IElement>)
+                        {
+                            var elemListParam = (List<IElement>)itemParam.ObjectValue;
+                            List<int> idsElem = elemListParam.Select(s => ((F_nn_Elements_Modules)s.DBElementInApart).ID_ELEMENT_IN_FLAT).ToList();
+                            itemParam.Value = GetHostsValue(idsElem);
 
-                //    List<string> idsWall = new List<string>();
-                //    foreach (var wall in hostEl.Key.HostWall)
-                //    {
-                //        idsWall.Add(((F_nn_Elements_Modules)wall.DBObject).ID_ELEMENT_IN_FLAT.ToString());
-                //    }
-                //    var paramIdWallValue = GetHostWallsValue(idsWall);
+                            var elemDb = (F_S_Elements)elem.DBElement;
+                            var paramDb = GetBaseCategoryParametersById().First(c => c.Key == elemDb.ID_CATEGORY)
+                                .Value.First(p=>p.NAME_PARAMETER.Equals (itemParam.Name, StringComparison.OrdinalIgnoreCase));
+                            var catParam = entities.F_nn_Category_Parameters.First(p => p.ID_CATEGORY == elemDb.ID_CATEGORY &&
+                                p.ID_PARAMETER == paramDb.ID_PARAMETER);
 
-                //    // Параметр idWall
-                //    var idParamIdWall = GetBaseCategoryParametersById().First(c=>c.Key == hostDB.ID_CATEGORY)
-                //                .Value.First(p=>p.NAME_PARAMETER.Equals(Options.HostWallParameter)).ID_PARAMETER;
-                //    var catParam = entities.F_nn_Category_Parameters.First(p => p.ID_CATEGORY == hostDB.ID_CATEGORY &&
-                //                p.ID_PARAMETER == idParamIdWall);
-                //    entities.F_nn_ElementInFlatValue.Add(new F_nn_ElementInFlatValue {
-                //        F_nn_Category_Parameters = catParam,
-                //        F_nn_Elements_Modules = hostEl.Value,
-                //        PARAMETER_VALUE = paramIdWallValue
-                //    });
-                //}
-                entities.SaveChanges();
+                            var eifParam = new F_nn_ElementInFlatValue {
+                                F_nn_Category_Parameters = catParam,
+                                F_nn_Elements_Modules = (F_nn_Elements_Modules)elem.DBElementInApart,
+                                PARAMETER_VALUE = itemParam.Value
+                            };
+                            entities.SaveChanges();
+                        }
+                    }
+                }                                              
             }
         }
 
@@ -211,7 +204,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         /// </summary>        
         private static void AddElementToApartment (F_R_Flats apartDB, IElement elem, out F_nn_Elements_Modules elemApart)
         {
-            var elemDB = (F_S_Elements)elem.DBObject;
+            var elemDB = (F_S_Elements)elem.DBElement;
             elemApart = new F_nn_Elements_Modules {
                 F_R_Flats = apartDB,
                 F_S_Elements = elemDB,
@@ -221,14 +214,14 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
             apartDB.F_nn_Elements_Modules.Add(elemApart);
             // Параметры елементо-квартры            
             // Параметры елементо-квартиры для этой категории в базе
-            var paramsDB = GetBaseCategoryParametersById().First(c => c.Key == elemDB.ID_CATEGORY).Value
+            var paramsDb = GetBaseCategoryParametersById().First(c => c.Key == elemDB.ID_CATEGORY).Value
                     .Where(p => p.RELATE == (int)ParamRelateEnum.ElementInModule);
-            if (paramsDB.Any())
+            if (paramsDb.Any())
             {
-                foreach (var item in paramsDB)
+                foreach (var item in paramsDb)
                 {
                     var paramElem = elem.Parameters.FirstOrDefault(p => p.Name.Equals(item.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
-                    if (paramElem != null && !string.IsNullOrEmpty(paramElem.Value))
+                    if (!string.IsNullOrEmpty(paramElem?.Value))
                     {
                         var catParam = entities.F_nn_Category_Parameters.First(p => p.ID_CATEGORY == elemDB.ID_CATEGORY &&
                                 p.ID_PARAMETER == item.ID_PARAMETER);
@@ -260,7 +253,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 {
                     foreach (var item in group)
                     {
-                        item.DBObject = elemBD.DBObject;
+                        item.DBElement = elemBD.DBElement;
                     }
                 }
             }        
@@ -277,7 +270,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                     FillNewElement(group.Key);
                     foreach (var item in group.Value)
                     {
-                        item.DBObject = group.Key.DBObject;
+                        item.DBElement = group.Key.DBElement;
                     }
                 }
                 entities.SaveChanges();
@@ -286,49 +279,45 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
         private static void FillNewElement (IElement elem)
         {
-            F_S_Elements elemBD = new F_S_Elements();
-            elemBD.F_S_FamilyInfos = entities.F_S_FamilyInfos.Local.First(f =>
-                                     f.FAMILY_NAME.Equals(elem.FamilyName, StringComparison.OrdinalIgnoreCase) &&
-                                     f.FAMILY_SYMBOL.Equals(elem.FamilySymbolName, StringComparison.OrdinalIgnoreCase));
-            elemBD.F_S_Categories = entities.F_S_Categories.Local.
-                        First(c => c.NAME_RUS_CATEGORY.Equals(elem.CategoryElement, StringComparison.OrdinalIgnoreCase));
+            var elemBd = new F_S_Elements
+            {
+                F_S_FamilyInfos = entities.F_S_FamilyInfos.Local.First(f =>
+                    f.FAMILY_NAME.Equals(elem.FamilyName, StringComparison.OrdinalIgnoreCase) &&
+                    f.FAMILY_SYMBOL.Equals(elem.FamilySymbolName, StringComparison.OrdinalIgnoreCase)),
+                F_S_Categories = entities.F_S_Categories.Local.
+                    First(c => c.NAME_RUS_CATEGORY.Equals(elem.CategoryElement, StringComparison.OrdinalIgnoreCase))
+            };
 
-            var paramsBD = new List<F_nn_ElementParam_Value>();
-
-            var categoryParametersBD = entities.F_nn_Category_Parameters.Local
+            // Запись параметров относящихся к элементу
+            var categoryParametersBd = entities.F_nn_Category_Parameters.Local
                       .Where(c => c.F_S_Categories.NAME_RUS_CATEGORY.Equals(elem.CategoryElement, StringComparison.OrdinalIgnoreCase))
                       .Where(p=>p.F_S_Parameters.RELATE == (int)ParamRelateEnum.Element)
                       .Select(p => p).ToList();
 
-            foreach (var paramBD in categoryParametersBD)
-            {
-                var elemParam = elem.Parameters.Single(p => p.Name.Equals(paramBD.F_S_Parameters.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
-                var elemParamValueBD = entities.F_nn_ElementParam_Value.Add(
-                    new F_nn_ElementParam_Value {
-                        F_nn_Category_Parameters = paramBD,
-                        F_S_Elements = elemBD,
-                        PARAMETER_VALUE = elemParam.Value
-                    });
-                paramsBD.Add(elemParamValueBD);
-            }
-            elemBD.F_nn_ElementParam_Value = paramsBD;
-            entities.F_S_Elements.Add(elemBD);
-            elem.DBObject = elemBD;
+            var paramsBd = (from paramBd in categoryParametersBd
+                let elemParam = elem.Parameters.Single(p => p.Name.Equals(paramBd.F_S_Parameters.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase))
+                select entities.F_nn_ElementParam_Value.Add(new F_nn_ElementParam_Value
+                {
+                    F_nn_Category_Parameters = paramBd, F_S_Elements = elemBd, PARAMETER_VALUE = elemParam.Value
+                })).ToList();
+            elemBd.F_nn_ElementParam_Value = paramsBd;
+            entities.F_S_Elements.Add(elemBd);
+            elem.DBElement = elemBd;
         }
 
-        private static void FillFamilys (List<IElement> elements)
+        private static void FillFamilys (IReadOnlyCollection<IElement> elements)
         {
             if (elements == null || elements.Count == 0) return;
 
             var familys = elements.GroupBy(g => g.FamilyName + "|" + g.FamilySymbolName).Select(s => s.Key);
-            var familysBD = entities.F_S_FamilyInfos.Select(s => s.FAMILY_NAME + "|" + s.FAMILY_SYMBOL);
-            var newFamilys = familys.Except(familysBD, StringComparer.OrdinalIgnoreCase);
+            var familysBd = entities.F_S_FamilyInfos.Select(s => s.FAMILY_NAME + "|" + s.FAMILY_SYMBOL);
+            var newFamilys = familys.Except(familysBd, StringComparer.OrdinalIgnoreCase);
             if (newFamilys.Any())
             {
                 foreach (var item in newFamilys)
                 {
                     var values = item.Split('|');
-                    entities.F_S_FamilyInfos.Add(new F_S_FamilyInfos { FAMILY_NAME = values[0], FAMILY_SYMBOL = values[1] });
+                    entities.F_S_FamilyInfos.Add(new F_S_FamilyInfos {FAMILY_NAME = values[0], FAMILY_SYMBOL = values[1]});
                 }
                 entities.SaveChanges();
             }

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 public interface IElement : IEquatable<IElement>
 {
     string CategoryElement { get; set; }
-    object DBObject { get; set; }
+    object DBElement { get; set; }
+    object DBElementInApart { get; set; }
     string Direction { get; set; }
     string FamilyName { get; set; }
     string FamilySymbolName { get; set; }
