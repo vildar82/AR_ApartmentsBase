@@ -5,6 +5,7 @@ using AR_ApartmentBase.Model.DB.EntityModel;
 
 public interface IElement : IEquatable<IElement>
 {
+    int IdInRevit { get; set; }
     string CategoryElement { get; set; }
     F_S_Elements DBElement { get; set; }
     F_nn_Elements_Modules DBElementInApart { get; set; }
