@@ -17,11 +17,8 @@ namespace AR_ApartmentBase.Model
     {
         public string Name { get; set; }
         public string TypeFlat { get; set; }
-        public List<IElement> Elements { get; set; }     
-        /// <summary>
-        /// F_R_Modules
-        /// </summary>
-        public object DBObject { get; set; }
+        public List<IElement> Elements { get; set; }             
+        public F_R_Flats DBElement { get; set; }
 
         public Apartment()
         {

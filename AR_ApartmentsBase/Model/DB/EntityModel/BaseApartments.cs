@@ -130,7 +130,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                     // Удаление елементо-квартир                                                                   
                     entities.F_nn_Elements_Modules.RemoveRange(apartDB.F_nn_Elements_Modules.ToList());
                 }
-                apart.DBObject = apartDB;
+                apart.DBElement = apartDB;
             }
             entities.SaveChanges();
         }
@@ -159,7 +159,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         {
             foreach (var apart in apartments)
             {
-                var apartDB = (F_R_Flats)apart.DBObject;
+                var apartDB = (F_R_Flats)apart.DBElement;
                 
                 foreach (var item in apart.Elements)
                 {
@@ -178,10 +178,10 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                         if (itemParam.ObjectValue is List<IElement>)
                         {
                             var elemListParam = (List<IElement>)itemParam.ObjectValue;
-                            List<int> idsElem = elemListParam.Select(s => ((F_nn_Elements_Modules)s.DBElementInApart).ID_ELEMENT_IN_FLAT).ToList();
+                            List<int> idsElem = elemListParam.Select(s => s.DBElementInApart.ID_ELEMENT_IN_FLAT).ToList();
                             itemParam.Value = GetHostsValue(idsElem);
 
-                            var elemDb = (F_S_Elements)elem.DBElement;
+                            var elemDb = elem.DBElement;
                             var paramDb = GetBaseCategoryParametersById().First(c => c.Key == elemDb.ID_CATEGORY)
                                 .Value.First(p=>p.NAME_PARAMETER.Equals (itemParam.Name, StringComparison.OrdinalIgnoreCase));
                             var catParam = entities.F_nn_Category_Parameters.First(p => p.ID_CATEGORY == elemDb.ID_CATEGORY &&
@@ -189,7 +189,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
 
                             var eifParam = new F_nn_ElementInFlatValue {
                                 F_nn_Category_Parameters = catParam,
-                                F_nn_Elements_Modules = (F_nn_Elements_Modules)elem.DBElementInApart,
+                                F_nn_Elements_Modules = elem.DBElementInApart,
                                 PARAMETER_VALUE = itemParam.Value
                             };
                             entities.SaveChanges();
@@ -204,7 +204,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         /// </summary>        
         private static void AddElementToApartment (F_R_Flats apartDB, IElement elem, out F_nn_Elements_Modules elemApart)
         {
-            var elemDB = (F_S_Elements)elem.DBElement;
+            var elemDB = elem.DBElement;
             elemApart = new F_nn_Elements_Modules {
                 F_R_Flats = apartDB,
                 F_S_Elements = elemDB,
