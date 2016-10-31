@@ -16,10 +16,13 @@ namespace Revit_FlatExporter
            "Электрооборудование","Перекрытия","Разделитель помещений","Помещения","Потолки"
        };
 
-        public static string ConvertXyzToString(XYZ point)
+        public static string ConvertXyzToString(XYZ point, bool isDirection)
         {
+            if (!isDirection)
+                return Math.Round(point.X * 304.8, 4).ToString(CultureInfo.InvariantCulture) + ";" + Math.Round(point.Y * 304.8, 4).ToString(CultureInfo.InvariantCulture) + ";" +
+                       Math.Round(point.Z * 304.8, 4).ToString(CultureInfo.InvariantCulture);
             return Math.Round(point.X, 4).ToString(CultureInfo.InvariantCulture) + ";" + Math.Round(point.Y, 4).ToString(CultureInfo.InvariantCulture) + ";" +
-                   Math.Round(point.Z, 4).ToString(CultureInfo.InvariantCulture);
+                      Math.Round(point.Z, 4).ToString(CultureInfo.InvariantCulture);
         }
     }
 }

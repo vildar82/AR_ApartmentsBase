@@ -15,6 +15,7 @@ namespace AR_ApartmentBase.Model.Elements
     public class Element : IElement, IEquatable<IElement>
     {
         public string FamilyName { get; set; }
+        public int IdInRevit { get; set; }
         public string FamilySymbolName { get; set; }
         public string CategoryElement { get; set; }
         public string Name { get; set; }

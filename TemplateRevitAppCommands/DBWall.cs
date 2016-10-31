@@ -7,9 +7,9 @@ using AR_ApartmentBase.Model.Elements;
 
 namespace Revit_FlatExporter
 {
-    public class DBWall : ElementInfo,IWall,IElement
+    public class DBWall : ElementInfo,IElement
     {
 
-        public List<AR_ApartmentBase.Model.Elements.IWallHost> WallHosts { get; set; }
+        public List<IElement> WallHosts { get; set; }
     }
 }

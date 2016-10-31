@@ -8,7 +8,7 @@ using Autodesk.Revit.DB;
 
 namespace Revit_FlatExporter
 {
-  public  class WallHost:ElementInfo,IWallHost,IElement
+  public  class WallHost:ElementInfo,IElement
     {
       public List<IElement> HostWall { get; set; }
 

@@ -24,13 +24,13 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         /// </summary>
         public static void Clear()
         {
-            using (var entities = ConnectEntities())
+            using (var connectEntities = ConnectEntities())
             {
-                entities.F_R_Flats.RemoveRange(entities.F_R_Flats);                
-                entities.F_S_Elements.RemoveRange(entities.F_S_Elements);
-                entities.F_nn_ElementInFlatValue.RemoveRange(entities.F_nn_ElementInFlatValue);
-                entities.F_S_FamilyInfos.RemoveRange(entities.F_S_FamilyInfos);
-                entities.SaveChanges();
+                connectEntities.F_R_Flats.RemoveRange(connectEntities.F_R_Flats);                
+                connectEntities.F_S_Elements.RemoveRange(connectEntities.F_S_Elements);
+                connectEntities.F_nn_ElementInFlatValue.RemoveRange(connectEntities.F_nn_ElementInFlatValue);
+                connectEntities.F_S_FamilyInfos.RemoveRange(connectEntities.F_S_FamilyInfos);
+                connectEntities.SaveChanges();
             }
         }
 
@@ -41,9 +41,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         {
             if (baseCategoryParameters == null)
             {
-                using (var entities = ConnectEntities())
+                using (var connectEntities = ConnectEntities())
                 {
-                    baseCategoryParameters = entities.F_nn_Category_Parameters.ToList().GroupBy(cp => cp.F_S_Categories).Select(p =>
+                    baseCategoryParameters = connectEntities.F_nn_Category_Parameters.ToList().GroupBy(cp => cp.F_S_Categories).Select(p =>
                         new KeyValuePair<string, List<F_S_Parameters>>(p.Key.NAME_RUS_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();                    
                 }
             }
@@ -57,9 +57,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         {
             if (baseCategoryParametersById == null)
             {
-                using (var entities = ConnectEntities())
+                using (var connectEntities = ConnectEntities())
                 {                    
-                    baseCategoryParametersById = entities.F_nn_Category_Parameters.ToList().GroupBy(cp => cp.F_S_Categories).Select(p =>
+                    baseCategoryParametersById = connectEntities.F_nn_Category_Parameters.ToList().GroupBy(cp => cp.F_S_Categories).Select(p =>
                         new KeyValuePair<int, List<F_S_Parameters>>(p.Key.ID_CATEGORY, p.Select(i => i.F_S_Parameters).ToList())).ToList();
                 }
             }

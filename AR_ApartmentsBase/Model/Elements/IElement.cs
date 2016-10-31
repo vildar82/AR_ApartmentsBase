@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 public interface IElement : IEquatable<IElement>
 {
+    int IdInRevit { get; set; }
     string CategoryElement { get; set; }
     object DBObject { get; set; }
     string Direction { get; set; }
