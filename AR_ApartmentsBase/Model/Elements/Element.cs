@@ -17,8 +17,8 @@ namespace AR_ApartmentBase.Model.Elements
         public string FamilyName { get; set; }
         public string FamilySymbolName { get; set; }
         public string CategoryElement { get; set; }
-        public object DBElement { get; set; }
-        public object DBElementInApart { get; set; }
+        public F_S_Elements DBElement { get; set; }
+        public F_nn_Elements_Modules DBElementInApart { get; set; }
         public string Name { get; set; }
         public List<Parameter> Parameters { get; set; }
         public string Direction { get; set; }
