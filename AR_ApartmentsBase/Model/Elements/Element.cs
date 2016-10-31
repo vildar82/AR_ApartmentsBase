@@ -30,18 +30,18 @@ namespace AR_ApartmentBase.Model.Elements
         /// <summary>
         /// Конструктор создания элемента из базы
         /// </summary>
-        public Element(F_S_Elements emEnt)
+        public Element(F_S_Elements elemDb)
         {
-            CategoryElement = emEnt.F_S_Categories.NAME_RUS_CATEGORY;
+            CategoryElement = elemDb.F_S_Categories.NAME_RUS_CATEGORY;
             Direction = "";
             LocationPoint = "";
-            FamilyName = emEnt.F_S_FamilyInfos.FAMILY_NAME;
-            FamilySymbolName = emEnt.F_S_FamilyInfos.FAMILY_SYMBOL;
-            DBElement = emEnt;
+            FamilyName = elemDb.F_S_FamilyInfos.FAMILY_NAME;
+            FamilySymbolName = elemDb.F_S_FamilyInfos.FAMILY_SYMBOL;
+            DBElement = elemDb;
 
             // Параметры элемента в базе
             List<Parameter> parameters = new List<Parameter>();
-            foreach (var item in emEnt.F_nn_ElementParam_Value)
+            foreach (var item in elemDb.F_nn_ElementParam_Value)
             {
                 var parameter = new Parameter(item.F_nn_Category_Parameters.F_S_Parameters.NAME_PARAMETER,
                     item.PARAMETER_VALUE);

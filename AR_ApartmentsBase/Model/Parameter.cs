@@ -84,9 +84,12 @@ namespace AR_ApartmentBase.Model
         {
             foreach (var p1 in params1)
             {
-                if (!params2.Contains(p1))
+                if (!BaseApartments.GetBaseParametersElementInFlat().Contains(p1.Name, StringComparer.OrdinalIgnoreCase))
                 {
-                    return false;
+                    if (!params2.Contains(p1))
+                    {
+                        return false;
+                    }
                 }
             }
             return true;

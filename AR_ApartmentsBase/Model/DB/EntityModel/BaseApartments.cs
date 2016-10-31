@@ -11,7 +11,8 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
     public static class BaseApartments
     {
         private static List<KeyValuePair<string, List<F_S_Parameters>>> baseCategoryParameters;
-        private static List<KeyValuePair<int, List<F_S_Parameters>>> baseCategoryParametersById;                
+        private static List<KeyValuePair<int, List<F_S_Parameters>>> baseCategoryParametersById;
+        private static List<string> baseParametersElemInFlat;
         private static SAPREntities entities;
 
         public static SAPREntities ConnectEntities()
@@ -64,6 +65,22 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 }
             }
             return baseCategoryParametersById;
+        }
+
+        /// <summary>
+        /// Имена параметров которые связаны с элементами-квартир
+        /// </summary>        
+        public static List<string> GetBaseParametersElementInFlat ()
+        {
+            if (baseParametersElemInFlat == null)
+            {
+                using (var connectEntities = ConnectEntities())
+                {
+                    baseParametersElemInFlat = entities.F_S_Parameters.Where(p => p.RELATE == (int)ParamRelateEnum.ElementInModule).
+                        Select(s => s.NAME_PARAMETER).ToList();
+                }
+            }
+            return baseParametersElemInFlat;
         }
 
         /// <summary>
@@ -159,7 +176,7 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
         {
             foreach (var apart in apartments)
             {
-                var apartDB = (F_R_Flats)apart.DBElement;
+                var apartDB = apart.DBElement;
                 
                 foreach (var item in apart.Elements)
                 {
