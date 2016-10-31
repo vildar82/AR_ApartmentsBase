@@ -18,11 +18,12 @@ namespace AR_ApartmentBase.Model.Elements
         public int IdInRevit { get; set; }
         public string FamilySymbolName { get; set; }
         public string CategoryElement { get; set; }
+        public object DBElement { get; set; }
+        public object DBElementInApart { get; set; }
         public string Name { get; set; }
         public List<Parameter> Parameters { get; set; }
         public string Direction { get; set; }
         public string LocationPoint { get; set; }
-        public object DBObject { get; set; }
 
         public Element() { }
 
@@ -36,7 +37,7 @@ namespace AR_ApartmentBase.Model.Elements
             LocationPoint = "";
             FamilyName = emEnt.F_S_FamilyInfos.FAMILY_NAME;
             FamilySymbolName = emEnt.F_S_FamilyInfos.FAMILY_SYMBOL;
-            DBObject = emEnt;
+            DBElement = emEnt;
 
             // Параметры элемента в базе
             List<Parameter> parameters = new List<Parameter>();
@@ -57,7 +58,7 @@ namespace AR_ApartmentBase.Model.Elements
             FamilyName = emEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_NAME;
             FamilySymbolName = emEnt.F_S_Elements.F_S_FamilyInfos.FAMILY_SYMBOL;
 
-            DBObject = emEnt;
+            DBElementInApart = emEnt;
 
             // Параметры элемента в базе
             List<Parameter> parameters = new List<Parameter>();

@@ -5,7 +5,8 @@ public interface IElement : IEquatable<IElement>
 {
     int IdInRevit { get; set; }
     string CategoryElement { get; set; }
-    object DBObject { get; set; }
+    object DBElement { get; set; }
+    object DBElementInApart { get; set; }
     string Direction { get; set; }
     string FamilyName { get; set; }
     string FamilySymbolName { get; set; }
