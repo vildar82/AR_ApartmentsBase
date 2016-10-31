@@ -29,6 +29,8 @@ namespace Revit_FlatExporter
             var selection = appRevit.ActiveUIDocument.Selection.GetElementIds();
             //  Assembly.LoadFrom()
             var categoryParameters = BaseApartments.GetBaseCategoryParameters();
+
+            List<Apartment> apartments = new List<Apartment>();
             foreach (var elId1 in selection)
             {
                 Element el1 = doc.GetElement(elId1);
@@ -39,6 +41,8 @@ namespace Revit_FlatExporter
                 scaningElements = scaningElements.OrderBy(x => x.Category.Name).ToList();
                 Apartment apartment = new Apartment();
                 apartment.Elements = new List<IElement>();
+                apartment.Name = gr1.Name;
+                apartment.TypeFlat = "Однокомнатная";
                 foreach (var scanElement in scaningElements)
                 {
                     AR_ApartmentBase.Model.Elements.Element el = null;
@@ -62,7 +66,9 @@ namespace Revit_FlatExporter
                     }
                     wall.Parameters.Add(new Parameter("MergeGeometry", joinWalls));
                 }
+                apartments.Add(apartment);
             }
+            BaseApartments.Export(apartments);
             return Result.Succeeded;
         }
 
