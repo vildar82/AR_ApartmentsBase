@@ -192,9 +192,9 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                 {
                     foreach (var itemParam in elem.Parameters)
                     {
-                        if (itemParam.ObjectValue is List<IElement>)
+                        var elemListParam = itemParam.ObjectValue as List<IElement>;
+                        if (elemListParam != null)
                         {
-                            var elemListParam = (List<IElement>)itemParam.ObjectValue;
                             List<int> idsElem = elemListParam.Select(s => s.DBElementInApart.ID_ELEMENT_IN_FLAT).ToList();
                             itemParam.Value = GetHostsValue(idsElem);
 
