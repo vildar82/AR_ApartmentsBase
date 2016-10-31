@@ -294,12 +294,16 @@ namespace AR_ApartmentBase.Model.DB.EntityModel
                       .Where(p=>p.F_S_Parameters.RELATE == (int)ParamRelateEnum.Element)
                       .Select(p => p).ToList();
 
-            var paramsBd = (from paramBd in categoryParametersBd
-                let elemParam = elem.Parameters.Single(p => p.Name.Equals(paramBd.F_S_Parameters.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase))
-                select entities.F_nn_ElementParam_Value.Add(new F_nn_ElementParam_Value
+            var paramsBd = new List<F_nn_ElementParam_Value>();
+            foreach (var paramBd in categoryParametersBd)
+            {
+                Parameter elemParam = elem.Parameters.FirstOrDefault(p => p.Name.Equals(paramBd.F_S_Parameters.NAME_PARAMETER, StringComparison.OrdinalIgnoreCase));
+                if (elemParam == null) continue;
+                paramsBd.Add(entities.F_nn_ElementParam_Value.Add(new F_nn_ElementParam_Value
                 {
                     F_nn_Category_Parameters = paramBd, F_S_Elements = elemBd, PARAMETER_VALUE = elemParam.Value
-                })).ToList();
+                }));
+            }
             elemBd.F_nn_ElementParam_Value = paramsBd;
             entities.F_S_Elements.Add(elemBd);
             elem.DBElement = elemBd;
