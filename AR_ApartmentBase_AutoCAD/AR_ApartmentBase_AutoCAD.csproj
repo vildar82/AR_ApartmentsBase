@@ -95,6 +95,7 @@
     <Compile Include="Model\Revit\Elements\ElementAC.cs" />
     <Compile Include="Model\Revit\Elements\ElementFactory.cs" />
     <Compile Include="Model\Revit\Elements\HostWall\DoorElement.cs" />
+    <Compile Include="Model\Revit\Elements\HostWall\IWallHost.cs" />
     <Compile Include="Model\Revit\Elements\HostWall\WallHostBase.cs" />
     <Compile Include="Model\Revit\Elements\HostWall\WindowElement.cs" />
     <Compile Include="Model\Revit\Elements\WallElement.cs" />

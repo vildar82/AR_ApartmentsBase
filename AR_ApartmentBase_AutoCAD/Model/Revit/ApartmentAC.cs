@@ -50,6 +50,8 @@ namespace AR_ApartmentBase_AutoCAD
         public string Direction { get; set; }
         public string LocationPoint { get; set; }
         public Error Error { get; set; }
+        public F_S_Elements DBElement { get; set; }
+        public F_nn_Elements_Modules DBElementInApart { get; set; }
 
         public EnumBaseStatus BaseStatus { get; set; }
 
@@ -142,7 +144,7 @@ namespace AR_ApartmentBase_AutoCAD
             _extentsIsNull = true;
             _extentsAreDefined = true;
             Elements = new List<IElement>();
-            DBObject = flatEnt;            
+            //DBElement = flatEnt;            
             TypeFlat = flatEnt.TYPE_FLAT;
         }
 

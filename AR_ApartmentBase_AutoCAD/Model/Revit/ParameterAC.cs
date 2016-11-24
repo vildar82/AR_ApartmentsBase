@@ -143,16 +143,16 @@ namespace AR_ApartmentBase_AutoCAD
             switch (tYPE_PARAMETER)
             {
                 case "Double":
-                    Value = Convert.ToDouble(objectValue).ToString("F4");
+                    Value = Convert.ToDouble(ObjectValue).ToString("F4");
                     break;
                 case "Int":
-                    Value = Convert.ToInt32(objectValue).ToString();
+                    Value = Convert.ToInt32(ObjectValue).ToString();
                     break;
                 case "Point":
-                    Value = TypeConverter.Point(objectValue);
+                    Value = TypeConverter.Point(ObjectValue);
                     break;
                 default:
-                    Value = objectValue.ToString();
+                    Value = ObjectValue.ToString();
                     break;
             }
         }

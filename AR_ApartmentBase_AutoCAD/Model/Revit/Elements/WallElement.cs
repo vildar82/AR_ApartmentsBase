@@ -10,7 +10,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace AR_ApartmentBase_AutoCAD
 {
-    public class WallElement : ElementAC, IWall, IElement
+    public class WallElement : ElementAC, IElement
     {
         /// <summary>
         /// Контур стены

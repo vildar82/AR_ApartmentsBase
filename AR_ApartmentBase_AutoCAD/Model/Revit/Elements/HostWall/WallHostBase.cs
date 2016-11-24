@@ -57,6 +57,19 @@ namespace AR_ApartmentBase_AutoCAD
                 // Исключить дверь из элементов модуля - и дверь не будет записана в базк
                 elements.Remove(this);
             }
+            else
+            {
+                // Добавить стены в парамтр IdWall
+                var idWallParam = Parameters.FirstOrDefault(p => p.Name.Equals(OptionsAC.Instance.HostWallParameter, StringComparison.OrdinalIgnoreCase));
+                if (idWallParam == null)
+                {
+                    Parameters.Add(new Parameter(OptionsAC.Instance.HostWallParameter, HostWall));
+                }
+                else
+                {
+                    idWallParam.ObjectValue = HostWall;
+                }
+            }
         }
 
         /// <summary>
@@ -72,7 +85,7 @@ namespace AR_ApartmentBase_AutoCAD
             {
                 int idWall = Convert.ToInt32(item);
                 // найти стену в элементах модуля         
-                var wall = Apartment.Elements.SingleOrDefault(e => ((F_nn_Elements_Modules)e.DBObject).ID_ELEMENT_IN_FLAT == idWall);
+                var wall = Apartment.Elements.SingleOrDefault(e => (e.DBElementInApart).ID_ELEMENT_IN_FLAT == idWall);
                 HostWall.Add(wall);
             }
         }        

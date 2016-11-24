@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AR_ApartmentBase.Model;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using AR_ApartmentBase.Model.DB.EntityModel;
 
 namespace AR_ApartmentBase_AutoCAD
 {
@@ -60,11 +61,9 @@ namespace AR_ApartmentBase_AutoCAD
         /// </summary>
         EnumBaseStatus BaseStatus { get; }
 
-        /// <summary>
-        /// Соответствующая запись в базе данных
-        /// </summary>
-        object DBObject { get; set; }
-                
+        F_S_Elements DBElement { get; set; }
+        F_nn_Elements_Modules DBElementInApart { get; set; }
+
         ObjectId IdBlRef { get; set; }
 
         string NodeName { get; }
